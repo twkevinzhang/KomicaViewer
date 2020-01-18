@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="self.nesl.komicaviewer.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_home_to_nav_board"
+            app:destination="@id/nav_board" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="self.nesl.komicaviewer.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_board"
+        android:name="self.nesl.komicaviewer.ui.board.BoardFragment"
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_nav_board_to_nav_post"
+            app:destination="@id/nav_post" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="self.nesl.komicaviewer.ui.local.LocalFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="tableName"
+            app:argType="string"
+            android:defaultValue="history"/>
+        <action
+            android:id="@+id/action_nav_local_to_nav_post"
+            app:destination="@id/nav_post" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_favorite"
+        android:name="self.nesl.komicaviewer.ui.local.LocalFragment"
+        android:label="@string/menu_favorite"
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="tableName"
+            app:argType="string"
+            android:defaultValue="favorite"/>
+        <action
+            android:id="@+id/action_nav_local_to_nav_post"
+            app:destination="@id/nav_post" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_post"
+        android:name="self.nesl.komicaviewer.ui.post.PostFragment"
+        tools:layout="@layout/fragment_post" >
+    </fragment>
+
+</navigation>
