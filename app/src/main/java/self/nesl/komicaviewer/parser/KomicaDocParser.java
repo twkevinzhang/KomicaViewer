@@ -1,6 +1,5 @@
-package self.nesl.komicaviewer.viewmodel;
+package self.nesl.komicaviewer.parser;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -15,12 +14,56 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.Date;
 
+import self.nesl.komicaviewer.StaticString;
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.Web;
 
-public class DocParser {
+public class KomicaDocParser {
+    private Web web;
 
+    public KomicaDocParser(Web web) {
+        this.web = web;
+    }
+
+    public ArrayList<Board> toBoardlist(Document doc) {
+        ArrayList<Board> boards = new ArrayList<Board>();
+        for (Element ul : doc.select("ul")) {
+            String ui_title = ul.getElementsByClass("category").text();
+            for (Element li : ul.select("li")) {
+                String li_title = li.text();
+                String li_link = li.select("a").attr("href");
+                if (li_link.contains("/index.")) {
+                    li_link = li_link.substring(0, li_link.indexOf("/index."));
+                }
+                try {
+                    boards.add(new Board(web, li_title, li_link)
+                            .setTitle(li_title)
+                            .setCategory(ui_title));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return boards;
+    }
+
+    public ArrayList<Board> toTop50Boardlist(Document doc) {
+        ArrayList<Board> boards = new ArrayList<Board>();
+        for (Element e : doc.getElementsByClass("divTableRow").select("a")) {
+            String url = e.attr("href");
+            if (url.contains("/index.")) {
+                url = url.substring(0, url.indexOf("/index."));
+            }
+            if (url.substring(url.length() - 1).equals("/")) {
+                url = url.substring(0, url.length() - 1);
+            }
+            String title = e.text();
+            boards.add(new Board(web, title, url).setTitle(title));
+        }
+        return boards;
+    }
 
     public ArrayList<Post> tableToKomicaPostlist(Document doc, Board board) {
         ArrayList<Post> postlist = new ArrayList<Post>();
@@ -90,7 +133,7 @@ public class DocParser {
         return postlist;
     }
 
-    public Post func2(Element thread,Board board) {
+    public Post func2(Element thread, Board board) {
         //傳入標準格式(綜合 threads)
         Post post = null;
 
@@ -118,27 +161,15 @@ public class DocParser {
         //get title,name
         String title = threadpost.select("span.title").text();
         String name = threadpost.select("span.name").text();
+        String post_detail = null;
 
         //get post detail
-//            ele=post_head.select("span.now").first();
-//            String post_detail = null;
-//            if(ele!=null){
-//                post_detail = ele.text();
-//                //post_detail = "2019/12/15(日) 10:35:11.776 ID:ivN31vZw"
-//                post_detail=post_detail.replace("\\((.+)\\)"," ");
-//                Log.e("DP","post_detail:"+post_detail);
-//
-//
-//                String[] post_detail_arr= post_detail.split(" ");
-//                String post_time_str = post_detail_arr[0].substring(0,10)+" "+post_detail_arr[1];
-//                user_id = post_detail_arr[2].substring(3);
-//                SimpleDateFormat ft = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss");
-//                try {
-//                    post_time=ft.parse(post_time_str);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+        ele = threadpost.selectFirst("div.post-head");
+        if (ele != null) {
+            post_detail = ele.selectFirst("span.now").text();
+            //post_detail = "2019/12/15(日) 10:35:11.776 ID:ivN31vZw"
+            Log.e("DP", "post_detail:" + post_detail);
+        }
 
         //get quote
         String quote_html = thread.getElementsByClass("quote").first().html();
@@ -148,7 +179,7 @@ public class DocParser {
         ele = threadpost.select("span.warn_txt2").first();
         if (ele != null) {
             String s = ele.text();
-            s = s.replaceAll("\\D","");
+            s = s.replaceAll("\\D", "");
             replyCount = Integer.parseInt(s);
         }
         replyCount += thread.getElementsByClass("reply").size();
@@ -157,6 +188,7 @@ public class DocParser {
             post = new Post(post_id)
                     .setBoard(board)
                     .setTitle(title)
+                    .setTimeStr(post_detail)
                     .setPosterName(name)
                     .setPoster_id(user_id)
                     .setPicUrl(pic_url)
@@ -206,7 +238,7 @@ public class DocParser {
 //        }
 
         for (Element thread : threads.getElementsByClass("thread")) {
-            postlist.add(func2(thread,board));
+            postlist.add(func2(thread, board));
         }
         return postlist;
     }
@@ -215,10 +247,10 @@ public class DocParser {
         ArrayList<Post> postlist = new ArrayList<Post>();
 
         for (Element row : doc.getElementById("search_result").getElementsByClass("threadpost")) {
-            String title=row.selectFirst("span.title").text();
-            String name=row.selectFirst("span.name").text();
-            String post_id=row.selectFirst("a").text();
-            String quote_html=row.selectFirst("div.quote").html();
+            String title = row.selectFirst("span.title").text();
+            String name = row.selectFirst("span.name").text();
+            String post_id = row.selectFirst("a").text();
+            String quote_html = row.selectFirst("div.quote").html();
 
             Post post = new Post(post_id);
             post.setTitle(title)
@@ -230,7 +262,7 @@ public class DocParser {
         return postlist;
     }
 
-    public Post toKomicaPost(Document doc,Board board) {
+    public Post toKomicaPost(Document doc, Board board) {
         Element threadpost = doc.getElementById("threads").getElementsByClass("threadpost").first();
         Elements replies = doc.getElementById("threads").getElementsByClass("reply");
 
@@ -247,9 +279,9 @@ public class DocParser {
 
         //get pic_url
         Element ele = threadpost.getElementsByTag("img").first();
-        if (ele != null){
+        if (ele != null) {
             pic_url = ele.parent().attr("href");
-            if(pic_url==null || pic_url.length()<=0)pic_url=ele.attr("src");
+            if (pic_url == null || pic_url.length() <= 0) pic_url = ele.attr("src");
         }
 
         //get title,name
@@ -302,21 +334,21 @@ public class DocParser {
             // 如果reply有target
             try {
                 // 如果沒有找到任何qlink，將會回傳「size為0」的可迭代Elements，不會拋出NullPointerException()
-                Elements eles=reply_ele.select("span.resquote").select("a.qlink");
-                if(eles.size()<=0)throw new NullPointerException();
+                Elements eles = reply_ele.select("span.resquote").select("a.qlink");
+                if (eles.size() <= 0) throw new NullPointerException();
                 for (Element reply_target : eles) {
                     String reply_target_id = reply_target.attr("href").replace("#r", "");
                     Post target = getTarget(replies_arr, reply_target_id);
 
                     // 回應目標內文預覽
-                    String context = reply_target.text()+" ("+target.getIntroduction(10,null)+") ";
+                    String context = reply_target.text() + " (" + target.getIntroduction(10, null) + ") ";
                     reply_target.text("");
-                    reply_target.prepend("<font color=#2bb1ff>"+context);
+                    reply_target.prepend("<font color=#2bb1ff>" + context);
 
                     reply_quote_html = reply_ele.selectFirst("div.quote").html();
                     reply.setQuoteHtml(reply_quote_html);
 
-                    if(reply_target_id.equals(post_id))throw new NullPointerException();
+                    if (reply_target_id.equals(post_id)) throw new NullPointerException();
 
                     replies_arr = addReplyToTarget(replies_arr, reply_target_id, reply);
                 }
@@ -341,24 +373,24 @@ public class DocParser {
     static Post getTarget(ArrayList<Post> replies_arr, String reply_target_id) {
         Post targtet = null;
         for (Post reply : replies_arr) {
-            if(targtet!=null)break;
+            if (targtet != null) break;
             if (reply.getId().equals(reply_target_id)) {
-                targtet= reply;
+                targtet = reply;
                 break;
             } else {
-                targtet= getTarget(reply.getReplieArr(), reply_target_id);
+                targtet = getTarget(reply.getReplieArr(), reply_target_id);
             }
         }
         return targtet;
     }
 
     static ArrayList<Post> addReplyToTarget(ArrayList<Post> replies_arr, String reply_target_id, Post insert_reply) {
-        boolean isChanged=false;
+        boolean isChanged = false;
         for (Post reply : replies_arr) {
-            if(isChanged)break;
+            if (isChanged) break;
             if (reply.getId().equals(reply_target_id)) {
                 reply.addReply(insert_reply);
-                isChanged=true;
+                isChanged = true;
             } else {
                 addReplyToTarget(reply.getReplieArr(), reply_target_id, insert_reply);
             }

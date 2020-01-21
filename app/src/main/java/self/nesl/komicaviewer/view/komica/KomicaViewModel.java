@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.komica;
+package self.nesl.komicaviewer.view.komica;
 
 import android.util.Log;
 
@@ -19,14 +19,44 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.db.BoardDB;
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Web;
+import self.nesl.komicaviewer.parser.KomicaDocParser;
 
 
 // 取得資料 的 模組
-public class KomicaTop50BoardsVM extends MyViewModel {
+public class KomicaViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Board>> boardslist = new MutableLiveData<>();
     private Web web;
 
-    @Override
+    public void loadAllBoards() {
+        ArrayList<Board> arr = BoardDB.getKomicaBoards(web);
+        if (arr != null && arr.size() > 0) {
+            boardslist.postValue(arr);
+        } else {
+            scrapyAllBoards();
+        }
+    }
+
+    public void scrapyAllBoards() {
+        AndroidNetworking.get(web.getMenuUrl())
+                .build().getAsString(new StringRequestListener() {
+
+            public void onResponse(String response) {
+                ArrayList<Board> arr = new KomicaDocParser(web).toBoardlist(Jsoup.parse(response));
+                BoardDB.updateKomicaBoardUrls(arr, web);
+                boardslist.postValue(arr);
+            }
+
+            public void onError(ANError anError) {
+                anError.printStackTrace();
+                Log.e("BlVM", web.getMenuUrl());
+                Log.e("BlVM", anError.getErrorBody());
+                Log.e("BlVM", anError.getErrorBody());
+                Log.e("BlVM", anError.getErrorDetail());
+                Log.e("BlVM", String.valueOf(anError.getErrorCode()));
+            }
+        });
+    }
+
     public void loadTop50Boards(){
         ArrayList<Board> arr=BoardDB.getKomicaTop50Boards(web);
         if(arr!=null && arr.size()>0){
@@ -36,19 +66,16 @@ public class KomicaTop50BoardsVM extends MyViewModel {
         }
     }
 
-    @Override
     public void scrapyTop50Boards(){
         AndroidNetworking.get(web.getTop50BoardUrl())
                 .build().getAsString(new StringRequestListener() {
 
-            @Override
             public void onResponse(String response) {
-                ArrayList<Board> arr=toTop50Boardlist(Jsoup.parse(response),web);
+                ArrayList<Board> arr=new KomicaDocParser(web).toTop50Boardlist(Jsoup.parse(response));
                 BoardDB.updateKomicaTop50BoardUrls(arr,web);
                 boardslist.postValue(arr);
             }
 
-            @Override
             public void onError(ANError anError) {
                 anError.printStackTrace();
                 Log.e("BlVM",web.getTop50BoardUrl());
@@ -59,28 +86,11 @@ public class KomicaTop50BoardsVM extends MyViewModel {
         });
     }
 
-    public ArrayList<Board> toTop50Boardlist(Document doc,Web web) {
-        ArrayList<Board> boards = new ArrayList<Board>();
-        for (Element e : doc.getElementsByClass("divTableRow").select("a")) {
-            String url = e.attr("href");
-            if (url.contains("/index.")) {
-                url = url.substring(0, url.indexOf("/index."));
-            }
-            if(url.substring(url.length()-1).equals("/")){
-                url=url.substring(0,url.length()-1);
-            }
-            String title = e.text();
-            boards.add(new Board(web,title, url).setTitle(title));
-        }
-        return boards;
-    }
-
-    @Override
     public LiveData<ArrayList<Board>> getBoards() {
         return boardslist;
     }
-    @Override
+
     public void setWeb(Web web) {
-        this.web=web;
+        this.web = web;
     }
 }

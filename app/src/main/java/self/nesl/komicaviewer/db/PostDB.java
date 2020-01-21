@@ -58,14 +58,6 @@ public final class PostDB {
         ArrayList<Post> arr=new ArrayList<Post>();
         Cursor csr= mDatabase.rawQuery(String.format("select * from %s;",tableName),null);
         while (csr.moveToNext()){
-//            arr.add(new Post(csr.getString(csr.getColumnIndex("id")))
-//                    .setBoard(new Board(csr.getString(csr.getColumnIndex("web_tab")),
-//                                csr.getString(csr.getColumnIndex("parent_board_id")),
-//                                csr.getString(csr.getColumnIndex("parent_board_url"))
-//                    ))
-//                    .setTitle(csr.getString(csr.getColumnIndex("title")))
-//                    .setTimeStr(csr.getString(csr.getColumnIndex("remark")))
-//            );
             arr.add(new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_JSON)),Post.class));
         }
         csr.close();

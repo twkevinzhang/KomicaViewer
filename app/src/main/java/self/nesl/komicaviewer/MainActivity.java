@@ -6,7 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import self.nesl.komicaviewer.db.BoardDB;
-import self.nesl.komicaviewer.komica.KomicaFragment;
+import self.nesl.komicaviewer.db.PostDB;
+import self.nesl.komicaviewer.view.komica.KomicaFragment;
 
 public class MainActivity extends AppCompatActivity
         implements KomicaFragment.OnFragmentInteractionListener{
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         BoardDB.initialize(this);
+        PostDB.initialize(this);
     }
 
     @Override

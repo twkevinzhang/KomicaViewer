@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.komica;
+package self.nesl.komicaviewer.view.komica;
 
 import android.content.Context;
 import android.net.Uri;
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import self.nesl.forumviewer.ui.board_komica.KomicaChildFragment;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Web;
 
@@ -86,7 +85,7 @@ public class KomicaFragment extends Fragment{
         // nesl
         // ViewPager-Fragment
         List<Fragment> fragmentList = new ArrayList<Fragment>();
-        fragmentList.addAll(Arrays.asList(KomicaChildFragment.newInstance(0,web),KomicaChildFragment.newInstance(1,web)));
+        fragmentList.addAll(Arrays.asList(AllBoardsFragment.newInstance(web), Top50BoardsFragment.newInstance(web)));
         BoardlistFragmentAdapter myFragmentAdapter = new BoardlistFragmentAdapter(getActivity(),fragmentList,getChildFragmentManager());
         /*
         getChildFragmentManager(): https://blog.csdn.net/TaooLee/article/details/50633619

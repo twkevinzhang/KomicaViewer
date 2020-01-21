@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Board;
+import self.nesl.komicaviewer.view.postlist.PostlistActivity;
 
 public class BoardlistAdapter extends RecyclerView.Adapter<BoardlistAdapter.BoardlistViewHolder> {
     private ArrayList<Board> boards=new ArrayList<Board>();
@@ -51,19 +52,19 @@ public class BoardlistAdapter extends RecyclerView.Adapter<BoardlistAdapter.Boar
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BoardlistAdapter.BoardlistViewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull BoardlistAdapter.BoardlistViewHolder holder, final int i) {
         holder.txtBoardTitle.setText(boards.get(i).getTitle());
         holder.txtBoardContext.setText(boards.get(i).getIntroduction(10,null));
         holder.imgBoard.setImageBitmap(boards.get(i).getImgView());
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(context, PostlistActivity.class);
-//                intent.putExtra("board",boards.get(i));
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PostlistActivity.class);
+                intent.putExtra("board",boards.get(i));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
