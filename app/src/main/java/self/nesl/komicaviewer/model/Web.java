@@ -1,6 +1,8 @@
 package self.nesl.komicaviewer.model;
 
-public class Web {
+import java.io.Serializable;
+
+public class Web implements Serializable {
     private String name;
     private String domainUrl;
     private String menuUrl;
