@@ -53,9 +53,9 @@ public class PostlistFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             parentBoard = (Board) getArguments().getSerializable("board");
+            postlistViewModel = ViewModelProviders.of(this).get(PostlistViewModel.class);
+            postlistViewModel.setBoard(parentBoard);
         }
-        postlistViewModel = ViewModelProviders.of(this).get(PostlistViewModel.class);
-        postlistViewModel.setBoard(parentBoard);
     }
 
     @Override

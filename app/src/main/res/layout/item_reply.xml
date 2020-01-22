@@ -6,65 +6,92 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txtReplyContext"
+    <ImageView
+        android:id="@+id/imgPost"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:autoLink="web"
-        android:text="txtReplyContext"
-        android:textIsSelectable="true"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtReplyerId"
-        app:layout_constraintTop_toBottomOf="@+id/txtReplyerId" />
+        app:layout_constraintStart_toStartOf="@+id/txtPoster"
+        app:layout_constraintTop_toBottomOf="@+id/txtPostInd" />
 
     <TextView
-        android:id="@+id/txtReplyerId"
+        android:id="@+id/txtPostInd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="txtPostInd"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtPostId"
+        app:layout_constraintTop_toBottomOf="@+id/txtPostId" />
+
+    <TextView
+        android:id="@+id/txtPostTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp"
         android:ellipsize="end"
-        android:text="txtReplyerId"
-        android:textColor="@android:color/holo_orange_dark"
-        android:textIsSelectable="true"
-        app:layout_constraintStart_toEndOf="@+id/txtPraise"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtPraise"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:text="P"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtReplyerId"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtReplyerId" />
+        android:maxLines="2"
+        android:text="txtPostTitle"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPostId"
+        app:layout_constraintStart_toEndOf="@+id/txtPostId"
+        app:layout_constraintTop_toTopOf="@+id/txtPostId" />
 
     <TextView
         android:id="@+id/txtRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="txtRight"
-        android:textColor="@android:color/holo_orange_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/txtReplyerId"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPostInd"
+        app:layout_constraintEnd_toEndOf="@+id/txtPostTitle"
+        app:layout_constraintTop_toTopOf="@+id/txtPostInd" />
+
+    <TextView
+        android:id="@+id/txtPoster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="6dp"
+        android:text="txtPoster"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgReply"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtReplyContext" />
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPoster"
+        app:layout_constraintStart_toEndOf="@+id/txtPoster"
+        app:layout_constraintTop_toTopOf="@+id/txtPoster" />
+
+    <TextView
+        android:id="@+id/txtBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDate"
+        app:layout_constraintStart_toEndOf="@+id/txtDate"
+        app:layout_constraintTop_toTopOf="@+id/txtDate" />
+
+    <TextView
+        android:id="@+id/txtPostId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="txtPostId"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/txtPoster"
+        app:layout_constraintTop_toBottomOf="@+id/txtPoster" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

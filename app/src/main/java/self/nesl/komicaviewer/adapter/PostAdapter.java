@@ -21,11 +21,12 @@ import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.view.post.PostActivity;
 
-public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder>  {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostlistViewHolder>  {
     private ArrayList<Post> postlist=new ArrayList<Post>();
     private Context context;
+    private boolean isBased;
 
-    public PostlistAdapter(Context context) {
+    public PostAdapter(Context context) {
         this.context=context;
     }
 
@@ -36,7 +37,6 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         private TextView txtTitle;
         private TextView txtPostId;
         private TextView txtPostInd;
-        private TextView txtReplyCount;
         private TextView txtPoster;
 //        private TextView txtPostlistMsg;
 
@@ -45,7 +45,6 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             imgPost = v.findViewById(R.id.imgPost);
             txtTitle = v.findViewById(R.id.txtPostTitle);
             txtPostInd = v.findViewById(R.id.txtPostInd);
-            txtReplyCount = v.findViewById(R.id.txtReplyCnt);
             txtPostId = v.findViewById(R.id.txtPostId);
             txtPoster=v.findViewById(R.id.txtPoster);
 //            txtPostlistMsg = v.findViewById(R.id.txtPostlistMsg);
@@ -57,7 +56,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     @Override
     public PostlistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_post, parent, false);
+                .inflate(R.layout.item_reply, parent, false);
         return new PostlistViewHolder(view);
     }
 
@@ -66,38 +65,29 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         Post post=postlist.get(i);
         holder.txtPostInd.setText(post.getIntroduction(100,null));
         holder.txtPostId.setText("No."+post.getId());
-        holder.txtReplyCount.setText("回應:"+post.getReplyCount());
         holder.txtTitle.setText(post.getTitle());
 //        holder.txtPoster.setText(post.getPoster_id());
         holder.txtPoster.setText(post.getTimeStr());
 
-
         // set pic_url
-        String pic_url=post.getThumbnailUrl();
-
+        String pic_url = post.getPicUrl();
         if (pic_url != null && pic_url.length() > 0) {
             String head = "https://";
             if (pic_url.substring(0, 1).equals("/") && !pic_url.substring(0, 2).equals("//")) {
-                pic_url = head + postlist.get(i).getParentBoard().getDomainUrl() + pic_url;
+                pic_url = head + post.getParentBoard().getDomainUrl() + pic_url;
             } else if (!pic_url.substring(0, head.length()).equals(head)) {
                 pic_url = head + pic_url;
             }
+
             Glide.with(holder.imgPost.getContext())
                     .load(pic_url)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .centerCrop()
+                    // 如果pic_url載入失敗 or pic_url == null
+                    .placeholder(null)
+                    .fitCenter()
                     .into(holder.imgPost);
+        }else{
+            Glide.with(holder.imgPost.getContext()).clear(holder.imgPost);
         }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostDB.addPost(postlist.get(i), StaticString.HISTORY_TABLE_NAME);
-                Intent intent = new Intent(context, PostActivity.class);
-                intent.putExtra("post", postlist.get(i));
-                context.startActivity(intent);
-            }
-        });
     }
 
     @Override
