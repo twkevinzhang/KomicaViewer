@@ -2,12 +2,9 @@ package self.nesl.komicaviewer.view.postlist;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,9 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
-
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
@@ -29,7 +23,6 @@ import self.nesl.komicaviewer.StaticString;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.Web;
 
 public class PostlistFragment extends Fragment {
     private PostlistViewModel postlistViewModel;

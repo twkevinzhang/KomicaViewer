@@ -15,11 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import self.nesl.komicaviewer.MainActivity;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Web;
 
@@ -38,6 +40,7 @@ public class KomicaFragment extends Fragment{
 
     // Rename and change types of parameters
     private Web mWeb;
+    private MaterialSearchBar searchBar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -49,7 +52,6 @@ public class KomicaFragment extends Fragment{
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
      * @return A new instance of fragment KomicaFragment.
      */
     // Rename and change types and number of parameters
@@ -82,22 +84,48 @@ public class KomicaFragment extends Fragment{
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_tab, container, false);
 
-        // nesl
         // ViewPager-Fragment
         List<Fragment> fragmentList = new ArrayList<Fragment>();
         fragmentList.addAll(Arrays.asList(AllBoardsFragment.newInstance(web), Top50BoardsFragment.newInstance(web)));
         BoardlistFragmentAdapter myFragmentAdapter = new BoardlistFragmentAdapter(getActivity(),fragmentList,getChildFragmentManager());
-        /*
-        getChildFragmentManager(): https://blog.csdn.net/TaooLee/article/details/50633619
-        getFragmentManager到的是activity对所包含fragment的Manager，
-        而如果是fragment嵌套fragment，那么就需要利用getChildFragmentManager()了。
-         */
 
         // ViewPager
         ViewPager viewPager = v.findViewById(R.id.view_pager);
         viewPager.setAdapter(myFragmentAdapter);
         TabLayout tabs = v.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        // Search bar
+        searchBar = v.findViewById(R.id.searchBar);
+        searchBar.inflateMenu(R.menu.main);
+        searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
+
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                switch (buttonCode) {
+                    case MaterialSearchBar.BUTTON_NAVIGATION:
+                        ((MainActivity) getActivity()).openDrawer();
+                        break;
+                    case MaterialSearchBar.BUTTON_SPEECH:
+                        break;
+                    case MaterialSearchBar.BUTTON_BACK:
+                        searchBar.disableSearch();
+                        break;
+                }
+            }
+
+        });
+
 
         return v;
     }

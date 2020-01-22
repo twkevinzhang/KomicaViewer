@@ -168,7 +168,7 @@ public class KomicaDocParser {
         if (ele != null) {
             post_detail = ele.selectFirst("span.now").text();
             //post_detail = "2019/12/15(日) 10:35:11.776 ID:ivN31vZw"
-            Log.e("DP", "post_detail:" + post_detail);
+//            Log.e("DP", "post_detail:" + post_detail);
         }
 
         //get quote
