@@ -156,6 +156,7 @@ public class PostlistFragment extends Fragment {
         cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                adapter.setPostlist(new ArrayList<Post>());
                 postlistViewModel.loadKomicaPostlist(0);
                 adapter.notifyDataSetChanged();
                 cateSwipeRefreshLayout.setRefreshing(false);
