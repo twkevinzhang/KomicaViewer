@@ -160,7 +160,7 @@ public class PostFragment extends Fragment {
             public void onChanged(@Nullable final Post post) {
                 assert post != null;
 
-                ArrayList<Post> arr = post.getAllReplies();
+                ArrayList<Post> arr = post.getAllOfReplies();
                 arr.add(0, post);
 
                 if (!isFBStyle) {
