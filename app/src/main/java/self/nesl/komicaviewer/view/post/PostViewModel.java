@@ -13,7 +13,7 @@ import org.jsoup.Jsoup;
 
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.parser.KomicaDocParser;
+import self.nesl.komicaviewer.parser.DocToPostParser;
 
 public class PostViewModel extends ViewModel {
     private MutableLiveData<Post> post = new MutableLiveData<>();
@@ -25,7 +25,7 @@ public class PostViewModel extends ViewModel {
 
             @Override
             public void onResponse(String response) {
-                post.postValue(new KomicaDocParser(mPost.getParentBoard().getWeb()).toKomicaPost(Jsoup.parse(response),board));
+                post.postValue(new DocToPostParser(mPost.getParentBoard().getWeb()).toPost(Jsoup.parse(response),board));
             }
 
             @Override

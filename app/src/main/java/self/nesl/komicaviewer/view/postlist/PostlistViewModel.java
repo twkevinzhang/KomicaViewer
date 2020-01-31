@@ -11,17 +11,13 @@ import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.parser.KomicaDocParser;
+import self.nesl.komicaviewer.parser.DocToPostlistParser;
 
 /*
 判斷網址要銜接到哪個Parser
@@ -47,7 +43,7 @@ public class PostlistViewModel extends ViewModel {
                 @Override
                 public void onResponse(String response) {
                     try {
-                        postlist.postValue(new KomicaDocParser(null).jsonToKomicaPostlist(new JSONArray(response),parentBoard));
+                        postlist.postValue(new DocToPostlistParser(null).jsonToPostlist(new JSONArray(response),parentBoard));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -72,7 +68,7 @@ public class PostlistViewModel extends ViewModel {
                 public void onResponse(String response) {
 
                     try{
-                        postlist.postValue(new KomicaDocParser(null).homepageToKomicaPostlist(Jsoup.parse(response), parentBoard));
+                        postlist.postValue(new DocToPostlistParser(null).homepageToPostlist(Jsoup.parse(response), parentBoard));
                     }catch (NullPointerException e){
                         Log.e("PlVM","KomicaDocParser錯誤:該頁沒有內容");
                         e.printStackTrace();

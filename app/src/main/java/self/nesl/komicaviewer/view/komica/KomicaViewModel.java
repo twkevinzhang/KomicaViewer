@@ -11,15 +11,13 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.db.BoardDB;
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Web;
-import self.nesl.komicaviewer.parser.KomicaDocParser;
+import self.nesl.komicaviewer.parser.DocToBoardlistParser;
 
 
 // 取得資料 的 模組
@@ -41,7 +39,7 @@ public class KomicaViewModel extends ViewModel {
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                ArrayList<Board> arr = new KomicaDocParser(web).toBoardlist(Jsoup.parse(response));
+                ArrayList<Board> arr = new DocToBoardlistParser(web).toBoardlist(Jsoup.parse(response));
                 BoardDB.updateKomicaBoardUrls(arr, web);
                 boardslist.postValue(arr);
             }
@@ -71,7 +69,7 @@ public class KomicaViewModel extends ViewModel {
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                ArrayList<Board> arr=new KomicaDocParser(web).toTop50Boardlist(Jsoup.parse(response));
+                ArrayList<Board> arr=new DocToBoardlistParser(web).toTop50Boardlist(Jsoup.parse(response));
                 BoardDB.updateKomicaTop50BoardUrls(arr,web);
                 boardslist.postValue(arr);
             }
