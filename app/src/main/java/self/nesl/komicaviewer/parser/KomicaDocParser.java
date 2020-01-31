@@ -14,7 +14,6 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.Date;
 
-import self.nesl.komicaviewer.StaticString;
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.Web;
@@ -327,8 +326,15 @@ public class KomicaDocParser {
             String reply_quote_html = reply_ele.selectFirst("div.quote").html();
             String reply_quote = Jsoup.clean(reply_quote_html, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false)).replace("&gt;", ">");
 
+            // reply title
+            title = reply_ele.select("span.title").text();
+            name = reply_ele.select("span.name").text();
+
             reply.setQuoteHtml(reply_quote_html)
                     .setPicUrl(reply_picurl)
+                    .setHtml(reply_ele.html())
+                    .setTitle(title)
+                    .setPosterName(name)
                     .setBoard(board);
 
             // 如果reply有target
@@ -365,8 +371,8 @@ public class KomicaDocParser {
                 .setPoster_id(user_id)
                 .setPicUrl(pic_url)
                 .setQuoteHtml(quote_html)
-                .setAllRepliesArr(allreplies_arr)
-                .setRepliesArr(replies_arr)
+                .setAllOfReplies(allreplies_arr)
+                .setTreeOfReplies(replies_arr)
                 .setBoard(board);
     }
 
@@ -378,7 +384,7 @@ public class KomicaDocParser {
                 targtet = reply;
                 break;
             } else {
-                targtet = getTarget(reply.getReplieArr(), reply_target_id);
+                targtet = getTarget(reply.getTreeOfReplies(), reply_target_id);
             }
         }
         return targtet;
@@ -392,7 +398,7 @@ public class KomicaDocParser {
                 reply.addReply(insert_reply);
                 isChanged = true;
             } else {
-                addReplyToTarget(reply.getReplieArr(), reply_target_id, insert_reply);
+                addReplyToTarget(reply.getTreeOfReplies(), reply_target_id, insert_reply);
             }
         }
         return replies_arr;

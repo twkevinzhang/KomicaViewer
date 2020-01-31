@@ -2,6 +2,7 @@ package self.nesl.komicaviewer.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.view.post.PostActivity;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostlistViewHolder>  {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ReplylistViewHolder>  {
     private ArrayList<Post> postlist=new ArrayList<Post>();
     private Context context;
     private boolean isBased;
@@ -31,7 +32,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostlistViewHo
     }
 
     // 建立ViewHolder
-    public class PostlistViewHolder extends RecyclerView.ViewHolder{
+    public class ReplylistViewHolder extends RecyclerView.ViewHolder{
         // 宣告元件
         private ImageView imgPost;
         private TextView txtTitle;
@@ -40,13 +41,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostlistViewHo
         private TextView txtPoster;
 //        private TextView txtPostlistMsg;
 
-        PostlistViewHolder(View v) {
+        ReplylistViewHolder(View v) {
             super(v);
-            imgPost = v.findViewById(R.id.imgPost);
-            txtTitle = v.findViewById(R.id.txtPostTitle);
-            txtPostInd = v.findViewById(R.id.txtPostInd);
-            txtPostId = v.findViewById(R.id.txtPostId);
-            txtPoster=v.findViewById(R.id.txtPoster);
+            imgPost = v.findViewById(R.id.imgReply);
+            txtTitle = v.findViewById(R.id.txtReplyTitle);
+            txtPostInd = v.findViewById(R.id.txtReplyInd);
+            txtPostId = v.findViewById(R.id.txtReplyId);
+            txtPoster=v.findViewById(R.id.txtReplyer);
 //            txtPostlistMsg = v.findViewById(R.id.txtPostlistMsg);
         }
     }
@@ -54,16 +55,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostlistViewHo
 
     @NonNull
     @Override
-    public PostlistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReplylistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_reply, parent, false);
-        return new PostlistViewHolder(view);
+        return new ReplylistViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final PostlistViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ReplylistViewHolder holder, final int i) {
         Post post=postlist.get(i);
-        holder.txtPostInd.setText(post.getIntroduction(100,null));
+        holder.txtPostInd.setText(post.getQuote());
         holder.txtPostId.setText("No."+post.getId());
         holder.txtTitle.setText(post.getTitle());
 //        holder.txtPoster.setText(post.getPoster_id());

@@ -7,71 +7,63 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imgPost"
+        android:id="@+id/imgReply"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtPoster"
-        app:layout_constraintTop_toBottomOf="@+id/txtPostInd" />
+        app:layout_constraintStart_toStartOf="@+id/txtReplyer"
+        app:layout_constraintTop_toBottomOf="@+id/txtReplyInd" />
 
     <TextView
-        android:id="@+id/txtPostInd"
+        android:id="@+id/txtReplyInd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="txtPostInd"
+        android:text="txtReplyInd"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtPostId"
-        app:layout_constraintTop_toBottomOf="@+id/txtPostId" />
+        app:layout_constraintStart_toStartOf="@+id/txtReplyId"
+        app:layout_constraintTop_toBottomOf="@+id/txtReplyId" />
 
     <TextView
-        android:id="@+id/txtPostTitle"
+        android:id="@+id/txtReplyTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="txtPostTitle"
+        android:text="txtReplyTitle"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtPostId"
-        app:layout_constraintStart_toEndOf="@+id/txtPostId"
-        app:layout_constraintTop_toTopOf="@+id/txtPostId" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtReplyId"
+        app:layout_constraintStart_toEndOf="@+id/txtReplyId"
+        app:layout_constraintTop_toTopOf="@+id/txtReplyId" />
 
     <TextView
-        android:id="@+id/txtRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/txtPostInd"
-        app:layout_constraintEnd_toEndOf="@+id/txtPostTitle"
-        app:layout_constraintTop_toTopOf="@+id/txtPostInd" />
-
-    <TextView
-        android:id="@+id/txtPoster"
+        android:id="@+id/txtReplyer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="6dp"
-        android:text="txtPoster"
+        android:text="txtReplyer"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtDate"
+        android:id="@+id/txtReplyDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtPoster"
-        app:layout_constraintStart_toEndOf="@+id/txtPoster"
-        app:layout_constraintTop_toTopOf="@+id/txtPoster" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtReplyer"
+        app:layout_constraintStart_toEndOf="@+id/txtReplyer"
+        app:layout_constraintTop_toTopOf="@+id/txtReplyer" />
 
     <TextView
         android:id="@+id/txtBoard"
@@ -80,18 +72,18 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtDate"
-        app:layout_constraintStart_toEndOf="@+id/txtDate"
-        app:layout_constraintTop_toTopOf="@+id/txtDate" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtReplyDate"
+        app:layout_constraintStart_toEndOf="@+id/txtReplyDate"
+        app:layout_constraintTop_toTopOf="@+id/txtReplyDate" />
 
     <TextView
-        android:id="@+id/txtPostId"
+        android:id="@+id/txtReplyId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="txtPostId"
+        android:text="txtReplyId"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/txtPoster"
-        app:layout_constraintTop_toBottomOf="@+id/txtPoster" />
+        app:layout_constraintStart_toStartOf="@+id/txtReplyer"
+        app:layout_constraintTop_toBottomOf="@+id/txtReplyer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,8 +25,9 @@ public class Post implements Serializable {
     private String thumbnail_url;
     private boolean isTop=false;
     private boolean isReaded=false;
-    private ArrayList<Post> replies_arr=new ArrayList<Post>();
-    private ArrayList<Post> allreplies_arr=new ArrayList<Post>();
+    private ArrayList<Post> tree_of_replies_arr=new ArrayList<Post>();
+    private ArrayList<Post> all_of_replies_arr=new ArrayList<Post>();
+    private String html;
 
     public Post(String post_id) {
         this.id=post_id;
@@ -104,14 +105,17 @@ public class Post implements Serializable {
     public int getReplyCount(){
         return replyCount;
     }
-    public int getPraiseCount(){
+    public int getPraiseCount (){
         return praiseCount;
     }
-    public ArrayList<Post> getReplieArr(){
-        return replies_arr;
+    public ArrayList<Post> getTreeOfReplies(){
+        return tree_of_replies_arr;
     }
-    public ArrayList<Post> getAllReplies(){
-        return allreplies_arr;
+    public ArrayList<Post> getAllOfReplies(){
+        return all_of_replies_arr;
+    }
+    public String getHtml(){
+        return html;
     }
 
     public Post setId(String post_id){
@@ -155,21 +159,25 @@ public class Post implements Serializable {
     public Post setIsReaded(boolean b){
         this.isTop=b;return this;
     }
-    public Post setRepliesArr(ArrayList<Post> replies_arr){
-        this.replies_arr=replies_arr;return this;
+    public Post setTreeOfReplies(ArrayList<Post> tree_of_replies_arr){
+        this.tree_of_replies_arr=tree_of_replies_arr;return this;
     }
-    public Post setAllRepliesArr(ArrayList<Post> allreplies_arr){
-        this.allreplies_arr=allreplies_arr;return this;
+    public Post setAllOfReplies(ArrayList<Post> all_of_replies_arr){
+        this.all_of_replies_arr=all_of_replies_arr;return this;
     }
     public void addReply(Post reply){
-        this.replies_arr.add(reply);
+        this.tree_of_replies_arr.add(reply);
     }
     public void addReplyToAll(Post reply){
-        this.allreplies_arr.add(reply);
+        this.all_of_replies_arr.add(reply);
     }
     public Post setQuoteHtml(String post_quote_html){
         this.post_quote_html=post_quote_html;return this;
     }
+    public Post setHtml(String html){
+        this.html=html;return this;
+    }
+
 
     @Override
     public String toString() {
@@ -179,7 +187,7 @@ public class Post implements Serializable {
         if(s2!=null){
             s+="ind:\""+s2+"\",";
         }
-        for(Post p : replies_arr){
+        for(Post p : tree_of_replies_arr){
             s3=p.toString();
         }
         s+="replies:["+s3+"]";
