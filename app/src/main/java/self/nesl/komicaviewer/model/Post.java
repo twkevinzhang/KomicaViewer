@@ -1,6 +1,10 @@
 package self.nesl.komicaviewer.model;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -172,7 +176,13 @@ public class Post implements Serializable {
         this.all_of_replies_arr.add(reply);
     }
     public Post setQuoteHtml(String post_quote_html){
-        this.post_quote_html=post_quote_html;return this;
+        Element e=Jsoup.parse(post_quote_html);
+        Element e2=e.selectFirst("a.qlink");
+        if(e2!=null){
+            e2.removeAttr("href");
+        }
+        Log.e("Post",e.html());
+        this.post_quote_html=e.html();return this;
     }
     public Post setHtml(String html){
         this.html=html;return this;

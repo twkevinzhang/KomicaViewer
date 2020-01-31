@@ -1,11 +1,10 @@
 package self.nesl.komicaviewer.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,10 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.StaticString;
-import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.view.post.PostActivity;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>  {
     private ArrayList<Post> postlist=new ArrayList<Post>();
@@ -37,7 +33,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private ImageView imgPost;
         private TextView txtTitle;
         private TextView txtPostId;
-        private TextView txtPostInd;
+        private WebView webReplyInd;
         private TextView txtPoster;
 //        private TextView txtPostlistMsg;
 
@@ -45,7 +41,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             super(v);
             imgPost = v.findViewById(R.id.imgReply);
             txtTitle = v.findViewById(R.id.txtReplyTitle);
-            txtPostInd = v.findViewById(R.id.txtReplyInd);
+            webReplyInd = v.findViewById(R.id.webReplyInd);
             txtPostId = v.findViewById(R.id.txtReplyId);
             txtPoster=v.findViewById(R.id.txtReplyer);
 //            txtPostlistMsg = v.findViewById(R.id.txtPostlistMsg);
@@ -64,7 +60,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull final PostViewHolder holder, final int i) {
         Post post=postlist.get(i);
-        holder.txtPostInd.setText(post.getQuote());
+        holder.webReplyInd.loadData(post.getQuoteHtml(),"text/html","UTF-8");
         holder.txtPostId.setText("No."+post.getId());
         holder.txtTitle.setText(post.getTitle());
 //        holder.txtPoster.setText(post.getPoster_id());
