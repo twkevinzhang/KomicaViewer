@@ -105,7 +105,7 @@ public class PostlistFragment extends Fragment {
                     isLoading = true;
                     page+=1;
                     txtListMsg.setText("載入中"+page);
-                    postlistViewModel.loadKomicaPostlist(page);
+                    postlistViewModel.loadPostlist(page);
 
 
                 }else if(!recyclerView.canScrollVertically(-1)){
@@ -132,7 +132,7 @@ public class PostlistFragment extends Fragment {
 
         // data and adapter
         if(parentBoard.getWeb().getName().equals(StaticString.KOMICA_NAME)){
-            postlistViewModel.loadKomicaPostlist(0);
+            postlistViewModel.loadPostlist(0);
             postlistViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
                 int start,end=0;
 
@@ -157,7 +157,7 @@ public class PostlistFragment extends Fragment {
             @Override
             public void onRefresh() {
                 adapter.setPostlist(new ArrayList<Post>());
-                postlistViewModel.loadKomicaPostlist(0);
+                postlistViewModel.loadPostlist(0);
                 adapter.notifyDataSetChanged();
                 cateSwipeRefreshLayout.setRefreshing(false);
             }

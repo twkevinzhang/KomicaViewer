@@ -25,29 +25,29 @@
         android:text="txtPostInd"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtPostId"
-        app:layout_constraintTop_toBottomOf="@+id/txtPostId" />
+        app:layout_constraintStart_toStartOf="@+id/txtPostTitle"
+        app:layout_constraintTop_toBottomOf="@+id/txtPostTitle" />
 
     <TextView
-        android:id="@+id/txtPostTitle"
-        android:layout_width="0dp"
+        android:id="@+id/txtReplyCnt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="txtPostTitle"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtPostId"
-        app:layout_constraintStart_toEndOf="@+id/txtPostId"
-        app:layout_constraintTop_toTopOf="@+id/txtPostId" />
+        android:text="C"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPostTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtPostTitle" />
 
     <TextView
         android:id="@+id/txtRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/txtPostInd"
-        app:layout_constraintEnd_toEndOf="@+id/txtPostTitle"
+        app:layout_constraintEnd_toEndOf="@+id/txtReplyCnt"
         app:layout_constraintTop_toTopOf="@+id/txtPostInd" />
 
     <TextView
@@ -80,28 +80,30 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtDate"
-        app:layout_constraintStart_toEndOf="@+id/txtDate"
-        app:layout_constraintTop_toTopOf="@+id/txtDate" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtPostTitle"
+        app:layout_constraintStart_toEndOf="@+id/txtPostTitle"
+        app:layout_constraintTop_toTopOf="@+id/txtPostTitle" />
 
     <TextView
-        android:id="@+id/txtReplyCnt"
+        android:id="@+id/txtPostTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="C"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtBoard"
-        app:layout_constraintEnd_toEndOf="@+id/txtPostInd"
-        app:layout_constraintTop_toTopOf="@+id/txtBoard" />
+        android:layout_marginTop="8dp"
+        android:text="txtPostTitle"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/txtPoster"
+        app:layout_constraintTop_toBottomOf="@+id/txtPoster" />
 
     <TextView
         android:id="@+id/txtPostId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="txtPostId"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/txtPoster"
-        app:layout_constraintTop_toBottomOf="@+id/txtPoster" />
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,7 @@ public class PostViewModel extends ViewModel {
     private MutableLiveData<Post> post = new MutableLiveData<>();
     private Post mPost;
 
-    public void loadKomicaPost(final Board board){
+    public void scrapyKomicaPost(final Board board){
         AndroidNetworking.get(mPost.getLink())
                 .build().getAsString(new StringRequestListener() {
 
@@ -36,6 +36,10 @@ public class PostViewModel extends ViewModel {
                 Log.e("PVM", String.valueOf(anError.getErrorCode()));
             }
         });
+    }
+
+    public void loadKomicaPost(final Board board){
+        scrapyKomicaPost(board);
     }
 
     public MutableLiveData<Post> getPost() {

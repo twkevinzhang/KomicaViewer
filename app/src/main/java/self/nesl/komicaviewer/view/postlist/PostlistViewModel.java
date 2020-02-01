@@ -27,53 +27,58 @@ public class PostlistViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Post>> postlist = new MutableLiveData<>();
     private Board parentBoard;
 
-    public void loadKomicaPostlist(int page) {
+    public void loadPostlist(int page) {
         String url = parentBoard.getLink().replace("2cat.org/~", "2cat.org/");
-
         if (url.contains("mymoe.moe")) {
-            // mymoe.moe(綜合2,女王之刃)
-            String keyId="0";
-            if(page!=0 && postlist.getValue().size()!=0){
-                keyId= postlist.getValue().get((postlist.getValue().size()-2)).getId2();
-            }
-            AndroidNetworking.get(url+"/pixmicat.php?mode=module&load=mod_threadlist&_=list&next="+keyId)
-                    .addHeaders("X-Requested-With", "XMLHttpRequest")
-                    .build().getAsString(new StringRequestListener() {
-
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        postlist.postValue(new DocToPostlistParser(null).jsonToPostlist(new JSONArray(response),parentBoard));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onError(ANError anError) {
-                    anError.printStackTrace();
-                    Log.e("PlVM",anError.getErrorBody());
-                }
-            });
-
+            scarpyMymoePostlist(page,url);
         } else {
-            // 綜合
-            if (page != 0) {
-                url += "/pixmicat.php?page_num="+page;
+            scrapyPostlist(page,url);
+        }
+    }
+
+    public void scarpyMymoePostlist(int page,String url) {
+        // mymoe.moe(綜合2,女王之刃)
+        String keyId="0";
+        if(page!=0 && postlist.getValue().size()!=0){
+            keyId= postlist.getValue().get((postlist.getValue().size()-2)).getId2();
+        }
+        AndroidNetworking.get(url+"/pixmicat.php?mode=module&load=mod_threadlist&_=list&next="+keyId)
+                .addHeaders("X-Requested-With", "XMLHttpRequest")
+                .build().getAsString(new StringRequestListener() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    postlist.postValue(new DocToPostlistParser(null).jsonToPostlist(new JSONArray(response),parentBoard));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            AndroidNetworking.get(url)
-                    .build().getAsString(new StringRequestListener() {
 
-                @Override
-                public void onResponse(String response) {
+            @Override
+            public void onError(ANError anError) {
+                anError.printStackTrace();
+                Log.e("PlVM",anError.getErrorBody());
+            }
+        });
+    }
+    public void scrapyPostlist(int page,String url){
+        if (page != 0) {
+            url += "/pixmicat.php?page_num="+page;
+        }
+        AndroidNetworking.get(url)
+                .build().getAsString(new StringRequestListener() {
 
-                    try{
-                        postlist.postValue(new DocToPostlistParser(null).homepageToPostlist(Jsoup.parse(response), parentBoard));
-                    }catch (NullPointerException e){
-                        Log.e("PlVM","KomicaDocParser錯誤:該頁沒有內容");
-                        e.printStackTrace();
-                        postlist.postValue(null);
-                    }
+            @Override
+            public void onResponse(String response) {
+
+                try{
+                    postlist.postValue(new DocToPostlistParser(null).homepageToPostlist(Jsoup.parse(response), parentBoard));
+                }catch (NullPointerException e){
+                    Log.e("PlVM","KomicaDocParser錯誤:該頁沒有內容");
+                    e.printStackTrace();
+                    postlist.postValue(null);
+                }
 //                    - Komica:
 //                        - vi.anacel.com (Figure/GK)
 //                        - acgspace.wsfun.com (艦隊收藏)
@@ -90,17 +95,14 @@ public class PostlistViewModel extends ViewModel {
 //                        - majeur.zawarudo.org (詢問裡)
 //                        - p.komica.acg.club.tw (觸手裡)
 //                        - cyber.boguspix.com (機娘裡)
-                }
+            }
 
-                @Override
-                public void onError(ANError anError) {
+            @Override
+            public void onError(ANError anError) {
 //                    Log.e("PlVM",anError.getErrorBody());
-                    anError.printStackTrace();
-                }
-            });
-        }
-
-
+                anError.printStackTrace();
+            }
+        });
     }
 
     public MutableLiveData<ArrayList<Post>> getPostlist() {
@@ -115,4 +117,5 @@ public class PostlistViewModel extends ViewModel {
         return parentBoard;
     }
 }
+
 
