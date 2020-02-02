@@ -1,5 +1,8 @@
 package self.nesl.komicaviewer.view.post;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostAdapter;
+import self.nesl.komicaviewer.db.StaticString;
 import self.nesl.komicaviewer.model.Post;
 
 public class PostFragment extends Fragment {
@@ -54,38 +61,38 @@ public class PostFragment extends Fragment {
         mViewModel.loadKomicaPost(post.getParentBoard());
 
         final RecyclerView lst = v.findViewById(R.id.lst);
-//        final FloatingActionMenu fab_menu = v.findViewById(R.id.fab_menu_list);
+        final FloatingActionMenu fab_menu = v.findViewById(R.id.fab_menu_list);
 
 
-//        // fab openUrl
-//        final FloatingActionButton fab_openUrl = new FloatingActionButton(getActivity());
-//        fab_openUrl.setButtonSize(FloatingActionButton.SIZE_MINI);
-//        fab_openUrl.setLabelText(getString(R.string.fab_open_url));
-//        fab_openUrl.setImageResource(R.drawable.ic_edit);
-//        fab_menu.addMenuButton(fab_openUrl);
-//        fab_openUrl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fab_menu.close(true);
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(post.getLink()));
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.setPackage("com.android.chrome");
-//                try {
-//                    getContext().startActivity(intent);
-//                } catch (ActivityNotFoundException ex) {
-//                    // Chrome browser presumably not installed so allow user to choose instead
-//                    intent.setPackage(null);
-//                    getContext().startActivity(intent);
-//                }
-//            }
-//        });
-//
-//        // fab addToFavorite
-//        final FloatingActionButton fab_addToFavorite = new FloatingActionButton(getActivity());
-//        fab_addToFavorite.setButtonSize(FloatingActionButton.SIZE_MINI);
-//        fab_addToFavorite.setLabelText(getString(R.string.fab_add_to_favorite));
-//        fab_addToFavorite.setImageResource(R.drawable.ic_edit);
-//        fab_menu.addMenuButton(fab_addToFavorite);
+        // fab openUrl
+        final FloatingActionButton fab_openUrl = new FloatingActionButton(getActivity());
+        fab_openUrl.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_openUrl.setLabelText(getString(R.string.fab_open_url));
+        fab_openUrl.setImageResource(R.drawable.ic_edit);
+        fab_menu.addMenuButton(fab_openUrl);
+        fab_openUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_menu.close(true);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(post.getLink()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.android.chrome");
+                try {
+                    getContext().startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    // Chrome browser presumably not installed so allow user to choose instead
+                    intent.setPackage(null);
+                    getContext().startActivity(intent);
+                }
+            }
+        });
+
+        // fab addToFavorite
+        final FloatingActionButton fab_addToFavorite = new FloatingActionButton(getActivity());
+        fab_addToFavorite.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_addToFavorite.setLabelText(getString(R.string.fab_add_to_favorite));
+        fab_addToFavorite.setImageResource(R.drawable.ic_edit);
+        fab_menu.addMenuButton(fab_addToFavorite);
 //        fab_addToFavorite.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -94,34 +101,34 @@ public class PostFragment extends Fragment {
 //                PostDB.addPost(post);
 //            }
 //        });
-//
-//        // fab to_top
-//        final FloatingActionButton fab_p_to_top = new FloatingActionButton(getActivity());
-//        fab_p_to_top.setButtonSize(FloatingActionButton.SIZE_MINI);
-//        fab_p_to_top.setLabelText(getString(R.string.fab_to_top));
-//        fab_p_to_top.setImageResource(R.drawable.ic_edit);
-//        fab_menu.addMenuButton(fab_p_to_top);
-//        fab_p_to_top.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fab_menu.close(true);
-//                lst.scrollToPosition(0);
-//            }
-//        });
-//
-//        // fab to_last
-//        final FloatingActionButton fab_p_to_last = new FloatingActionButton(getActivity());
-//        fab_p_to_last.setButtonSize(FloatingActionButton.SIZE_MINI);
-//        fab_p_to_last.setLabelText(getString(R.string.fab_to_last));
-//        fab_p_to_last.setImageResource(R.drawable.ic_edit);
-//        fab_menu.addMenuButton(fab_p_to_last);
-//        fab_p_to_last.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fab_menu.close(true);
-//                lst.scrollToPosition(lst.getAdapter().getItemCount()-1);
-//            }
-//        });
+
+        // fab to_top
+        final FloatingActionButton fab_p_to_top = new FloatingActionButton(getActivity());
+        fab_p_to_top.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_p_to_top.setLabelText(getString(R.string.fab_to_top));
+        fab_p_to_top.setImageResource(R.drawable.ic_edit);
+        fab_menu.addMenuButton(fab_p_to_top);
+        fab_p_to_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_menu.close(true);
+                lst.scrollToPosition(0);
+            }
+        });
+
+        // fab to_last
+        final FloatingActionButton fab_p_to_last = new FloatingActionButton(getActivity());
+        fab_p_to_last.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_p_to_last.setLabelText(getString(R.string.fab_to_last));
+        fab_p_to_last.setImageResource(R.drawable.ic_edit);
+        fab_menu.addMenuButton(fab_p_to_last);
+        fab_p_to_last.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_menu.close(true);
+                lst.scrollToPosition(lst.getAdapter().getItemCount()-1);
+            }
+        });
 
         // is FB Style
 //        final boolean isFBStyle = Settings.getBoolean(StaticString.PREFERENCES_NAME, false);

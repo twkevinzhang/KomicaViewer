@@ -16,4 +16,13 @@
         <item>Top50</item>
     </string-array>
 
+    <string name="fab_open_url">Open Url</string>
+    <string name="fab_add_to_favorite">Add to Favorite</string>
+    <string name="fab_reply">Reply</string>
+    <string name="fab_backup">Backup</string>
+    <string name="fab_to_top">Top</string>
+    <string name="fab_to_last">Last</string>
+    <string name="fab_search">Search</string>
+    <string name="fab_post">Post</string>
+
 </resources>
