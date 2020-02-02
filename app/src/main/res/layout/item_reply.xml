@@ -10,46 +10,10 @@
         android:id="@+id/imgReply"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtReplyer"
-        app:layout_constraintTop_toBottomOf="@+id/webReplyInd" />
-
-    <WebView
-        android:id="@+id/webReplyInd"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="txtReplyInd"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtReplyId"
-        app:layout_constraintTop_toBottomOf="@+id/txtReplyId" />
-
-    <TextView
-        android:id="@+id/txtReplyTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="txtReplyTitle"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtReplyId"
-        app:layout_constraintStart_toEndOf="@+id/txtReplyId"
-        app:layout_constraintTop_toTopOf="@+id/txtReplyId" />
-
-    <TextView
-        android:id="@+id/txtReplyer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="txtReplyer"
-        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtReply" />
 
     <TextView
         android:id="@+id/txtReplyDate"
@@ -57,30 +21,38 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:textColor="@color/colorDisable"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtReplyer"
-        app:layout_constraintStart_toEndOf="@+id/txtReplyer"
-        app:layout_constraintTop_toTopOf="@+id/txtReplyer" />
-
-    <TextView
-        android:id="@+id/txtBoard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtReplyDate"
-        app:layout_constraintStart_toEndOf="@+id/txtReplyDate"
-        app:layout_constraintTop_toTopOf="@+id/txtReplyDate" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtReplyId"
+        app:layout_constraintStart_toEndOf="@+id/txtReplyId"
+        app:layout_constraintTop_toTopOf="@+id/txtReplyId" />
 
     <TextView
         android:id="@+id/txtReplyId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="txtReplyId"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/txtReplyer"
-        app:layout_constraintTop_toBottomOf="@+id/txtReplyer" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtReply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="txtReply"
+        android:autoLink="web|email"
+        android:textIsSelectable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtReplyId" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

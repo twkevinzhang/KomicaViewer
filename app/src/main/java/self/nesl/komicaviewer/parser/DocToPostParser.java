@@ -93,10 +93,12 @@ public class DocToPostParser {
             // reply title
             title = reply_ele.select("span.title").text();
             name = reply_ele.select("span.name").text();
+            String now=reply_ele.select("span.now").text();
 
             reply.setQuoteHtml(reply_quote_html)
                     .setPicUrl(reply_picurl)
                     .setHtml(reply_ele.html())
+                    .setTimeStr(now)
                     .setTitle(title)
                     .setPosterName(name)
                     .setBoard(board);
