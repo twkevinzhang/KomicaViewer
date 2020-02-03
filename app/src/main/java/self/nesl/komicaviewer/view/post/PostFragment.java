@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostAdapter;
-import self.nesl.komicaviewer.db.StaticString;
 import self.nesl.komicaviewer.model.Post;
 
 public class PostFragment extends Fragment {
@@ -167,7 +166,7 @@ public class PostFragment extends Fragment {
             public void onChanged(@Nullable final Post post) {
                 assert post != null;
 
-                ArrayList<Post> arr = post.getAllOfReplies();
+                ArrayList<Post> arr = post.getRepliesAll();
                 arr.add(0, post);
 
                 if (!isFBStyle) {

@@ -25,7 +25,7 @@ public class PostViewModel extends ViewModel {
 
             @Override
             public void onResponse(String response) {
-                post.postValue(new DocToPostParser(mPost.getParentBoard().getWeb()).toPost(Jsoup.parse(response),board));
+                post.postValue(new DocToPostParser().toPost(Jsoup.parse(response),board));
             }
 
             @Override

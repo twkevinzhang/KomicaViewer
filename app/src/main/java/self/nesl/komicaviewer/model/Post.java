@@ -30,8 +30,6 @@ public class Post implements Serializable {
     private boolean isTop=false;
     private boolean isReaded=false;
     private ArrayList<Post> tree_of_replies_arr=new ArrayList<Post>();
-    private ArrayList<Post> all_of_replies_arr=new ArrayList<Post>();
-    private String html;
 
     public Post(String post_id) {
         this.id=post_id;
@@ -88,12 +86,10 @@ public class Post implements Serializable {
             }
             return null;
         }
-        if(board.getWeb().getName().equals(board.getWeb().getName())) {
-            // id數:綜合(8),新番(7),短片2(6)
-            ind = ind.trim().replaceAll(">>(No\\.)*[0-9]{6,} *(\\(\\D*\\))*", "");
-            // 刪除引言 ex: >>島民覺得...\n
-            ind = ind.replaceAll(">+\\D+\n", "");
-        }
+        // id數:綜合(8),新番(7),短片2(6)
+        ind = ind.trim().replaceAll(">>(No\\.)*[0-9]{6,} *(\\(.*\\))*", "");
+        // 刪除引言 ex: >>島民覺得...\n
+        ind = ind.replaceAll(">+.+\n", "");
         if(ind.length()>words+1){
             ind=ind.substring(0,words+1)+"...";
         }
@@ -101,10 +97,7 @@ public class Post implements Serializable {
     }
 
     public String getLink(){
-        if(board.getWeb().getName().equals(board.getWeb().getName())){
-            return board.getLink()+"/pixmicat.php?res="+id;
-        }
-        return null;
+        return board.getLink()+"/pixmicat.php?res="+id;
     }
     public int getReplyCount(){
         return replyCount;
@@ -112,14 +105,16 @@ public class Post implements Serializable {
     public int getPraiseCount (){
         return praiseCount;
     }
-    public ArrayList<Post> getTreeOfReplies(){
+    public ArrayList<Post> getRepliesTree(){
         return tree_of_replies_arr;
     }
-    public ArrayList<Post> getAllOfReplies(){
-        return all_of_replies_arr;
-    }
-    public String getHtml(){
-        return html;
+    public ArrayList<Post> getRepliesAll(){
+        ArrayList<Post> arr=new ArrayList<>();
+        for (Post reply : tree_of_replies_arr) {
+            arr.add(reply);
+            arr.addAll(reply.getRepliesAll());
+        }
+        return arr;
     }
 
     public Post setId(String post_id){
@@ -163,17 +158,11 @@ public class Post implements Serializable {
     public Post setIsReaded(boolean b){
         this.isTop=b;return this;
     }
-    public Post setTreeOfReplies(ArrayList<Post> tree_of_replies_arr){
+    public Post setRepliesTree(ArrayList<Post> tree_of_replies_arr){
         this.tree_of_replies_arr=tree_of_replies_arr;return this;
-    }
-    public Post setAllOfReplies(ArrayList<Post> all_of_replies_arr){
-        this.all_of_replies_arr=all_of_replies_arr;return this;
     }
     public void addReply(Post reply){
         this.tree_of_replies_arr.add(reply);
-    }
-    public void addReplyToAll(Post reply){
-        this.all_of_replies_arr.add(reply);
     }
     public Post setQuoteHtml(String post_quote_html){
         Element e=Jsoup.parse(post_quote_html);
@@ -184,10 +173,6 @@ public class Post implements Serializable {
         Log.e("Post",e.html());
         this.post_quote_html=e.html();return this;
     }
-    public Post setHtml(String html){
-        this.html=html;return this;
-    }
-
 
     @Override
     public String toString() {

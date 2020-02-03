@@ -1,10 +1,5 @@
 package self.nesl.komicaviewer.parser;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,10 +14,7 @@ import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.Web;
 
 public class DocToPostParser {
-    private Web web;
-
-    public DocToPostParser(Web web) {
-        this.web = web;
+    public DocToPostParser() {
     }
 
     public Post toPost(Document doc, Board board) {
@@ -38,7 +30,6 @@ public class DocToPostParser {
         String name = null;
         String quote = null;
         ArrayList<Post> replies_arr = new ArrayList<Post>();
-        ArrayList<Post> allreplies_arr = new ArrayList<Post>();
 
         //get pic_url
         Element ele = threadpost.getElementsByTag("img").first();
@@ -97,7 +88,6 @@ public class DocToPostParser {
 
             reply.setQuoteHtml(reply_quote_html)
                     .setPicUrl(reply_picurl)
-                    .setHtml(reply_ele.html())
                     .setTimeStr(now)
                     .setTitle(title)
                     .setPosterName(name)
@@ -127,8 +117,6 @@ public class DocToPostParser {
             } catch (NullPointerException e) {
                 replies_arr.add(reply);
             }
-
-            allreplies_arr.add(reply);
         }
 
         return new Post(post_id)
@@ -137,8 +125,7 @@ public class DocToPostParser {
                 .setPoster_id(user_id)
                 .setPicUrl(pic_url)
                 .setQuoteHtml(quote_html)
-                .setAllOfReplies(allreplies_arr)
-                .setTreeOfReplies(replies_arr)
+                .setRepliesTree(replies_arr)
                 .setBoard(board);
     }
 
@@ -150,7 +137,7 @@ public class DocToPostParser {
                 targtet = reply;
                 break;
             } else {
-                targtet = getTarget(reply.getTreeOfReplies(), reply_target_id);
+                targtet = getTarget(reply.getRepliesTree(), reply_target_id);
             }
         }
         return targtet;
@@ -164,7 +151,7 @@ public class DocToPostParser {
                 reply.addReply(insert_reply);
                 isChanged = true;
             } else {
-                addReplyToTarget(reply.getTreeOfReplies(), reply_target_id, insert_reply);
+                addReplyToTarget(reply.getRepliesTree(), reply_target_id, insert_reply);
             }
         }
         return replies_arr;
