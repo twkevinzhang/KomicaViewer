@@ -46,6 +46,14 @@ public class Post implements Serializable {
     public String getTitle(){
         return title;
     }
+    public String getTitle(int words){
+        if(title.length()>words+1){
+            return title.substring(0,words+1)+"...";
+        }else{
+            return title;
+        }
+
+    }
     public String getTitleOrInd(){
         String s=getIntroduction(10,null);
         if(s!=null && (title.equals("無題") || title.length()<=2)){
@@ -170,7 +178,6 @@ public class Post implements Serializable {
         if(e2!=null){
             e2.removeAttr("href");
         }
-        Log.e("Post",e.html());
         this.post_quote_html=e.html();return this;
     }
 

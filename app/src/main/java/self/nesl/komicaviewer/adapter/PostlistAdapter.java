@@ -2,6 +2,7 @@ package self.nesl.komicaviewer.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         holder.txtPostInd.setText(post.getIntroduction(100,null));
         holder.txtPostId.setText("No."+post.getId());
         holder.txtReplyCount.setText("回應:"+post.getReplyCount());
-        holder.txtTitle.setText(post.getTitle());
+        holder.txtTitle.setText(post.getTitle(25));
 //        holder.txtPoster.setText(post.getPoster_id());
         holder.txtPoster.setText(post.getTimeStr());
 
@@ -75,7 +76,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         // set pic_url
         String pic_url=post.getThumbnailUrl();
 
-        if (pic_url != null && pic_url.length() > 0) {
+        if (pic_url!=null && !pic_url.equals("null") && pic_url.length() > 0) {
             String head = "https://";
             if (pic_url.substring(0, 1).equals("/") && !pic_url.substring(0, 2).equals("//")) {
                 pic_url = head + postlist.get(i).getParentBoard().getDomainUrl() + pic_url;
