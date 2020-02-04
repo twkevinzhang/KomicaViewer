@@ -9,7 +9,6 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string-array name="tab_komica_boardlist">
         <item>全</item>
@@ -24,5 +23,22 @@
     <string name="fab_to_last">Last</string>
     <string name="fab_search">Search</string>
     <string name="fab_post">Post</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_dev">Dev</string>
+    <string name="action_dev2">Dev2</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_komica">Komica</string>
+    <string name="nav_komica2">Komica2</string>
+    <string name="nav_ptt">Ptt</string>
+    <string name="nav_eyny">Eyny</string>
+
+    <string name="nav_feature">Feature</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_history">History</string>
+
+
+    <string name="search_hint">search_hint</string>
 
 </resources>

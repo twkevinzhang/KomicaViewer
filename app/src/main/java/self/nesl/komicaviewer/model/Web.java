@@ -7,8 +7,8 @@ public class Web implements Serializable {
     private String domainUrl;
     private String menuUrl;
     private String top50BoardUrl;
-    private String allBoardPrefName ="komica_board_urls";
-    private String top50BoardPrefName="komica_top50_board_urls";
+    private String allBoardPrefName;
+    private String top50BoardPrefName;
 
     public Web(String name){
         this.name=name;

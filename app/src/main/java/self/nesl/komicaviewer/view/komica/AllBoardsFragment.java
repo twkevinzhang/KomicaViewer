@@ -63,6 +63,8 @@ public class AllBoardsFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.txtListMsg);
         final RecyclerView lst = root.findViewById(R.id.lst);
 
+        textView.setText(mWeb.getName());
+
         // lst
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);

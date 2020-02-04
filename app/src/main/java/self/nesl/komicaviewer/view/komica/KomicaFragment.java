@@ -25,17 +25,7 @@ import self.nesl.komicaviewer.MainActivity;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Web;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link KomicaFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link KomicaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class KomicaFragment extends Fragment{
-    // Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final Web web = new Web("Komica");
 
     // Rename and change types of parameters
@@ -48,24 +38,10 @@ public class KomicaFragment extends Fragment{
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment KomicaFragment.
-     */
-    // Rename and change types and number of parameters
-    public static KomicaFragment newInstance() {
+    public static KomicaFragment newInstance(Web web) {
         KomicaFragment fragment = new KomicaFragment();
-        String domain="https://www.komica.org/";
-
-        web.setDomainUrl(domain)
-                .setMenuUrl(domain+"bbsmenu.html")
-                .setTop50BoardUrl(domain+"mainmenu2018.html")
-                .setAllBoardPrefName("komica_board_urls")
-                .setTop50BoardPrefName("komica_top50_board_urls");
         Bundle args = new Bundle();
-        args.putSerializable(String.valueOf(web), web);
+        args.putSerializable("web", web);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,7 +50,7 @@ public class KomicaFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mWeb = (Web)getArguments().getSerializable(String.valueOf(web));
+            mWeb = (Web)getArguments().getSerializable("web");
         }
     }
 
@@ -85,8 +61,11 @@ public class KomicaFragment extends Fragment{
         View v=inflater.inflate(R.layout.fragment_boardlist, container, false);
 
         // ViewPager-Fragment
-        List<Fragment> fragmentList = new ArrayList<Fragment>();
-        fragmentList.addAll(Arrays.asList(AllBoardsFragment.newInstance(web), Top50BoardsFragment.newInstance(web)));
+        List<Fragment> fragmentList = new ArrayList<Fragment>(
+                Arrays.asList(
+                        AllBoardsFragment.newInstance(mWeb),
+                        Top50BoardsFragment.newInstance(mWeb))
+        );
         BoardlistFragmentAdapter myFragmentAdapter = new BoardlistFragmentAdapter(getActivity(),fragmentList,getChildFragmentManager());
 
         // ViewPager
@@ -130,7 +109,6 @@ public class KomicaFragment extends Fragment{
         return v;
     }
 
-    // Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -154,16 +132,6 @@ public class KomicaFragment extends Fragment{
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // Update argument type and name
         void onFragmentInteraction(Uri uri);

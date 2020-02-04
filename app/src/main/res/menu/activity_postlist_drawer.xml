@@ -6,10 +6,6 @@
             android:id="@+id/nav_komica"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/nav_komica" />
-        <item
-            android:id="@+id/nav_komica2"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/nav_komica2" />
 
     </group>
 
