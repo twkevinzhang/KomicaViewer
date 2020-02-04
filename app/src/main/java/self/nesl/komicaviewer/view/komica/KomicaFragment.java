@@ -82,7 +82,7 @@ public class KomicaFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_tab, container, false);
+        View v=inflater.inflate(R.layout.fragment_boardlist, container, false);
 
         // ViewPager-Fragment
         List<Fragment> fragmentList = new ArrayList<Fragment>();

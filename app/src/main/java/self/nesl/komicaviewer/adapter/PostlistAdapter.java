@@ -82,11 +82,18 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             } else if (!pic_url.substring(0, head.length()).equals(head)) {
                 pic_url = head + pic_url;
             }
-            Glide.with(holder.imgPost.getContext())
-                    .load(pic_url)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .centerCrop()
-                    .into(holder.imgPost);
+
+
+            holder.imgPost.setTag(R.id.imageid,pic_url);
+            // 通过 tag 来防止图片错位
+            if (holder.imgPost.getTag(R.id.imageid)!=null&&holder.imgPost.getTag(R.id.imageid)==pic_url) {
+                Glide.with(holder.imgPost.getContext())
+                        .load(pic_url)
+                        // 如果pic_url載入失敗 or pic_url == null
+                        .placeholder(null)
+                        .fitCenter()
+                        .into(holder.imgPost);
+            }
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
