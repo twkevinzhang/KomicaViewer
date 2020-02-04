@@ -125,19 +125,19 @@ public class PostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fab_menu.close(true);
-                lst.scrollToPosition(lst.getAdapter().getItemCount()-1);
+                lst.scrollToPosition(lst.getAdapter().getItemCount() - 1);
             }
         });
 
         // is FB Style
 //        final boolean isFBStyle = Settings.getBoolean(StaticString.PREFERENCES_NAME, false);
-        final boolean isFBStyle=false;
+        final boolean isFBStyle = false;
 
         // lst
-        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         lst.setLayoutManager(layoutManager);
-        final PostAdapter adapter=new PostAdapter(getContext());
+        final PostAdapter adapter = new PostAdapter(getContext());
         lst.setAdapter(adapter);
 
         lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -145,6 +145,7 @@ public class PostFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 //                if(dy<0){
@@ -165,12 +166,12 @@ public class PostFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final Post post) {
                 assert post != null;
-
-                ArrayList<Post> arr = post.getRepliesAll();
-                arr.add(0, post);
+                ArrayList<Post> arr2 = new ArrayList<Post>();
+                arr2.add(0, post);
+                arr2.addAll(post.getRepliesAll());
 
                 if (!isFBStyle) {
-                    adapter.setPostlist(arr);
+                    adapter.setPostlist(arr2);
                     adapter.notifyDataSetChanged();
                 }
             }

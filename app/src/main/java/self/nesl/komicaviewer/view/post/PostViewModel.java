@@ -11,6 +11,8 @@ import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.jsoup.Jsoup;
 
+import java.util.ArrayList;
+
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.parser.DocToPostParser;
@@ -25,7 +27,7 @@ public class PostViewModel extends ViewModel {
 
             @Override
             public void onResponse(String response) {
-                post.postValue(new DocToPostParser().toPost(Jsoup.parse(response),board));
+                post.postValue(new DocToPostParser(Jsoup.parse(response),board).toPost());
             }
 
             @Override
