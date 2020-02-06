@@ -10,11 +10,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,13 +26,16 @@
         <activity
             android:name=".view.postlist.PostlistActivity"
             android:label="@string/title_activity_postlist"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.replylist.ReplylistActivity"
+            android:label="@string/title_activity_replylist"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.post.PostActivity"
             android:label="@string/title_activity_post"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

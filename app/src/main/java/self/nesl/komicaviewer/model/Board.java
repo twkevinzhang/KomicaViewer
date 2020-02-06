@@ -19,6 +19,8 @@ public class Board implements Serializable {
     private Bitmap pic;
     private Document doc;
     private String introduction="todo";
+    private String postTitleSecret;
+    private String postIndSecret;
 
     public Board(Web web,String id, String link){
         this.link=link;
@@ -72,6 +74,13 @@ public class Board implements Serializable {
         return s.substring(0,s.indexOf("/"));
     }
 
+    public String getPostTitleSecret() {
+        return postTitleSecret;
+    }
+    public String getPostIndSecret() {
+        return postIndSecret;
+    }
+
     public Board setWeb(Web web) {this.web=web;return this;}
     public Board setCategory(String category) {this.category=category;return this;}
     public Board setTitle(String title) {this.title=title;return this;}
@@ -82,5 +91,11 @@ public class Board implements Serializable {
     public Board setPic(Bitmap pic) {this.pic=pic;return this;}
     public Board setDoc(Document doc) {this.doc=doc;return this;}
     public Board setIntroduction(String Introduction) {this.introduction=introduction;return this;}
+    public Board setPostTitleSecret(String postTitleSecret) {
+        this.postTitleSecret=postTitleSecret;return this;
+    }
+    public Board setPostIndSecret(String postIndSecret) {
+        this.postIndSecret=postIndSecret;return this;
+    }
 
 }

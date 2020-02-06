@@ -26,8 +26,10 @@ import self.nesl.komicaviewer.parser.DocToPostlistParser;
 public class PostlistViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Post>> postlist = new MutableLiveData<>();
     private Board parentBoard;
+    private DocToPostlistParser parser;
 
     public void loadPostlist(int page) {
+        parser=new DocToPostlistParser(parentBoard);
         String url = parentBoard.getLink().replace("2cat.org/~", "2cat.org/");
         Log.e("nesl,url",url);
         if (url.contains("mymoe.moe")) {
@@ -47,13 +49,19 @@ public class PostlistViewModel extends ViewModel {
             @Override
             public void onResponse(String response) {
 
-                try{
-                    postlist.postValue(new DocToPostlistParser(null).homepageToPostlist(Jsoup.parse(response), parentBoard));
-                }catch (NullPointerException e){
-                    Log.e("PlVM","KomicaDocParser錯誤:該頁沒有內容");
-                    e.printStackTrace();
-                    postlist.postValue(null);
-                }
+//                try{
+//                    postlist.postValue(parser.homepageToPostlist(Jsoup.parse(response)));
+//                    parentBoard=parser.getBoard();
+//                }catch (NullPointerException e){
+//                    Log.e("PlVM","KomicaDocParser錯誤:該頁沒有內容");
+//                    e.printStackTrace();
+//                    postlist.postValue(null);
+//                }
+
+                postlist.postValue(parser.homepageToPostlist(Jsoup.parse(response)));
+                parentBoard=parser.getBoard();
+
+
 //                    - Komica:
 //                        - vi.anacel.com (Figure/GK)
 //                        - acgspace.wsfun.com (艦隊收藏)
@@ -92,7 +100,8 @@ public class PostlistViewModel extends ViewModel {
             @Override
             public void onResponse(String response) {
                 try {
-                    postlist.postValue(new DocToPostlistParser(null).jsonToPostlist(new JSONArray(response),parentBoard));
+                    postlist.postValue(parser.jsonToPostlist(new JSONArray(response)));
+                    parentBoard=parser.getBoard();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

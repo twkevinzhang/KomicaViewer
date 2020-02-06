@@ -76,7 +76,7 @@ public class KomicaFragment extends Fragment{
 
         // Search bar
         searchBar = v.findViewById(R.id.searchBar);
-        searchBar.inflateMenu(R.menu.main);
+        searchBar.inflateMenu(R.menu.search_bar);
         searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
 
             @Override

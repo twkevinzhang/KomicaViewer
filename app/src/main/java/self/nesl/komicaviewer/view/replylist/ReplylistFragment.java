@@ -168,7 +168,7 @@ public class ReplylistFragment extends Fragment {
                 assert post != null;
                 ArrayList<Post> arr2 = new ArrayList<Post>();
                 arr2.add(0, post);
-                arr2.addAll(post.getRepliesAll());
+                arr2.addAll(post.getReplyAll());
 
                 if (!isFBStyle) {
                     adapter.setPostlist(arr2);

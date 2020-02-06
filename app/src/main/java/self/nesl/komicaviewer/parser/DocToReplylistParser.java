@@ -1,23 +1,18 @@
 package self.nesl.komicaviewer.parser;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.Web;
 
-public class DocToPostParser {
+public class DocToReplylistParser {
     private Element thread;
     private Board board;
     private ArrayList<Post> replies_arr=new ArrayList<>();
-    public DocToPostParser(Element thread,Board board) {
+    public DocToReplylistParser(Element thread, Board board) {
         this.thread=thread;
         this.board=board;
     }
@@ -57,7 +52,7 @@ public class DocToPostParser {
                 replies_arr.add(reply);
             }
         }
-        main_post.setRepliesTree(replies_arr);
+        main_post.setReplyTree(replies_arr);
         return main_post;
     }
 
@@ -69,7 +64,7 @@ public class DocToPostParser {
                 targtet = reply;
                 break;
             } else {
-                targtet = getTarget(reply.getRepliesTree(), reply_target_id);
+                targtet = getTarget(reply.getReplyTree(), reply_target_id);
             }
         }
         return targtet;
@@ -83,7 +78,7 @@ public class DocToPostParser {
                 reply.addReply(insert_reply);
                 isChanged = true;
             } else {
-                addReplyToTarget(reply.getRepliesTree(), reply_target_id, insert_reply);
+                addReplyToTarget(reply.getReplyTree(), reply_target_id, insert_reply);
             }
         }
         return replies_arr;
@@ -91,6 +86,7 @@ public class DocToPostParser {
 
     Post func(Element post_ele,String id){
         Post post=new Post(id);
+        post.setBoard(board);
 
         //get pic_url
         String pic_url = null;

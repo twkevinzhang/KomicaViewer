@@ -1,9 +1,6 @@
 package self.nesl.komicaviewer.model;
 
-import android.util.Log;
-
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.Serializable;
@@ -29,7 +26,7 @@ public class Post implements Serializable {
     private String thumbnail_url;
     private boolean isTop=false;
     private boolean isReaded=false;
-    private ArrayList<Post> tree_of_replies_arr=new ArrayList<Post>();
+    private ArrayList<Post> reply_tree =new ArrayList<Post>();
 
     public Post(String post_id) {
         this.id=post_id;
@@ -113,14 +110,14 @@ public class Post implements Serializable {
     public int getPraiseCount (){
         return praiseCount;
     }
-    public ArrayList<Post> getRepliesTree(){
-        return tree_of_replies_arr;
+    public ArrayList<Post> getReplyTree(){
+        return reply_tree;
     }
-    public ArrayList<Post> getRepliesAll(){
+    public ArrayList<Post> getReplyAll(){
         ArrayList<Post> arr=new ArrayList<>();
-        for (Post reply : tree_of_replies_arr) {
+        for (Post reply : reply_tree) {
             arr.add(reply);
-            arr.addAll(reply.getRepliesAll());
+            arr.addAll(reply.getReplyAll());
         }
         return arr;
     }
@@ -166,11 +163,11 @@ public class Post implements Serializable {
     public Post setIsReaded(boolean b){
         this.isTop=b;return this;
     }
-    public Post setRepliesTree(ArrayList<Post> tree_of_replies_arr){
-        this.tree_of_replies_arr=tree_of_replies_arr;return this;
+    public Post setReplyTree(ArrayList<Post> tree_of_replies_arr){
+        this.reply_tree =tree_of_replies_arr;return this;
     }
     public void addReply(Post reply){
-        this.tree_of_replies_arr.add(reply);
+        this.reply_tree.add(reply);
     }
     public Post setQuoteHtml(String post_quote_html){
         Element e=Jsoup.parse(post_quote_html);
@@ -189,7 +186,7 @@ public class Post implements Serializable {
         if(s2!=null){
             s+="ind:\""+s2+"\",";
         }
-        for(Post p : tree_of_replies_arr){
+        for(Post p : reply_tree){
             s3=p.toString();
         }
         s+="replies:["+s3+"]";

@@ -1,11 +1,14 @@
 package self.nesl.komicaviewer.view.postlist;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,16 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.ArrayList;
 
-import self.nesl.komicaviewer.MainActivity;
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.StaticString;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.view.post.PostActivity;
 
 public class PostlistFragment extends Fragment {
     private PostlistViewModel postlistViewModel;
@@ -62,31 +66,34 @@ public class PostlistFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_postlist, container, false);
         final RecyclerView lst = v.findViewById(R.id.lst);
         final TextView txtListMsg=v.findViewById(R.id.txtListMsg);
-//        final FloatingActionMenu fab_menu_list = v.findViewById(R.id.fab_menu_list);
+        final FloatingActionMenu fab_menu_list = v.findViewById(R.id.fab_menu_list);
 
         // fab post
-//        final FloatingActionButton fab_post = new FloatingActionButton(getActivity());
-//        fab_post.setButtonSize(FloatingActionButton.SIZE_MINI);
-//        fab_post.setLabelText(getString(R.string.fab_post));
-//        fab_post.setImageResource(R.drawable.ic_edit);
-//        fab_menu_list.addMenuButton(fab_post);
-//        fab_post.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fab_menu_list.close(true);
-//            }
-//        });
-//
-//        // fab_menu
-//        fab_menu_list.hideMenuButton(false);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                fab_menu_list.showMenuButton(true);
-//                fab_menu_list.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
-//                fab_menu_list.setMenuButtonHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
-//            }
-//        }, 300);
+        final FloatingActionButton fab_post = new FloatingActionButton(getActivity());
+        fab_post.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_post.setLabelText(getString(R.string.fab_post));
+        fab_post.setImageResource(R.drawable.ic_edit);
+        fab_menu_list.addMenuButton(fab_post);
+        fab_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_menu_list.close(true);
+                Intent intent=new Intent(getContext(),PostActivity.class);
+                intent.putExtra("board",parentBoard);
+                startActivity(intent);
+            }
+        });
+
+        // fab_menu
+        fab_menu_list.hideMenuButton(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fab_menu_list.showMenuButton(true);
+                fab_menu_list.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
+                fab_menu_list.setMenuButtonHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
+            }
+        }, 300);
 
 
         // lst
@@ -95,6 +102,26 @@ public class PostlistFragment extends Fragment {
         lst.setLayoutManager(layoutManager);
         final PostlistAdapter adapter=new PostlistAdapter(getContext());
         lst.setAdapter(adapter);
+
+        // data and adapter
+        postlistViewModel.loadPostlist(0);
+        parentBoard=postlistViewModel.getBoard();
+        postlistViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
+            int start,end=0;
+
+            @Override
+            public void onChanged(@Nullable final ArrayList<Post> ps) {
+
+                if (ps!=null && ps.size()!=0) {
+                    adapter.addMultiPostToList(ps);
+                    start=end;
+                    end=start+ps.size();
+                    adapter.notifyItemRangeInserted(start, end);
+                    isLoading=false;
+                    txtListMsg.setText("onChanged,getItemCount:"+adapter.getItemCount());
+                }
+            }
+        });
 
         lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int page=0;
@@ -135,26 +162,7 @@ public class PostlistFragment extends Fragment {
             }
         });
 
-        // data and adapter
-//        if(parentBoard.getWeb().getName().equals(StaticString.KOMICA_NAME)){
-            postlistViewModel.loadPostlist(0);
-            postlistViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
-                int start,end=0;
 
-                @Override
-                public void onChanged(@Nullable final ArrayList<Post> ps) {
-
-                    if (ps!=null && ps.size()!=0) {
-                        adapter.addMultiPostToList(ps);
-                        start=end;
-                        end=start+ps.size();
-                        adapter.notifyItemRangeInserted(start, end);
-                        isLoading=false;
-                        txtListMsg.setText("onChanged,getItemCount:"+adapter.getItemCount());
-                    }
-                }
-            });
-//        }
 
         // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
@@ -170,7 +178,7 @@ public class PostlistFragment extends Fragment {
 
         // Search bar
         searchBar = v.findViewById(R.id.searchBar);
-        searchBar.inflateMenu(R.menu.main);
+        searchBar.inflateMenu(R.menu.search_bar);
         searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
 
             @Override

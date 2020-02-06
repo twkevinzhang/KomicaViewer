@@ -2,7 +2,8 @@
     <string name="app_name">KomicaViewer</string>
 
     <string name="title_activity_postlist">Post List</string>
-    <string name="title_activity_post">Post</string>
+    <string name="title_activity_replylist">Reply List</string>
+    <string name="title_activity_post">Do Post</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -38,7 +39,12 @@
     <string name="nav_favorite">Favorite</string>
     <string name="nav_history">History</string>
 
-
     <string name="search_hint">search_hint</string>
+
+    <string name="lbl_post_title">標題</string>
+    <string name="lbl_post_ind">內文</string>
+    <string name="lbl_post_pic">附加圖檔</string>
+
+    <string name="action_post">發送</string>
 
 </resources>
