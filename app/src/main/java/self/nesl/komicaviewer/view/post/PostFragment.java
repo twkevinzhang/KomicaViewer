@@ -37,10 +37,13 @@ public class PostFragment extends Fragment {
     }
 
     private Board board;
-    public static PostFragment newInstance(Board board) {
+    private String masterPostId;
+
+    public static PostFragment newInstance(Board board,String masterPostId) {
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
         args.putSerializable("board", board);
+        args.putSerializable("masterPostId", masterPostId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +53,7 @@ public class PostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             board = (Board) getArguments().getSerializable("board");
-
+            masterPostId = getArguments().getString("masterPostId");
         }
     }
 
@@ -78,8 +81,19 @@ public class PostFragment extends Fragment {
     }
 
     public void post(String title, String ind, File pic) {
-        final String url=board.getLink()+"/pixmicat.php";
+        String postUrl=board.getLink()+"/pixmicat.php";
+        String refererUrl;
 
+        if(masterPostId==null){
+            refererUrl=postUrl;
+        }else{
+            refererUrl=postUrl+"?res="+masterPostId;
+        }
+        Log.e("this","");
+        Log.e("postUrl",postUrl);
+        Log.e("refererUrl",refererUrl);
+
+        // PostForm
         PostForm c=new PostForm();
         c. mode="regist";
         c. MAX_FILE_SIZE="5242880";
@@ -91,8 +105,10 @@ public class PostFragment extends Fragment {
             c. upfile="(binary)";
             c. noimg="on";
         }
+        if(masterPostId!=null) c.resto=masterPostId;
 
-        AndroidNetworking.post(url)
+        final String finalUrl = refererUrl;
+        AndroidNetworking.post(postUrl)
                 .addBodyParameter(board.getPostTitleSecret(), title)
                 .addBodyParameter(board.getPostIndSecret(), ind)
                 .addBodyParameter(c)
@@ -111,7 +127,7 @@ public class PostFragment extends Fragment {
                     @Override
                     public void onError(ANError error) {
                         // handle error
-                        Log.e("PF",url);
+                        Log.e("PF", finalUrl);
                         Log.e("PF",error.getErrorCode()+"");
                         Log.e("PF",error.getErrorBody());
                         Log.e("PF",error.getErrorDetail());

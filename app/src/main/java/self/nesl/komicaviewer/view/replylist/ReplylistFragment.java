@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostAdapter;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.view.post.PostActivity;
 
 public class ReplylistFragment extends Fragment {
 
@@ -100,6 +102,24 @@ public class ReplylistFragment extends Fragment {
 //                PostDB.addPost(post);
 //            }
 //        });
+
+        // fab reply
+        final FloatingActionButton fab_reply = new FloatingActionButton(getActivity());
+        fab_reply.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_reply.setLabelText(getString(R.string.fab_reply));
+        fab_reply.setImageResource(R.drawable.ic_edit);
+        fab_menu.addMenuButton(fab_reply);
+        fab_reply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_menu.close(true);
+                Intent intent=new Intent(getContext(), PostActivity.class);
+                intent.putExtra("masterPostId","17496290");
+//                intent.putExtra("masterPostId",post.getId());
+                intent.putExtra("board",post.getParentBoard());
+                startActivity(intent);
+            }
+        });
 
         // fab to_top
         final FloatingActionButton fab_p_to_top = new FloatingActionButton(getActivity());

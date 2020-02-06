@@ -9,4 +9,5 @@ public class PostForm {
     public String upfile;
     public String noimg;
     public String email;
+    public String resto;
 }
