@@ -2,7 +2,6 @@ package self.nesl.komicaviewer.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.StaticString;
 import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.view.post.PostActivity;
+import self.nesl.komicaviewer.view.replylist.ReplylistActivity;
 
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder>  {
     private ArrayList<Post> postlist=new ArrayList<Post>();
@@ -101,7 +100,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             @Override
             public void onClick(View v) {
                 PostDB.addPost(postlist.get(i), StaticString.HISTORY_TABLE_NAME);
-                Intent intent = new Intent(context, PostActivity.class);
+                Intent intent = new Intent(context, ReplylistActivity.class);
                 intent.putExtra("post", postlist.get(i));
                 context.startActivity(intent);
             }

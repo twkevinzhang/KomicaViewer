@@ -136,7 +136,7 @@ public class PostlistFragment extends Fragment {
         });
 
         // data and adapter
-        if(parentBoard.getWeb().getName().equals(StaticString.KOMICA_NAME)){
+//        if(parentBoard.getWeb().getName().equals(StaticString.KOMICA_NAME)){
             postlistViewModel.loadPostlist(0);
             postlistViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
                 int start,end=0;
@@ -154,7 +154,7 @@ public class PostlistFragment extends Fragment {
                     }
                 }
             });
-        }
+//        }
 
         // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);

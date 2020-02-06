@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.view.post;
+package self.nesl.komicaviewer.view.replylist;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -26,17 +26,17 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostAdapter;
 import self.nesl.komicaviewer.model.Post;
 
-public class PostFragment extends Fragment {
+public class ReplylistFragment extends Fragment {
 
-    private PostViewModel mViewModel;
+    private ReplylistViewModel mViewModel;
     Post post;
 
-    public PostFragment() {
+    public ReplylistFragment() {
         // Required empty public constructor
     }
 
-    public static PostFragment newInstance(Post post) {
-        PostFragment fragment = new PostFragment();
+    public static ReplylistFragment newInstance(Post post) {
+        ReplylistFragment fragment = new ReplylistFragment();
         Bundle args = new Bundle();
         args.putSerializable("post", post);
         fragment.setArguments(args);
@@ -48,7 +48,7 @@ public class PostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             post = (Post) getArguments().getSerializable("post");
-            mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+            mViewModel = ViewModelProviders.of(this).get(ReplylistViewModel.class);
             mViewModel.setPost(post);
         }
     }

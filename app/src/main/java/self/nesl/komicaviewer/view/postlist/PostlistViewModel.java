@@ -29,39 +29,14 @@ public class PostlistViewModel extends ViewModel {
 
     public void loadPostlist(int page) {
         String url = parentBoard.getLink().replace("2cat.org/~", "2cat.org/");
+        Log.e("nesl,url",url);
         if (url.contains("mymoe.moe")) {
-            scarpyMymoePostlist(page,url);
+            scrapyMymoePostlist(page,url);
         } else {
             scrapyPostlist(page,url);
         }
     }
 
-    public void scarpyMymoePostlist(int page,String url) {
-        // mymoe.moe(綜合2,女王之刃)
-        String keyId="0";
-        if(page!=0 && postlist.getValue().size()!=0){
-            keyId= postlist.getValue().get((postlist.getValue().size()-2)).getId2();
-        }
-        AndroidNetworking.get(url+"/pixmicat.php?mode=module&load=mod_threadlist&_=list&next="+keyId)
-                .addHeaders("X-Requested-With", "XMLHttpRequest")
-                .build().getAsString(new StringRequestListener() {
-
-            @Override
-            public void onResponse(String response) {
-                try {
-                    postlist.postValue(new DocToPostlistParser(null).jsonToPostlist(new JSONArray(response),parentBoard));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(ANError anError) {
-                anError.printStackTrace();
-                Log.e("PlVM",anError.getErrorBody());
-            }
-        });
-    }
     public void scrapyPostlist(int page,String url){
         if (page != 0) {
             url += "/pixmicat.php?page_num="+page;
@@ -103,6 +78,35 @@ public class PostlistViewModel extends ViewModel {
                 anError.printStackTrace();
             }
         });
+    }
+    public void scrapyMymoePostlist(int page, String url) {
+        // mymoe.moe(綜合2,女王之刃)
+        String keyId="0";
+        if(page!=0 && postlist.getValue().size()!=0){
+            keyId= postlist.getValue().get((postlist.getValue().size()-2)).getId2();
+        }
+        AndroidNetworking.get(url+"/pixmicat.php?mode=module&load=mod_threadlist&_=list&next="+keyId)
+                .addHeaders("X-Requested-With", "XMLHttpRequest")
+                .build().getAsString(new StringRequestListener() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    postlist.postValue(new DocToPostlistParser(null).jsonToPostlist(new JSONArray(response),parentBoard));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                anError.printStackTrace();
+                Log.e("PlVM",anError.getErrorBody());
+            }
+        });
+    }
+    public void scrapy2nyanPostlist(int page, String url) {
+        // 2nyan.org (GIF裡、動畫裏、高解析裡、成人玩具、知識裡、偽娘裡、東方裡)
     }
 
     public MutableLiveData<ArrayList<Post>> getPostlist() {

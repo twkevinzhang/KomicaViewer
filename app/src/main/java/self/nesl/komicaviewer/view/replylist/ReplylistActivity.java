@@ -1,19 +1,15 @@
-package self.nesl.komicaviewer.view.post;
+package self.nesl.komicaviewer.view.replylist;
 
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.view.postlist.PostlistFragment;
 
-public class PostActivity extends AppCompatActivity
+public class ReplylistActivity extends AppCompatActivity
         implements PostlistFragment.OnFragmentInteractionListener{
 
     @Override
@@ -23,7 +19,7 @@ public class PostActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             Post post=(Post) getIntent().getSerializableExtra("post");
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, PostFragment.newInstance(post))
+                    .replace(R.id.container, ReplylistFragment.newInstance(post))
                     .commitNow();
         }
     }

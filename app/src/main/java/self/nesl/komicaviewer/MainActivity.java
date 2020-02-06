@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -37,6 +38,14 @@ public class MainActivity extends AppCompatActivity
                 .setTop50BoardUrl(domain + "mainmenu2018.html")
                 .setAllBoardPrefName("komica_board_urls")
                 .setTop50BoardPrefName("komica_top50_board_urls");
+
+//        String domain = "http://komica2.net/";
+//        final Web defaultWeb=new Web(StaticString.KOMICA2_NAME)
+//                .setDomainUrl(domain)
+//                .setMenuUrl(domain + "bbsmenu2018.html")
+//                .setTop50BoardUrl(domain + "mainmenu2018.html")
+//                .setAllBoardPrefName("komica2_board_urls")
+//                .setTop50BoardPrefName("komica2_top50_board_urls");
 
         // Fragment
         if (savedInstanceState == null) {
@@ -95,6 +104,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @SuppressLint("WrongConstant")
     public void openDrawer() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.openDrawer(Gravity.START);

@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.view.post;
+package self.nesl.komicaviewer.view.replylist;
 
 import android.util.Log;
 
@@ -11,13 +11,11 @@ import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.jsoup.Jsoup;
 
-import java.util.ArrayList;
-
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.parser.DocToPostParser;
 
-public class PostViewModel extends ViewModel {
+public class ReplylistViewModel extends ViewModel {
     private MutableLiveData<Post> post = new MutableLiveData<>();
     private Post mPost;
 
