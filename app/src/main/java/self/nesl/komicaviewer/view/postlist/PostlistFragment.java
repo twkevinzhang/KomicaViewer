@@ -63,9 +63,9 @@ public class PostlistFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_postlist, container, false);
+        View v = inflater.inflate(R.layout.fragment_postlist, container, false);
         final RecyclerView lst = v.findViewById(R.id.lst);
-        final TextView txtListMsg=v.findViewById(R.id.txtListMsg);
+        final TextView txtListMsg = v.findViewById(R.id.txtListMsg);
         final FloatingActionMenu fab_menu_list = v.findViewById(R.id.fab_menu_list);
 
         // fab post
@@ -78,8 +78,8 @@ public class PostlistFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fab_menu_list.close(true);
-                Intent intent=new Intent(getContext(),PostActivity.class);
-                intent.putExtra("board",parentBoard);
+                Intent intent = new Intent(getContext(), PostActivity.class);
+                intent.putExtra("board", parentBoard);
                 startActivity(intent);
             }
         });
@@ -97,50 +97,49 @@ public class PostlistFragment extends Fragment {
 
 
         // lst
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         lst.setLayoutManager(layoutManager);
-        final PostlistAdapter adapter=new PostlistAdapter(getContext());
+        final PostlistAdapter adapter = new PostlistAdapter(getContext());
         lst.setAdapter(adapter);
 
         // data and adapter
         postlistViewModel.loadPostlist(0);
-        parentBoard=postlistViewModel.getBoard();
+        parentBoard = postlistViewModel.getBoard();
         postlistViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
-            int start,end=0;
+            int start, end = 0;
 
             @Override
             public void onChanged(@Nullable final ArrayList<Post> ps) {
-
-                if (ps!=null && ps.size()!=0) {
-                    adapter.addMultiPostToList(ps);
-                    start=end;
-                    end=start+ps.size();
-                    adapter.notifyItemRangeInserted(start, end);
-                    isLoading=false;
-                    txtListMsg.setText("onChanged,getItemCount:"+adapter.getItemCount());
-                }
+                assert ps != null && ps.size() != 0;
+                adapter.addMultiPostToList(ps);
+                start = end;
+                end = start + ps.size();
+                adapter.notifyItemRangeInserted(start, end);
+                isLoading = false;
+                txtListMsg.setText("onChanged,getItemCount:" + adapter.getItemCount());
             }
         });
 
         lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int page=0;
+            int page = 0;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!recyclerView.canScrollVertically(1)){
+                if (!recyclerView.canScrollVertically(1)) {
                     // 如果不能向下滑動，到底了
                     if (isLoading) {
                         txtListMsg.setText("急三小");
                         return;
                     }
                     isLoading = true;
-                    page+=1;
-                    txtListMsg.setText("載入中"+page);
+                    page += 1;
+                    txtListMsg.setText("載入中" + page);
                     postlistViewModel.loadPostlist(page);
 
 
-                }else if(!recyclerView.canScrollVertically(-1)){
+                } else if (!recyclerView.canScrollVertically(-1)) {
                     // 如果不能向上滑動，到頂了
                     txtListMsg.setText("到頂了(不能向上滑動)");
 
@@ -162,8 +161,6 @@ public class PostlistFragment extends Fragment {
             }
         });
 
-
-
         // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
         cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -179,7 +176,7 @@ public class PostlistFragment extends Fragment {
         // Search bar
         searchBar = v.findViewById(R.id.searchBar);
         searchBar.inflateMenu(R.menu.search_bar);
-        searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener(){
+        searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
 
             @Override
             public void onSearchStateChanged(boolean enabled) {

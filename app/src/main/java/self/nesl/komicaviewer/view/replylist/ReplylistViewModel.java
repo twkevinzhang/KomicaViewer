@@ -25,6 +25,8 @@ public class ReplylistViewModel extends ViewModel {
 
             @Override
             public void onResponse(String response) {
+                Post p=new DocToReplylistParser(Jsoup.parse(response),board).toPost();
+                Log.e("RlVM",p.getReplyAll().size()+"");
                 post.postValue(new DocToReplylistParser(Jsoup.parse(response),board).toPost());
             }
 
@@ -38,7 +40,7 @@ public class ReplylistViewModel extends ViewModel {
         });
     }
 
-    public void loadKomicaPost(final Board board){
+    public void loadReplylist(final Board board){
         scrapyKomicaPost(board);
     }
 

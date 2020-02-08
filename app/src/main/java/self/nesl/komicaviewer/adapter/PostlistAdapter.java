@@ -48,7 +48,6 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             txtReplyCount = v.findViewById(R.id.txtReplyCnt);
             txtPostId = v.findViewById(R.id.txtPostId);
             txtPoster=v.findViewById(R.id.txtPoster);
-//            txtPostlistMsg = v.findViewById(R.id.txtPostlistMsg);
         }
     }
 

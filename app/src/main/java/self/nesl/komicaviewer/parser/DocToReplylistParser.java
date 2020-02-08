@@ -68,7 +68,7 @@ public class DocToReplylistParser {
         return main_post;
     }
 
-    static Post getTarget(ArrayList<Post> replies_arr, String reply_target_id) {
+    Post getTarget(ArrayList<Post> replies_arr, String reply_target_id) {
         Post targtet = null;
         for (Post reply : replies_arr) {
             if (targtet != null) break;

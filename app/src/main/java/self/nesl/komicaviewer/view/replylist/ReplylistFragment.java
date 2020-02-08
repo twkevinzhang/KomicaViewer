@@ -24,13 +24,13 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.adapter.PostAdapter;
+import self.nesl.komicaviewer.adapter.ReplylistAdapter;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.view.post.PostActivity;
 
 public class ReplylistFragment extends Fragment {
 
-    private ReplylistViewModel mViewModel;
+    private ReplylistViewModel replylistViewModel;
     Post post;
 
     public ReplylistFragment() {
@@ -50,8 +50,8 @@ public class ReplylistFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             post = (Post) getArguments().getSerializable("post");
-            mViewModel = ViewModelProviders.of(this).get(ReplylistViewModel.class);
-            mViewModel.setPost(post);
+            replylistViewModel = ViewModelProviders.of(this).get(ReplylistViewModel.class);
+            replylistViewModel.setPost(post);
         }
     }
 
@@ -59,7 +59,7 @@ public class ReplylistFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_postlist, container, false);
-        mViewModel.loadKomicaPost(post.getParentBoard());
+        replylistViewModel.loadReplylist(post.getParentBoard());
 
         final RecyclerView lst = v.findViewById(R.id.lst);
         final FloatingActionMenu fab_menu = v.findViewById(R.id.fab_menu_list);
@@ -150,15 +150,11 @@ public class ReplylistFragment extends Fragment {
             }
         });
 
-        // is FB Style
-//        final boolean isFBStyle = Settings.getBoolean(StaticString.PREFERENCES_NAME, false);
-        final boolean isFBStyle = false;
-
         // lst
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         lst.setLayoutManager(layoutManager);
-        final PostAdapter adapter = new PostAdapter(getContext());
+        final ReplylistAdapter adapter = new ReplylistAdapter(getContext());
         lst.setAdapter(adapter);
 
         lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -183,18 +179,14 @@ public class ReplylistFragment extends Fragment {
         });
 
         // data and adapter
-        mViewModel.getPost().observe(this, new Observer<Post>() {
+        replylistViewModel.getPost().observe(this, new Observer<Post>() {
             @Override
             public void onChanged(@Nullable final Post post) {
                 assert post != null;
-                ArrayList<Post> arr2 = new ArrayList<Post>();
+                ArrayList<Post> arr2 = post.getReplyAll();
                 arr2.add(0, post);
-                arr2.addAll(post.getReplyAll());
-
-                if (!isFBStyle) {
-                    adapter.setPostlist(arr2);
-                    adapter.notifyDataSetChanged();
-                }
+                adapter.setPostlist(arr2);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -203,7 +195,8 @@ public class ReplylistFragment extends Fragment {
         cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mViewModel.loadKomicaPost(post.getParentBoard());
+                adapter.setPostlist(new ArrayList<Post>());
+                replylistViewModel.loadReplylist(post.getParentBoard());
                 adapter.notifyDataSetChanged();
                 cateSwipeRefreshLayout.setRefreshing(false);
             }
