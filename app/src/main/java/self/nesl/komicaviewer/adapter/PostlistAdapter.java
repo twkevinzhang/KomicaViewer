@@ -101,7 +101,10 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             public void onClick(View v) {
                 PostDB.addPost(postlist.get(i), StaticString.HISTORY_TABLE_NAME);
                 Intent intent = new Intent(context, ReplylistActivity.class);
-                intent.putExtra("post", postlist.get(i));
+                // todo test
+//                intent.putExtra("post", postlist.get(i));
+                intent.putExtra("post", new Post("17496290")
+                        .setBoard(postlist.get(i).getParentBoard()));
                 context.startActivity(intent);
             }
         });

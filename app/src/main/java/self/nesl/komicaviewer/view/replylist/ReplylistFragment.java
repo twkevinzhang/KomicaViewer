@@ -114,6 +114,7 @@ public class ReplylistFragment extends Fragment {
             public void onClick(View v) {
                 fab_menu.close(true);
                 Intent intent=new Intent(getContext(), PostActivity.class);
+                // todo test
                 intent.putExtra("masterPostId","17496290");
 //                intent.putExtra("masterPostId",post.getId());
                 intent.putExtra("board",post.getParentBoard());

@@ -89,9 +89,6 @@ public class PostFragment extends Fragment {
         }else{
             refererUrl=postUrl+"?res="+masterPostId;
         }
-        Log.e("this","");
-        Log.e("postUrl",postUrl);
-        Log.e("refererUrl",refererUrl);
 
         // PostForm
         PostForm c=new PostForm();

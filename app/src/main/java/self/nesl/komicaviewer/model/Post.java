@@ -26,7 +26,8 @@ public class Post implements Serializable {
     private String thumbnail_url;
     private boolean isTop=false;
     private boolean isReaded=false;
-    private ArrayList<Post> reply_tree =new ArrayList<Post>();
+    private ArrayList<Post> replyTree =new ArrayList<Post>();
+    private ArrayList<Post> replyAll=new ArrayList<Post>();
 
     public Post(String post_id) {
         this.id=post_id;
@@ -50,13 +51,6 @@ public class Post implements Serializable {
             return title;
         }
 
-    }
-    public String getTitleOrInd(){
-        String s=getIntroduction(10,null);
-        if(s!=null && (title.equals("無題") || title.length()<=2)){
-            return getIntroduction(10,null);
-        }
-        return title;
     }
     public String getPoster_id(){
         return poster_id;
@@ -111,15 +105,19 @@ public class Post implements Serializable {
         return praiseCount;
     }
     public ArrayList<Post> getReplyTree(){
-        return reply_tree;
+        return replyTree;
     }
+
     public ArrayList<Post> getReplyAll(){
-        ArrayList<Post> arr=new ArrayList<>();
-        for (Post reply : reply_tree) {
-            arr.add(reply);
-            arr.addAll(reply.getReplyAll());
+        if(replyAll.size()<=0){
+            for (Post reply : replyTree) {
+                if(!replyAll.contains(reply))replyAll.add(reply);
+                for(Post p : reply.getReplyAll()){
+                    if(!replyAll.contains(p))replyAll.add(p);
+                }
+            }
         }
-        return arr;
+        return replyAll;
     }
 
     public Post setId(String post_id){
@@ -164,10 +162,10 @@ public class Post implements Serializable {
         this.isTop=b;return this;
     }
     public Post setReplyTree(ArrayList<Post> tree_of_replies_arr){
-        this.reply_tree =tree_of_replies_arr;return this;
+        this.replyTree =tree_of_replies_arr;return this;
     }
     public void addReply(Post reply){
-        this.reply_tree.add(reply);
+        this.replyTree.add(reply);
     }
     public Post setQuoteHtml(String post_quote_html){
         Element e=Jsoup.parse(post_quote_html);
@@ -180,16 +178,17 @@ public class Post implements Serializable {
 
     @Override
     public String toString() {
-        String s="id:"+getId()+",";
+        String s="id:"+getId()+",size:"+ replyTree.size()+",";
         String s2=getIntroduction(5,null);
-        String s3 = null;
+        String s3 = "";
         if(s2!=null){
             s+="ind:\""+s2+"\",";
         }
-        for(Post p : reply_tree){
-            s3=p.toString();
+        for(Post p : replyTree){
+            s3+=p.toString();
         }
         s+="replies:["+s3+"]";
-        return "{"+s+"}";
+        s=s.replace("[,","[");
+        return ",{"+s+"}";
     }
 }

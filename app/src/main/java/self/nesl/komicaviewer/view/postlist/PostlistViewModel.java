@@ -31,7 +31,6 @@ public class PostlistViewModel extends ViewModel {
     public void loadPostlist(int page) {
         parser=new DocToPostlistParser(parentBoard);
         String url = parentBoard.getLink().replace("2cat.org/~", "2cat.org/");
-        Log.e("nesl,url",url);
         if (url.contains("mymoe.moe")) {
             scrapyMymoePostlist(page,url);
         } else {

@@ -189,7 +189,6 @@ public class DocToPostlistParser {
         String ind=doc.getElementById("fcom").attr("name");
         board.setPostTitleSecret(title);
         board.setPostIndSecret(ind);
-        Log.e("2Pl","title,ind secret name:"+title+","+ind);
 
         Element threads = doc.getElementById("threads");
 
