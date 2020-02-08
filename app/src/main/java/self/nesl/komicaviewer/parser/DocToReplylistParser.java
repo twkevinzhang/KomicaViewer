@@ -15,7 +15,7 @@ import self.nesl.komicaviewer.model.Post;
 public class DocToReplylistParser {
     private Element thread;
     private Board board;
-    private static ArrayList<Post> replies_arr = new ArrayList<>();
+    private ArrayList<Post> replies_arr= new ArrayList<>();
 
     public DocToReplylistParser(Element thread, Board board) {
         this.thread = thread;
@@ -65,7 +65,6 @@ public class DocToReplylistParser {
             }
         }
         main_post.setReplyTree(replies_arr);
-        System.out.println("2Rl:  " + main_post.toString());
         return main_post;
     }
 
@@ -83,13 +82,13 @@ public class DocToReplylistParser {
         return targtet;
     }
 
-    private static boolean isOK=false;
-    private static void addReplyToTarget(String reply_target_id, Post insert_reply) {
+    private boolean isOK=false;
+    private void addReplyToTarget(String reply_target_id, Post insert_reply) {
         isOK=false;
         addReplyToTarget(replies_arr,reply_target_id,insert_reply);
     }
 
-    private static void addReplyToTarget(ArrayList<Post> replies_arr, String reply_target_id, Post insert_reply) {
+    private void addReplyToTarget(ArrayList<Post> replies_arr, String reply_target_id, Post insert_reply) {
         for (Post reply : replies_arr) {
             if(isOK)break;
             if (reply.getId().equals(reply_target_id)) {
