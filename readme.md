@@ -33,7 +33,9 @@ MVVM in Android
    - 高解析裡
  
 ### 下載
- [Download](https://github.com/neslxzhen/KomicaViewer/releases)
+ [Releases](https://github.com/neslxzhen/KomicaViewer/releases)
+ 
+ [Download](https://github.com/neslxzhen/KomicaViewer/raw/dev/doc/app-debug.apk)
  
 ### 額外套件 (dependencies)
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
