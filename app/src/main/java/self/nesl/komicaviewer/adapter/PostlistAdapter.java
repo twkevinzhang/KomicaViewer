@@ -2,6 +2,7 @@ package self.nesl.komicaviewer.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,8 +105,9 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
                 Intent intent = new Intent(context, ReplylistActivity.class);
                 // todo test
 //                intent.putExtra("post", postlist.get(i));
-                intent.putExtra("post", new Post(TEST_POST_ID)
-                        .setBoard(postlist.get(i).getParentBoard()));
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("post", postlist.get(i));
+                intent.putExtra("bundle", bundle);
                 context.startActivity(intent);
             }
         });

@@ -5,18 +5,14 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.Web;
 
 public class DocToPostlistParser {
     private Board board;
@@ -69,7 +65,7 @@ public class DocToPostlistParser {
                     .setReplyCount(replyCount)
                     .setTimeStr(post_time_str)
                     .setPoster_id(poster_id)
-                    .setBoard(board);
+                    .setParentBoard(board);
             postlist.add(post);
         }
         return postlist;
@@ -90,7 +86,7 @@ public class DocToPostlistParser {
                     .setTimeStr(o.getString("time"))
                     .setThumbnailUrl(o.getString("th"))
                     .setPicUrl(o.getString("src"))
-                    .setBoard(board);
+                    .setParentBoard(board);
 
             postlist.add(post);
         }
@@ -150,7 +146,7 @@ public class DocToPostlistParser {
 
         try {
             post = new Post(post_id)
-                    .setBoard(board)
+                    .setParentBoard(board)
                     .setTitle(title)
                     .setTimeStr(post_detail)
                     .setPosterName(name)
@@ -227,7 +223,7 @@ public class DocToPostlistParser {
             post.setTitle(title)
                     .setPosterName(name)
                     .setQuoteHtml(quote_html)
-                    .setBoard(board);
+                    .setParentBoard(board);
             postlist.add(post);
         }
         return postlist;

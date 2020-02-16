@@ -33,6 +33,7 @@ public class ReplylistAdapter extends RecyclerView.Adapter<ReplylistAdapter.Post
         private TextView txtPostId;
         private TextView txtReply;
         private TextView txtReplyDate;
+        private ImageView btnReply;
 
         PostViewHolder(View v) {
             super(v);
@@ -40,6 +41,7 @@ public class ReplylistAdapter extends RecyclerView.Adapter<ReplylistAdapter.Post
             txtReply = v.findViewById(R.id.txtReply);
             txtPostId = v.findViewById(R.id.txtReplyId);
             txtReplyDate=v.findViewById(R.id.txtReplyDate);
+            btnReply=v.findViewById(R.id.btnReply);
         }
     }
 
@@ -78,6 +80,15 @@ public class ReplylistAdapter extends RecyclerView.Adapter<ReplylistAdapter.Post
         }else{
             Glide.with(holder.imgPost.getContext()).clear(holder.imgPost);
         }
+
+        // btnReply
+        holder.btnReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentBar.setVisibility(View.VISIBLE);
+                txtComment.setText();
+            }
+        });
     }
 
     @Override

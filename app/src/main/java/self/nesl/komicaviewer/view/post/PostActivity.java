@@ -4,10 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.StringRequestListener;
+
+import java.io.File;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Board;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.model.PostForm;
 import self.nesl.komicaviewer.view.postlist.PostlistFragment;
 import self.nesl.komicaviewer.view.replylist.ReplylistFragment;
 
@@ -28,5 +37,9 @@ public class PostActivity extends AppCompatActivity
                     .replace(R.id.container, PostFragment.newInstance(getIntent().getBundleExtra("bundle")))
                     .commitNow();
         }
+    }
+
+    public void post(String title, String ind, File pic) {
+
     }
 }

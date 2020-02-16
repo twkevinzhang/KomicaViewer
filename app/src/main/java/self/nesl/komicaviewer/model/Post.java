@@ -1,5 +1,13 @@
 package self.nesl.komicaviewer.model;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.StringRequestListener;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
@@ -10,12 +18,14 @@ import java.util.Date;
 public class Post implements Serializable {
     private String id;
     private String id2;
+    private String masterPostId;
     private String title;
     private Date time;
     private String post_time_str;
     private String poster_id;
     private String poster_name;
-    private String post_quote_html;
+    private String quote_html;
+    private String quote;
 
     private String[] tab;
     private int visitors=0;
@@ -23,6 +33,7 @@ public class Post implements Serializable {
     private int praiseCount=0;
     private Board board;
     private String pic_url;
+    private Bitmap pic;
     private String thumbnail_url;
     private boolean isTop=false;
     private boolean isReaded=false;
@@ -31,6 +42,9 @@ public class Post implements Serializable {
 
     public Post(String post_id) {
         this.id=post_id;
+    }
+    public Post() {
+
     }
     public String getTimeStr(){
         return post_time_str;
@@ -61,12 +75,8 @@ public class Post implements Serializable {
     public String getPicUrl(){
         return pic_url;
     }
-    public String getQuote(){
-        if(post_quote_html==null)return null;
-        return Jsoup.parse(post_quote_html).text();
-    }
     public String getQuoteHtml(){
-        return post_quote_html;
+        return quote_html;
     }
     public String getThumbnailUrl(){
         return thumbnail_url;
@@ -120,6 +130,15 @@ public class Post implements Serializable {
         return replyAll;
     }
 
+    public String getMasterPostId(){
+        return masterPostId;
+    }
+    public String getQuote(){
+        if(quote!=null)return quote;
+        if( quote_html !=null)return Jsoup.parse(quote_html).text();
+        return null;
+    }
+
     public Post setId(String post_id){
         this.id=post_id;return this;
     }
@@ -145,7 +164,7 @@ public class Post implements Serializable {
     public Post setPraiseCount(int praiseCount){
         this.praiseCount=praiseCount;return this;
     }
-    public Post setBoard(Board board){
+    public Post setParentBoard(Board board){
         this.board=board;return this;
     }
 
@@ -173,7 +192,13 @@ public class Post implements Serializable {
         if(e2!=null){
             e2.removeAttr("href");
         }
-        this.post_quote_html=e.html();return this;
+        this.quote_html =e.html();return this;
+    }
+    public Post setMasterPostId(String masterPostId){
+        this.masterPostId =masterPostId;return this;
+    }
+    public Post setQuote(String quote){
+        this.quote =quote;return this;
     }
 
     @Override
@@ -190,5 +215,57 @@ public class Post implements Serializable {
         s+="replies:["+s3+"]";
         s=s.replace("[,","[");
         return ",{"+s+"}";
+    }
+
+    public void pushToKomica(){
+        String postUrl=board.getLink()+"/pixmicat.php";
+        String refererUrl;
+
+        if(masterPostId==null){
+            refererUrl=postUrl;
+        }else{
+            refererUrl=postUrl+"?res="+masterPostId;
+        }
+
+        // PostForm
+        PostForm c=new PostForm();
+        c. mode="regist";
+        c. MAX_FILE_SIZE="5242880";
+        c. sub="DO NOT FIX THIS";
+        c. name="spammer";
+        c. com="EID OG SMAPS";
+        c. email="foo@foo.bar";
+        if(pic==null){
+            c. upfile="(binary)";
+            c. noimg="on";
+        }
+        if(masterPostId!=null) c.resto=masterPostId;
+
+        final String finalUrl = refererUrl;
+        AndroidNetworking.post(postUrl)
+                .addBodyParameter(board.getPostTitleSecret(), title)
+                .addBodyParameter(board.getPostIndSecret(), quote)
+                .addBodyParameter(c)
+                .addHeaders("accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+                .addHeaders("cache-control","max-age=0")
+                .addHeaders("content-length","1419")
+                .addHeaders("referer",board.getLink())
+                .build()
+                .getAsString(new StringRequestListener() {
+                    @Override
+                    public void onResponse(String response) {
+                        // do anything with response
+                        Log.e("P", "pushToKomica OK!");
+                    }
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                        Log.e("P", finalUrl);
+                        Log.e("P",error.getErrorCode()+"");
+                        Log.e("P",error.getErrorBody());
+                        Log.e("P",error.getErrorDetail());
+                        error.printStackTrace();
+                    }
+                });
     }
 }

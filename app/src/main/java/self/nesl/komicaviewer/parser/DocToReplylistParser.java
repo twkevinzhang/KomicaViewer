@@ -1,9 +1,5 @@
 package self.nesl.komicaviewer.parser;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -107,7 +103,7 @@ public class DocToReplylistParser {
 
     Post func(Element post_ele, String id) {
         Post post = new Post(id);
-        post.setBoard(board);
+        post.setParentBoard(board);
 
         //get pic_url
         String pic_url = null;

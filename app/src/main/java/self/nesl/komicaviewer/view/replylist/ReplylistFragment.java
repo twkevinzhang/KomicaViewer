@@ -4,10 +4,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,14 +30,24 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.ReplylistAdapter;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.view.post.PostActivity;
-
-import static self.nesl.komicaviewer.StaticString.TEST_POST_ID;
 
 public class ReplylistFragment extends Fragment {
 
     private ReplylistViewModel replylistViewModel;
-    Post post;
+    private Post post;
+    private RecyclerView lst ;
+    private  FloatingActionMenu fab_menu ;
+    private  LinearLayout commentBar;
+    private   ImageView send;
+    private TextView txtComment;
+    private FloatingActionButton fab_openUrl;
+    private FloatingActionButton fab_addToFavorite;
+    private FloatingActionButton fab_reply;
+    private  FloatingActionButton fab_p_to_top;
+    private FloatingActionButton fab_p_to_last;
+    private SwipeRefreshLayout cateSwipeRefreshLayout;
+    private ImageView btnClose;
+    private ImageView btnReply;
 
     public ReplylistFragment() {
         // Required empty public constructor
@@ -61,12 +75,16 @@ public class ReplylistFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_postlist, container, false);
         replylistViewModel.loadReplylist(post.getParentBoard());
 
-        final RecyclerView lst = v.findViewById(R.id.lst);
-        final FloatingActionMenu fab_menu = v.findViewById(R.id.fab_menu_list);
-
+        lst = v.findViewById(R.id.lst);
+        fab_menu = v.findViewById(R.id.fab_menu_list);
+        commentBar=v.findViewById(R.id.commentBar);
+        send=v.findViewById(R.id.btnSend);
+        txtComment=v.findViewById(R.id.txtComment);
+        btnClose=v.findViewById(R.id.btnClose);
+        btnReply=v.findViewById(R.id.btnReply);
 
         // fab openUrl
-        final FloatingActionButton fab_openUrl = new FloatingActionButton(getActivity());
+       fab_openUrl = new FloatingActionButton(getActivity());
         fab_openUrl.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_openUrl.setLabelText(getString(R.string.fab_open_url));
         fab_openUrl.setImageResource(R.drawable.ic_edit);
@@ -89,7 +107,7 @@ public class ReplylistFragment extends Fragment {
         });
 
         // fab addToFavorite
-        final FloatingActionButton fab_addToFavorite = new FloatingActionButton(getActivity());
+        fab_addToFavorite = new FloatingActionButton(getActivity());
         fab_addToFavorite.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_addToFavorite.setLabelText(getString(R.string.fab_add_to_favorite));
         fab_addToFavorite.setImageResource(R.drawable.ic_edit);
@@ -104,7 +122,7 @@ public class ReplylistFragment extends Fragment {
 //        });
 
         // fab reply
-        final FloatingActionButton fab_reply = new FloatingActionButton(getActivity());
+        fab_reply = new FloatingActionButton(getActivity());
         fab_reply.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_reply.setLabelText(getString(R.string.fab_reply));
         fab_reply.setImageResource(R.drawable.ic_edit);
@@ -113,19 +131,20 @@ public class ReplylistFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fab_menu.close(true);
-                Intent intent=new Intent(getContext(), PostActivity.class);
-                Bundle bundle=new Bundle();
-                // todo test
-                bundle.putString("masterPostId",TEST_POST_ID);
-//                intent.putExtra("masterPostId",post.getId());
-                bundle.putSerializable("board",post.getParentBoard());
-                intent.putExtra("bundle",bundle);
-                startActivity(intent);
+//                Intent intent=new Intent(getContext(), PostActivity.class);
+//                Bundle bundle=new Bundle();
+//                // todo test
+//                bundle.putString("masterPostId",TEST_POST_ID);
+////                intent.putExtra("masterPostId",post.getId());
+//                bundle.putSerializable("board",post.getParentBoard());
+//                intent.putExtra("bundle",bundle);
+//                startActivity(intent);
+                commentBar.setVisibility(View.VISIBLE);
             }
         });
 
         // fab to_top
-        final FloatingActionButton fab_p_to_top = new FloatingActionButton(getActivity());
+        fab_p_to_top = new FloatingActionButton(getActivity());
         fab_p_to_top.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_p_to_top.setLabelText(getString(R.string.fab_to_top));
         fab_p_to_top.setImageResource(R.drawable.ic_edit);
@@ -139,7 +158,7 @@ public class ReplylistFragment extends Fragment {
         });
 
         // fab to_last
-        final FloatingActionButton fab_p_to_last = new FloatingActionButton(getActivity());
+        fab_p_to_last = new FloatingActionButton(getActivity());
         fab_p_to_last.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_p_to_last.setLabelText(getString(R.string.fab_to_last));
         fab_p_to_last.setImageResource(R.drawable.ic_edit);
@@ -204,7 +223,36 @@ public class ReplylistFragment extends Fragment {
             }
         });
 
+
+
+        // comment bar: send btn
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Post().setTitle("無題")
+                        .setQuote(txtComment.getText().toString())
+                        .setParentBoard(post.getParentBoard())
+                        .setMasterPostId(post.getId())
+                        .pushToKomica();
+                Toast.makeText(getContext(),"OK",Toast.LENGTH_SHORT).show();
+                finishCommentBar();
+            }
+        });
+
+        //comment bar: cancel btn
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishCommentBar();
+            }
+        });
+
         return v;
+    }
+
+    private void finishCommentBar(){
+        commentBar.setVisibility(View.GONE);
+        txtComment.setText("");
     }
 
 }
