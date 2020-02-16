@@ -34,8 +34,10 @@ public class PostlistActivity extends AppCompatActivity
         // Fragment
         if (savedInstanceState == null) {
             Board board=(Board) getIntent().getSerializableExtra("board");
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("board",board);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, PostlistFragment.newInstance(board))
+                    .replace(R.id.container, PostlistFragment.newInstance(bundle))
                     .commitNow();
         }
 

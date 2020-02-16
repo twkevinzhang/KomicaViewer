@@ -25,10 +25,7 @@ public class PostActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, PostFragment.newInstance(
-                            (Board)getIntent().getSerializableExtra("board"),
-                            getIntent().getStringExtra("masterPostId")
-                    ))
+                    .replace(R.id.container, PostFragment.newInstance(getIntent().getBundleExtra("bundle")))
                     .commitNow();
         }
     }

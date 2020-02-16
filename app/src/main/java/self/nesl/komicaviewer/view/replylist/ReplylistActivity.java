@@ -18,8 +18,10 @@ public class ReplylistActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             Post post=(Post) getIntent().getSerializableExtra("post");
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("post",post);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, ReplylistFragment.newInstance(post))
+                    .replace(R.id.container, ReplylistFragment.newInstance(bundle))
                     .commitNow();
         }
     }

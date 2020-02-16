@@ -39,11 +39,8 @@ public class PostFragment extends Fragment {
     private Board board;
     private String masterPostId;
 
-    public static PostFragment newInstance(Board board,String masterPostId) {
+    public static PostFragment newInstance(Bundle args) {
         PostFragment fragment = new PostFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("board", board);
-        args.putSerializable("masterPostId", masterPostId);
         fragment.setArguments(args);
         return fragment;
     }

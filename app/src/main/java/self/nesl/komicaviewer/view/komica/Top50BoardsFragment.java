@@ -31,10 +31,8 @@ public class Top50BoardsFragment extends Fragment {
     private static Web mWeb;
     private KomicaViewModel boardlistViewModel;
 
-    public static Top50BoardsFragment newInstance(Web web) {
+    public static Top50BoardsFragment newInstance(Bundle bundle) {
         Top50BoardsFragment fragment = new Top50BoardsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("web", web);
         fragment.setArguments(bundle);
         return fragment;
     }

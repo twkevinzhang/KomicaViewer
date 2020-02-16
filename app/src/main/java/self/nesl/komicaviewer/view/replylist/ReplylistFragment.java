@@ -39,10 +39,8 @@ public class ReplylistFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ReplylistFragment newInstance(Post post) {
+    public static ReplylistFragment newInstance(Bundle args) {
         ReplylistFragment fragment = new ReplylistFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("post", post);
         fragment.setArguments(args);
         return fragment;
     }
@@ -116,10 +114,12 @@ public class ReplylistFragment extends Fragment {
             public void onClick(View v) {
                 fab_menu.close(true);
                 Intent intent=new Intent(getContext(), PostActivity.class);
+                Bundle bundle=new Bundle();
                 // todo test
-                intent.putExtra("masterPostId",TEST_POST_ID);
+                bundle.putString("masterPostId",TEST_POST_ID);
 //                intent.putExtra("masterPostId",post.getId());
-                intent.putExtra("board",post.getParentBoard());
+                bundle.putSerializable("board",post.getParentBoard());
+                intent.putExtra("bundle",bundle);
                 startActivity(intent);
             }
         });

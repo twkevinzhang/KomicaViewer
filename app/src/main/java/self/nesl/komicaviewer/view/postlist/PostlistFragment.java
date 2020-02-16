@@ -42,10 +42,8 @@ public class PostlistFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static PostlistFragment newInstance(Board parentBoard) {
+    public static PostlistFragment newInstance(Bundle args) {
         PostlistFragment fragment = new PostlistFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("board", parentBoard);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,7 +77,9 @@ public class PostlistFragment extends Fragment {
             public void onClick(View v) {
                 fab_menu_list.close(true);
                 Intent intent = new Intent(getContext(), PostActivity.class);
-                intent.putExtra("board", parentBoard);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("board", parentBoard);
+                intent.putExtra("bundle",bundle);
                 startActivity(intent);
             }
         });

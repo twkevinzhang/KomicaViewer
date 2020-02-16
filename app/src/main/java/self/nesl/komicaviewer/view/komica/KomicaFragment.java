@@ -38,10 +38,8 @@ public class KomicaFragment extends Fragment{
         // Required empty public constructor
     }
 
-    public static KomicaFragment newInstance(Web web) {
+    public static KomicaFragment newInstance(Bundle args) {
         KomicaFragment fragment = new KomicaFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("web", web);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,10 +59,12 @@ public class KomicaFragment extends Fragment{
         View v=inflater.inflate(R.layout.fragment_boardlist, container, false);
 
         // ViewPager-Fragment
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("web",mWeb);
         List<Fragment> fragmentList = new ArrayList<Fragment>(
                 Arrays.asList(
-                        AllBoardsFragment.newInstance(mWeb),
-                        Top50BoardsFragment.newInstance(mWeb))
+                        AllBoardsFragment.newInstance(bundle),
+                        Top50BoardsFragment.newInstance(bundle))
         );
         BoardlistFragmentAdapter myFragmentAdapter = new BoardlistFragmentAdapter(getActivity(),fragmentList,getChildFragmentManager());
 

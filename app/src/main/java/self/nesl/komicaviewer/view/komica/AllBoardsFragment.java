@@ -31,10 +31,8 @@ public class AllBoardsFragment extends Fragment {
     private static Web mWeb;
     private KomicaViewModel boardlistViewModel;
 
-    public static AllBoardsFragment newInstance( Web web) {
+    public static AllBoardsFragment newInstance( Bundle bundle) {
         AllBoardsFragment fragment = new AllBoardsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("web", web);
         fragment.setArguments(bundle);
         return fragment;
     }
