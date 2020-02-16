@@ -28,6 +28,8 @@ import self.nesl.komicaviewer.adapter.ReplylistAdapter;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.view.post.PostActivity;
 
+import static self.nesl.komicaviewer.StaticString.TEST_POST_ID;
+
 public class ReplylistFragment extends Fragment {
 
     private ReplylistViewModel replylistViewModel;
@@ -115,7 +117,7 @@ public class ReplylistFragment extends Fragment {
                 fab_menu.close(true);
                 Intent intent=new Intent(getContext(), PostActivity.class);
                 // todo test
-                intent.putExtra("masterPostId","17496290");
+                intent.putExtra("masterPostId",TEST_POST_ID);
 //                intent.putExtra("masterPostId",post.getId());
                 intent.putExtra("board",post.getParentBoard());
                 startActivity(intent);

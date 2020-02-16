@@ -26,8 +26,8 @@ public class ReplylistViewModel extends ViewModel {
             @Override
             public void onResponse(String response) {
                 Post p=new DocToReplylistParser(Jsoup.parse(response),board).toPost();
-                Log.e("RlVM",p.getReplyAll().size()+"");
-                post.postValue(new DocToReplylistParser(Jsoup.parse(response),board).toPost());
+                if(p==null)return;
+                post.postValue(p);
             }
 
             @Override

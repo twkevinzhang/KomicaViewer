@@ -21,6 +21,8 @@ import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.view.replylist.ReplylistActivity;
 
+import static self.nesl.komicaviewer.StaticString.TEST_POST_ID;
+
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder>  {
     private ArrayList<Post> postlist=new ArrayList<Post>();
     private Context context;
@@ -102,7 +104,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
                 Intent intent = new Intent(context, ReplylistActivity.class);
                 // todo test
 //                intent.putExtra("post", postlist.get(i));
-                intent.putExtra("post", new Post("17496290")
+                intent.putExtra("post", new Post(TEST_POST_ID)
                         .setBoard(postlist.get(i).getParentBoard()));
                 context.startActivity(intent);
             }

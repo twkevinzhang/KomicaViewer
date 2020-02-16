@@ -24,7 +24,12 @@ public class DocToReplylistParser {
 
     public Post toPost() {
         //get main_post
-        Element threadpost = thread.getElementById("threads").getElementsByClass("threadpost").first();
+        Element threadpost;
+        try{
+            threadpost = thread.getElementById("threads").getElementsByClass("threadpost").first();
+        }catch (NullPointerException e){
+            return null;
+        }
         Post main_post = func(threadpost, threadpost.attr("id").substring(1));
 
         //get replies
