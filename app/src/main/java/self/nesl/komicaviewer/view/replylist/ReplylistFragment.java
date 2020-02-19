@@ -1,13 +1,16 @@
 package self.nesl.komicaviewer.view.replylist;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,14 +25,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.adapter.ReplylistAdapter;
 import self.nesl.komicaviewer.model.Post;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ReplylistFragment extends Fragment {
 
@@ -48,6 +53,8 @@ public class ReplylistFragment extends Fragment {
     private SwipeRefreshLayout cateSwipeRefreshLayout;
     private ImageView btnClose;
     private ImageView btnReply;
+    private ImageView btnSelectPic;
+    private Drawable defaultSelectImg;
 
     public ReplylistFragment() {
         // Required empty public constructor
@@ -82,6 +89,8 @@ public class ReplylistFragment extends Fragment {
         txtComment=v.findViewById(R.id.txtComment);
         btnClose=v.findViewById(R.id.btnClose);
         btnReply=v.findViewById(R.id.btnReply);
+        btnSelectPic=v.findViewById(R.id.btnSelectPic);
+        defaultSelectImg =btnSelectPic.getDrawable();
 
         // fab openUrl
        fab_openUrl = new FloatingActionButton(getActivity());
@@ -247,12 +256,128 @@ public class ReplylistFragment extends Fragment {
             }
         });
 
+        //comment bar: SelectPic btn
+        btnSelectPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto , 1);
+            }
+        });
+
         return v;
     }
 
     private void finishCommentBar(){
         commentBar.setVisibility(View.GONE);
         txtComment.setText("");
+        btnSelectPic.setImageDrawable(defaultSelectImg);
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(resultCode) {
+            case RESULT_OK:
+                Uri selectedImage = imageReturnedIntent.getData();
+                Log.e("RlF,onActivityResult()",selectedImage.toString());
+                btnSelectPic.setImageURI(selectedImage);
+                break;
+        }
+    }
+
+    class ReplylistAdapter extends RecyclerView.Adapter<ReplylistAdapter.PostViewHolder>  {
+        private ArrayList<Post> postlist=new ArrayList<Post>();
+        private Context context;
+
+        public ReplylistAdapter(Context context) {
+            this.context=context;
+        }
+
+        // 建立ViewHolder
+        public class PostViewHolder extends RecyclerView.ViewHolder{
+            // 宣告元件
+            private ImageView imgPost;
+            private TextView txtPostId;
+            private TextView txtReply;
+            private TextView txtReplyDate;
+            private ImageView btnReply;
+            private ImageView btnSelectPic;
+
+            PostViewHolder(View v) {
+                super(v);
+                imgPost = v.findViewById(R.id.imgReply);
+                txtReply = v.findViewById(R.id.txtReply);
+                txtPostId = v.findViewById(R.id.txtReplyId);
+                txtReplyDate=v.findViewById(R.id.txtReplyDate);
+                btnReply=v.findViewById(R.id.btnReply);
+                btnSelectPic=v.findViewById(R.id.btnSelectPic);
+            }
+        }
+
+
+        @NonNull
+        @Override
+        public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_reply, parent, false);
+            return new PostViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final PostViewHolder holder, final int i) {
+            final Post post=postlist.get(i);
+            holder.txtReply.setText(Html.fromHtml(post.getQuoteHtml()));
+            holder.txtPostId.setText("No."+post.getId());
+            holder.txtReplyDate.setText(post.getTimeStr());
+
+            // set pic_url
+            String pic_url = post.getPicUrl();
+            if (pic_url != null && pic_url.length() > 0) {
+                String head = "https://";
+                if (pic_url.substring(0, 1).equals("/") && !pic_url.substring(0, 2).equals("//")) {
+                    pic_url = head + post.getParentBoard().getDomainUrl() + pic_url;
+                } else if (!pic_url.substring(0, head.length()).equals(head)) {
+                    pic_url = head + pic_url;
+                }
+
+                Glide.with(holder.imgPost.getContext())
+                        .load(pic_url)
+                        // 如果pic_url載入失敗 or pic_url == null
+                        .placeholder(null)
+                        .fitCenter()
+                        .into(holder.imgPost);
+            }else{
+                Glide.with(holder.imgPost.getContext()).clear(holder.imgPost);
+            }
+
+            // btnReply
+            holder.btnReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                commentBar.setVisibility(View.VISIBLE);
+                String targetTxt=">>"+post.getId()+"\n";
+                txtComment.setText(txtComment.getText()+targetTxt);
+                }
+            });
+        }
+
+        @Override
+        public long getItemId(int i){
+            return i;
+        }
+
+        @Override
+        public int getItemCount() {
+            return postlist.size();
+        }
+
+        public void addMultiPostToList(ArrayList<Post> postlist) {
+            this.postlist.addAll(postlist);
+        }
+        public void setPostlist(ArrayList<Post> postlist) {
+            this.postlist=postlist;
+        }
+
+    }
 }
