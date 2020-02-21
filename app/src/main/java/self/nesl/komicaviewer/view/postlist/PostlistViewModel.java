@@ -30,7 +30,7 @@ public class PostlistViewModel extends ViewModel {
 
     public void loadPostlist(int page) {
         parser=new DocToPostlistParser(parentBoard);
-        String url = parentBoard.getLink().replace("2cat.org/~", "2cat.org/");
+        String url = parentBoard.getLink();
         if (url.contains("mymoe.moe")) {
             scrapyMymoePostlist(page,url);
         } else {
@@ -47,41 +47,13 @@ public class PostlistViewModel extends ViewModel {
 
             @Override
             public void onResponse(String response) {
-
-//                try{
-//                    postlist.postValue(parser.homepageToPostlist(Jsoup.parse(response)));
-//                    parentBoard=parser.getBoard();
-//                }catch (NullPointerException e){
-//                    Log.e("PlVM","KomicaDocParser錯誤:該頁沒有內容");
-//                    e.printStackTrace();
-//                    postlist.postValue(null);
-//                }
-
                 postlist.postValue(parser.homepageToPostlist(Jsoup.parse(response)));
                 parentBoard=parser.getBoard();
-
-
-//                    - Komica:
-//                        - vi.anacel.com (Figure/GK)
-//                        - acgspace.wsfun.com (艦隊收藏)
-//                        - komica.dbfoxtw.me (人外)
-//                        - idolma.ster.tw (Idolmaster)
-//                        - komica.yucie.net (格鬥遊戲)
-//                        - kagaminerin.org (3D STG、動作遊戲)
-//                        - p.komica.acg.club.tw (兄貴)
-//                        - 2cat.org (碧藍幻想、手機遊戲、Azur Lane、網頁遊戲)
-//                        - 2cat.komica.org/~kirur/img2 (萌)
-//                        - 2cat.komica.org/~caradmin/all-car/ (車)
-//                    - Komica2:
-//                        - 2nyan.org (GIF裡、動畫裏、高解析裡、成人玩具、知識裡、偽娘裡、東方裡)
-//                        - majeur.zawarudo.org (詢問裡)
-//                        - p.komica.acg.club.tw (觸手裡)
-//                        - cyber.boguspix.com (機娘裡)
             }
 
             @Override
             public void onError(ANError anError) {
-//                    Log.e("PlVM",anError.getErrorBody());
+                Log.e("PlVM",anError.getErrorBody());
                 anError.printStackTrace();
             }
         });

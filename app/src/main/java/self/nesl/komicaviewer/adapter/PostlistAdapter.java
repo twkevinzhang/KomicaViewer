@@ -3,6 +3,7 @@ package self.nesl.komicaviewer.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,13 +79,13 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         String pic_url=post.getThumbnailUrl();
 
         if (pic_url!=null && !pic_url.equals("null") && pic_url.length() > 0) {
-            String head = "https://";
-            if (pic_url.substring(0, 1).equals("/") && !pic_url.substring(0, 2).equals("//")) {
-                pic_url = head + postlist.get(i).getParentBoard().getDomainUrl() + pic_url;
-            } else if (!pic_url.substring(0, head.length()).equals(head)) {
-                pic_url = head + pic_url;
+            if(pic_url.substring(0, 1).equals("/")){
+                if(!pic_url.substring(0, 2).equals("//")){
+                    pic_url = "https://" + postlist.get(i).getParentBoard().getDomainUrl() + pic_url;
+                }else{
+                    pic_url="https:"+pic_url;
+                }
             }
-
 
             holder.imgPost.setTag(R.id.imageid,pic_url);
             // 通过 tag 来防止图片错位

@@ -40,15 +40,15 @@ public class ReplylistFragment extends Fragment {
 
     private ReplylistViewModel replylistViewModel;
     private Post post;
-    private RecyclerView lst ;
-    private  FloatingActionMenu fab_menu ;
-    private  LinearLayout commentBar;
-    private   ImageView send;
+    private RecyclerView lst;
+    private FloatingActionMenu fab_menu;
+    private LinearLayout commentBar;
+    private ImageView send;
     private TextView txtComment;
     private FloatingActionButton fab_openUrl;
     private FloatingActionButton fab_addToFavorite;
     private FloatingActionButton fab_reply;
-    private  FloatingActionButton fab_p_to_top;
+    private FloatingActionButton fab_p_to_top;
     private FloatingActionButton fab_p_to_last;
     private SwipeRefreshLayout cateSwipeRefreshLayout;
     private ImageView btnClose;
@@ -84,16 +84,16 @@ public class ReplylistFragment extends Fragment {
 
         lst = v.findViewById(R.id.lst);
         fab_menu = v.findViewById(R.id.fab_menu_list);
-        commentBar=v.findViewById(R.id.commentBar);
-        send=v.findViewById(R.id.btnSend);
-        txtComment=v.findViewById(R.id.txtComment);
-        btnClose=v.findViewById(R.id.btnClose);
-        btnReply=v.findViewById(R.id.btnReply);
-        btnSelectPic=v.findViewById(R.id.btnSelectPic);
-        defaultSelectImg =btnSelectPic.getDrawable();
+        commentBar = v.findViewById(R.id.commentBar);
+        send = v.findViewById(R.id.btnSend);
+        txtComment = v.findViewById(R.id.txtComment);
+        btnClose = v.findViewById(R.id.btnClose);
+        btnReply = v.findViewById(R.id.btnReply);
+        btnSelectPic = v.findViewById(R.id.btnSelectPic);
+        defaultSelectImg = btnSelectPic.getDrawable();
 
         // fab openUrl
-       fab_openUrl = new FloatingActionButton(getActivity());
+        fab_openUrl = new FloatingActionButton(getActivity());
         fab_openUrl.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_openUrl.setLabelText(getString(R.string.fab_open_url));
         fab_openUrl.setImageResource(R.drawable.ic_edit);
@@ -233,7 +233,6 @@ public class ReplylistFragment extends Fragment {
         });
 
 
-
         // comment bar: send btn
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +242,7 @@ public class ReplylistFragment extends Fragment {
                         .setParentBoard(post.getParentBoard())
                         .setMasterPostId(post.getId())
                         .pushToKomica();
-                Toast.makeText(getContext(),"OK",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
                 finishCommentBar();
             }
         });
@@ -262,14 +261,14 @@ public class ReplylistFragment extends Fragment {
             public void onClick(View v) {
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto , 1);
+                startActivityForResult(pickPhoto, 1);
             }
         });
 
         return v;
     }
 
-    private void finishCommentBar(){
+    private void finishCommentBar() {
         commentBar.setVisibility(View.GONE);
         txtComment.setText("");
         btnSelectPic.setImageDrawable(defaultSelectImg);
@@ -277,25 +276,25 @@ public class ReplylistFragment extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(resultCode) {
+        switch (resultCode) {
             case RESULT_OK:
                 Uri selectedImage = imageReturnedIntent.getData();
-                Log.e("RlF,onActivityResult()",selectedImage.toString());
+                Log.e("RlF,onActivityResult()", selectedImage.toString());
                 btnSelectPic.setImageURI(selectedImage);
                 break;
         }
     }
 
-    class ReplylistAdapter extends RecyclerView.Adapter<ReplylistAdapter.PostViewHolder>  {
-        private ArrayList<Post> postlist=new ArrayList<Post>();
+    class ReplylistAdapter extends RecyclerView.Adapter<ReplylistAdapter.PostViewHolder> {
+        private ArrayList<Post> postlist = new ArrayList<Post>();
         private Context context;
 
         public ReplylistAdapter(Context context) {
-            this.context=context;
+            this.context = context;
         }
 
         // 建立ViewHolder
-        public class PostViewHolder extends RecyclerView.ViewHolder{
+        public class PostViewHolder extends RecyclerView.ViewHolder {
             // 宣告元件
             private ImageView imgPost;
             private TextView txtPostId;
@@ -309,9 +308,9 @@ public class ReplylistFragment extends Fragment {
                 imgPost = v.findViewById(R.id.imgReply);
                 txtReply = v.findViewById(R.id.txtReply);
                 txtPostId = v.findViewById(R.id.txtReplyId);
-                txtReplyDate=v.findViewById(R.id.txtReplyDate);
-                btnReply=v.findViewById(R.id.btnReply);
-                btnSelectPic=v.findViewById(R.id.btnSelectPic);
+                txtReplyDate = v.findViewById(R.id.txtReplyDate);
+                btnReply = v.findViewById(R.id.btnReply);
+                btnSelectPic = v.findViewById(R.id.btnSelectPic);
             }
         }
 
@@ -326,19 +325,20 @@ public class ReplylistFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final PostViewHolder holder, final int i) {
-            final Post post=postlist.get(i);
+            final Post post = postlist.get(i);
             holder.txtReply.setText(Html.fromHtml(post.getQuoteHtml()));
-            holder.txtPostId.setText("No."+post.getId());
+            holder.txtPostId.setText("No." + post.getId());
             holder.txtReplyDate.setText(post.getTimeStr());
 
             // set pic_url
             String pic_url = post.getPicUrl();
             if (pic_url != null && pic_url.length() > 0) {
-                String head = "https://";
-                if (pic_url.substring(0, 1).equals("/") && !pic_url.substring(0, 2).equals("//")) {
-                    pic_url = head + post.getParentBoard().getDomainUrl() + pic_url;
-                } else if (!pic_url.substring(0, head.length()).equals(head)) {
-                    pic_url = head + pic_url;
+                if(pic_url.substring(0, 1).equals("/")){
+                    if(!pic_url.substring(0, 2).equals("//")){
+                        pic_url = "https://" + post.getParentBoard().getDomainUrl() + pic_url;
+                    }else{
+                        pic_url="https:"+pic_url;
+                    }
                 }
 
                 Glide.with(holder.imgPost.getContext())
@@ -347,7 +347,7 @@ public class ReplylistFragment extends Fragment {
                         .placeholder(null)
                         .fitCenter()
                         .into(holder.imgPost);
-            }else{
+            } else {
                 Glide.with(holder.imgPost.getContext()).clear(holder.imgPost);
             }
 
@@ -355,15 +355,15 @@ public class ReplylistFragment extends Fragment {
             holder.btnReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                commentBar.setVisibility(View.VISIBLE);
-                String targetTxt=">>"+post.getId()+"\n";
-                txtComment.setText(txtComment.getText()+targetTxt);
+                    commentBar.setVisibility(View.VISIBLE);
+                    String targetTxt = ">>" + post.getId() + "\n";
+                    txtComment.setText(txtComment.getText() + targetTxt);
                 }
             });
         }
 
         @Override
-        public long getItemId(int i){
+        public long getItemId(int i) {
             return i;
         }
 
@@ -375,8 +375,9 @@ public class ReplylistFragment extends Fragment {
         public void addMultiPostToList(ArrayList<Post> postlist) {
             this.postlist.addAll(postlist);
         }
+
         public void setPostlist(ArrayList<Post> postlist) {
-            this.postlist=postlist;
+            this.postlist = postlist;
         }
 
     }
