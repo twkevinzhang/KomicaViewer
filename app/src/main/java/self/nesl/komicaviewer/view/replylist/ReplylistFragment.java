@@ -46,11 +46,6 @@ public class ReplylistFragment extends Fragment {
     private LinearLayout commentBar;
     private ImageView send;
     private TextView txtComment;
-    private FloatingActionButton fab_openUrl;
-    private FloatingActionButton fab_addToFavorite;
-    private FloatingActionButton fab_reply;
-    private FloatingActionButton fab_p_to_top;
-    private FloatingActionButton fab_p_to_last;
     private SwipeRefreshLayout cateSwipeRefreshLayout;
     private ImageView btnClose;
     private ImageView btnReply;
@@ -94,7 +89,7 @@ public class ReplylistFragment extends Fragment {
         defaultSelectImg = btnSelectPic.getDrawable();
 
         // fab openUrl
-        fab_openUrl = new FloatingActionButton(getActivity());
+        FloatingActionButton fab_openUrl = new FloatingActionButton(getActivity());
         fab_openUrl.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_openUrl.setLabelText(getString(R.string.fab_open_url));
         fab_openUrl.setImageResource(R.drawable.ic_edit);
@@ -117,7 +112,7 @@ public class ReplylistFragment extends Fragment {
         });
 
         // fab addToFavorite
-        fab_addToFavorite = new FloatingActionButton(getActivity());
+        FloatingActionButton fab_addToFavorite = new FloatingActionButton(getActivity());
         fab_addToFavorite.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_addToFavorite.setLabelText(getString(R.string.fab_add_to_favorite));
         fab_addToFavorite.setImageResource(R.drawable.ic_edit);
@@ -132,7 +127,7 @@ public class ReplylistFragment extends Fragment {
 //        });
 
         // fab reply
-        fab_reply = new FloatingActionButton(getActivity());
+        FloatingActionButton fab_reply = new FloatingActionButton(getActivity());
         fab_reply.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_reply.setLabelText(getString(R.string.fab_reply));
         fab_reply.setImageResource(R.drawable.ic_edit);
@@ -141,20 +136,12 @@ public class ReplylistFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fab_menu.close(true);
-//                Intent intent=new Intent(getContext(), PostActivity.class);
-//                Bundle bundle=new Bundle();
-//                // todo test
-//                bundle.putString("masterPostId",TEST_POST_ID);
-////                intent.putExtra("masterPostId",post.getId());
-//                bundle.putSerializable("board",post.getParentBoard());
-//                intent.putExtra("bundle",bundle);
-//                startActivity(intent);
                 commentBar.setVisibility(View.VISIBLE);
             }
         });
 
         // fab to_top
-        fab_p_to_top = new FloatingActionButton(getActivity());
+        FloatingActionButton fab_p_to_top = new FloatingActionButton(getActivity());
         fab_p_to_top.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_p_to_top.setLabelText(getString(R.string.fab_to_top));
         fab_p_to_top.setImageResource(R.drawable.ic_edit);
@@ -168,7 +155,7 @@ public class ReplylistFragment extends Fragment {
         });
 
         // fab to_last
-        fab_p_to_last = new FloatingActionButton(getActivity());
+        FloatingActionButton fab_p_to_last = new FloatingActionButton(getActivity());
         fab_p_to_last.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_p_to_last.setLabelText(getString(R.string.fab_to_last));
         fab_p_to_last.setImageResource(R.drawable.ic_edit);
@@ -196,15 +183,15 @@ public class ReplylistFragment extends Fragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                if(dy<0){
-//                    fab_menu.showMenuButton(true);
-//                }else{
-//                    fab_menu.hideMenuButton(true);
-//                }
-//                if(!recyclerView.canScrollVertically(-1)){
-//                    // 如果不能向上滑動，到頂了
-//                    fab_menu.showMenuButton(true);
-//                }
+                if(dy<0){
+                    fab_menu.showMenuButton(true);
+                }else{
+                    fab_menu.hideMenuButton(true);
+                }
+                if(!recyclerView.canScrollVertically(-1)){
+                    // 如果不能向上滑動，到頂了
+                    fab_menu.showMenuButton(true);
+                }
             }
 
         });
@@ -280,7 +267,6 @@ public class ReplylistFragment extends Fragment {
         switch (resultCode) {
             case RESULT_OK:
                 Uri selectedImage = imageReturnedIntent.getData();
-                Log.e("RlF,onActivityResult()", selectedImage.toString());
                 btnSelectPic.setImageURI(selectedImage);
                 break;
         }

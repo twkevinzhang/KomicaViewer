@@ -109,9 +109,6 @@ public class DocToPostlistParser {
         PictureUrlGetter getter=new PictureUrlGetter(threadpost);
         pic_url=getter.getPicUrl();
         tumb_url=getter.getTumbUrl();
-        Log.e(post_id,"pic_url:"+pic_url);
-        Log.e(post_id,"tumb_url:"+tumb_url);
-
 
         //get title,name
         String title = threadpost.select("span.title").text();

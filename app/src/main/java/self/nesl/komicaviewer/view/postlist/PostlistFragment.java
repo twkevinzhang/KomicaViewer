@@ -1,5 +1,6 @@
 package self.nesl.komicaviewer.view.postlist;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,18 +65,56 @@ public class PostlistFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_postlist, container, false);
         final RecyclerView lst = v.findViewById(R.id.lst);
         final TextView txtListMsg = v.findViewById(R.id.txtListMsg);
-        final FloatingActionMenu fab_menu_list = v.findViewById(R.id.fab_menu_list);
+        final FloatingActionMenu fab_menu = v.findViewById(R.id.fab_menu_list);
+
+        // fab openUrl
+        FloatingActionButton fab_openUrl = new FloatingActionButton(getActivity());
+        fab_openUrl.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_openUrl.setLabelText(getString(R.string.fab_open_url));
+        fab_openUrl.setImageResource(R.drawable.ic_edit);
+        fab_menu.addMenuButton(fab_openUrl);
+        fab_openUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_menu.close(true);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(parentBoard.getLink()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.android.chrome");
+                try {
+                    getContext().startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    // Chrome browser presumably not installed so allow user to choose instead
+                    intent.setPackage(null);
+                    getContext().startActivity(intent);
+                }
+            }
+        });
+
+        // fab addToFavorite
+        FloatingActionButton fab_addToFavorite = new FloatingActionButton(getActivity());
+        fab_addToFavorite.setButtonSize(FloatingActionButton.SIZE_MINI);
+        fab_addToFavorite.setLabelText(getString(R.string.fab_add_to_favorite));
+        fab_addToFavorite.setImageResource(R.drawable.ic_edit);
+        fab_menu.addMenuButton(fab_addToFavorite);
+//        fab_addToFavorite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                fab_menu.close(true);
+//                PostDB.switchTable(StaticString.FAVORITE_TABLE_NAME);
+//                PostDB.addPost(post);
+//            }
+//        });
 
         // fab post
         final FloatingActionButton fab_post = new FloatingActionButton(getActivity());
         fab_post.setButtonSize(FloatingActionButton.SIZE_MINI);
         fab_post.setLabelText(getString(R.string.fab_post));
         fab_post.setImageResource(R.drawable.ic_edit);
-        fab_menu_list.addMenuButton(fab_post);
+        fab_menu.addMenuButton(fab_post);
         fab_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fab_menu_list.close(true);
+                fab_menu.close(true);
                 Intent intent = new Intent(getContext(), PostActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("board", parentBoard);
@@ -85,13 +124,13 @@ public class PostlistFragment extends Fragment {
         });
 
         // fab_menu
-        fab_menu_list.hideMenuButton(false);
+        fab_menu.hideMenuButton(false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                fab_menu_list.showMenuButton(true);
-                fab_menu_list.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
-                fab_menu_list.setMenuButtonHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
+                fab_menu.showMenuButton(true);
+                fab_menu.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.show_from_bottom));
+                fab_menu.setMenuButtonHideAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.hide_to_bottom));
             }
         }, 300);
 
@@ -148,16 +187,16 @@ public class PostlistFragment extends Fragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if(dy<0){
-//                    fab_menu_list.showMenuButton(true);
-//                }else{
-//                    fab_menu_list.hideMenuButton(true);
-//                }
-//                if(!recyclerView.canScrollVertically(-1)){
-//                    // 如果不能向上滑動，到頂了
-//                    fab_menu_list.showMenuButton(true);
-//                }
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy<0){
+                    fab_menu.showMenuButton(true);
+                }else{
+                    fab_menu.hideMenuButton(true);
+                }
+                if(!recyclerView.canScrollVertically(-1)){
+                    // 如果不能向上滑動，到頂了
+                    fab_menu.showMenuButton(true);
+                }
             }
         });
 

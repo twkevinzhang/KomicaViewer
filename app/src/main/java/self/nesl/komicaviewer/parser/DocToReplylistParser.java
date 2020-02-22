@@ -107,11 +107,8 @@ public class DocToReplylistParser {
 
         //get pic_url
         String pic_url = null;
-        Element ele = post_ele.getElementsByTag("img").first();
-        if (ele != null) {
-            pic_url = ele.parent().attr("href");
-            if (pic_url == null || pic_url.length() <= 0) pic_url = ele.attr("src");
-        }
+        PictureUrlGetter getter=new PictureUrlGetter(post_ele);
+        pic_url=getter.getPicUrl();
         post.setPicUrl(pic_url);
 
         //get title,name,now
