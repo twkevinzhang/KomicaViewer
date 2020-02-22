@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.parser.PictureUrlGetter;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -333,13 +334,7 @@ public class ReplylistFragment extends Fragment {
             // set pic_url
             String pic_url = post.getPicUrl();
             if (pic_url != null && pic_url.length() > 0) {
-                if(pic_url.substring(0, 1).equals("/")){
-                    if(!pic_url.substring(0, 2).equals("//")){
-                        pic_url = "https://" + post.getParentBoard().getDomainUrl() + pic_url;
-                    }else{
-                        pic_url="https:"+pic_url;
-                    }
-                }
+                pic_url=new PictureUrlGetter().getHasHttpPicUrl(pic_url,post.getParentBoard().getDomainUrl());
 
                 Glide.with(holder.imgPost.getContext())
                         .load(pic_url)

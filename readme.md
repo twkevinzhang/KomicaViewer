@@ -33,9 +33,7 @@ MVVM in Android
    - 2cat.org (碧藍幻想、手機遊戲、Azur Lane、網頁遊戲)
  - Komica2
    - 空白: 
-      - 2nyan.org/ (GIF裡、動畫裡、成人玩具、知識裡、偽娘裡)
-   - 沒有圖(因為網站的預先載入機制):
-      - 2cat.org/~ (東方裡、高解析裡)
+      - 2nyan.org (GIF裡、動畫裡、成人玩具、知識裡、偽娘裡)
  
 ### 下載
  [Releases](https://github.com/neslxzhen/KomicaViewer/releases)

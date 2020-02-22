@@ -21,6 +21,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.StaticString;
 import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.parser.PictureUrlGetter;
 import self.nesl.komicaviewer.view.replylist.ReplylistActivity;
 
 import static self.nesl.komicaviewer.StaticString.TEST_POST_ID;
@@ -79,13 +80,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         String pic_url=post.getThumbnailUrl();
 
         if (pic_url!=null && !pic_url.equals("null") && pic_url.length() > 0) {
-            if(pic_url.substring(0, 1).equals("/")){
-                if(!pic_url.substring(0, 2).equals("//")){
-                    pic_url = "https://" + postlist.get(i).getParentBoard().getDomainUrl() + pic_url;
-                }else{
-                    pic_url="https:"+pic_url;
-                }
-            }
+            pic_url=new PictureUrlGetter().getHasHttpPicUrl(pic_url,postlist.get(i).getParentBoard().getDomainUrl());
 
             holder.imgPost.setTag(R.id.imageid,pic_url);
             // 通过 tag 来防止图片错位

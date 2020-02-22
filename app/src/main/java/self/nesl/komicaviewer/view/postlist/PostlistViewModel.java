@@ -42,11 +42,14 @@ public class PostlistViewModel extends ViewModel {
         if (page != 0) {
             url += "/pixmicat.php?page_num="+page;
         }
+        final String finalUrl = url;
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 
             @Override
             public void onResponse(String response) {
+                Log.e("PlVM", finalUrl);
+//               System.out.println(response);
                 postlist.postValue(parser.homepageToPostlist(Jsoup.parse(response)));
                 parentBoard=parser.getBoard();
             }

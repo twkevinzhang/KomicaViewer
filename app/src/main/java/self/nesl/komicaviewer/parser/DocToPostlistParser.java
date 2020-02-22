@@ -106,16 +106,11 @@ public class DocToPostlistParser {
         String user_id = null;
 
         //get pic_url
-        Element ele = threadpost.selectFirst("a.file-thumb");
-        if (ele != null) {
-            pic_url = ele.attr("href");
-        }
-
-        //get tumb_url
-        ele = threadpost.selectFirst("img");
-        if (ele != null) {
-            tumb_url = ele.attr("src");
-        }
+        PictureUrlGetter getter=new PictureUrlGetter(threadpost);
+        pic_url=getter.getPicUrl();
+        tumb_url=getter.getTumbUrl();
+        Log.e(post_id,"pic_url:"+pic_url);
+        Log.e(post_id,"tumb_url:"+tumb_url);
 
 
         //get title,name
@@ -124,7 +119,7 @@ public class DocToPostlistParser {
         String post_detail = null;
 
         //get post detail
-        ele = threadpost.selectFirst("div.post-head");
+        Element ele = threadpost.selectFirst("div.post-head");
         if (ele != null) {
             post_detail = ele.selectFirst("span.now").text();
             //post_detail = "2019/12/15(日) 10:35:11.776 ID:ivN31vZw"
