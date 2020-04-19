@@ -1,18 +1,20 @@
 package self.nesl.komicaviewer.model;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static self.nesl.komicaviewer.util.util.getHasHttpPicUrl;
+import self.nesl.komicaviewer.model.komica.KWeb;
+
 import static self.nesl.komicaviewer.util.util.print;
 
 public abstract class Post implements Serializable {
     private  Element postEle = null;
 
-    private Web host=null;
+    private KWeb host=null;
     private String postId = null;
     private String parentPostId = null;
     private String title=null;
@@ -38,6 +40,10 @@ public abstract class Post implements Serializable {
         this.postEle=threadpost;
     }
 
+    public Post(String post_id, Document doc) {
+        this.postId = post_id;
+    }
+
 
     public Element getPostEle() {
         return postEle;
@@ -47,7 +53,8 @@ public abstract class Post implements Serializable {
         return postId;
     }
 
-    public String getTitle() {
+    public String getTitle(int words) {
+        if(words!=0 && words<title.length())return title.substring(0,words);
         return title;
     }
 
@@ -177,6 +184,14 @@ public abstract class Post implements Serializable {
         this.url = url;
     }
 
+    public void setAllPost(ArrayList<Post> all){
+        this.replyTree=all;
+    }
+
+    public void addAllPost(ArrayList<Post> all){
+        this.replyTree.addAll(all);
+    }
+
     public void addPost(String target_id, Post insert_reply) {
         if(target_id.equals(this.postId)){
             this.replyTree.add(insert_reply);
@@ -194,6 +209,19 @@ public abstract class Post implements Serializable {
             if(p!=null)return p;
         }
         return null;
+    }
+
+    public ArrayList<Post> getReplies(){
+        ArrayList<Post> replyAll=new ArrayList<Post>();
+        if(replyAll.size()<=0){
+            for (Post reply : replyTree) {
+                if(!replyAll.contains(reply))replyAll.add(reply);
+                for(Post p : reply.getReplies()){
+                    if(!replyAll.contains(p))replyAll.add(p);
+                }
+            }
+        }
+        return replyAll;
     }
 
     @Override

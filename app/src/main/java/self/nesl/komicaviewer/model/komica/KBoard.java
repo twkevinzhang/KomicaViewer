@@ -1,20 +1,21 @@
-package self.nesl.komicaviewer.model;
+package self.nesl.komicaviewer.model.komica;
 
 
 import android.graphics.Bitmap;
 
 import org.jsoup.nodes.Document;
 
-import java.io.Serializable;
+import self.nesl.komicaviewer.model.Board;
+import self.nesl.komicaviewer.model.Web;
 
-public abstract class Board implements Serializable {
+public class KBoard extends Board {
     private Web web;
     private String category;
     private String id;
     private String title;
-    private String eng_title;
-    private int today_post;
-    private int people;
+    private String engTitle;
+    private int todayPost;
+    private int online;
     private String link;
     private Bitmap pic;
     private Document doc;
@@ -22,10 +23,8 @@ public abstract class Board implements Serializable {
     private String postTitleSecret;
     private String postIndSecret;
 
-    public Board(Web web,String id, String link){
-        this.link=link;
-        this.web=web;
-        this.id=id;
+    public KBoard(KWeb web, String id, String link){
+        super(web,id,link);
     }
 
     public Web getWeb(){
@@ -81,20 +80,20 @@ public abstract class Board implements Serializable {
         return postIndSecret;
     }
 
-    public Board setWeb(Web web) {this.web=web;return this;}
-    public Board setCategory(String category) {this.category=category;return this;}
-    public Board setTitle(String title) {this.title=title;return this;}
-    public Board setEngTitle(String eng_title) {this.eng_title=eng_title;return this;}
-    public Board setTodayPost(int today_post) {this.today_post=today_post;return this;}
-    public Board setOnline(int online) {this.people= online;return this;}
-    public Board setLink(String link) {this.link=link;return this;}
-    public Board setPic(Bitmap pic) {this.pic=pic;return this;}
-    public Board setDoc(Document doc) {this.doc=doc;return this;}
-    public Board setIntroduction(String Introduction) {this.introduction=introduction;return this;}
-    public Board setPostTitleSecret(String postTitleSecret) {
+    public KBoard setWeb(Web web) {this.web=web;return this;}
+    public KBoard setCategory(String category) {this.category=category;return this;}
+    public KBoard setTitle(String title) {this.title=title;return this;}
+    public KBoard setEngTitle(String eng_title) {this.engTitle =eng_title;return this;}
+    public KBoard setTodayPost(int today_post) {this.todayPost =today_post;return this;}
+    public KBoard setOnline(int online) {this.online = online;return this;}
+    public KBoard setLink(String link) {this.link=link;return this;}
+    public KBoard setPic(Bitmap pic) {this.pic=pic;return this;}
+    public KBoard setDoc(Document doc) {this.doc=doc;return this;}
+    public KBoard setIntroduction(String Introduction) {this.introduction=introduction;return this;}
+    public KBoard setPostTitleSecret(String postTitleSecret) {
         this.postTitleSecret=postTitleSecret;return this;
     }
-    public Board setPostIndSecret(String postIndSecret) {
+    public KBoard setPostIndSecret(String postIndSecret) {
         this.postIndSecret=postIndSecret;return this;
     }
 

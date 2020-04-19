@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY SORA_URL "https://sora.komica.org/00">
+    <!ENTITY author "MrGreen">
+    ]>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="self.nesl.komicaviewer.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
+            app:destination="@id/nav_home_second" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_home_second"
+        android:name=".ui.home.HomeSecondFragment"
+        android:label="@string/home_second"
+        tools:layout="@layout/fragment_home_second">
+        <action
+            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
+            app:destination="@id/nav_home" />
+
+        <argument
+            android:name="myArg"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_komica_sora"
+        android:name="self.nesl.komicaviewer.ui.sora.SoraFragment"
+        android:label="@string/menu_sora"
+        tools:layout="@layout/fragment_list" >
+        <argument
+            android:name="boardUrl"
+            android:defaultValue="&SORA_URL;"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="self.nesl.komicaviewer.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>

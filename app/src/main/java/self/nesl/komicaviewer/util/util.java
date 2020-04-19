@@ -3,7 +3,7 @@ package self.nesl.komicaviewer.util;
 import android.util.Log;
 
 public class util {
-    public static String getHasHttpPicUrl(String s, String domain) {
+    public static String getHasHttpUrl(String s, String domain) {
         if(s.substring(0, 1).equals("/")){
             if(!s.substring(0, 2).equals("//")){
                 s = "https://" + domain + s;
