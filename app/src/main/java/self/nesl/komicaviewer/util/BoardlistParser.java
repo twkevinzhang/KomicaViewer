@@ -1,19 +1,11 @@
 package self.nesl.komicaviewer.util;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.util.ArrayList;
-
-import self.nesl.komicaviewer.model.Board;
-import self.nesl.komicaviewer.model.Web;
-
 public class BoardlistParser {
-    private Web web;
-
-    public BoardlistParser(Web web) {
-        this.web = web;
-    }
+//    private Web web;
+//
+//    public BoardlistParser(Web web) {
+//        this.web = web;
+//    }
 
 //    public ArrayList<Board> getAllBoardlist(Document doc) {
 //        ArrayList<Board> boards = new ArrayList<Board>();

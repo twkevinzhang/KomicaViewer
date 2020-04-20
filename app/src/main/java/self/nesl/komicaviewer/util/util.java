@@ -1,6 +1,12 @@
 package self.nesl.komicaviewer.util;
 
+import android.content.Context;
 import android.util.Log;
+
+import java.text.SimpleDateFormat;
+
+import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.model.komica.SoraPost;
 
 public class util {
     public static String getHasHttpUrl(String s, String domain) {
@@ -17,6 +23,23 @@ public class util {
     public static void print(String s){
         Log.e("print",s);
 //        System.out.println(s);
+    }
+
+    public static String getParseNameByUrl(String url,Context context){
+        // todo
+        context.getResources().getString(R.string.sora_url);
+        return SoraPost.class.getName();
+    }
+
+    public static String parseChiToEngWeek(String s){
+        return s.replace("一","Mon")
+                .replace("二","Tue")
+                .replace("三","Wed")
+                .replace("四","Thu")
+                .replace("五","Fri")
+                .replace("六","Sat")
+                .replace("日","Sun");
+//        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     }
 
 }

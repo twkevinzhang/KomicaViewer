@@ -5,6 +5,11 @@ MVVM in Android
  - 強化MVVM的觀念，增強Model的功能
  - 更好的commit格式
 
+### 學習重點
+ - MVVM與物件導向實作
+ - fragment, **Navigation-fragment**, AppBar新功能實戰
+
+
 ### 常用功能
 ###### 已加入
  - 預覽reply的引用內容(ex. >>12345678 (我的家庭真可愛...) )

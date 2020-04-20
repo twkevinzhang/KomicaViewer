@@ -1,20 +1,19 @@
 package self.nesl.komicaviewer.model;
 
+import android.content.Context;
+import android.text.format.DateUtils;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import self.nesl.komicaviewer.model.komica.KWeb;
-
-import static self.nesl.komicaviewer.util.util.print;
 
 public abstract class Post implements Serializable {
     private  Element postEle = null;
 
-    private KWeb host=null;
     private String postId = null;
     private String parentPostId = null;
     private String title=null;
@@ -31,11 +30,13 @@ public abstract class Post implements Serializable {
     private boolean isTop = false;
     private boolean isReaded = false;
     private ArrayList<Post> replyTree = new ArrayList<Post>();
-    private String url=null;
+    private String boardUrl =null;
+
+    private Context context;
 
     public Post(){}
 
-    public Post(String post_id,Element threadpost) {
+    public Post(String post_id, Element threadpost) {
         this.postId = post_id;
         this.postEle=threadpost;
     }
@@ -43,7 +44,6 @@ public abstract class Post implements Serializable {
     public Post(String post_id, Document doc) {
         this.postId = post_id;
     }
-
 
     public Element getPostEle() {
         return postEle;
@@ -67,7 +67,10 @@ public abstract class Post implements Serializable {
     }
 
     public String getTimeStr() {
-        return timeStr;
+        if(DateUtils.isToday(time.getTime())){
+            return "今天 "+new SimpleDateFormat("hh:mm").format(time);
+        }
+        return new SimpleDateFormat("YY.MM.dd(E) hh:mm").format(time);
     }
 
     public String getPoster() {
@@ -91,10 +94,8 @@ public abstract class Post implements Serializable {
     }
 
     public String getQuote(){
-        return this.getQuoteElement().text();
+        return this.getQuoteElement().text().trim();
     }
-
-    abstract public String getIntroduction(int words, String[] rank);
 
     public String[] getPicUrls() {
         return picUrls;
@@ -116,9 +117,10 @@ public abstract class Post implements Serializable {
         return replyTree;
     }
 
-    public String getUrl() {
-        return url;
-    }
+    public String getBoardUrl(){return this.boardUrl;}
+
+    // 預設是父親的url
+    public void setBoardUrl(String boardUrl){this.boardUrl = boardUrl;}
 
     public void setPostEle(Element post_ele) {
         this.postEle = post_ele;
@@ -180,10 +182,6 @@ public abstract class Post implements Serializable {
         isReaded = readed;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public void setAllPost(ArrayList<Post> all){
         this.replyTree=all;
     }
@@ -191,6 +189,10 @@ public abstract class Post implements Serializable {
     public void addAllPost(ArrayList<Post> all){
         this.replyTree.addAll(all);
     }
+
+    abstract public String getUrl();
+
+    abstract public String getIntroduction(int words, String[] rank);
 
     public void addPost(String target_id, Post insert_reply) {
         if(target_id.equals(this.postId)){

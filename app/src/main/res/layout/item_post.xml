@@ -70,24 +70,13 @@
         android:text="txtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtIndtxtInd"
         app:layout_constraintEnd_toEndOf="@+id/txtReplyCount"
         app:layout_constraintStart_toStartOf="@+id/position"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
-
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="txtTitle"
-        app:layout_constraintEnd_toEndOf="@+id/txtReplyCount"
-        app:layout_constraintStart_toStartOf="@+id/position"
         app:layout_constraintTop_toBottomOf="@+id/position" />
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="0dp"
+        android:layout_width="144dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/txtReplyCount"
         app:layout_constraintStart_toStartOf="@+id/position"
         app:layout_constraintTop_toBottomOf="@+id/txtInd" />
 </androidx.constraintlayout.widget.ConstraintLayout>

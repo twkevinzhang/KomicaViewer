@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.ui.sora;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,9 +15,7 @@ import org.jsoup.Jsoup;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.KBoard;
-import self.nesl.komicaviewer.model.komica.KWeb;
-import self.nesl.komicaviewer.model.komica.SoraPost;
+import self.nesl.komicaviewer.model.komica.SoraBoard;
 
 import static self.nesl.komicaviewer.util.util.print;
 
@@ -28,12 +28,13 @@ public class SoraViewModel extends ViewModel {
         if (page != 0) {
             url += "/pixmicat.php?page_num="+page;
         }
-        print(this.getClass().getName()+" load:"+url);
+        final String finalUrl = url;
+        print(this.getClass().getName()+" AndroidNetworking: "+finalUrl);
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                postlist.setValue(new SoraPost(Jsoup.parse(response)).getReplies());
+                postlist.setValue(new SoraBoard(Jsoup.parse(response), finalUrl).getReplies());
             }
 
             public void onError(ANError anError) {
