@@ -2,6 +2,8 @@ package self.nesl.komicaviewer.model.komica;
 
 import android.content.Context;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -26,6 +28,8 @@ public class SoraPost extends Post {
 //            [女性角色,歡樂惡搞,GIF,Vtuber],
 //            [蘿蔔,鋼普拉,影視,特攝,軍武,中性角色,遊戲速報,飲食,小說,遊戲王,奇幻/科幻,電腦/消費電子,塗鴉王國,新聞,布袋戲,紙牌,網路遊戲]
 //            )
+
+    public SoraPost(){}
 
     public SoraPost(String post_id, Element thread) {
         super(post_id, thread);
@@ -108,5 +112,16 @@ public class SoraPost extends Post {
 
     private void installTitle(String title) {
         this.getQuoteElement().prepend(String.format("[%s]<br>",title));
+    }
+
+    @Override
+    public SoraPost parseDoc(Document doc,String url) {
+        Element thread= doc.body().selectFirst("div.thread");
+        Element threadpost = thread.selectFirst("div.threadpost");
+        SoraPost subPost = new SoraPost(threadpost.attr("id").substring(1), threadpost);
+        for (Element reply_ele : thread.select("div.reply")) {
+            subPost.addPost(reply_ele);
+        }
+        return subPost;
     }
 }

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.model.komica.SoraPost;
 
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
@@ -53,6 +54,7 @@ public class SoraFragment extends Fragment{
                 Bundle bundle = new Bundle();
                 if (IS_TEST)bundle.putString("postUrl", POST_URL);
                 else bundle.putString("postUrl", post.getUrl());
+                bundle.putSerializable("format",new SoraPost());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_komica_sora_to_nav_post,bundle);
             }

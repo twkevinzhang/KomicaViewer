@@ -194,6 +194,9 @@ public abstract class Post implements Serializable {
 
     abstract public String getIntroduction(int words, String[] rank);
 
+    // 語言缺陷: 一定要實例化(new)才能使用abstract parseDoc()
+    abstract public Post parseDoc(Document document,String url);
+
     public void addPost(String target_id, Post insert_reply) {
         if(target_id.equals(this.postId)){
             this.replyTree.add(insert_reply);

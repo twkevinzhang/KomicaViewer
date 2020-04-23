@@ -50,10 +50,6 @@
         android:id="@+id/nav_post"
         android:name="self.nesl.komicaviewer.ui.post.PostFragment"
         tools:layout="@layout/fragment_post" >
-        <argument
-            android:name="postUrlId"
-            app:argType="reference"
-            android:defaultValue="@string/sora_url"/>
     </fragment>
 
     <fragment

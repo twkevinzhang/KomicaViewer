@@ -62,6 +62,11 @@ public class SoraBoard extends Post {
     }
 
     @Override
+    public Post parseDoc(Document document,String url) {
+        return new SoraBoard(document,url);
+    }
+
+    @Override
     public String getUrl() {
         return getBoardUrl();
     }

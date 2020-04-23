@@ -19,26 +19,16 @@ import static self.nesl.komicaviewer.util.util.print;
 public class PostViewModel extends ViewModel {
     private MutableLiveData<Post> post=new MutableLiveData<Post>();
     private String url;
-    private Class format;
+    private Post format;
 
     public void update() {
-        post = new MutableLiveData<>();
         print(this.getClass().getName()+" AndroidNetworking: "+url);
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                if(format.getName().equals(SoraPost.class.getName())){
-                    Element thread=Jsoup.parse(response).body().selectFirst("div.thread");
-                    Element threadpost = thread.selectFirst("div.threadpost");
-                    SoraPost subPost = new SoraPost(threadpost.attr("id").substring(1), threadpost);
-                    for (Element reply_ele : thread.select("div.reply")) {
-                        subPost.addPost(reply_ele);
-                    }
-                    post.setValue(subPost);
-                }
+                post.setValue(format.parseDoc(Jsoup.parse(response),url));
             }
-
             public void onError(ANError anError) {
                 anError.printStackTrace();
             }
@@ -49,7 +39,7 @@ public class PostViewModel extends ViewModel {
         this.url=url;
     }
 
-    public void setFormat(Class format){
+    public void setFormat(Post format){
         this.format=format;
     }
 

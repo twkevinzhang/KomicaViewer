@@ -21,17 +21,16 @@ import static self.nesl.komicaviewer.util.util.getParserByUrl;
 
 public class PostFragment extends Fragment {
     private PostViewModel postViewModel;
-    private String postUrl;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         if (getArguments() != null) {
-            postUrl = getArguments().getString("postUrl");
+            postViewModel.setPostUrl(getArguments().getString("postUrl"));
+            postViewModel.setFormat((Post)getArguments().getSerializable("format"));
         }
-        postViewModel.setPostUrl(postUrl);
-        postViewModel.setFormat(getParserByUrl(postUrl, getContext()));
+
     }
 
     @Override

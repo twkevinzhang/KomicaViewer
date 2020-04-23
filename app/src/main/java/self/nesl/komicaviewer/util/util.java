@@ -6,6 +6,7 @@ import android.util.Log;
 import java.text.SimpleDateFormat;
 
 import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.SoraPost;
 
 public class util {
@@ -25,10 +26,10 @@ public class util {
 //        System.out.println(s);
     }
 
-    public static Class getParserByUrl(String url, Context context){
+    public static Post getParserByUrl(String url, Context context){
         // todo
         context.getResources().getString(R.string.sora_url);
-        return SoraPost.class;
+        return new SoraPost();
     }
 
     public static String parseChiToEngWeek(String s){
