@@ -1,8 +1,11 @@
 package self.nesl.komicaviewer.ui.post;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,7 +21,9 @@ public class ReplyDialog extends DialogFragment {
 
     public ReplyDialog(Post post, FragmentManager fragmentManager){
         this.post=post;
-        this.show(fragmentManager, post.getPostId()+"dialog");
+        if(post.getReplyCount()!=0){
+            this.show(fragmentManager, post.getPostId()+"dialog");
+        }
     }
 
     @Override
@@ -45,6 +50,13 @@ public class ReplyDialog extends DialogFragment {
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
         adapter.addAllPost(post.getReplies());
+
+        // width
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(getDialog().getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT+20;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT+20;
+        getDialog().getWindow().setAttributes(lp);
 
         return v;
     }

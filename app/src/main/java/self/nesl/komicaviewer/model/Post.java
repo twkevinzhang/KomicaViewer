@@ -1,7 +1,10 @@
 package self.nesl.komicaviewer.model;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.format.DateUtils;
+
+import androidx.annotation.RequiresApi;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -86,7 +89,7 @@ public abstract class Post implements Serializable {
     }
 
     public int getReplyCount() {
-        return replyCount;
+        return replyCount==0?getReplies().size():replyCount;
     }
 
     public Element getQuoteElement() {
@@ -225,6 +228,9 @@ public abstract class Post implements Serializable {
                     if(!replyAll.contains(p))replyAll.add(p);
                 }
             }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            replyAll.sort((d1,d2) -> d1.getTime().compareTo(d2.getTime()));
         }
         return replyAll;
     }

@@ -26,12 +26,6 @@ public class util {
 //        System.out.println(s);
     }
 
-    public static Post getParserByUrl(String url, Context context){
-        // todo
-        context.getResources().getString(R.string.sora_url);
-        return new SoraPost();
-    }
-
     public static String parseChiToEngWeek(String s){
         return s.replace("一","Mon")
                 .replace("二","Tue")

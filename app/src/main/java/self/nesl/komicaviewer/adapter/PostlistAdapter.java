@@ -96,7 +96,13 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
                         .into(holder.imgPost);
             }
         }
-
+        holder.imgPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo 放大圖片
+//                Toast.makeText(fragment.getContext(), "OK", Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

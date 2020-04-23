@@ -1,6 +1,8 @@
 ### 框架
 MVVM in Android
 
+min version: 7.0.0，否則getReplies()無法日期排序
+
 ### 分支說明
  - 強化MVVM的觀念，增強Model的功能
  - 更好的commit格式
