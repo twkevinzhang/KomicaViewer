@@ -1,44 +1,27 @@
 package self.nesl.komicaviewer.ui.post;
+
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.StringRequestListener;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.SoraPost;
 
-import static self.nesl.komicaviewer.util.util.getParseNameByUrl;
-import static self.nesl.komicaviewer.util.util.print;
+import static self.nesl.komicaviewer.util.util.getParserByUrl;
 
 public class PostFragment extends Fragment {
     private PostViewModel postViewModel;
     private String postUrl;
-
-    public static PostFragment newInstance(@NonNull String postUrl) {
-        PostFragment fragment = new PostFragment();
-        Bundle args = new Bundle();
-        args.putString("postUrl", postUrl);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,21 +31,25 @@ public class PostFragment extends Fragment {
             postUrl = getArguments().getString("postUrl");
         }
         postViewModel.setPostUrl(postUrl);
-        postViewModel.setFormat(getParseNameByUrl(postUrl,getContext()));
+        postViewModel.setFormat(getParserByUrl(postUrl, getContext()));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_list, container, false);
+        final View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
-        final PostlistAdapter adapter = new PostlistAdapter(this);
-        final TextView txtMsg=v.findViewById(R.id.txtMsg);
+        final TextView txtMsg = v.findViewById(R.id.txtMsg);
+        final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.CallBack() {
+            @Override
+            public void itemOnClick(Post post) {
+                new ReplyDialog(post,getFragmentManager());
+            }
+        });
+
 
         // lst
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        lst.setLayoutManager(layoutManager);
+        lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
 
         // data and adapter

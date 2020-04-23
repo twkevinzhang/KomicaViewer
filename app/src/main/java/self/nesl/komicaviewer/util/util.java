@@ -25,10 +25,10 @@ public class util {
 //        System.out.println(s);
     }
 
-    public static String getParseNameByUrl(String url,Context context){
+    public static Class getParserByUrl(String url, Context context){
         // todo
         context.getResources().getString(R.string.sora_url);
-        return SoraPost.class.getName();
+        return SoraPost.class;
     }
 
     public static String parseChiToEngWeek(String s){

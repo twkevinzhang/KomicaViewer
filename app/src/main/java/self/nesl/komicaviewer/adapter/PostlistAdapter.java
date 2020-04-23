@@ -35,10 +35,12 @@ import static self.nesl.komicaviewer.util.util.print;
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder>  {
     private ArrayList<Post> postlist;
     private Fragment fragment;
+    private CallBack callBack;
 
-    public PostlistAdapter(Fragment fragment) {
+    public PostlistAdapter(Fragment fragment,CallBack callBack) {
         this.fragment=fragment;
         this.postlist=new ArrayList<Post>();
+        this.callBack=callBack;
     }
 
     // 建立ViewHolder
@@ -74,7 +76,6 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     public void onBindViewHolder(@NonNull final PostlistViewHolder holder, final int i) {
         final Post post=postlist.get(i);
         holder.txtPostInd.setText(Html.fromHtml(post.getQuoteElement().html()));
-        print(post.getQuoteElement().html());
         holder.txtPostId.setText("No."+post.getPostId());
         holder.txtReplyCount.setText("回應:"+post.getReplyCount());
         holder.txtPoster.setText(post.getPoster());
@@ -100,11 +101,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             @Override
             public void onClick(View v) {
 //                PostDB.addPost(postlist.get(i), StaticString.HISTORY_TABLE_NAME);
-                Bundle bundle = new Bundle();
-                if (IS_TEST)bundle.putString("postUrl", POST_URL);
-                else bundle.putString("postUrl", post.getUrl());
-                Navigation.findNavController(fragment.getActivity(), R.id.nav_host_fragment)
-                        .navigate(R.id.action_nav_komica_sora_to_nav_post,bundle);
+                callBack.itemOnClick(post);
             }
         });
     }
@@ -128,5 +125,10 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     }
     public void clear() {
         postlist.clear();
+    }
+
+    public interface CallBack
+    {
+        public void itemOnClick(Post post);
     }
 }

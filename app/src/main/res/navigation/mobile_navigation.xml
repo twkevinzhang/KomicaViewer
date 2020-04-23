@@ -36,7 +36,7 @@
         android:id="@+id/nav_komica_sora"
         android:name="self.nesl.komicaviewer.ui.sora.SoraFragment"
         android:label="@string/menu_sora"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/fragment_post" >
         <argument
             android:name="boardUrlId"
             app:argType="reference"
@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/nav_post"
         android:name="self.nesl.komicaviewer.ui.post.PostFragment"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/fragment_post" >
         <argument
             android:name="postUrlId"
             app:argType="reference"

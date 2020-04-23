@@ -1,41 +1,32 @@
 package self.nesl.komicaviewer.ui.sora;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.util.getHasHttpUrl;
-import static self.nesl.komicaviewer.util.util.print;
+import static self.nesl.komicaviewer.Const.IS_TEST;
+import static self.nesl.komicaviewer.Const.POST_URL;
 
-public class SoraFragment extends Fragment {
-
+public class SoraFragment extends Fragment{
     private SoraViewModel soraViewModel;
     private static String boardUrl;
     private boolean isLoading;
@@ -53,10 +44,19 @@ public class SoraFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
-        final PostlistAdapter adapter = new PostlistAdapter(getContext(),this);
         final TextView txtMsg=v.findViewById(R.id.txtMsg);
+        final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.CallBack() {
+            @Override
+            public void itemOnClick(Post post) {
+                Bundle bundle = new Bundle();
+                if (IS_TEST)bundle.putString("postUrl", POST_URL);
+                else bundle.putString("postUrl", post.getUrl());
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
+                        .navigate(R.id.action_nav_komica_sora_to_nav_post,bundle);
+            }
+        });
 
         // data and adapter
         soraViewModel.load(0);
@@ -74,9 +74,7 @@ public class SoraFragment extends Fragment {
         });
 
         // lst
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        lst.setLayoutManager(layoutManager);
+        lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
         lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int page = 0;
@@ -115,7 +113,7 @@ public class SoraFragment extends Fragment {
             }
         });
 
-        // SwipeRefreshLayout
+        // SwipeRefreshLayoutPostlistAdapter
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
         cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
