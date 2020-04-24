@@ -1,16 +1,24 @@
 package self.nesl.komicaviewer.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,19 +40,19 @@ import static self.nesl.komicaviewer.Const.POST_URL;
 import static self.nesl.komicaviewer.util.util.getHasHttpUrl;
 import static self.nesl.komicaviewer.util.util.print;
 
-public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder>  {
+public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder> {
     private ArrayList<Post> postlist;
     private Fragment fragment;
     private CallBack callBack;
 
-    public PostlistAdapter(Fragment fragment,CallBack callBack) {
-        this.fragment=fragment;
-        this.postlist=new ArrayList<Post>();
-        this.callBack=callBack;
+    public PostlistAdapter(Fragment fragment, CallBack callBack) {
+        this.fragment = fragment;
+        this.postlist = new ArrayList<Post>();
+        this.callBack = callBack;
     }
 
     // 建立ViewHolder
-    public class PostlistViewHolder extends RecyclerView.ViewHolder{
+    public class PostlistViewHolder extends RecyclerView.ViewHolder {
         // 宣告元件
         private ImageView imgPost;
         private TextView txtPostId;
@@ -60,7 +68,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             txtPostInd = v.findViewById(R.id.txtInd);
             txtReplyCount = v.findViewById(R.id.txtReplyCount);
             txtPostId = v.findViewById(R.id.txtId);
-            txtPoster=v.findViewById(R.id.txtPoster);
+            txtPoster = v.findViewById(R.id.txtPoster);
         }
     }
 
@@ -74,33 +82,28 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
 
     @Override
     public void onBindViewHolder(@NonNull final PostlistViewHolder holder, final int i) {
-        final Post post=postlist.get(i);
+        final Post post = postlist.get(i);
         holder.txtPostInd.setText(Html.fromHtml(post.getQuoteElement().html()));
-        holder.txtPostId.setText("No."+post.getPostId());
-        holder.txtReplyCount.setText("回應:"+post.getReplyCount());
+        holder.txtPostId.setText("No." + post.getPostId());
+        holder.txtReplyCount.setText("回應:" + post.getReplyCount());
         holder.txtPoster.setText(post.getPoster());
         holder.txtTime.setText(post.getTimeStr());
 
         // set pic_url
-        String pic_url=post.getThumbnailUrl();
-        if (pic_url!=null && !pic_url.equals("null") && pic_url.length() > 0) {
-            pic_url= getHasHttpUrl(pic_url, post.getBoardUrl());
-            holder.imgPost.setTag(R.id.imageid,pic_url);
-            // 通过 tag 来防止图片错位
-            if (holder.imgPost.getTag(R.id.imageid)!=null&&holder.imgPost.getTag(R.id.imageid)==pic_url) {
-                Glide.with(holder.imgPost.getContext())
-                        .load(pic_url)
-                        // 如果pic_url載入失敗 or pic_url == null
-                        .placeholder(null)
-                        .fitCenter()
-                        .into(holder.imgPost);
-            }
+        String pic_url = post.getThumbnailUrl();
+        pic_url=pic_url != null? getHasHttpUrl(pic_url, post.getBoardUrl()): "";
+        holder.imgPost.setTag(R.id.imageid, pic_url);
+        // 通过 tag 来防止图片错位
+        if (holder.imgPost.getTag(R.id.imageid).equals(pic_url)) {
+            Glide.with(holder.imgPost.getContext())
+                    .load(pic_url)
+                    .fitCenter()
+                    .into(holder.imgPost);
         }
         holder.imgPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo 放大圖片
-//                Toast.makeText(fragment.getContext(), "OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(fragment.getActivity(), "OK", Toast.LENGTH_SHORT).show();
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +116,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     }
 
     @Override
-    public long getItemId(int i){
+    public long getItemId(int i) {
         return i;
     }
 
@@ -127,14 +130,14 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     }
 
     public void addThreadpost(Post post) {
-        this.postlist.add(0,post);
+        this.postlist.add(0, post);
     }
+
     public void clear() {
         postlist.clear();
     }
 
-    public interface CallBack
-    {
+    public interface CallBack {
         public void itemOnClick(Post post);
     }
 }
