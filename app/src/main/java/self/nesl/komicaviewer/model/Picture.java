@@ -6,15 +6,19 @@ public class Picture {
     private Bitmap bitmap;
     private String originalUrl;
     private String thumbnailUrl;
-    private int width;
-    private int height;
+    private int thumbWidth;
+    private int thumbHeight;
+    private int originalWidth;
+    private int originalHeight;
 
-    public Picture(Bitmap bitmap, String originalUrl, String thumbnailUrl, int width, int height) {
+    public Picture(Bitmap bitmap, String originalUrl, String thumbnailUrl, int originalWidth, int originalHeight, int thumbWidth, int thumbHeight) {
         this.bitmap = bitmap;
         this.originalUrl = originalUrl;
         this.thumbnailUrl = thumbnailUrl;
-        this.width = width;
-        this.height = height;
+        this.originalWidth = originalWidth;
+        this.originalHeight = originalHeight;
+        this.thumbWidth = thumbWidth;
+        this.thumbHeight = thumbHeight;
     }
 
     public Bitmap getBitmap() {
@@ -29,12 +33,12 @@ public class Picture {
         return thumbnailUrl;
     }
 
-    public int getWidth() {
-        return width;
+    public int getOriginalWidth() {
+        return originalWidth;
     }
 
-    public int getHeight() {
-        return height;
+    public int getOriginalHeight() {
+        return originalHeight;
     }
 
     public void setBitmap(Bitmap bitmap) {
@@ -49,11 +53,27 @@ public class Picture {
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setOriginalWidth(int originalWidth) {
+        this.originalWidth = originalWidth;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setOriginalHeight(int originalHeight) {
+        this.originalHeight = originalHeight;
+    }
+
+    public int getThumbWidth() {
+        return thumbWidth;
+    }
+
+    public int getThumbHeight() {
+        return thumbHeight;
+    }
+
+    public void setThumbWidth(int thumbWidth) {
+        this.thumbWidth = thumbWidth;
+    }
+
+    public void setThumbHeight(int thumbHeight) {
+        this.thumbHeight = thumbHeight;
     }
 }

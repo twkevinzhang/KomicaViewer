@@ -1,11 +1,13 @@
 package self.nesl.komicaviewer.adapter;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,6 +29,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,28 +94,40 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         holder.txtTime.setText(post.getTimeStr());
 
         // set pic_url
-        ArrayList<Picture> pics=post.getPics();
-        String thumbUrl="";
-        String picUrl="";
-        if( pics.size()!=0){
-            thumbUrl=getHasHttpUrl(pics.get(0).getThumbnailUrl(), post.getBoardUrl());
-            picUrl=getHasHttpUrl(pics.get(0).getOriginalUrl(), post.getBoardUrl());
-        }
+        ArrayList<Picture> pics = post.getPics();
+        String thumbUrl = (pics.size() != 0) ? getHasHttpUrl(pics.get(0).getThumbnailUrl(), post.getBoardUrl()) : "";
+        String picUrl = (pics.size() != 0) ? getHasHttpUrl(pics.get(0).getOriginalUrl(), post.getBoardUrl()) : "";
 
         // 通過tag來防止錯位、忽大忽小
-        holder.imgPost.setTag(R.id.imageid, picUrl);
-        if (holder.imgPost.getTag(R.id.imageid).equals(picUrl)) {
+        holder.imgPost.setTag(R.id.imageid, thumbUrl);
+        if (holder.imgPost.getTag(R.id.imageid).equals(thumbUrl)) {
             Glide.with(holder.imgPost.getContext())
-                    .load(picUrl)
+                    .load(thumbUrl)
                     .fitCenter()
                     .into(holder.imgPost);
+
+            holder.imgPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DisplayMetrics metrics = new DisplayMetrics();
+                    fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics( metrics);
+                    Glide.with(holder.imgPost.getContext())
+                            .load(picUrl)
+                            .fitCenter()
+                            .into(holder.imgPost)
+                            .getSize(new SizeReadyCallback() {
+                                @Override
+                                public void onSizeReady(int width, int height) {
+                                    holder.imgPost.setLayoutParams(new LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.MATCH_PARENT,
+                                            metrics.widthPixels / width * height
+                                    ));
+                                }
+                            });
+                }
+            });
         }
-        holder.imgPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(fragment.getActivity(), "OK", Toast.LENGTH_SHORT).show();
-            }
-        });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -14,6 +14,7 @@ import java.util.Locale;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
+import static self.nesl.komicaviewer.util.util.getStyleMap;
 import static self.nesl.komicaviewer.util.util.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.util.print;
 
@@ -37,12 +38,15 @@ public class SoraPost extends Post {
 
         //get picUrl,thumbnailUrl
         try {
+            Element imgEle = thread.selectFirst("img");
             this.addPic(new Picture(
                     null,
                     thread.selectFirst("a.file-thumb").attr("href"),
-                    thread.selectFirst("img").attr("src"),
+                    imgEle.attr("src"),
                     0,
-                    0
+                    0,
+                    Integer.parseInt(getStyleMap(imgEle.attr("style")).get("width")[0].replace("px","")),
+                    Integer.parseInt(getStyleMap(imgEle.attr("style")).get("height")[0].replace("px",""))
             ));
         } catch (NullPointerException ignored) {
         }
