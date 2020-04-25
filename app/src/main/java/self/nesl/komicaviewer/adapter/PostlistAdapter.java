@@ -43,9 +43,9 @@ import static self.nesl.komicaviewer.util.util.print;
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder> {
     private ArrayList<Post> postlist;
     private Fragment fragment;
-    private CallBack callBack;
+    private ItemOnClickListener callBack;
 
-    public PostlistAdapter(Fragment fragment, CallBack callBack) {
+    public PostlistAdapter(Fragment fragment, ItemOnClickListener callBack) {
         this.fragment = fragment;
         this.postlist = new ArrayList<Post>();
         this.callBack = callBack;
@@ -137,7 +137,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         postlist.clear();
     }
 
-    public interface CallBack {
+    public interface ItemOnClickListener {
         public void itemOnClick(Post post);
     }
 }

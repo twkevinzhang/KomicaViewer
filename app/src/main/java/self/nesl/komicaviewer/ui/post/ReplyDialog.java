@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.ui.post;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +37,7 @@ public class ReplyDialog extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_reply, container);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
 
-        final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.CallBack() {
+        final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
                 new ReplyDialog(post,getFragmentManager());
