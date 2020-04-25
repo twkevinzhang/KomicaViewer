@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
 import static self.nesl.komicaviewer.util.util.parseChiToEngWeek;
@@ -36,8 +37,13 @@ public class SoraPost extends Post {
 
         //get picUrl,thumbnailUrl
         try {
-            this.setPicUrls(new String[]{thread.selectFirst("a.file-thumb").attr("href")});
-            this.setThumbnailUrl(thread.selectFirst("img").attr("src"));
+            this.addPic(new Picture(
+                    null,
+                    thread.selectFirst("a.file-thumb").attr("href"),
+                    thread.selectFirst("img").attr("src"),
+                    0,
+                    0
+            ));
         } catch (NullPointerException ignored) {
         }
 

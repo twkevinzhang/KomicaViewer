@@ -3,7 +3,11 @@ package self.nesl.komicaviewer.util;
 import android.content.Context;
 import android.util.Log;
 
+import org.jsoup.nodes.Element;
+
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Post;
@@ -24,6 +28,16 @@ public class util {
     public static void print(String s){
         Log.e("print",s);
 //        System.out.println(s);
+    }
+
+    public static Map<String, String[]> getStyleMap(String styleStr) {
+        Map<String, String[]> keymaps = new HashMap<>();
+        // margin-top:-80px !important;color:#fcc;border-bottom:1px solid #ccc; background-color: #333; text-align:center
+        String[] list = styleStr.split(":|;");
+        for (int i = 0; i < list.length; i+=2) {
+            keymaps.put(list[i].trim(),list[i+1].trim().split(" "));
+        }
+        return keymaps;
     }
 
     public static String parseChiToEngWeek(String s){

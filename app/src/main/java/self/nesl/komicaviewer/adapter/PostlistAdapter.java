@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.post.PostFragment;
 
@@ -90,13 +91,19 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         holder.txtTime.setText(post.getTimeStr());
 
         // set pic_url
-        String pic_url = post.getThumbnailUrl();
-        pic_url=pic_url != null? getHasHttpUrl(pic_url, post.getBoardUrl()): "";
-        holder.imgPost.setTag(R.id.imageid, pic_url);
-        // 通过 tag 来防止图片错位
-        if (holder.imgPost.getTag(R.id.imageid).equals(pic_url)) {
+        ArrayList<Picture> pics=post.getPics();
+        String thumbUrl="";
+        String picUrl="";
+        if( pics.size()!=0){
+            thumbUrl=getHasHttpUrl(pics.get(0).getThumbnailUrl(), post.getBoardUrl());
+            picUrl=getHasHttpUrl(pics.get(0).getOriginalUrl(), post.getBoardUrl());
+        }
+
+        // 通過tag來防止錯位、忽大忽小
+        holder.imgPost.setTag(R.id.imageid, picUrl);
+        if (holder.imgPost.getTag(R.id.imageid).equals(picUrl)) {
             Glide.with(holder.imgPost.getContext())
-                    .load(pic_url)
+                    .load(picUrl)
                     .fitCenter()
                     .into(holder.imgPost);
         }

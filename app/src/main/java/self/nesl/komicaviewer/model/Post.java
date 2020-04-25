@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.text.format.DateUtils;
 
-import androidx.annotation.RequiresApi;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -13,6 +11,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 public abstract class Post implements Serializable {
     private  Element postEle = null;
@@ -28,8 +27,7 @@ public abstract class Post implements Serializable {
     private int visitsCount = 0;
     private int replyCount = 0;
     private Element quoteElement = null;
-    private String[] picUrls= null;
-    private String thumbnailUrl= null;
+    private ArrayList<Picture> pics = new ArrayList<Picture>();
     private boolean isTop = false;
     private boolean isReaded = false;
     private ArrayList<Post> replyTree = new ArrayList<Post>();
@@ -100,12 +98,8 @@ public abstract class Post implements Serializable {
         return this.getQuoteElement().text().trim();
     }
 
-    public String[] getPicUrls() {
-        return picUrls;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public ArrayList<Picture> getPics() {
+        return pics;
     }
 
     public boolean isTop() {
@@ -169,14 +163,6 @@ public abstract class Post implements Serializable {
         this.quoteElement = quoteElement;
     }
 
-    public void setPicUrls(String[] picUrls) {
-        this.picUrls = picUrls;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
     public void setTop(boolean top) {
         isTop = top;
     }
@@ -233,6 +219,10 @@ public abstract class Post implements Serializable {
             replyAll.sort((d1,d2) -> d1.getTime().compareTo(d2.getTime()));
         }
         return replyAll;
+    }
+
+    public void addPic(Picture pic) {
+        this.pics.add(pic);
     }
 
     @Override

@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class SoraFragment extends Fragment{
     private SoraViewModel soraViewModel;
     private static String boardUrl;
     private boolean isLoading;
+    private int page = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class SoraFragment extends Fragment{
             boardUrl = getResources().getString(getArguments().getInt("boardUrlId"));
         }
         soraViewModel.setBoardUrl(boardUrl);
+        soraViewModel.load(page);
     }
 
     @Override
@@ -48,12 +49,11 @@ public class SoraFragment extends Fragment{
         View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
         final TextView txtMsg=v.findViewById(R.id.txtMsg);
-        final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.CallBack() {
+        final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
                 Bundle bundle = new Bundle();
-                if (IS_TEST)bundle.putString("postUrl", POST_URL);
-                else bundle.putString("postUrl", post.getUrl());
+                bundle.putString("postUrl", (IS_TEST)?POST_URL:post.getUrl());
                 bundle.putSerializable("format",new SoraPost());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_komica_sora_to_nav_post,bundle);
@@ -61,7 +61,6 @@ public class SoraFragment extends Fragment{
         });
 
         // data and adapter
-        soraViewModel.load(0);
         soraViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
             int start, end = 0;
             @Override
@@ -72,6 +71,7 @@ public class SoraFragment extends Fragment{
                 end = start + posts.size();
                 adapter.notifyItemRangeInserted(start, end);
                 isLoading = false;
+                txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
             }
         });
 
@@ -79,8 +79,6 @@ public class SoraFragment extends Fragment{
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
         lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int page = 0;
-
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
