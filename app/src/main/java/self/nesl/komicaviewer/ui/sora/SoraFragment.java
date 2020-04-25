@@ -25,6 +25,7 @@ import self.nesl.komicaviewer.model.komica.SoraPost;
 
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
+import static self.nesl.komicaviewer.util.util.print;
 
 public class SoraFragment extends Fragment{
     private SoraViewModel soraViewModel;
@@ -52,6 +53,7 @@ public class SoraFragment extends Fragment{
         final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
+                print("itemOnClick: "+post.getPostId());
                 Bundle bundle = new Bundle();
                 bundle.putString("postUrl", (IS_TEST)?POST_URL:post.getUrl());
                 bundle.putSerializable("format",new SoraPost());

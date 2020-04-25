@@ -28,13 +28,12 @@ public class SoraViewModel extends ViewModel {
         if (page != 0) {
             url += "/pixmicat.php?page_num="+page;
         }
-        final String finalUrl = url;
-        print(this.getClass().getName()+" AndroidNetworking: "+finalUrl);
+        print(this.getClass().getName()+" AndroidNetworking: "+url);
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                postlist.setValue(new SoraBoard(Jsoup.parse(response), finalUrl).getReplies());
+                postlist.setValue(new SoraBoard(Jsoup.parse(response), boardUrl).getReplies());
             }
 
             public void onError(ANError anError) {
