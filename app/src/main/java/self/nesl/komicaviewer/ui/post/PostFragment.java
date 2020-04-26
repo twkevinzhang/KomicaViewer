@@ -27,9 +27,8 @@ public class PostFragment extends Fragment {
         postViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         if (getArguments() != null) {
             postViewModel.setPostUrl(getArguments().getString("postUrl"));
-            postViewModel.setFormat((Post)getArguments().getSerializable("format"));
         }
-
+        postViewModel.update();
     }
 
     @Override
@@ -45,14 +44,12 @@ public class PostFragment extends Fragment {
             }
         });
 
-
         // lst
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
 
         // data and adapter
-        postViewModel.update();
-        postViewModel.getPost().observe(this, new Observer<Post>() {
+        postViewModel.getPost().observe(getViewLifecycleOwner(), new Observer<Post>() {
             @Override
             public void onChanged(Post post) {
                 assert post != null;

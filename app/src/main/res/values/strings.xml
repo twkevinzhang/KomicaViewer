@@ -8,8 +8,10 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_sora">綜合</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_sora">綜合</string>
+    <string name="menu_history">歷史</string>
+    <string name="menu_favorite">收藏</string>
 
     <string name="home_second">Home Second</string>
 

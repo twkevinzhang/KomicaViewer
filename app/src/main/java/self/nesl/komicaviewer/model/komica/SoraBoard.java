@@ -5,18 +5,26 @@ import android.content.Context;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import self.nesl.komicaviewer.model.Post;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import static self.nesl.komicaviewer.util.util.print;
+import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.util.MyURL;
+
+import static self.nesl.komicaviewer.util.Util.print;
 
 public class SoraBoard extends Post {
     private String fsub;
     private String fcom;
     private Context context;
-    private static final String boardId = "sora";
 
-    public SoraBoard(Document doc,String url) {
-        super(boardId, doc);
+    public SoraBoard(){}
+
+    public SoraBoard(Document doc,String url){
+        String host=new MyURL(url).getHost();
+        this.setPostId(host);
+        this.setPostEle(doc);
+
         //get post secret name
         fsub = doc.getElementById("fsub").attr("name");
         fcom = doc.getElementById("fcom").attr("name");
@@ -52,18 +60,13 @@ public class SoraBoard extends Post {
             replyCount += thread.getElementsByClass("reply").size();
             post.setReplyCount(replyCount);
 
-            this.addPost(boardId, post);
+            this.addPost(host, post);
         }
     }
 
     @Override
     public String getIntroduction(int words, String[] rank) {
         return getQuoteElement().text().trim();
-    }
-
-    @Override
-    public Post parseDoc(Document document,String url) {
-        return new SoraBoard(document,url);
     }
 
     @Override

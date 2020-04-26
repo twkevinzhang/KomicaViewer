@@ -1,30 +1,18 @@
 package self.nesl.komicaviewer.util;
 
-import android.content.Context;
 import android.util.Log;
 
-import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Document;
 
-import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.SoraPost;
 
-public class util {
-    public static String getHasHttpUrl(String s, String domain) {
-        if(s.substring(0, 1).equals("/")){
-            if(!s.substring(0, 2).equals("//")){
-                s = "https://" + domain + s;
-            }else{
-                s="https:"+s;
-            }
-        }
-        return s;
-    }
-
+public class Util {
     public static void print(String s){
         Log.e("print",s);
 //        System.out.println(s);
@@ -51,4 +39,16 @@ public class util {
 //        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     }
 
+    public static Post getPostFormat(Document document, String boardUrl){
+        String[] sora=new String[]{
+                "komica.org",
+                "2cat.org"};
+        String host=new MyURL(boardUrl).getHost();
+        if(host.contains(sora[0])){
+            return new SoraPost().parseDoc(document,boardUrl);
+        }else if(host.contains(sora[1])){
+//            return new SoraPost().parseDoc(document,boardUrl);
+        }
+        return null;
+    }
 }

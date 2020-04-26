@@ -30,7 +30,7 @@ public abstract class Post implements Serializable {
     private ArrayList<Picture> pics = new ArrayList<Picture>();
     private boolean isTop = false;
     private boolean isReaded = false;
-    private ArrayList<Post> replyTree = new ArrayList<Post>();
+    private transient ArrayList<Post> replyTree = new ArrayList<Post>();
     private String boardUrl =null;
 
     private Context context;
@@ -183,8 +183,10 @@ public abstract class Post implements Serializable {
 
     abstract public String getIntroduction(int words, String[] rank);
 
-    // 語言缺陷: 一定要實例化(new)才能使用abstract parseDoc()
-    abstract public Post parseDoc(Document document,String url);
+    // 語言缺陷: 一定要實例化(new)才能使用implement parseDoc()
+    // https://stackoverflow.com/questions/370962/why-cant-static-methods-be-abstract-in-java
+//    abstract public static Post parseDoc(Document document,String url);
+//    abstract public Post parseDoc(Document document,String url);
 
     public void addPost(String target_id, Post insert_reply) {
         if(target_id.equals(this.postId)){

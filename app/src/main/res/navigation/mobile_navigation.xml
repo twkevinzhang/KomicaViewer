@@ -18,6 +18,17 @@
             android:id="@+id/action_nav_home_to_nav_post"
             app:destination="@id/nav_post" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="self.nesl.komicaviewer.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" >
+        <action
+            android:id="@+id/action_nav_slideshow_to_nav_post"
+            app:destination="@id/nav_post" />
+    </fragment>
+
 <!--    <fragment-->
 <!--        android:id="@+id/nav_home_second"-->
 <!--        android:name=".ui.home.HomeSecondFragment"-->
@@ -47,18 +58,37 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_history"
+        android:name="self.nesl.komicaviewer.ui.local.LocalFragment"
+        android:label="@string/menu_history"
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="tableName"
+            app:argType="string"
+            android:defaultValue="history"/>
+        <action
+            android:id="@+id/action_nav_local_to_nav_post"
+            app:destination="@id/nav_post" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_favorite"
+        android:name="self.nesl.komicaviewer.ui.local.LocalFragment"
+        android:label="@string/menu_favorite"
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="tableName"
+            app:argType="string"
+            android:defaultValue="favorite"/>
+        <action
+            android:id="@+id/action_nav_local_to_nav_post"
+            app:destination="@id/nav_post" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_post"
         android:name="self.nesl.komicaviewer.ui.post.PostFragment"
         tools:layout="@layout/fragment_post" >
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="self.nesl.komicaviewer.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" >
-        <action
-            android:id="@+id/action_nav_slideshow_to_nav_post"
-            app:destination="@id/nav_post" />
-    </fragment>
 </navigation>

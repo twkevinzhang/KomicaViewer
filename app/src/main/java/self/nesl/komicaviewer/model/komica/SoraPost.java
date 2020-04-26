@@ -1,8 +1,5 @@
 package self.nesl.komicaviewer.model.komica;
 
-import android.content.Context;
-
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,14 +11,13 @@ import java.util.Locale;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.util.getStyleMap;
-import static self.nesl.komicaviewer.util.util.parseChiToEngWeek;
-import static self.nesl.komicaviewer.util.util.print;
+import static self.nesl.komicaviewer.util.Util.getStyleMap;
+import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
+import static self.nesl.komicaviewer.util.Util.print;
 
 public class SoraPost extends Post {
     private String fsub;
     private String fcom;
-    private static final String boardId = "sora";
 
 //    komica.org (
 //            [綜合,男性角色,短片2,寫真],
@@ -114,7 +110,6 @@ public class SoraPost extends Post {
         Post target=target_id.equals(this.getPostId())? this : parent.getPost(target_id);
         String context = String.format(">>%s(%s)<br>",target_id, target.getIntroduction(10, null));
         this.getQuoteElement().prepend("<font color=#2bb1ff>" + context);
-//        print("this");
         Elements resquote=this.getQuoteElement().select("span.resquote");
         resquote.next("br").remove();
         resquote.remove();
@@ -124,14 +119,14 @@ public class SoraPost extends Post {
         this.getQuoteElement().prepend(String.format("[%s]<br>",title));
     }
 
-    @Override
-    public SoraPost parseDoc(Document doc,String url) {
+    public SoraPost parseDoc(Document doc,String boardUrl) {
         Element thread= doc.body().selectFirst("div.thread");
         Element threadpost = thread.selectFirst("div.threadpost");
         SoraPost subPost = new SoraPost(threadpost.attr("id").substring(1), threadpost);
         for (Element reply_ele : thread.select("div.reply")) {
             subPost.addPost(reply_ele);
         }
+        subPost.setBoardUrl(boardUrl);
         return subPost;
     }
 }

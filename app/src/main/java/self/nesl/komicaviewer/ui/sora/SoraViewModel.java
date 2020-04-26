@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.ui.sora;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,7 +15,7 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.SoraBoard;
 
-import static self.nesl.komicaviewer.util.util.print;
+import static self.nesl.komicaviewer.util.Util.print;
 
 public class SoraViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Post>> postlist=new MutableLiveData<ArrayList<Post>>();

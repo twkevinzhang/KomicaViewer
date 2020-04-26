@@ -25,7 +25,6 @@ import self.nesl.komicaviewer.model.komica.SoraPost;
 
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
-import static self.nesl.komicaviewer.util.util.print;
 
 public class SoraFragment extends Fragment{
     private SoraViewModel soraViewModel;
@@ -52,16 +51,12 @@ public class SoraFragment extends Fragment{
         final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
-                print("itemOnClick: "+post.getPostId());
                 Bundle bundle = new Bundle();
                 bundle.putString("postUrl", (IS_TEST)?POST_URL:post.getUrl());
-                bundle.putSerializable("format",new SoraPost());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_komica_sora_to_nav_post,bundle);
             }
         });
-
-
 
         // SwipeRefreshLayoutPostlistAdapter
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
@@ -76,7 +71,7 @@ public class SoraFragment extends Fragment{
         });
 
         // data and adapter
-        soraViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
+        soraViewModel.getPostlist().observe(getViewLifecycleOwner(), new Observer<ArrayList<Post>>() {
             int start, end = 0;
             @Override
             public void onChanged(ArrayList<Post> posts) {
