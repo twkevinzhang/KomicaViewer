@@ -30,7 +30,6 @@ import static self.nesl.komicaviewer.util.util.print;
 public class SoraFragment extends Fragment{
     private SoraViewModel soraViewModel;
     private static String boardUrl;
-    private boolean isLoading;
     private int page = 0;
 
     @Override
@@ -62,6 +61,20 @@ public class SoraFragment extends Fragment{
             }
         });
 
+
+
+        // SwipeRefreshLayoutPostlistAdapter
+        final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
+        cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                soraViewModel.load(0);
+                adapter.notifyDataSetChanged();
+                cateSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         // data and adapter
         soraViewModel.getPostlist().observe(this, new Observer<ArrayList<Post>>() {
             int start, end = 0;
@@ -72,8 +85,8 @@ public class SoraFragment extends Fragment{
                 start = end;
                 end = start + posts.size();
                 adapter.notifyItemRangeInserted(start, end);
-                isLoading = false;
                 txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
+                cateSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -86,11 +99,11 @@ public class SoraFragment extends Fragment{
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
                     // 如果不能向下滑動，到底了
-                    if (isLoading) {
+                    if (cateSwipeRefreshLayout.isRefreshing()) {
                         txtMsg.setText("急三小");
                         return;
                     }
-                    isLoading = true;
+                    cateSwipeRefreshLayout.setRefreshing(true);
                     page += 1;
                     txtMsg.setText("載入中" + page);
                     soraViewModel.load(page);
@@ -115,19 +128,7 @@ public class SoraFragment extends Fragment{
             }
         });
 
-        // SwipeRefreshLayoutPostlistAdapter
-        final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
-        cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                adapter.clear();
-                isLoading=true;
-                soraViewModel.load(0);
-                adapter.notifyDataSetChanged();
-                isLoading=false;
-                cateSwipeRefreshLayout.setRefreshing(isLoading);
-            }
-        });
+
 
         return v;
     }

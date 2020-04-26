@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,18 @@ public class PostFragment extends Fragment {
                 adapter.addAllPost(post.getReplies());
                 adapter.addThreadpost(post);
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        // SwipeRefreshLayout
+        final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
+        cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                postViewModel.update();
+                adapter.notifyDataSetChanged();
+                cateSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
