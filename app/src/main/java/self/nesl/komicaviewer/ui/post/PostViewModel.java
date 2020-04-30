@@ -24,7 +24,7 @@ public class PostViewModel extends ViewModel {
     private String url;
 
     public void update() {
-        print(this.getClass().getName()+" AndroidNetworking: "+url);
+        print(this,"AndroidNetworking: "+url);
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 

@@ -33,7 +33,7 @@ public class SoraBoard extends Post {
 
         //如果找不到thread標籤，就是2cat.komica.org，要用addThreadTag()改成標準綜合版樣式
         if (threads.selectFirst("div.thread") == null) {
-            print("thread is null");
+            print(this,"thread is null");
             //將thread加入threads中，變成標準綜合版樣式
             Element thread = threads.appendElement("div").addClass("thread");
             for (Element div : threads.children()) {

@@ -26,7 +26,7 @@ public class SoraViewModel extends ViewModel {
         if (page != 0) {
             url += "/pixmicat.php?page_num="+page;
         }
-        print(this.getClass().getName()+" AndroidNetworking: "+url);
+        print(this,"AndroidNetworking: "+url);
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 

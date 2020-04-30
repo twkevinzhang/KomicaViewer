@@ -2,6 +2,8 @@ package self.nesl.komicaviewer.util;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import org.jsoup.nodes.Document;
 
 import java.util.Arrays;
@@ -13,8 +15,13 @@ import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.SoraPost;
 
 public class Util {
-    public static void print(String s){
-        Log.e("print",s);
+    public static void print(@Nullable Object c, String s){
+        if(c!=null){
+            Log.e(c.getClass().getName(),s);
+        }else{
+            Log.e("print",s);
+        }
+
 //        System.out.println(s);
     }
 
