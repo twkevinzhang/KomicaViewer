@@ -63,32 +63,28 @@ public class SoraPost extends Post {
         //get quote
         this.setQuoteElement(thread.selectFirst("div.quote"));
 
-        //get title,name,now
-        this.setPoster(thread.select("span.name").text());
-        String title = thread.select("span.title").text();
-        if(title.length()!=0){
-            this.setTitle(title);
-            installTitle(title);
-        }
+        //get title
+        String title=this.getTitle(0);
+        if(title.length()>0)installTitle(title);
     }
 
-    void installDefaultDetail(Element thread){
+    private void installDefaultDetail(Element thread){
+        this.setTitle(thread.select("span.title").text());
         String[] post_detail = thread.selectFirst("div.post-head span.now").text().split(" ID:");
         this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
         this.setPoster(post_detail[1]);
     }
 
-    void install2catDetail(Element thread,String post_id){
-        String[] post_detail=new String[5];
+    private void install2catDetail(Element thread, String post_id){
         Element detailEle=thread.selectFirst(String.format("label[for='%s']", post_id));
         Element titleEle=detailEle.selectFirst("span.title");
         if(titleEle!=null){
             this.setTitle(titleEle.text().trim());
             titleEle.remove();
         }
-        // s = "[20/04/30(木)18:15 ID:CRz.V7Mw/Zplu]"
+
         String s=detailEle.text().trim();
-        post_detail=s.substring(1,s.length()-1).split(" ID:");
+        String[] post_detail=s.substring(1,s.length()-1).split(" ID:");
         this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
         this.setPoster(post_detail[1]);
     }
