@@ -39,18 +39,15 @@ public class SoraPost extends Post {
 
         //get picUrl,thumbnailUrl
         try {
-            Element imgEle=thread.selectFirst("img");
-            String thumbUrl = imgEle.attr("src");
-
-            print(null,thumbUrl);
+            Element thumbImg=thread.selectFirst("img");
             this.addPic(new Picture(
-                    new StringBuilder(thumbUrl).deleteCharAt(thumbUrl.lastIndexOf(".")-1).toString(),
-                    thumbUrl,
+                    thumbImg.parent().attr("href"),
+                    thumbImg.attr("src"),
                     boardUrl,
                     0,
                     0,
-                    Integer.parseInt(getStyleMap(imgEle.attr("style")).get("width")[0].replace("px","")),
-                    Integer.parseInt(getStyleMap(imgEle.attr("style")).get("height")[0].replace("px",""))
+                    Integer.parseInt(getStyleMap(thumbImg.attr("style")).get("width")[0].replace("px","")),
+                    Integer.parseInt(getStyleMap(thumbImg.attr("style")).get("height")[0].replace("px",""))
             ));
         } catch (NullPointerException ignored) {
         }
