@@ -8,9 +8,13 @@ import androidx.annotation.Nullable;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import self.nesl.komicaviewer.model.Post;
@@ -86,5 +90,18 @@ public class Util {
             }
         }
         return threads;
+    }
+
+    public static Date parseTime(String time){
+        for(String s : Arrays.asList(
+                "yyyy/MM/dd(EEE) HH:mm:ss.SSS",
+                "yy/MM/dd(EEE) HH:mm:ss",
+                "yy/MM/dd(EEE)HH:mm:ss"
+        )){
+            try {
+                return new SimpleDateFormat(s, Locale.ENGLISH).parse(time);
+            }catch (ParseException ignored) {}
+        }
+        return null;
     }
 }

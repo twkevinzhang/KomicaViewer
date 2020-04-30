@@ -16,6 +16,7 @@ import static self.nesl.komicaviewer.util.Util.getStyleMap;
 import static self.nesl.komicaviewer.util.Util.installThreadTag;
 import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.Util.parseJpnToEngWeek;
+import static self.nesl.komicaviewer.util.Util.parseTime;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class SoraPost extends Post {
@@ -40,6 +41,8 @@ public class SoraPost extends Post {
         try {
             Element imgEle=thread.selectFirst("img");
             String thumbUrl = imgEle.attr("src");
+
+            print(null,thumbUrl);
             this.addPic(new Picture(
                     new StringBuilder(thumbUrl).deleteCharAt(thumbUrl.lastIndexOf(".")-1).toString(),
                     thumbUrl,
@@ -74,16 +77,7 @@ public class SoraPost extends Post {
 
     void installDefaultDetail(Element thread){
         String[] post_detail = thread.selectFirst("div.post-head span.now").text().split(" ID:");
-        post_detail[0] = parseChiToEngWeek(post_detail[0].trim());
-        for(String s : Arrays.asList(
-                "yyyy/MM/dd(EEE) HH:mm:ss.SSS",
-                "yyyy/MM/dd(EEE)HH:mm:ss.SSS"
-        )){
-            try {
-                this.setTime(new SimpleDateFormat(s, Locale.ENGLISH).parse(post_detail[0]));
-                break;
-            }catch (ParseException ignored) {}
-        }
+        this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
         this.setPoster(post_detail[1]);
     }
 
@@ -98,10 +92,7 @@ public class SoraPost extends Post {
         // s = "[20/04/30(木)18:15 ID:CRz.V7Mw/Zplu]"
         String s=detailEle.text().trim();
         post_detail=s.substring(1,s.length()-1).split(" ID:");
-        post_detail[0] = parseJpnToEngWeek(post_detail[0].trim());
-        try {
-            this.setTime(new SimpleDateFormat("yy/MM/dd(EEE)HH:mm", Locale.ENGLISH).parse(post_detail[0]));
-        }catch (ParseException ignored) {}
+        this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
         this.setPoster(post_detail[1]);
     }
 
