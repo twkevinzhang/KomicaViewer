@@ -23,6 +23,8 @@ import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.util.MyURL;
 
+import static self.nesl.komicaviewer.util.Util.print;
+
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder> {
     private ArrayList<Post> postlist;
     private Fragment fragment;
@@ -72,10 +74,14 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         holder.txtPoster.setText(post.getPoster());
         holder.txtTime.setText(post.getTimeStr());
 
-        // set pic_url
+        // set picUrl
         ArrayList<Picture> pics = post.getPics();
-        String thumbUrl = (pics.size() != 0) ? new MyURL(pics.get(0).getThumbnailUrl()).getUrl() : "";
-        String picUrl = (pics.size() != 0) ? new MyURL(pics.get(0).getOriginalUrl()).getUrl() : "";
+        String thumbUrl="";
+        String picUrl="";
+        if(pics.size() != 0){
+            thumbUrl = pics.get(0).getThumbnailUrl();
+            picUrl =pics.get(0).getOriginalUrl();
+        }
 
         // 通過tag來防止錯位、忽大忽小
         holder.imgPost.setTag(R.id.imageid, thumbUrl);
@@ -85,13 +91,14 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
                     .fitCenter()
                     .into(holder.imgPost);
 
+            String finalPicUrl = picUrl;
             holder.imgPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DisplayMetrics metrics = new DisplayMetrics();
                     fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics( metrics);
                     Glide.with(holder.imgPost.getContext())
-                            .load(picUrl)
+                            .load(finalPicUrl)
                             .fitCenter()
                             .into(holder.imgPost)
                             .getSize(new SizeReadyCallback() {

@@ -1,67 +1,87 @@
 package self.nesl.komicaviewer.util;
 
+import androidx.annotation.Nullable;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MyURL {
-    String url="";
-    String protocal="";
-    String host="";
-    String toLastPath="";
-    String path="";
+import static self.nesl.komicaviewer.util.Util.print;
 
-    // //sora.komica.org/00/pixmicat.php?res=18287039
+public class MyURL {
+    String url;
+    String baseUrl;
+
+    //sora.komica.org/00/pixmicat.php?res=18287039
     public MyURL(String url){
-        this.url=url;
-        try {
-            URL url2=new URL(url);
-            this.host=url2.getHost();
-            this.toLastPath=url.substring(url.indexOf(this.host),url.lastIndexOf("/"));
-            this.path=url2.getPath();
-            this.protocal= new java.net.URL(url).getProtocol();
-        } catch (MalformedURLException | NullPointerException e) {
-            if(url.startsWith("//")){
-                this.protocal= "http";
-            }
+        this(url,null);
+    }
+
+    public MyURL(String url,@Nullable String baseUrl){
+        this.url=installProtocol(url);
+        if(baseUrl!=null){
+            this.baseUrl=installProtocol(baseUrl);
         }
     }
 
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
+    String installProtocol(String murl){
+        if(murl.startsWith("//")){
+            murl="http:"+murl;
+        }else if(!murl.startsWith("/") && !murl.contains("://")){
+            murl="http://"+murl;
+        }
+        return murl;
     }
 
     // https://sora.komica.org
     public String getUrlToHost() {
-        return getProtocol()+"://"+host;
+        return getProtocol()+"://"+getHost();
     }
 
     // sora.komica.org
     public String getHost() {
-        return host;
+        String urlStr=baseUrl==null?this.url:this.baseUrl;
+        try {
+            URL url=new URL(urlStr);
+            return url.getHost();
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // /00/pixmicat.php
     public String getPath() {
-        return path;
+        try {
+            URL url2=new URL(url);
+            return url2.getPath();
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // https://sora.komica.org/00
     public String getUrlToLastPath(){
-        return getProtocol()+"://"+toLastPath;
+        String url=getUrl();
+        return url.substring(url.indexOf(getHost()),url.lastIndexOf("/"));
     }
 
     // https://sora.komica.org/00/pixmicat.php?res=18287039
     public String getUrl(){
-        if(url.startsWith("//"))
-            return getProtocol()+"://"+url;
+        if(url.startsWith("/")){
+            return getProtocol()+"://"+getHost()+url;
+        }
         return url;
     }
 
     public String getProtocol() {
-        return protocal;
+        String urlStr=baseUrl==null?this.url:this.baseUrl;
+        try {
+            URL url=new URL(urlStr);
+            return url.getProtocol();
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

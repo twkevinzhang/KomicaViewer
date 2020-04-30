@@ -11,14 +11,13 @@ import java.net.URL;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.util.MyURL;
 
+import static self.nesl.komicaviewer.util.Util.installThreadTag;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class SoraBoard extends Post {
     private String fsub;
     private String fcom;
     private Context context;
-
-    public SoraBoard(){}
 
     public SoraBoard(Document doc,String url){
         String host=new MyURL(url).getHost();
@@ -29,26 +28,10 @@ public class SoraBoard extends Post {
         fsub = doc.getElementById("fsub").attr("name");
         fcom = doc.getElementById("fcom").attr("name");
 
-        Element threads = doc.getElementById("threads");
-
-        //如果找不到thread標籤，就是2cat.komica.org，要用addThreadTag()改成標準綜合版樣式
-        if (threads.selectFirst("div.thread") == null) {
-            print(this,"thread is null");
-            //將thread加入threads中，變成標準綜合版樣式
-            Element thread = threads.appendElement("div").addClass("thread");
-            for (Element div : threads.children()) {
-                thread.appendChild(div);
-                if (div.tagName().equals("hr")) {
-                    threads.appendChild(thread);
-                    thread = threads.appendElement("div").addClass("thread");
-                }
-            }
-        }
-
+        Element threads=installThreadTag(doc.body().getElementById("threads"));
         for (Element thread : threads.select("div.thread")) {
             Element threadpost=thread.selectFirst("div.threadpost");
-            SoraPost post=new SoraPost(threadpost.attr("id").substring(1), threadpost);
-            post.setBoardUrl(url);
+            SoraPost post=new SoraPost(url,threadpost.attr("id").substring(1), threadpost);
 
             //get replyCount
             int replyCount=0;

@@ -21,7 +21,6 @@ public abstract class Post implements Serializable {
     private String title=null;
     private String respondTo= null;
     private Date time= null;
-    private String timeStr= null;
     private String poster= null;
     private String[] tag= null;
     private int visitsCount = 0;
@@ -137,10 +136,6 @@ public abstract class Post implements Serializable {
 
     public void setTime(Date time) {
         this.time = time;
-    }
-
-    public void setTimeStr(String timeStr) {
-        this.timeStr = timeStr;
     }
 
     public void setPoster(String poster) {

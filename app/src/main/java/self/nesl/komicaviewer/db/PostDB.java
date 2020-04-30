@@ -67,10 +67,10 @@ public final class PostDB {
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
            Post post =new SoraPost(
+                   csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)),
                     csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),
                     new Element("<html>").html(csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)))
                     );
-            post.setBoardUrl( csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)));
             arr.add(post);
         }
         csr.close();

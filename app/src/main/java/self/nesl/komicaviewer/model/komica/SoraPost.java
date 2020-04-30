@@ -6,13 +6,16 @@ import org.jsoup.select.Elements;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Locale;
 
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
 import static self.nesl.komicaviewer.util.Util.getStyleMap;
+import static self.nesl.komicaviewer.util.Util.installThreadTag;
 import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
+import static self.nesl.komicaviewer.util.Util.parseJpnToEngWeek;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class SoraPost extends Post {
@@ -29,16 +32,18 @@ public class SoraPost extends Post {
 
     public SoraPost(){}
 
-    public SoraPost(String post_id, Element thread) {
+    public SoraPost(String boardUrl,String post_id, Element thread) {
         super(post_id, thread);
+        this.setBoardUrl(boardUrl);
 
         //get picUrl,thumbnailUrl
         try {
-            Element imgEle = thread.selectFirst("img");
+            Element imgEle=thread.selectFirst("img");
+            String thumbUrl = imgEle.attr("src");
             this.addPic(new Picture(
-                    null,
-                    thread.selectFirst("a.file-thumb").attr("href"),
-                    imgEle.attr("src"),
+                    new StringBuilder(thumbUrl).deleteCharAt(thumbUrl.lastIndexOf(".")-1).toString(),
+                    thumbUrl,
+                    boardUrl,
                     0,
                     0,
                     Integer.parseInt(getStyleMap(imgEle.attr("style")).get("width")[0].replace("px","")),
@@ -48,14 +53,11 @@ public class SoraPost extends Post {
         }
 
         // now: post_detail = "2019/12/15(日) 10:35:11.776 ID:ivN31vZw"
+        String[] post_detail;
         try {
-            String[] post_detail = thread.selectFirst("div.post-head").selectFirst("span.now").text().split(" ID:");
-            this.setTimeStr(post_detail[0]);
-            post_detail[0] = parseChiToEngWeek(post_detail[0]);
-            this.setTime(new SimpleDateFormat("yyyy/MM/dd(EEE) HH:mm:ss.SSS", Locale.ENGLISH).parse(post_detail[0]));
-            this.setPoster(post_detail[1]);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            installDefaultDetail(thread);
+        } catch (NullPointerException e) {
+            install2catDetail(thread,post_id);
         }
 
         //get quote
@@ -68,6 +70,39 @@ public class SoraPost extends Post {
             this.setTitle(title);
             installTitle(title);
         }
+    }
+
+    void installDefaultDetail(Element thread){
+        String[] post_detail = thread.selectFirst("div.post-head span.now").text().split(" ID:");
+        post_detail[0] = parseChiToEngWeek(post_detail[0].trim());
+        for(String s : Arrays.asList(
+                "yyyy/MM/dd(EEE) HH:mm:ss.SSS",
+                "yyyy/MM/dd(EEE)HH:mm:ss.SSS"
+        )){
+            try {
+                this.setTime(new SimpleDateFormat(s, Locale.ENGLISH).parse(post_detail[0]));
+                break;
+            }catch (ParseException ignored) {}
+        }
+        this.setPoster(post_detail[1]);
+    }
+
+    void install2catDetail(Element thread,String post_id){
+        String[] post_detail=new String[5];
+        Element detailEle=thread.selectFirst(String.format("label[for='%s']", post_id));
+        Element titleEle=detailEle.selectFirst("span.title");
+        if(titleEle!=null){
+            this.setTitle(titleEle.text().trim());
+            titleEle.remove();
+        }
+        // s = "[20/04/30(木)18:15 ID:CRz.V7Mw/Zplu]"
+        String s=detailEle.text().trim();
+        post_detail=s.substring(1,s.length()-1).split(" ID:");
+        post_detail[0] = parseJpnToEngWeek(post_detail[0].trim());
+        try {
+            this.setTime(new SimpleDateFormat("yy/MM/dd(EEE)HH:mm", Locale.ENGLISH).parse(post_detail[0]));
+        }catch (ParseException ignored) {}
+        this.setPoster(post_detail[1]);
     }
 
     @Override
@@ -86,11 +121,10 @@ public class SoraPost extends Post {
     }
 
     public void addPost(Element reply_ele) {
-        String reply_id = reply_ele.selectFirst("span.qlink").text().replace("No.", "");
-        SoraPost reply = new SoraPost(reply_id, reply_ele);
-        reply.setBoardUrl(this.getBoardUrl());
+        String reply_id = reply_ele.selectFirst(".qlink").text().replace("No.", "");
+        SoraPost reply = new SoraPost(this.getBoardUrl(),reply_id, reply_ele);
 
-        Elements eles = reply_ele.select("span.resquote").select("a.qlink");
+        Elements eles = reply_ele.select("span.resquote a.qlink");
         if (eles.size() <= 0) {
             // is main
             reply.installPreview(this,this.getPostId());
@@ -120,13 +154,12 @@ public class SoraPost extends Post {
     }
 
     public SoraPost parseDoc(Document doc,String boardUrl) {
-        Element thread= doc.body().selectFirst("div.thread");
+        Element thread= installThreadTag(doc.body().getElementById("threads")).selectFirst("div.thread");
         Element threadpost = thread.selectFirst("div.threadpost");
-        SoraPost subPost = new SoraPost(threadpost.attr("id").substring(1), threadpost);
+        SoraPost subPost = new SoraPost(boardUrl,threadpost.attr("id").substring(1), threadpost);
         for (Element reply_ele : thread.select("div.reply")) {
             subPost.addPost(reply_ele);
         }
-        subPost.setBoardUrl(boardUrl);
         return subPost;
     }
 }
