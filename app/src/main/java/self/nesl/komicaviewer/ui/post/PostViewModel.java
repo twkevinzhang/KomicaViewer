@@ -29,7 +29,7 @@ public class PostViewModel extends ViewModel {
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                Post post1=getPostFormat(Jsoup.parse(response),new MyURL(url).getUrlToLastPath());
+                Post post1=getPostFormat(Jsoup.parse(response),new MyURL(url).getUrlToLastPath(),false);
                 PostDB.addPost(post1, PostDB.HISTORY_TABLE_NAME);
                 post.setValue(post1);
             }

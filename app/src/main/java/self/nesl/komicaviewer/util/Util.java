@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.model.komica.SoraBoard;
 import self.nesl.komicaviewer.model.komica.SoraPost;
 
 public class Util {
@@ -61,16 +62,16 @@ public class Util {
         return s;
     }
 
-    public static Post getPostFormat(Document document, String boardUrl){
+    public static Post getPostFormat(Document document, String boardUrl,boolean isBoard){
         String[] sora=new String[]{
                 "komica.org",
                 "2cat.org"
         };
         String host=new MyURL(boardUrl).getHost();
         if(host.contains(sora[0])){
-            return new SoraPost().parseDoc(document,boardUrl);
+            return isBoard?new SoraBoard(document,boardUrl) :new SoraPost().parseDoc(document,boardUrl);
         }else if(host.contains(sora[1])){
-//            return new SoraPost().parseDoc(document,boardUrl);
+//            return isBoard?new SoraBoard(document,boardUrl) :new SoraPost().parseDoc(document,boardUrl);
         }
         return null;
     }

@@ -18,6 +18,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import self.nesl.komicaviewer.db.BoardPreferences;
 import self.nesl.komicaviewer.db.PostDB;
+import self.nesl.komicaviewer.ui.board.BoardFragment;
+
+import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // DB
+
+        // DB initialize
         BoardPreferences.initialize(this);
         PostDB.initialize(this);
 
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_slideshow,
-                R.id.nav_komica_sora,
+                R.id.nav_board,
                 R.id.nav_history,
                 R.id.nav_favorite
                 )

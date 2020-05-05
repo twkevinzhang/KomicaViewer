@@ -34,11 +34,11 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
 ### 目前版面
  - Komica:
    - [x] komica.org ( 
-      [綜合,男性角色,短片2,寫真],
-      [新番捏他,新番實況,漫畫,動畫,萌,車],
-      [四格],
-      [女性角色,歡樂惡搞,GIF,Vtuber],
-      [蘿蔔,鋼普拉,影視,特攝,軍武,中性角色,遊戲速報,飲食,小說,遊戲王,奇幻/科幻,電腦/消費電子,塗鴉王國,新聞,布袋戲,紙牌,網路遊戲]
+      - sora: [綜合,男性角色,短片2,寫真],
+      - 2cat: [新番捏他,新番實況,漫畫,動畫,萌,車],
+      - tomo: [四格],
+      - luna: [女性角色,歡樂惡搞,GIF,Vtuber],
+      - aqua: [蘿蔔,鋼普拉,影視,特攝,軍武,中性角色,遊戲速報,飲食,小說,遊戲王,奇幻/科幻,電腦/消費電子,塗鴉王國,新聞,布袋戲,紙牌,網路遊戲]
       )
    - [ ] vi.anacel.com (Figure/GK)
    - [ ] acgspace.wsfun.com (艦隊收藏)
@@ -49,7 +49,11 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
    - [ ] p.komica.acg.club.tw (兄貴)
    - [ ] 2cat.org (碧藍幻想、手機遊戲、Azur Lane、網頁遊戲)
  - Komica2
-   - [ ] 高解析裡
+   - [ ] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
+   - [ ] 2cat.org (GIF裡,動畫裡,高解析裡,成人玩具,知識裡,偽娘裡,東方裡,)
+   - [ ] p.komica.acg.club.tw (觸手裡)
+   - [ ] cyber.boguspix.com (機娘裡)
+   - [ ] majeur.zawarudo.org (詢問裡)
  
 ### 下載
 

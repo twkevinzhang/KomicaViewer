@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.ui.sora;
+package self.nesl.komicaviewer.ui.board;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,11 +13,12 @@ import org.jsoup.Jsoup;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.SoraBoard;
+import self.nesl.komicaviewer.util.MyURL;
 
+import static self.nesl.komicaviewer.util.Util.getPostFormat;
 import static self.nesl.komicaviewer.util.Util.print;
 
-public class SoraViewModel extends ViewModel {
+public class BoardViewModel extends ViewModel {
     private MutableLiveData<ArrayList<Post>> postlist=new MutableLiveData<ArrayList<Post>>();
     private String boardUrl;
 
@@ -27,11 +28,12 @@ public class SoraViewModel extends ViewModel {
             url += "/pixmicat.php?page_num="+page;
         }
         print(this,"AndroidNetworking: "+url);
+        String finalUrl = url;
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                postlist.setValue(new SoraBoard(Jsoup.parse(response), boardUrl).getReplies());
+                postlist.setValue(getPostFormat(Jsoup.parse(response), finalUrl,true).getReplies());
             }
 
             public void onError(ANError anError) {

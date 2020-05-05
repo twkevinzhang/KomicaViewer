@@ -15,7 +15,7 @@
             android:title="@string/menu_slideshow" />
 
         <item
-            android:id="@+id/nav_komica_sora"
+            android:id="@+id/nav_board"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_sora" />
 

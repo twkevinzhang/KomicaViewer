@@ -44,12 +44,12 @@
 <!--    </fragment>-->
 
     <fragment
-        android:id="@+id/nav_komica_sora"
-        android:name="self.nesl.komicaviewer.ui.sora.SoraFragment"
+        android:id="@+id/nav_board"
+        android:name="self.nesl.komicaviewer.ui.board.BoardFragment"
         android:label="@string/menu_sora"
         tools:layout="@layout/fragment_post" >
         <argument
-            android:name="boardUrlId"
+            android:name="board_url"
             app:argType="reference"
             android:defaultValue="@string/sora_url"/>
         <action

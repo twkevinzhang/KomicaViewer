@@ -39,7 +39,8 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     // 建立ViewHolder
     public class PostlistViewHolder extends RecyclerView.ViewHolder {
         // 宣告元件
-        private ImageView imgPost;
+        private ImageView imgThumb;
+        private ImageView imgOri;
         private TextView txtPostId;
         private TextView txtPostInd;
         private TextView txtReplyCount;
@@ -48,7 +49,8 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
 
         PostlistViewHolder(View v) {
             super(v);
-            imgPost = v.findViewById(R.id.img);
+            imgThumb = v.findViewById(R.id.imgThumb);
+            imgOri = v.findViewById(R.id.imgOri);
             txtTime = v.findViewById(R.id.txtTime);
             txtPostInd = v.findViewById(R.id.txtInd);
             txtReplyCount = v.findViewById(R.id.txtReplyCount);
@@ -73,46 +75,76 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         holder.txtReplyCount.setText("回應:" + post.getReplyCount());
         holder.txtPoster.setText(post.getPoster());
         holder.txtTime.setText(post.getTimeStr());
+        holder.imgThumb.setVisibility(View.VISIBLE);
+        holder.imgOri.setVisibility(View.GONE);
+
+        // set picUrl
+//        ArrayList<Picture> pics = post.getPics();
+//        holder.imgThumb.setTag(R.id.imageid, post.getPostId());
+//        if(pics.size() != 0) {
+//            Picture pic=pics.get(0);
+//            holder.imgThumb.setTag(R.id.imageid, pic.getThumbnailUrl());
+//            if (holder.imgThumb.getTag(R.id.imageid).equals(pic.getThumbnailUrl())) {
+//                Glide.with(holder.imgThumb.getContext())
+//                        .load(pic.getThumbnailUrl())
+//                        .fitCenter()
+//                        .override(pic.getThumbWidth()*2,pic.getThumbHeight()*2)
+//                        .into(holder.imgThumb);
+//
+//                holder.imgThumb.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        holder.imgThumb.setVisibility(View.GONE);
+//                        holder.imgOri.setVisibility(View.VISIBLE);
+//
+//                        DisplayMetrics metrics = new DisplayMetrics();
+//                        fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//                        Glide.with(holder.imgOri.getContext())
+//                                .load(pic.getOriginalUrl())
+//                                .fitCenter()
+//                                .into(holder.imgOri);
+//                    }
+//                });
+//            }
+//        }
+
+        holder.imgThumb.setVisibility(View.VISIBLE);
+        holder.imgOri.setVisibility(View.GONE);
 
         // set picUrl
         ArrayList<Picture> pics = post.getPics();
-        String thumbUrl="";
-        String picUrl="";
+        String thumbUrl="",picUrl="";
         if(pics.size() != 0){
-            thumbUrl = pics.get(0).getThumbnailUrl();
-            picUrl =pics.get(0).getOriginalUrl();
+            Picture pic=pics.get(0);
+            thumbUrl = pic.getThumbnailUrl();
+            picUrl =pic.getOriginalUrl();
         }
 
         // 通過tag來防止錯位、忽大忽小
-        holder.imgPost.setTag(R.id.imageid, thumbUrl);
-        if (holder.imgPost.getTag(R.id.imageid).equals(thumbUrl)) {
-            Glide.with(holder.imgPost.getContext())
+        holder.imgThumb.setTag(R.id.imageid, thumbUrl);
+        if (holder.imgThumb.getTag(R.id.imageid).equals(thumbUrl)) {
+            Glide.with(holder.imgThumb.getContext())
                     .load(thumbUrl)
                     .fitCenter()
-                    .into(holder.imgPost);
+                    .into(holder.imgThumb);
 
             String finalPicUrl = picUrl;
-            holder.imgPost.setOnClickListener(new View.OnClickListener() {
+            holder.imgThumb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DisplayMetrics metrics = new DisplayMetrics();
-                    fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics( metrics);
-                    Glide.with(holder.imgPost.getContext())
+                    holder.imgThumb.setVisibility(View.GONE);
+                    holder.imgOri.setVisibility(View.VISIBLE);
+
+                    Glide.with(holder.imgOri.getContext())
                             .load(finalPicUrl)
                             .fitCenter()
-                            .into(holder.imgPost)
-                            .getSize(new SizeReadyCallback() {
-                                @Override
-                                public void onSizeReady(int width, int height) {
-                                    holder.imgPost.setLayoutParams(new LinearLayout.LayoutParams(
-                                            LinearLayout.LayoutParams.MATCH_PARENT,
-                                            metrics.widthPixels / width * height
-                                    ));
-                                }
-                            });
+                            .into(holder.imgOri);
                 }
             });
         }
+
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

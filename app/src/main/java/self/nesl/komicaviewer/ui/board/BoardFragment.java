@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.ui.sora;
+package self.nesl.komicaviewer.ui.board;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,25 +21,31 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.SoraPost;
 
+import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
 
-public class SoraFragment extends Fragment{
-    private SoraViewModel soraViewModel;
+public class BoardFragment extends Fragment{
+    private BoardViewModel boardViewModel;
     private static String boardUrl;
     private int page = 0;
+
+    public static BoardFragment newInstance(Bundle bundle) {
+        BoardFragment fragment = new BoardFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        soraViewModel = ViewModelProviders.of(this).get(SoraViewModel.class);
+        boardViewModel = ViewModelProviders.of(this).get(BoardViewModel.class);
         if (getArguments() != null) {
-            boardUrl = getResources().getString(getArguments().getInt("boardUrlId"));
+            boardUrl = getResources().getString(getArguments().getInt(COLUMN_BOARD_URL));
         }
-        soraViewModel.setBoardUrl(boardUrl);
-        soraViewModel.load(page);
+        boardViewModel.setBoardUrl(boardUrl);
+        boardViewModel.load(page);
     }
 
     @Override
@@ -64,14 +70,14 @@ public class SoraFragment extends Fragment{
             @Override
             public void onRefresh() {
                 adapter.clear();
-                soraViewModel.load(0);
+                boardViewModel.load(0);
                 adapter.notifyDataSetChanged();
                 cateSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
         // data and adapter
-        soraViewModel.getPostlist().observe(getViewLifecycleOwner(), new Observer<ArrayList<Post>>() {
+        boardViewModel.getPostlist().observe(getViewLifecycleOwner(), new Observer<ArrayList<Post>>() {
             int start, end = 0;
             @Override
             public void onChanged(ArrayList<Post> posts) {
@@ -101,7 +107,7 @@ public class SoraFragment extends Fragment{
                     cateSwipeRefreshLayout.setRefreshing(true);
                     page += 1;
                     txtMsg.setText("載入中" + page);
-                    soraViewModel.load(page);
+                    boardViewModel.load(page);
 
                 } else if (!recyclerView.canScrollVertically(-1)) {
                     txtMsg.setText("到頂了(不能向上滑動)");
