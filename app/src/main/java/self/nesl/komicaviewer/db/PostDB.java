@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
-
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
@@ -47,6 +44,7 @@ public final class PostDB {
         values.put(COLUMN_POST_ID, post.getPostId());
         values.put(COLUMN_BOARD_URL, post.getBoardUrl());
         values.put(COLUMN_POST_HTML, post.getPostEle().html());
+        // todo: toJson(Post)
 //        values.put(COLUMN_POST_JSON, new Gson().toJson(post));
         values.put(COLUMN_UPDATE, System.currentTimeMillis());
         mDatabase.insert(tableName, null, values);

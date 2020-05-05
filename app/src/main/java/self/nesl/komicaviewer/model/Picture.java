@@ -2,7 +2,7 @@ package self.nesl.komicaviewer.model;
 
 import android.graphics.Bitmap;
 
-import self.nesl.komicaviewer.util.MyURL;
+import self.nesl.komicaviewer.util.UrlUtil;
 
 import static self.nesl.komicaviewer.util.Util.print;
 
@@ -27,11 +27,11 @@ public class Picture {
     }
 
     public String getOriginalUrl() {
-        return new MyURL(originalUrl,baseUrl).getUrl();
+        return new UrlUtil(originalUrl,baseUrl).getUrl();
     }
 
     public String getThumbnailUrl() {
-        return new MyURL(thumbnailUrl,baseUrl).getUrl();
+        return new UrlUtil(thumbnailUrl,baseUrl).getUrl();
     }
 
     public int getOriginalWidth() {

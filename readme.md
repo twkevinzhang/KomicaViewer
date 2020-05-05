@@ -6,6 +6,7 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
 ### 分支說明
  - 強化MVVM的觀念，增強Model的功能
  - 更好的commit格式
+ - 遵守SOL(I)D 及使用Dagger Inject
 
 ### 學習重點
  - MVVM與物件導向實作
@@ -32,7 +33,7 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
  - 個人化推薦文章(自行設定關鍵字)
  
 ### 目前版面
- - Komica:
+ - Komica Top50:
    - [x] komica.org ( 
       - sora: [綜合,男性角色,短片2,寫真],
       - 2cat: [新番捏他,新番實況,漫畫,動畫,萌,車],
@@ -48,7 +49,7 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
    - [ ] kagaminerin.org (3D STG、動作遊戲)
    - [ ] p.komica.acg.club.tw (兄貴)
    - [ ] 2cat.org (碧藍幻想、手機遊戲、Azur Lane、網頁遊戲)
- - Komica2
+ - Komica2 Top50:
    - [ ] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
    - [ ] 2cat.org (GIF裡,動畫裡,高解析裡,成人玩具,知識裡,偽娘裡,東方裡,)
    - [ ] p.komica.acg.club.tw (觸手裡)
@@ -82,3 +83,8 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
  - 其他
     - [Komica20160704/homu-api](https://homu.homu-api.com/api) and [Repository](https://github.com/Komica20160704/homu-api)
     - [Komica+](https://github.com/TakumaMochizuki/Komica)
+
+### 圖
+   host > board > post
+
+   getUrl() == getProtocol()+"://"+getHost()+getPath()

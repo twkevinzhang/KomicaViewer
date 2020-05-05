@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.ui.post;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,10 +11,10 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import org.jsoup.Jsoup;
 
 import self.nesl.komicaviewer.db.PostDB;
-import self.nesl.komicaviewer.util.MyURL;
+import self.nesl.komicaviewer.util.UrlUtil;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.Util.getPostFormat;
+import static self.nesl.komicaviewer.util.ProjectUtil.getPostFormat;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class PostViewModel extends ViewModel {
@@ -24,12 +22,12 @@ public class PostViewModel extends ViewModel {
     private String url;
 
     public void update() {
-        print(this,"AndroidNetworking: "+url);
+        print(new Object(){}.getClass(),"AndroidNetworking: "+url);
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                Post post1=getPostFormat(Jsoup.parse(response),new MyURL(url).getUrlToLastPath(),false);
+                Post post1=getPostFormat(Jsoup.parse(response),new UrlUtil(url).getLastPathSegment(),false);
                 PostDB.addPost(post1, PostDB.HISTORY_TABLE_NAME);
                 post.setValue(post1);
             }

@@ -47,14 +47,25 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+//        Menu menu = navigationView.getMenu();
+//        Menu submenu = menu.addSubMenu("New set");
+//        submenu.add("Item1");
+//        submenu.getItem(0).setIcon(R.drawable.ic_menu_slideshow);
+
+        // 將fragment實例化，生成id
+
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(COLUMN_BOARD_URL,
+                "https://sora.komica.org/00"
+        );
+        BoardFragment test= BoardFragment.newInstance(bundle);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_slideshow,
                 R.id.nav_board,
                 R.id.nav_history,
-                R.id.nav_favorite
+                R.id.nav_favorite,
+                test.getId()
                 )
                 .setDrawerLayout(drawer)
                 .build();

@@ -4,20 +4,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Locale;
-
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
 import static self.nesl.komicaviewer.util.Util.getStyleMap;
-import static self.nesl.komicaviewer.util.Util.installThreadTag;
+import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
 import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.Util.parseJpnToEngWeek;
-import static self.nesl.komicaviewer.util.Util.parseTime;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.ProjectUtil.parseTime;
 
 public class SoraPost extends Post {
     private String fsub;

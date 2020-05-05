@@ -18,6 +18,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
+import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class PostFragment extends Fragment {
@@ -28,7 +29,7 @@ public class PostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         postViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         if (getArguments() != null) {
-            postViewModel.setPostUrl(getArguments().getString("postUrl"));
+            postViewModel.setPostUrl(getArguments().getString(COLUMN_POST_URL));
         }
         postViewModel.update();
     }

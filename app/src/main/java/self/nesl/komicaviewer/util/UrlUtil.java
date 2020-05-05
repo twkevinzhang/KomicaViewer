@@ -7,16 +7,16 @@ import java.net.URL;
 
 import static self.nesl.komicaviewer.util.Util.print;
 
-public class MyURL {
+public class UrlUtil {
     String url;
     String baseUrl;
 
     //sora.komica.org/00/pixmicat.php?res=18287039
-    public MyURL(String url){
+    public UrlUtil(String url){
         this(url,null);
     }
 
-    public MyURL(String url,@Nullable String baseUrl){
+    public UrlUtil(String url, @Nullable String baseUrl){
         this.url=installProtocol(url);
         if(baseUrl!=null){
             this.baseUrl=installProtocol(baseUrl);
@@ -61,7 +61,7 @@ public class MyURL {
     }
 
     // https://sora.komica.org/00
-    public String getUrlToLastPath(){
+    public String getLastPathSegment(){
         String url=getUrl();
         return url.substring(url.indexOf(getHost()),url.lastIndexOf("/"));
     }

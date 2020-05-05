@@ -5,14 +5,10 @@ import android.content.Context;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.util.MyURL;
+import self.nesl.komicaviewer.util.UrlUtil;
 
-import static self.nesl.komicaviewer.util.Util.installThreadTag;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
 
 public class SoraBoard extends Post {
     private String fsub;
@@ -20,7 +16,7 @@ public class SoraBoard extends Post {
     private Context context;
 
     public SoraBoard(Document doc,String url){
-        String host=new MyURL(url).getHost();
+        String host=new UrlUtil(url).getHost();
         this.setPostId(host);
         this.setPostEle(doc);
 

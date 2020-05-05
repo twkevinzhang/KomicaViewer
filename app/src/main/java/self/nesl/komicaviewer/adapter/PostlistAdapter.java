@@ -1,12 +1,10 @@
 package self.nesl.komicaviewer.adapter;
 
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,14 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SizeReadyCallback;
 
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.util.MyURL;
 
 import static self.nesl.komicaviewer.util.Util.print;
 

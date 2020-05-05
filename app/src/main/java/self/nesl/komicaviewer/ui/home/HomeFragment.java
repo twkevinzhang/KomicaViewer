@@ -6,30 +6,66 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.adapter.BoardlistAdapter;
+import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.model.komica.KomicaHost;
+
+import static self.nesl.komicaviewer.util.Util.print;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel.update(new KomicaHost());
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final View v = inflater.inflate(R.layout.fragment_post, container, false);
+        final RecyclerView lst = v.findViewById(R.id.rcLst);
+        final TextView txtMsg = v.findViewById(R.id.txtMsg);
+
+        // lst
+        lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        BoardlistAdapter adapter =new BoardlistAdapter(this);
+        lst.setAdapter(adapter);
+
+        // data and adapter
+        homeViewModel.getList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Post>>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onChanged(ArrayList<Post> boards) {
+                adapter.addAllPost(boards);
+                adapter.notifyDataSetChanged();
             }
         });
-        return root;
+
+        // SwipeRefreshLayout
+        final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
+        cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                homeViewModel.update(new KomicaHost());
+                adapter.notifyDataSetChanged();
+                cateSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        return v;
     }
 }

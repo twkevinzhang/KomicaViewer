@@ -29,6 +29,7 @@ public abstract class Post implements Serializable {
     private ArrayList<Picture> pics = new ArrayList<Picture>();
     private boolean isTop = false;
     private boolean isReaded = false;
+    // todo: toJson(Post)
     private transient ArrayList<Post> replyTree = new ArrayList<Post>();
     private String boardUrl =null;
 

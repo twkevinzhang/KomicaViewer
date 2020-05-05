@@ -22,15 +22,19 @@ import self.nesl.komicaviewer.model.komica.SoraBoard;
 import self.nesl.komicaviewer.model.komica.SoraPost;
 
 public class Util {
-    public static void print(@Nullable Object c, String... s){
+    public static void print(@Nullable Class c, String... s){
         String s1=TextUtils.join(", ",s);
         if(c!=null){
-            Log.e(c.getClass().getName(),s1);
+            Log.e(c.getName(),s1);
         }else{
             Log.e("print",s1);
         }
 
 //        System.out.println(s);
+    }
+
+    public static void print(String... s){
+        print(null,s);
     }
 
     public static Map<String, String[]> getStyleMap(String styleStr) {
@@ -62,47 +66,4 @@ public class Util {
         return s;
     }
 
-    public static Post getPostFormat(Document document, String boardUrl,boolean isBoard){
-        String[] sora=new String[]{
-                "komica.org",
-                "2cat.org"
-        };
-        String host=new MyURL(boardUrl).getHost();
-        if(host.contains(sora[0])){
-            return isBoard?new SoraBoard(document,boardUrl) :new SoraPost().parseDoc(document,boardUrl);
-        }else if(host.contains(sora[1])){
-//            return isBoard?new SoraBoard(document,boardUrl) :new SoraPost().parseDoc(document,boardUrl);
-        }
-        return null;
-    }
-
-    public static Element installThreadTag(Element threads){
-        //如果找不到thread標籤，就是2cat.komica.org，要用addThreadTag()改成標準綜合版樣式
-        if (threads.selectFirst("div.thread") == null) {
-            print(null,"thread is null,將thread加入threads中，變成標準綜合版樣式");
-            //將thread加入threads中，變成標準綜合版樣式
-            Element thread = threads.appendElement("div").addClass("thread");
-            for (Element div : threads.children()) {
-                thread.appendChild(div);
-                if (div.tagName().equals("hr")) {
-                    threads.appendChild(thread);
-                    thread = threads.appendElement("div").addClass("thread");
-                }
-            }
-        }
-        return threads;
-    }
-
-    public static Date parseTime(String time){
-        for(String s : Arrays.asList(
-                "yyyy/MM/dd(EEE) HH:mm:ss.SSS",
-                "yy/MM/dd(EEE) HH:mm:ss",
-                "yy/MM/dd(EEE)HH:mm:ss"
-        )){
-            try {
-                return new SimpleDateFormat(s, Locale.ENGLISH).parse(time);
-            }catch (ParseException ignored) {}
-        }
-        return null;
-    }
 }

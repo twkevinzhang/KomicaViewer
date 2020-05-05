@@ -10,13 +10,9 @@
         android:name="self.nesl.komicaviewer.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
-
-<!--        <action-->
-<!--            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"-->
-<!--            app:destination="@id/nav_home_second" />-->
         <action
-            android:id="@+id/action_nav_home_to_nav_post"
-            app:destination="@id/nav_post" />
+            android:id="@+id/action_nav_home_to_nav_board"
+            app:destination="@id/nav_board" />
     </fragment>
 
     <fragment
@@ -50,10 +46,9 @@
         tools:layout="@layout/fragment_post" >
         <argument
             android:name="board_url"
-            app:argType="reference"
-            android:defaultValue="@string/sora_url"/>
+            app:argType="string" />
         <action
-            android:id="@+id/action_nav_komica_sora_to_nav_post"
+            android:id="@+id/action_nav_board_to_nav_post"
             app:destination="@id/nav_post" />
     </fragment>
 

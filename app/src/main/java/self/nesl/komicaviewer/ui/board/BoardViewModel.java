@@ -13,9 +13,8 @@ import org.jsoup.Jsoup;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.util.MyURL;
 
-import static self.nesl.komicaviewer.util.Util.getPostFormat;
+import static self.nesl.komicaviewer.util.ProjectUtil.getPostFormat;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class BoardViewModel extends ViewModel {
@@ -27,7 +26,7 @@ public class BoardViewModel extends ViewModel {
         if (page != 0) {
             url += "/pixmicat.php?page_num="+page;
         }
-        print(this,"AndroidNetworking: "+url);
+        print(this.getClass(),"AndroidNetworking: "+url);
         String finalUrl = url;
         AndroidNetworking.get(url)
                 .build().getAsString(new StringRequestListener() {
