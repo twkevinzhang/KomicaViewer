@@ -57,7 +57,8 @@ public class ProjectUtil {
         for(String s : Arrays.asList(
                 "yyyy/MM/dd(EEE) HH:mm:ss.SSS",
                 "yy/MM/dd(EEE) HH:mm:ss",
-                "yy/MM/dd(EEE)HH:mm:ss"
+                "yy/MM/dd(EEE)HH:mm:ss",
+                "yy/MM/dd(EEE)HH:mm"
         )){
             try {
                 return new SimpleDateFormat(s, Locale.ENGLISH).parse(time);

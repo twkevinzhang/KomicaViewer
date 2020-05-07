@@ -12,6 +12,7 @@ import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
 import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.Util.parseJpnToEngWeek;
 import static self.nesl.komicaviewer.util.ProjectUtil.parseTime;
+import static self.nesl.komicaviewer.util.Util.print;
 
 public class SoraPost extends Post {
     private String fsub;
