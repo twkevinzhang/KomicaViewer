@@ -15,6 +15,8 @@ public class SoraBoard extends Post {
     private String fcom;
     private Context context;
 
+    public SoraBoard(){}
+
     public SoraBoard(Document doc,String url){
         String host=new UrlUtil(url).getHost();
         this.setPostId(host);
@@ -46,6 +48,11 @@ public class SoraBoard extends Post {
     @Override
     public String getIntroduction(int words, String[] rank) {
         return getQuoteElement().text().trim();
+    }
+
+    @Override
+    public SoraBoard parseDoc(Document document, String url) {
+        return new SoraBoard(document,url);
     }
 
     @Override

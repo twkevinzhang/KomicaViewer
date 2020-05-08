@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.Komica2Host;
 import self.nesl.komicaviewer.model.komica.KomicaHost;
@@ -24,15 +25,15 @@ public class ProjectUtil {
     private static final String MAP_TITLE_COLUMN="title";
     private static final String MAP_LINK_COLUMN="link";
 
-    public static Post getPostFormat(Document document, String boardUrl, boolean isBoard){
-        String[] hosts= new KomicaHost().getSubHosts();
-        String host=new UrlUtil(boardUrl).getHost();
-        if(host.contains(hosts[0])){
-            return isBoard?new SoraBoard(document,boardUrl) :new SoraPost().parseDoc(document,boardUrl);
-        }else if(host.contains(hosts[1])){
-//            return isBoard?new SoraBoard(document,boardUrl) :new SoraPost().parseDoc(document,boardUrl);
+    public static Post getPostModel(Document document, String url, boolean isBoard){
+        for(Host host : new Host[]{
+                new KomicaHost(),
+                new Komica2Host(),
+        }){
+            if(new UrlUtil(url).getHost().contains(host.getHost())){
+                return host.getPostModel(document,url,isBoard);
+            }
         }
-        hosts= new Komica2Host().getSubHosts();
         return null;
     }
 
@@ -79,6 +80,11 @@ public class ProjectUtil {
 
                 @Override
                 public String getIntroduction(int words, String[] rank) {
+                    return null;
+                }
+
+                @Override
+                public Post parseDoc(Document document, String url) {
                     return null;
                 }
             };

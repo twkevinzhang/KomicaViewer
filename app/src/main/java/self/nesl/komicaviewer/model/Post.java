@@ -182,7 +182,7 @@ public abstract class Post implements Serializable {
     // 語言缺陷: 一定要實例化(new)才能使用implement parseDoc()
     // https://stackoverflow.com/questions/370962/why-cant-static-methods-be-abstract-in-java
 //    abstract public static Post parseDoc(Document document,String url);
-//    abstract public Post parseDoc(Document document,String url);
+    abstract public Post parseDoc(Document document,String url); // abstract & static
 
     public void addPost(String target_id, Post insert_reply) {
         if(target_id.equals(this.postId)){

@@ -1,6 +1,10 @@
 package self.nesl.komicaviewer.model.komica;
 
+import org.jsoup.nodes.Document;
+
 import self.nesl.komicaviewer.model.Host;
+import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.util.UrlUtil;
 
 public class Komica2Host extends Host {
 
@@ -9,10 +13,9 @@ public class Komica2Host extends Host {
         return "komica2.net";
     }
 
-    @Override
     public String[] getSubHosts() {
         return new String[]{
-                "komica2.net",
+                "komica2.net", // SoraPost,SoraBoard
                 "2cat.org",
                 "p.komica.acg.club.tw",
                 "cyber.boguspix.com",
@@ -25,7 +28,21 @@ public class Komica2Host extends Host {
 
     }
 
-    public String getTop50Menu() {
-        return super.getUrl()+"/mainmenu2018.html";
+    @Override
+    public Post getPostModel(Document document, String url, boolean isBoard) {
+        String mhost=new UrlUtil(url).getHost();
+        Post[] postModels=new Post[]{
+                new SoraPost()
+        };
+        Post[] boardModels=new Post[]{
+                new SoraBoard()
+        };
+        String[] subHosts=getSubHosts();
+        for(int i=0;i<subHosts.length;i++){
+            if(mhost.contains(subHosts[i])){
+                return (isBoard?boardModels[i] :postModels[i]).parseDoc(document,url);
+            }
+        }
+        return null;
     }
 }

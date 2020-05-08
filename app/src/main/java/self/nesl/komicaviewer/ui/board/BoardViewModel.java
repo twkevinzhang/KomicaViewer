@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.ProjectUtil.getPostFormat;
+import static self.nesl.komicaviewer.util.ProjectUtil.getPostModel;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class BoardViewModel extends ViewModel {
@@ -32,7 +32,7 @@ public class BoardViewModel extends ViewModel {
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                postlist.setValue(getPostFormat(Jsoup.parse(response), finalUrl,true).getReplies());
+                postlist.setValue(getPostModel(Jsoup.parse(response), finalUrl,true).getReplies());
             }
 
             public void onError(ANError anError) {

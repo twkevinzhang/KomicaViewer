@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.util.UrlUtil;
+
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class KomicaHost extends Host {
@@ -20,11 +22,10 @@ public class KomicaHost extends Host {
         return "komica.org";
     }
 
-    @Override
     public String[] getSubHosts() {
         return new String[]{
-                "komica.org",
-                "vi.anacel.com",
+                "komica.org", // SoraPost,SoraBoard
+                "vi.anacel.com", //
                 "acgspace.wsfun.com",
                 "komica.dbfoxtw.me",
                 "idolma.ster.tw",
@@ -54,6 +55,24 @@ public class KomicaHost extends Host {
         });
     }
 
+    @Override
+    public Post getPostModel(Document document, String url, boolean isBoard) {
+        String mhost=new UrlUtil(url).getHost();
+        Post[] postModels=new Post[]{
+                new SoraPost()
+        };
+        Post[] boardModels=new Post[]{
+                new SoraBoard()
+        };
+        String[] subHosts=getSubHosts();
+        for(int i=0;i<subHosts.length;i++){
+            if(mhost.contains(subHosts[i])){
+                return (isBoard?boardModels[i] :postModels[i]).parseDoc(document,url);
+            }
+        }
+        return null;
+    }
+
     private ArrayList<Post> parseAllBoardlist(Document doc) {
         ArrayList<Post> boards=new ArrayList<Post>();
         for (Element ul : doc.select("ul")) {
@@ -74,6 +93,11 @@ public class KomicaHost extends Host {
 
                         @Override
                         public String getIntroduction(int words, String[] rank) {
+                            return null;
+                        }
+
+                        @Override
+                        public Post parseDoc(Document document, String url) {
                             return null;
                         }
                     };

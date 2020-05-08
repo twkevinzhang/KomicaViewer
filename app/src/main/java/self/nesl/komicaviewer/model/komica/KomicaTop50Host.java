@@ -20,21 +20,6 @@ public class KomicaTop50Host extends Host {
     }
 
     @Override
-    public String[] getSubHosts() {
-        return new String[]{
-                "komica.org",
-                "vi.anacel.com",
-                "acgspace.wsfun.com",
-                "komica.dbfoxtw.me",
-                "idolma.ster.tw",
-                "komica.yucie.net",
-                "kagaminerin.org",
-                "p.komica.acg.club.tw",
-                "2cat.org"
-        };
-    }
-
-    @Override
     public void downloadBoardlist(OnResponse onResponse) {
         String url=super.getUrl()+("/mainmenu2019.html");
         AndroidNetworking.get(url)
@@ -51,6 +36,11 @@ public class KomicaTop50Host extends Host {
                 anError.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public Post getPostModel(Document document, String url, boolean isBoard) {
+        return new KomicaHost().getPostModel(document,url,isBoard);
     }
 
     private ArrayList<Post> parseTop50Boardlist(Document doc) {
@@ -73,6 +63,11 @@ public class KomicaTop50Host extends Host {
 
                 @Override
                 public String getIntroduction(int words, String[] rank) {
+                    return null;
+                }
+
+                @Override
+                public Post parseDoc(Document document, String url) {
                     return null;
                 }
             };

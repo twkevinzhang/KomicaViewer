@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.model;
 
+import org.jsoup.nodes.Document;
+
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.komica.KomicaHost;
@@ -11,7 +13,6 @@ public abstract class Host {
         return new UrlUtil(getHost()).getUrl();
     };
     abstract public String getHost();
-    abstract public String[] getSubHosts();
     abstract public void downloadBoardlist(OnResponse onResponse);
 
     public ArrayList<Post> getBoardlist(){
@@ -24,4 +25,7 @@ public abstract class Host {
     public interface OnResponse {
         void onResponse(ArrayList<Post> arrayList);
     }
+
+    // abstract & static
+    abstract public Post getPostModel(Document document, String url, boolean isBoard);
 }
