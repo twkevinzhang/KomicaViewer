@@ -52,20 +52,11 @@ public class MainActivity extends AppCompatActivity {
 //        submenu.add("Item1");
 //        submenu.getItem(0).setIcon(R.drawable.ic_menu_slideshow);
 
-        // 將fragment實例化，生成id
-
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(COLUMN_BOARD_URL,
-                "https://sora.komica.org/00"
-        );
-        BoardFragment test= BoardFragment.newInstance(bundle);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_slideshow,
-                R.id.nav_board,
                 R.id.nav_history,
-                R.id.nav_favorite,
-                test.getId()
+                R.id.nav_favorite
                 )
                 .setDrawerLayout(drawer)
                 .build();
