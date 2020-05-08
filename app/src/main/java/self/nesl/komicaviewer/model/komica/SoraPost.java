@@ -132,6 +132,7 @@ public class SoraPost extends Post {
         this.getQuoteElement().prepend(String.format("[%s]<br>",title));
     }
 
+    @Override
     public SoraPost parseDoc(Document doc,String boardUrl) {
         Element thread= installThreadTag(doc.body().getElementById("threads")).selectFirst("div.thread");
         Element threadpost = thread.selectFirst("div.threadpost");

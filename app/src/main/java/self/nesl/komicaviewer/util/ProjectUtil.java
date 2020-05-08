@@ -14,10 +14,8 @@ import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.Komica2Host;
-import self.nesl.komicaviewer.model.komica.KomicaHost;
-import self.nesl.komicaviewer.model.komica.SoraBoard;
-import self.nesl.komicaviewer.model.komica.SoraPost;
+import self.nesl.komicaviewer.model.komica.host.Komica2Host;
+import self.nesl.komicaviewer.model.komica.host.KomicaHost;
 
 import static self.nesl.komicaviewer.util.Util.print;
 

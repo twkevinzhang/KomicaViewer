@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.model.komica;
+package self.nesl.komicaviewer.model.komica.host;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;

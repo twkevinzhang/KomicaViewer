@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.model.komica;
+package self.nesl.komicaviewer.model.komica.host;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.model.komica.SoraBoard;
+import self.nesl.komicaviewer.model.komica.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtil;
 
 import static self.nesl.komicaviewer.util.Util.print;

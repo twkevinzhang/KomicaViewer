@@ -4,7 +4,6 @@ import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 
-import self.nesl.komicaviewer.model.komica.KomicaHost;
 import self.nesl.komicaviewer.util.UrlUtil;
 
 public abstract class Host {

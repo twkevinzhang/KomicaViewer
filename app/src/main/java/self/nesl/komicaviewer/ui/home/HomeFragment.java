@@ -19,8 +19,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.BoardlistAdapter;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.KomicaHost;
-import self.nesl.komicaviewer.model.komica.KomicaTop50Host;
+import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
 
 import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 import static self.nesl.komicaviewer.util.Util.print;

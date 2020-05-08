@@ -3,20 +3,14 @@ package self.nesl.komicaviewer.db;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.StringRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.KomicaHost;
 
 import static android.content.Context.MODE_PRIVATE;
 import static self.nesl.komicaviewer.util.ProjectUtil.arrayMapToArrayPost;

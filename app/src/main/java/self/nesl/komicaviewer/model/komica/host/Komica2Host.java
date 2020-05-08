@@ -1,9 +1,11 @@
-package self.nesl.komicaviewer.model.komica;
+package self.nesl.komicaviewer.model.komica.host;
 
 import org.jsoup.nodes.Document;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.model.komica.SoraBoard;
+import self.nesl.komicaviewer.model.komica.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtil;
 
 public class Komica2Host extends Host {
