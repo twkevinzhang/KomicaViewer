@@ -1,6 +1,14 @@
 package self.nesl.komicaviewer.model.komica.host;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.StringRequestListener;
+
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
@@ -8,7 +16,7 @@ import self.nesl.komicaviewer.model.komica.SoraBoard;
 import self.nesl.komicaviewer.model.komica.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtil;
 
-public class Komica2Host extends Host {
+public class Komica2Host extends Host{
 
     @Override
     public String getHost() {
@@ -27,7 +35,23 @@ public class Komica2Host extends Host {
 
     @Override
     public void downloadBoardlist(OnResponse onResponse) {
+//        String url=super.getUrl()+"/bbsmenu2018.html";
+         String url=super.getUrl()+"/mainmenu2018.html"; // top50
+        AndroidNetworking.get(url)
+                .build().getAsString(new StringRequestListener() {
 
+            public void onResponse(String response) {
+                Document doc= Jsoup.parse(response);
+//                ArrayList<Post> arrayList=KomicaHost.parseAllBoardlist(doc);
+                ArrayList<Post> arrayList=KomicaTop50Host.parseTop50Boardlist(doc); // top50
+                setBoardlist(arrayList);
+                onResponse.onResponse(arrayList);
+            }
+
+            public void onError(ANError anError) {
+                anError.printStackTrace();
+            }
+        });
     }
 
     @Override

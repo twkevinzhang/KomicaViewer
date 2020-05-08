@@ -75,7 +75,7 @@ public class KomicaHost extends Host {
         return null;
     }
 
-    private ArrayList<Post> parseAllBoardlist(Document doc) {
+    public static ArrayList<Post> parseAllBoardlist(Document doc) {
         ArrayList<Post> boards=new ArrayList<Post>();
         for (Element ul : doc.select("ul")) {
             String ui_title = ul.getElementsByClass("category").text();

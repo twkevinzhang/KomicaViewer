@@ -10,10 +10,10 @@ public class Const {
     public static final boolean LOAD_ORIGINAL = false;
 
     // binding mobile_navigation.xml
+    public static final String COLUMN_HOST="host"; // nav_home
     public static final String COLUMN_BOARD_URL = "board_url"; // nav_board
     public static final String COLUMN_TABLE_NAME = "tableName"; // nav_history,nav_favorite
 
-    public static final String COLUMN_HOST="host";
     public static final String COLUMN_POST="post";
     public static final String COLUMN_POST_URL = "postUrl";
 

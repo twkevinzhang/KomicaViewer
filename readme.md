@@ -3,27 +3,31 @@ MVVM in Android
 
 min version: 7.0.0(api=24)，否則getReplies()無法日期排序
 
+### 特色
+ - 為了符合Komica聯合站的獨特架構，將`Host`與`Board`分離，兩者之間的Url並沒有依賴性
+
 ### 分支說明
  - 強化MVVM的觀念，增強Model的功能
  - 更好的commit格式
- - 遵守SOL(I)D 及使用Dagger Inject
 
 ### 學習重點
  - MVVM與物件導向實作
  - fragment, **Navigation-fragment**, AppBar新功能實戰
+ - 遵守SOLID
 
 
 ### 常用功能
 ###### 已加入
  - 預覽reply的引用內容(ex. >>12345678 (我的家庭真可愛...) )
  - 樹狀留言圖
+ - 閱讀歷史
  
 ###### 尚未加入
  - 偵測連結開啟App
  - Po文
  - 長按留言
  - 備份
- - 收藏貼文、閱讀歷史
+ - 收藏貼文
  - Open Url in Browser
  - 肉餅臉產生器
  
@@ -54,13 +58,14 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
    - [ ] secilia.zawarudo.org (少女前線、AGA)
    - [ ] gzone-anime.info (TYPE-MOON)
  - Komica2 Top50:
-   - [ ] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
+   - [x] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
    - [ ] 2cat.org (GIF裡,動畫裡,高解析裡,成人玩具,知識裡,偽娘裡,東方裡,)
    - [ ] p.komica.acg.club.tw (觸手裡)
    - [ ] cyber.boguspix.com (機娘裡)
    - [ ] majeur.zawarudo.org (詢問裡)
  
 ### 下載
+
 
  
 ### 額外套件 (dependencies)
@@ -92,3 +97,8 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
    host > board > post
 
    getUrl() == getProtocol()+"://"+getHost()+getPath()
+
+### 如何新增Host?
+ - let your `hostModel` implements `Host`
+ - let your `postModel` and `boardModel` implements `Post`
+ - call `addMenu(yourIcon,yourHost)` in 77 line of MainActivity,there are notes `// add host item in there`

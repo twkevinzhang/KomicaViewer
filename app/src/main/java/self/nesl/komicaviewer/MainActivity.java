@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,13 +19,22 @@ import com.google.android.material.snackbar.Snackbar;
 
 import self.nesl.komicaviewer.db.BoardPreferences;
 import self.nesl.komicaviewer.db.PostDB;
+import self.nesl.komicaviewer.model.Host;
+import self.nesl.komicaviewer.model.komica.host.Komica2Host;
+import self.nesl.komicaviewer.model.komica.host.KomicaHost;
+import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
 import self.nesl.komicaviewer.ui.board.BoardFragment;
 
 import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
+import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    private MainActivity get() {
+        return this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
         BoardPreferences.initialize(this);
         PostDB.initialize(this);
 
+        // toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // fab
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,23 +58,26 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-//        Menu menu = navigationView.getMenu();
-//        Menu submenu = menu.addSubMenu("New set");
-//        submenu.add("Item1");
-//        submenu.getItem(0).setIcon(R.drawable.ic_menu_slideshow);
 
+        // drawer
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,
                 R.id.nav_slideshow,
                 R.id.nav_history,
-                R.id.nav_favorite
-                )
-                .setDrawerLayout(drawer)
+                R.id.nav_favorite,
+
+                R.id.nav_home,
+                R.id.nav_board
+        )
+                .setDrawerLayout(findViewById(R.id.drawer_layout))
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        // add host item in there
+        Menu boardMenu=navigationView.getMenu().addSubMenu("board");
+         addMenu( boardMenu,  R.drawable.ic_menu_slideshow, new KomicaTop50Host());
+         addMenu(boardMenu, R.drawable.ic_menu_slideshow, new Komica2Host());
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
@@ -88,5 +104,21 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getFragmentManager().popBackStack();
         }
+    }
+
+    public void addMenu(Menu menu, int icon, Host host) {
+        MenuItem item = menu.add(host.getHost());
+        item.setIcon(icon);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+//                navigationView.setCheckedItem(item.getItemId()); // not work
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(COLUMN_HOST, host);
+                Navigation.findNavController(get(), R.id.nav_host_fragment)
+                        .navigate(R.id.nav_home, bundle);
+                return false;
+            }
+        });
     }
 }

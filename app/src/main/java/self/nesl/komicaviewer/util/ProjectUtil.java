@@ -1,5 +1,14 @@
 package self.nesl.komicaviewer.util;
 
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.navigation.Navigation;
+
+import com.google.android.material.navigation.NavigationView;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -12,11 +21,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.host.Komica2Host;
 import self.nesl.komicaviewer.model.komica.host.KomicaHost;
 
+import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class ProjectUtil {
@@ -103,4 +114,6 @@ public class ProjectUtil {
         }
         return maps;
     }
+
+
 }

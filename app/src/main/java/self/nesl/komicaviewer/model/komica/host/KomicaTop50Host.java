@@ -43,7 +43,7 @@ public class KomicaTop50Host extends Host {
         return new KomicaHost().getPostModel(document,url,isBoard);
     }
 
-    private ArrayList<Post> parseTop50Boardlist(Document doc) {
+    public static ArrayList<Post> parseTop50Boardlist(Document doc) {
         ArrayList<Post> boards = new ArrayList<Post>();
         for (Element e : doc.getElementsByClass("divTableRow").select("a")) {
             String url = e.attr("href");

@@ -2,11 +2,12 @@ package self.nesl.komicaviewer.model;
 
 import org.jsoup.nodes.Document;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.util.UrlUtil;
 
-public abstract class Host {
+public abstract class Host implements Serializable {
     private ArrayList<Post> boardlist;
     public String getUrl(){
         return new UrlUtil(getHost()).getUrl();

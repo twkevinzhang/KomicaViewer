@@ -10,6 +10,9 @@
         android:name="self.nesl.komicaviewer.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
+<!--        <argument-->
+<!--            android:name="host"-->
+<!--            app:argType="self.nesl.komicaviewer.model.host" />-->
         <action
             android:id="@+id/action_nav_home_to_nav_board"
             app:destination="@id/nav_board" />
