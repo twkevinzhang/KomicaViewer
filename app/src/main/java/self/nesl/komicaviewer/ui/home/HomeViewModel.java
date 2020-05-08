@@ -15,8 +15,9 @@ import static self.nesl.komicaviewer.util.Util.print;
 public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Post>> list= new MutableLiveData<ArrayList<Post>>();
+    private Host host;
 
-    public void update(Host host) {
+    public void update() {
         ArrayList<Post> arrayList= BoardPreferences.getBoards(host);
         if(arrayList==null || arrayList.size()==0){
             BoardPreferences.update(host, new Host.OnResponse() {
@@ -32,5 +33,8 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<ArrayList<Post>> getList() {
         return list;
+    }
+    public void setHost(Host host) {
+        this.host=host;
     }
 }

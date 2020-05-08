@@ -14,6 +14,8 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
+import static self.nesl.komicaviewer.Const.COLUMN_POST;
+
 public class ReplyDialog extends DialogFragment {
     private Post post;
 
@@ -28,7 +30,7 @@ public class ReplyDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            post = (Post)getArguments().getSerializable("post");
+            post = (Post)getArguments().getSerializable(COLUMN_POST);
         }
     }
 

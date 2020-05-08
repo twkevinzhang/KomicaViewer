@@ -25,6 +25,7 @@ import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
 import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
+import static self.nesl.komicaviewer.Const.COLUMN_TABLE_NAME;
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
 import static self.nesl.komicaviewer.util.Util.print;
@@ -38,7 +39,7 @@ public class LocalFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(LocalViewModel.class);
         if (getArguments() != null) {
-            mViewModel.setTable(getArguments().getString("tableName"));
+            mViewModel.setTable(getArguments().getString(COLUMN_TABLE_NAME));
         }
         mViewModel.update();
     }

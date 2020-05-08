@@ -17,9 +17,12 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.BoardlistAdapter;
+import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.KomicaHost;
+import self.nesl.komicaviewer.model.komica.KomicaTop50Host;
 
+import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class HomeFragment extends Fragment {
@@ -30,7 +33,13 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        homeViewModel.update(new KomicaHost());
+        if (getArguments() != null) {
+            homeViewModel.setHost((Host)getArguments().getSerializable(COLUMN_HOST));
+        }else{
+            // default
+            homeViewModel.setHost(new KomicaTop50Host());
+        }
+        homeViewModel.update();
     }
 
     @Override
@@ -60,7 +69,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 adapter.clear();
-                homeViewModel.update(new KomicaHost());
+                homeViewModel.update();
                 adapter.notifyDataSetChanged();
                 cateSwipeRefreshLayout.setRefreshing(false);
             }
