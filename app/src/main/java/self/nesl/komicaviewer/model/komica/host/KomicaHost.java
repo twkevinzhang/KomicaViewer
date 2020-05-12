@@ -9,6 +9,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
@@ -19,22 +21,25 @@ import self.nesl.komicaviewer.util.UrlUtil;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class KomicaHost extends Host {
+
     @Override
     public String getHost() {
         return "komica.org";
     }
 
-    public String[] getSubHosts() {
-        return new String[]{
-                "komica.org", // SoraPost,SoraBoard
-                "vi.anacel.com", //
-                "acgspace.wsfun.com",
-                "komica.dbfoxtw.me",
-                "idolma.ster.tw",
-                "komica.yucie.net",
-                "kagaminerin.org",
-                "p.komica.acg.club.tw",
-                "2cat.org"
+    @Override
+    public Map[] getSubHosts() {
+        return new Map[]{
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "komica.org");
+                    put(Host.MAP_POST_MODEL_COLUMN, new SoraPost());
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "vi.anacel.com");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
         };
     }
 
@@ -55,24 +60,6 @@ public class KomicaHost extends Host {
                 anError.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public Post getPostModel(Document document, String urlOrSegment, boolean isBoard) {
-        String mhost=new UrlUtil(urlOrSegment).getHost();
-        Post[] postModels=new Post[]{
-                new SoraPost()
-        };
-        Post[] boardModels=new Post[]{
-                new SoraBoard()
-        };
-        String[] subHosts=getSubHosts();
-        for(int i=0;i<subHosts.length;i++){
-            if(mhost.contains(subHosts[i])){
-                return (isBoard?boardModels[i] :postModels[i]).parseDoc(document,urlOrSegment);
-            }
-        }
-        return null;
     }
 
     public static ArrayList<Post> parseAllBoardlist(Document doc) {

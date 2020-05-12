@@ -4,10 +4,15 @@ import org.jsoup.nodes.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 
 import self.nesl.komicaviewer.util.UrlUtil;
 
 public abstract class Host implements Serializable {
+    public static String MAP_HOST_COLUMN="host";
+    public static String MAP_POST_MODEL_COLUMN="postModel";
+    public static String MAP_BOARD_MODEL_COLUMN="boardModel";
+
     private ArrayList<Post> boardlist;
     public String getUrl(){
         return new UrlUtil(getHost()).getUrl();
@@ -26,6 +31,19 @@ public abstract class Host implements Serializable {
         void onResponse(ArrayList<Post> arrayList);
     }
 
+    public abstract Map[] getSubHosts();
+
     // abstract & static
-    abstract public Post getPostModel(Document document, String url, boolean isBoard);
+    public Post getPostModel(Document document, String urlOrSegment, boolean isBoard){
+        String mhost=new UrlUtil(urlOrSegment).getHost();
+        Map[] subHosts=getSubHosts();
+        if(subHosts==null || subHosts.length==0)return null;
+        for(Map map:subHosts){
+            if(mhost.contains(map.get(MAP_HOST_COLUMN).toString())){
+                Post parser=(Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));
+                return parser==null?null:parser.parseDoc(document,urlOrSegment);
+            }
+        }
+        return null;
+    };
 }

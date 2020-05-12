@@ -94,11 +94,17 @@ min version: 7.0.0(api=24)，否則getReplies()無法日期排序
     - [Komica+](https://github.com/TakumaMochizuki/Komica)
 
 ### 圖
-   host > board > post
 
-   getUrl() == getProtocol()+"://"+getHost()+getPath()
+    host > board > post
+
+    getUrl() == getProtocol()+"://"+getHost()+getPath()
 
 ### 如何新增Host?
  - let your `hostModel` implements `Host`
  - let your `postModel` and `boardModel` implements `Post`
- - call `addMenu(yourIcon,yourHost)` in 77 line of MainActivity,there are notes `// add host item in there`
+ - call `addMenu(yourIcon,yourHost)` in 77th line of `MainActivity`,there are notes `// add host item in there`
+ - instantiate your `hostModel` in 39th line `ProjectUtil.getPostModel()`
+
+### 如何新增Komica聯合站的Host?
+ - let your `postModel` and `boardModel` implements `Post`
+ - instantiate your `postModel` and `boardModel` in 33th line `KomicaHost.getSubHosts()`

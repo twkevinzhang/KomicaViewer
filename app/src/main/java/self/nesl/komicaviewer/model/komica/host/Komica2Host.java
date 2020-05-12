@@ -9,6 +9,8 @@ import org.jsoup.nodes.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
@@ -23,13 +25,19 @@ public class Komica2Host extends Host{
         return "komica2.net";
     }
 
-    public String[] getSubHosts() {
-        return new String[]{
-                "komica2.net", // SoraPost,SoraBoard
-                "2cat.org",
-                "p.komica.acg.club.tw",
-                "cyber.boguspix.com",
-                "majeur.zawarudo.org",
+    @Override
+    public Map[] getSubHosts() {
+        return new Map[]{
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "komica2.net");
+                    put(Host.MAP_POST_MODEL_COLUMN, new SoraPost());
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN,  "2cat.org");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
         };
     }
 
@@ -55,18 +63,12 @@ public class Komica2Host extends Host{
     }
 
     @Override
-    public Post getPostModel(Document document, String url, boolean isBoard) {
-        String mhost=new UrlUtil(url).getHost();
-        Post[] postModels=new Post[]{
-                new SoraPost()
-        };
-        Post[] boardModels=new Post[]{
-                new SoraBoard()
-        };
-        String[] subHosts=getSubHosts();
-        for(int i=0;i<subHosts.length;i++){
-            if(mhost.contains(subHosts[i])){
-                return (isBoard?boardModels[i] :postModels[i]).parseDoc(document,url);
+    public Post getPostModel(Document document, String urlOrSegment, boolean isBoard) {
+        String mhost=new UrlUtil(urlOrSegment).getHost();
+        for(Map map:getSubHosts()){
+            if(mhost.contains(map.get(MAP_HOST_COLUMN).toString())){
+                Post parser=(Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));
+                return parser==null?null:parser.parseDoc(document,urlOrSegment);
             }
         }
         return null;

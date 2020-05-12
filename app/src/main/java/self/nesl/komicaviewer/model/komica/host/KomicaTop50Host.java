@@ -9,14 +9,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 
 public class KomicaTop50Host extends Host {
+    private KomicaHost komicaHost=new KomicaHost();
+
     @Override
     public String getHost() {
-        return "komica.org";
+        return komicaHost.getHost();
     }
 
     @Override
@@ -39,8 +42,13 @@ public class KomicaTop50Host extends Host {
     }
 
     @Override
+    public Map[] getSubHosts() {
+        return komicaHost.getSubHosts();
+    }
+
+    @Override
     public Post getPostModel(Document document, String url, boolean isBoard) {
-        return new KomicaHost().getPostModel(document,url,isBoard);
+        return komicaHost.getPostModel(document,url,isBoard);
     }
 
     public static ArrayList<Post> parseTop50Boardlist(Document doc) {
