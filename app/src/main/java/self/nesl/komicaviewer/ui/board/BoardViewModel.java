@@ -22,17 +22,16 @@ public class BoardViewModel extends ViewModel {
     private String boardUrl;
 
     public void load(int page){
-        String url=boardUrl;
+        String pageUrl= boardUrl;
         if (page != 0) {
-            url += "/pixmicat.php?page_num="+page;
+            pageUrl += "/pixmicat.php?page_num="+page;
         }
-        print(this.getClass(),"AndroidNetworking: "+url);
-        String finalUrl = url;
-        AndroidNetworking.get(url)
+        print(this.getClass(),"AndroidNetworking: "+pageUrl);
+        AndroidNetworking.get(pageUrl)
                 .build().getAsString(new StringRequestListener() {
 
             public void onResponse(String response) {
-                postlist.setValue(getPostModel(Jsoup.parse(response), finalUrl,true).getReplies());
+                postlist.setValue(getPostModel(Jsoup.parse(response), boardUrl,true).getReplies());
             }
 
             public void onError(ANError anError) {
@@ -42,7 +41,7 @@ public class BoardViewModel extends ViewModel {
     }
 
     public void setBoardUrl(String s){
-        this.boardUrl=s;
+        this.boardUrl =s;
     }
 
     public LiveData<ArrayList<Post>> getPostlist() {

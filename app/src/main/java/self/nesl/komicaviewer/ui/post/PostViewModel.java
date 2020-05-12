@@ -28,7 +28,7 @@ public class PostViewModel extends ViewModel {
 
             public void onResponse(String response) {
                 Post post1= getPostModel(Jsoup.parse(response),new UrlUtil(url).getLastPathSegment(),false);
-                PostDB.addPost(post1, PostDB.HISTORY_TABLE_NAME);
+                PostDB.addPost(post1, PostDB.TABLE_HISTORY);
                 post.setValue(post1);
             }
             public void onError(ANError anError) {

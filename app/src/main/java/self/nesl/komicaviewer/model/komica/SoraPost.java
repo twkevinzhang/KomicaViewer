@@ -6,6 +6,7 @@ import org.jsoup.select.Elements;
 
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.util.UrlUtil;
 
 import static self.nesl.komicaviewer.util.Util.getStyleMap;
 import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
@@ -133,7 +134,8 @@ public class SoraPost extends Post {
     }
 
     @Override
-    public SoraPost parseDoc(Document doc,String boardUrl) {
+    public SoraPost parseDoc(Document doc,String boardSegment) {
+        String boardUrl=new UrlUtil(boardSegment).getUrl();
         Element thread= installThreadTag(doc.body().getElementById("threads")).selectFirst("div.thread");
         Element threadpost = thread.selectFirst("div.threadpost");
         SoraPost subPost = new SoraPost(boardUrl,threadpost.attr("id").substring(1), threadpost);

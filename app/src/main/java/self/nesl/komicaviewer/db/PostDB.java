@@ -27,10 +27,15 @@ public final class PostDB {
     public static final String COLUMN_POST_JSON = "json";
     public static final String COLUMN_UPDATE = "update_time";
 
-    public static final String[] KEYS_COLUMN = new String[]{COLUMN_BOARD_URL, COLUMN_POST_ID};
-    public static final String FAVORITE_TABLE_NAME="favorite";
-    public static final String HISTORY_TABLE_NAME="history";
-    public static final String[] POST_TABLES =new String[]{FAVORITE_TABLE_NAME,HISTORY_TABLE_NAME};
+    public static final String KEYS_SQL = TextUtils.join("=? and ", new String[]{
+            COLUMN_BOARD_URL,
+            COLUMN_POST_ID
+    })+"=?";
+    public static final String TABLE_FAVORITE ="favorite";
+    public static final String TABLE_HISTORY ="history";
+    public static final String[] POST_TABLES =new String[]{
+            TABLE_FAVORITE, TABLE_HISTORY
+    };
 
     public static void initialize(Context context) {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
@@ -51,14 +56,13 @@ public final class PostDB {
     }
 
     public static void deletePost(final Post post, String tableName) {
-        String keys = TextUtils.join("=? and ", KEYS_COLUMN)+"=?";
-        mDatabase.delete(tableName, keys, new String[]{
+        mDatabase.delete(tableName, KEYS_SQL, new String[]{
                 post.getBoardUrl(),
                 post.getPostId()
         });
     }
 
-    public static ArrayList<Post> getAllPostLink(String tableName) {
+    public static ArrayList<Post> getAllPost(String tableName) {
         ArrayList<Post> arr = new ArrayList<Post>();
         Cursor csr = mDatabase.rawQuery("select * from " + tableName + ";", null);
         while (csr.moveToNext()) {
@@ -77,9 +81,8 @@ public final class PostDB {
     }
 
     public static boolean hasPost(final Post post, String tableName) {
-        String keys = TextUtils.join("=? and ", KEYS_COLUMN)+"=?";
         Cursor csr =
-                mDatabase.rawQuery("select * from " + tableName + " where " + keys+";", new String[]{
+                mDatabase.rawQuery("select * from " + tableName + " where " + KEYS_SQL +";", new String[]{
                         post.getBoardUrl(),
                         post.getPostId()
                 }

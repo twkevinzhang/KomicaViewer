@@ -58,8 +58,8 @@ public class KomicaHost extends Host {
     }
 
     @Override
-    public Post getPostModel(Document document, String url, boolean isBoard) {
-        String mhost=new UrlUtil(url).getHost();
+    public Post getPostModel(Document document, String urlOrSegment, boolean isBoard) {
+        String mhost=new UrlUtil(urlOrSegment).getHost();
         Post[] postModels=new Post[]{
                 new SoraPost()
         };
@@ -69,7 +69,7 @@ public class KomicaHost extends Host {
         String[] subHosts=getSubHosts();
         for(int i=0;i<subHosts.length;i++){
             if(mhost.contains(subHosts[i])){
-                return (isBoard?boardModels[i] :postModels[i]).parseDoc(document,url);
+                return (isBoard?boardModels[i] :postModels[i]).parseDoc(document,urlOrSegment);
             }
         }
         return null;
