@@ -34,14 +34,13 @@ public abstract class Host implements Serializable {
     public abstract Map[] getSubHosts();
 
     // abstract & static
-    public Post getPostModel(Document document, String urlOrSegment, boolean isBoard){
+    public Post getPostModel(String urlOrSegment, boolean isBoard){
         String mhost=new UrlUtil(urlOrSegment).getHost();
         Map[] subHosts=getSubHosts();
         if(subHosts==null || subHosts.length==0)return null;
         for(Map map:subHosts){
             if(mhost.contains(map.get(MAP_HOST_COLUMN).toString())){
-                Post parser=(Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));
-                return parser==null?null:parser.parseDoc(document,urlOrSegment);
+                return (Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));
             }
         }
         return null;

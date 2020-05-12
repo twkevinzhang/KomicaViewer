@@ -1,15 +1,5 @@
 package self.nesl.komicaviewer.util;
 
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-
-import androidx.navigation.Navigation;
-
-import com.google.android.material.navigation.NavigationView;
-
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.text.ParseException;
@@ -21,26 +11,29 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.host.Komica2Host;
 import self.nesl.komicaviewer.model.komica.host.KomicaHost;
 
-import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public class ProjectUtil {
     private static final String MAP_TITLE_COLUMN="title";
     private static final String MAP_LINK_COLUMN="link";
 
-    public static Post getPostModel(Document document, String url, boolean isBoard){
+    public static Post getPostModel(String boardUrl, boolean isBoard){
         for(Host host : new Host[]{
                 new KomicaHost(),
                 new Komica2Host(),
         }){
-            if(new UrlUtil(url).getHost().contains(host.getHost())){
-                return host.getPostModel(document,url,isBoard);
+            if(new UrlUtil(boardUrl).getHost().contains(host.getHost())){
+                Post model=host.getPostModel(boardUrl,isBoard);
+                if(model!=null){
+                    model.setBoardUrl(boardUrl);
+                    return model;
+                }
+                break;
             }
         }
         return null;
@@ -93,8 +86,8 @@ public class ProjectUtil {
                 }
 
                 @Override
-                public Post parseDoc(Document document, String url) {
-                    return null;
+                public void download(int page, OnResponse onResponse) {
+
                 }
             };
             p.setTitle(map.get(MAP_TITLE_COLUMN));

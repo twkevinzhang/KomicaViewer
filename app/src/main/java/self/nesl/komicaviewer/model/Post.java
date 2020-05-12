@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public abstract class Post implements Serializable {
     private  Element postEle = null;
@@ -32,6 +31,7 @@ public abstract class Post implements Serializable {
     // todo: toJson(Post)
     private transient ArrayList<Post> replyTree = new ArrayList<Post>();
     private String boardUrl =null;
+    private String url =null;
 
     private Context context;
 
@@ -116,6 +116,14 @@ public abstract class Post implements Serializable {
 
     public String getBoardUrl(){return this.boardUrl;}
 
+    public String getUrl(){
+        return this.url;
+    }
+
+    public void setUrl(String url){
+        this.url=url;
+    }
+
     // 預設是父親的url
     public void setBoardUrl(String boardUrl){this.boardUrl = boardUrl;}
 
@@ -175,14 +183,18 @@ public abstract class Post implements Serializable {
         this.replyTree.addAll(all);
     }
 
-    abstract public String getUrl();
-
     abstract public String getIntroduction(int words, String[] rank);
 
     // 語言缺陷: 一定要實例化(new)才能使用implement parseDoc()
     // https://stackoverflow.com/questions/370962/why-cant-static-methods-be-abstract-in-java
 //    abstract public static Post parseDoc(Document document,String url);
-    abstract public Post parseDoc(Document document,String url); // abstract & static
+//    abstract public Post parseDoc(Document document,String url); // abstract & static
+
+    abstract public void download(int page, OnResponse onResponse);
+
+    public interface OnResponse {
+        void onResponse(Post post);
+    }
 
     public void addPost(String target_id, Post insert_reply) {
         if(target_id.equals(this.postId)){

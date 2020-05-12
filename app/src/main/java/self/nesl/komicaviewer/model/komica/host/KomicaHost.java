@@ -16,7 +16,6 @@ import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.SoraBoard;
 import self.nesl.komicaviewer.model.komica.SoraPost;
-import self.nesl.komicaviewer.util.UrlUtil;
 
 import static self.nesl.komicaviewer.util.Util.print;
 
@@ -86,9 +85,14 @@ public class KomicaHost extends Host {
                         }
 
                         @Override
-                        public Post parseDoc(Document document, String url) {
-                            return null;
+                        public void download(int page, OnResponse onResponse) {
+
                         }
+
+//                        @Override
+//                        public Post parseDoc(Document document, String url) {
+//                            return null;
+//                        }
                     };
                     p.setTitle(li_title);
                     boards.add(p);

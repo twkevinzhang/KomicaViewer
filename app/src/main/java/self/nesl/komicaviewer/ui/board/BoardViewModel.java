@@ -4,12 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.StringRequestListener;
-
-import org.jsoup.Jsoup;
-
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
@@ -22,22 +16,16 @@ public class BoardViewModel extends ViewModel {
     private String boardUrl;
 
     public void load(int page){
-        String pageUrl= boardUrl;
-        if (page != 0) {
-            pageUrl += "/pixmicat.php?page_num="+page;
+        Post model=getPostModel(boardUrl,true);
+        if(model!=null){
+            model.download(page, new Post.OnResponse() {
+                @Override
+                public void onResponse(Post post) {
+                    postlist.setValue(post.getReplies());
+                }
+            });
+
         }
-        print(this.getClass(),"AndroidNetworking: "+pageUrl);
-        AndroidNetworking.get(pageUrl)
-                .build().getAsString(new StringRequestListener() {
-
-            public void onResponse(String response) {
-                postlist.setValue(getPostModel(Jsoup.parse(response), boardUrl,true).getReplies());
-            }
-
-            public void onError(ANError anError) {
-                anError.printStackTrace();
-            }
-        });
     }
 
     public void setBoardUrl(String s){

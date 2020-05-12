@@ -63,12 +63,11 @@ public class Komica2Host extends Host{
     }
 
     @Override
-    public Post getPostModel(Document document, String urlOrSegment, boolean isBoard) {
+    public Post getPostModel(String urlOrSegment, boolean isBoard) {
         String mhost=new UrlUtil(urlOrSegment).getHost();
         for(Map map:getSubHosts()){
             if(mhost.contains(map.get(MAP_HOST_COLUMN).toString())){
-                Post parser=(Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));
-                return parser==null?null:parser.parseDoc(document,urlOrSegment);
+                return (Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));
             }
         }
         return null;

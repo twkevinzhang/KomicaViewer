@@ -46,10 +46,10 @@ public class KomicaTop50Host extends Host {
         return komicaHost.getSubHosts();
     }
 
-    @Override
-    public Post getPostModel(Document document, String url, boolean isBoard) {
-        return komicaHost.getPostModel(document,url,isBoard);
-    }
+//    @Override
+//    public Post getPostModel(Document document, String url, boolean isBoard) {
+//        return komicaHost.getPostModel(url,isBoard);
+//    }
 
     public static ArrayList<Post> parseTop50Boardlist(Document doc) {
         ArrayList<Post> boards = new ArrayList<Post>();
@@ -75,9 +75,14 @@ public class KomicaTop50Host extends Host {
                 }
 
                 @Override
-                public Post parseDoc(Document document, String url) {
-                    return null;
+                public void download(int page, OnResponse onResponse) {
+
                 }
+
+//                @Override
+//                public Post parseDoc(Document document, String url) {
+//                    return null;
+//                }
             };
             p.setTitle(title);
             boards.add(p);
