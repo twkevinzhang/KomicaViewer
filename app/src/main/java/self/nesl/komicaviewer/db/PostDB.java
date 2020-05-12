@@ -21,7 +21,7 @@ public final class PostDB {
     public static final String DATABASE_NAME = "Post.db";
     public static SQLiteDatabase mDatabase;
 
-    public static final String COLUMN_BOARD_URL = Const.COLUMN_BOARD_URL;
+    public static final String COLUMN_BOARD_URL = "board_url";
     public static final String COLUMN_POST_ID = "id";
     public static final String COLUMN_POST_HTML = "introduction";
     public static final String COLUMN_POST_JSON = "json";

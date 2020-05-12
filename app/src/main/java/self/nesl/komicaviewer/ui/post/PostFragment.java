@@ -2,6 +2,7 @@ package self.nesl.komicaviewer.ui.post;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,6 +22,7 @@ import self.nesl.komicaviewer.model.Post;
 import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
 import static self.nesl.komicaviewer.util.Util.print;
 
+// nav_post
 public class PostFragment extends Fragment {
     private PostViewModel postViewModel;
 
@@ -30,8 +32,8 @@ public class PostFragment extends Fragment {
         postViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         if (getArguments() != null) {
             postViewModel.setPostUrl(getArguments().getString(COLUMN_POST_URL));
+            postViewModel.update();
         }
-        postViewModel.update();
     }
 
     @Override
@@ -55,7 +57,7 @@ public class PostFragment extends Fragment {
         postViewModel.getPost().observe(getViewLifecycleOwner(), new Observer<Post>() {
             @Override
             public void onChanged(Post post) {
-                assert post != null;
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(post.getTitle(0));
                 adapter.addAllPost(post.getReplies());
                 adapter.addThreadpost(post);
                 adapter.notifyDataSetChanged();

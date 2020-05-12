@@ -8,11 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="self.nesl.komicaviewer.ui.home.HomeFragment"
-        android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
-<!--        <argument-->
-<!--            android:name="host"-->
-<!--            app:argType="self.nesl.komicaviewer.model.host" />-->
         <action
             android:id="@+id/action_nav_home_to_nav_board"
             app:destination="@id/nav_board" />
@@ -28,28 +24,10 @@
             app:destination="@id/nav_post" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_home_second"-->
-<!--        android:name=".ui.home.HomeSecondFragment"-->
-<!--        android:label="@string/home_second"-->
-<!--        tools:layout="@layout/fragment_home_second">-->
-<!--        <action-->
-<!--            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"-->
-<!--            app:destination="@id/nav_home" />-->
-
-<!--        <argument-->
-<!--            android:name="myArg"-->
-<!--            app:argType="string" />-->
-<!--    </fragment>-->
-
     <fragment
         android:id="@+id/nav_board"
         android:name="self.nesl.komicaviewer.ui.board.BoardFragment"
-        android:label="@string/menu_board"
         tools:layout="@layout/fragment_post" >
-        <argument
-            android:name="board_url"
-            app:argType="string" />
         <action
             android:id="@+id/action_nav_board_to_nav_post"
             app:destination="@id/nav_post" />

@@ -40,8 +40,8 @@ public class LocalFragment extends Fragment {
         mViewModel = ViewModelProviders.of(this).get(LocalViewModel.class);
         if (getArguments() != null) {
             mViewModel.setTable(getArguments().getString(COLUMN_TABLE_NAME));
+            mViewModel.update();
         }
-        mViewModel.update();
     }
 
     @Override

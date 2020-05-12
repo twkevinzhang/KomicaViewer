@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -24,20 +25,18 @@ import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
 import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 import static self.nesl.komicaviewer.util.Util.print;
 
+// nav_home
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private Host host;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        if (getArguments() != null) {
-            homeViewModel.setHost((Host)getArguments().getSerializable(COLUMN_HOST));
-        }else{
-            // default
-            homeViewModel.setHost(new KomicaTop50Host());
-        }
+        host = getArguments() != null ? (Host) getArguments().getSerializable(COLUMN_HOST) : new KomicaTop50Host();
+        homeViewModel.setHost(host);
         homeViewModel.update();
     }
 
@@ -48,9 +47,12 @@ public class HomeFragment extends Fragment {
         final RecyclerView lst = v.findViewById(R.id.rcLst);
         final TextView txtMsg = v.findViewById(R.id.txtMsg);
 
+        // title
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(host.getHost());
+
         // lst
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        BoardlistAdapter adapter =new BoardlistAdapter(this);
+        BoardlistAdapter adapter = new BoardlistAdapter(this);
         lst.setAdapter(adapter);
 
         // data and adapter

@@ -24,8 +24,6 @@ import self.nesl.komicaviewer.model.komica.host.Komica2Host;
 import self.nesl.komicaviewer.model.komica.host.KomicaHost;
 import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
 import self.nesl.komicaviewer.ui.board.BoardFragment;
-
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
 import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
         // add host item in there
         Menu boardMenu=navigationView.getMenu().addSubMenu("board");
-         addMenu( boardMenu,  R.drawable.ic_menu_slideshow, new KomicaTop50Host());
-         addMenu(boardMenu, R.drawable.ic_menu_slideshow, new Komica2Host());
+        addMenu( boardMenu,  R.drawable.ic_menu_slideshow, new KomicaTop50Host());
+        addMenu(boardMenu, R.drawable.ic_menu_slideshow, new Komica2Host());
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 

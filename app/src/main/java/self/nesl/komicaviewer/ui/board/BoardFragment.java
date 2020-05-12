@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,7 +23,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
+import static self.nesl.komicaviewer.Const.COLUMN_BOARD;
 import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
@@ -30,7 +31,7 @@ import static self.nesl.komicaviewer.util.Util.print;
 
 public class BoardFragment extends Fragment{
     private BoardViewModel boardViewModel;
-    private static String boardUrl;
+    private Post board;
     private int page = 0;
 
     public static BoardFragment newInstance(Bundle bundle) {
@@ -44,10 +45,10 @@ public class BoardFragment extends Fragment{
         super.onCreate(savedInstanceState);
         boardViewModel = ViewModelProviders.of(this).get(BoardViewModel.class);
         if (getArguments() != null) {
-            boardUrl = getArguments().getString(COLUMN_BOARD_URL);
+            board = (Post)getArguments().getSerializable(COLUMN_BOARD);
+            boardViewModel.setBoardUrl(board.getUrl());
+            boardViewModel.load(page);
         }
-        boardViewModel.setBoardUrl(boardUrl);
-        boardViewModel.load(page);
     }
 
     @Override
@@ -65,6 +66,9 @@ public class BoardFragment extends Fragment{
                         .navigate(R.id.action_nav_board_to_nav_post,bundle);
             }
         });
+
+        // title
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(board.getTitle(0));
 
         // SwipeRefreshLayoutPostlistAdapter
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
