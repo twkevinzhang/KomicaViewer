@@ -70,7 +70,7 @@ public class BoardFragment extends Fragment{
         // title
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(board.getTitle(0));
 
-        // SwipeRefreshLayoutPostlistAdapter
+        // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
         cateSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

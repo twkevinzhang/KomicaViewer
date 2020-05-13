@@ -5,21 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-
-import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.SoraBoard;
-import self.nesl.komicaviewer.model.komica.SoraPost;
 
 public class Util {
     public static void print(@Nullable Class c, String... s){

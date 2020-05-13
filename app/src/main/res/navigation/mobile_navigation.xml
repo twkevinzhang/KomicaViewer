@@ -19,9 +19,6 @@
         android:name="self.nesl.komicaviewer.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" >
-        <action
-            android:id="@+id/action_nav_slideshow_to_nav_post"
-            app:destination="@id/nav_post" />
     </fragment>
 
     <fragment

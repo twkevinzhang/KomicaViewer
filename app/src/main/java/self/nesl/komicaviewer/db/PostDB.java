@@ -7,13 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
+import org.json.JSONObject;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 
-import self.nesl.komicaviewer.Const;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.SoraPost;
+import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
 import static self.nesl.komicaviewer.util.Util.print;
 
@@ -48,7 +48,14 @@ public final class PostDB {
         ContentValues values = new ContentValues();
         values.put(COLUMN_POST_ID, post.getPostId());
         values.put(COLUMN_BOARD_URL, post.getBoardUrl());
-        values.put(COLUMN_POST_HTML, post.getPostEle().html());
+        Element ele=post.getPostEle();
+        if (ele!=null){
+            values.put(COLUMN_POST_HTML, ele.html());
+        }
+        JSONObject jsonObject=post.getJsonObject();
+        if (jsonObject!=null){
+            values.put(COLUMN_POST_HTML,jsonObject.toString());
+        }
         // todo: toJson(Post)
 //        values.put(COLUMN_POST_JSON, new Gson().toJson(post));
         values.put(COLUMN_UPDATE, System.currentTimeMillis());
@@ -69,6 +76,7 @@ public final class PostDB {
             // todo: Gson
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
+            // todo: switch model
            Post post =new SoraPost(
                    csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)),
                     csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),

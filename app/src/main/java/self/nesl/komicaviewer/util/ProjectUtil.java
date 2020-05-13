@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.util;
 
+import android.os.Bundle;
+
 import org.jsoup.nodes.Element;
 
 import java.text.ParseException;
@@ -27,14 +29,12 @@ public class ProjectUtil {
                 new KomicaHost(),
                 new Komica2Host(),
         }){
-            if(new UrlUtil(boardUrl).getHost().contains(host.getHost())){
-                Post model=host.getPostModel(boardUrl,isBoard);
-                if(model!=null){
-                    model.setBoardUrl(boardUrl);
-                    return model;
-                }
-                break;
+            Post model=host.getPostModel(boardUrl,isBoard);
+            if(model!=null){
+                model.setBoardUrl(boardUrl);
+                return model;
             }
+            break;
         }
         return null;
     }
@@ -61,7 +61,9 @@ public class ProjectUtil {
                 "yyyy/MM/dd(EEE) HH:mm:ss.SSS",
                 "yy/MM/dd(EEE) HH:mm:ss",
                 "yy/MM/dd(EEE)HH:mm:ss",
-                "yy/MM/dd(EEE)HH:mm"
+                "yy/MM/dd(EEE)HH:mm",
+                "yyyy-mm-dd HH:mm:ss", // mymoe
+                "yy/MM/dd HH:mm:ss" // mymoe post
         )){
             try {
                 return new SimpleDateFormat(s, Locale.ENGLISH).parse(time);
@@ -86,7 +88,7 @@ public class ProjectUtil {
                 }
 
                 @Override
-                public void download(int page, OnResponse onResponse) {
+                public void download(Bundle bundle, OnResponse onResponse) {
 
                 }
             };

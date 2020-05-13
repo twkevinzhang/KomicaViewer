@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.model.komica.host;
 
+import android.os.Bundle;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
@@ -75,7 +77,7 @@ public class KomicaTop50Host extends Host {
                 }
 
                 @Override
-                public void download(int page, OnResponse onResponse) {
+                public void download(Bundle bundle, OnResponse onResponse) {
 
                 }
 

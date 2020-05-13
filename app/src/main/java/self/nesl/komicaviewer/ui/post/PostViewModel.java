@@ -19,7 +19,7 @@ public class PostViewModel extends ViewModel {
         Post model = getPostModel(new UrlUtil(url).getLastPathSegment(), false);
         if (model != null) {
             model.setUrl(url);
-            model.download(0, new Post.OnResponse() {
+            model.download(null, new Post.OnResponse() {
                 @Override
                 public void onResponse(Post post1) {
                     PostDB.addPost(post1, PostDB.TABLE_HISTORY);

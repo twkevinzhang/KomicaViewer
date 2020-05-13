@@ -7,15 +7,14 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.SoraBoard;
-import self.nesl.komicaviewer.model.komica.SoraPost;
+import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
+import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtil;
 
 public class Komica2Host extends Host{

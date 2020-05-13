@@ -16,22 +16,22 @@ public class Picture {
     private int originalWidth;
     private int originalHeight;
 
-    public Picture(String originalUrl, String thumbnailUrl,String baseUrl, int originalWidth, int originalHeight, int thumbWidth, int thumbHeight) {
+    public Picture(String originalUrl, String thumbnailUrl, String baseUrl, int originalWidth, int originalHeight, int thumbWidth, int thumbHeight) {
         this.originalUrl = originalUrl;
         this.thumbnailUrl = thumbnailUrl;
-        this.baseUrl=baseUrl;
+        this.baseUrl = baseUrl;
         this.originalWidth = originalWidth;
         this.originalHeight = originalHeight;
-        this.thumbWidth = thumbWidth;
-        this.thumbHeight = thumbHeight;
+        this.thumbWidth = thumbWidth == 0 ? 100 : thumbWidth;
+        this.thumbHeight = thumbHeight == 0 ? 100 : thumbHeight;
     }
 
     public String getOriginalUrl() {
-        return new UrlUtil(originalUrl,baseUrl).getUrl();
+        return new UrlUtil(originalUrl, baseUrl).getUrl();
     }
 
     public String getThumbnailUrl() {
-        return new UrlUtil(thumbnailUrl,baseUrl).getUrl();
+        return new UrlUtil(thumbnailUrl, baseUrl).getUrl();
     }
 
     public int getOriginalWidth() {

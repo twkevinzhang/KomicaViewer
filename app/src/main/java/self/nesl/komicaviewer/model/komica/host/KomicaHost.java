@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.model.komica.host;
 
+import android.os.Bundle;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
@@ -14,8 +16,10 @@ import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.SoraBoard;
-import self.nesl.komicaviewer.model.komica.SoraPost;
+import self.nesl.komicaviewer.model.komica.mymoe.MymoeBoard;
+import self.nesl.komicaviewer.model.komica.mymoe.MymoePost;
+import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
+import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
 import static self.nesl.komicaviewer.util.Util.print;
 
@@ -35,9 +39,9 @@ public class KomicaHost extends Host {
                     put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "vi.anacel.com");
-                    put(Host.MAP_POST_MODEL_COLUMN, null);
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "mymoe.moe");
+                    put(Host.MAP_POST_MODEL_COLUMN, new MymoePost());
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new MymoeBoard());
                 }},
         };
     }
@@ -85,7 +89,7 @@ public class KomicaHost extends Host {
                         }
 
                         @Override
-                        public void download(int page, OnResponse onResponse) {
+                        public void download(Bundle bundle, OnResponse onResponse) {
 
                         }
 

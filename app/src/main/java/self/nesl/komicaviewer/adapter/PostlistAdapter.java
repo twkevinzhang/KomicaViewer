@@ -66,43 +66,13 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     @Override
     public void onBindViewHolder(@NonNull final PostlistViewHolder holder, final int i) {
         final Post post = postlist.get(i);
-        holder.txtPostInd.setText(Html.fromHtml(post.getQuoteElement().html()));
+        holder.txtPostInd.setText(post.getIntroduction(0,null));
         holder.txtPostId.setText("No." + post.getPostId());
         holder.txtReplyCount.setText("回應:" + post.getReplyCount());
         holder.txtPoster.setText(post.getPoster());
         holder.txtTime.setText(post.getTimeStr());
         holder.imgThumb.setVisibility(View.VISIBLE);
         holder.imgOri.setVisibility(View.GONE);
-
-        // set picUrl
-//        ArrayList<Picture> pics = post.getPics();
-//        holder.imgThumb.setTag(R.id.imageid, post.getPostId());
-//        if(pics.size() != 0) {
-//            Picture pic=pics.get(0);
-//            holder.imgThumb.setTag(R.id.imageid, pic.getThumbnailUrl());
-//            if (holder.imgThumb.getTag(R.id.imageid).equals(pic.getThumbnailUrl())) {
-//                Glide.with(holder.imgThumb.getContext())
-//                        .load(pic.getThumbnailUrl())
-//                        .fitCenter()
-//                        .override(pic.getThumbWidth()*2,pic.getThumbHeight()*2)
-//                        .into(holder.imgThumb);
-//
-//                holder.imgThumb.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        holder.imgThumb.setVisibility(View.GONE);
-//                        holder.imgOri.setVisibility(View.VISIBLE);
-//
-//                        DisplayMetrics metrics = new DisplayMetrics();
-//                        fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//                        Glide.with(holder.imgOri.getContext())
-//                                .load(pic.getOriginalUrl())
-//                                .fitCenter()
-//                                .into(holder.imgOri);
-//                    }
-//                });
-//            }
-//        }
 
         holder.imgThumb.setVisibility(View.VISIBLE);
         holder.imgOri.setVisibility(View.GONE);

@@ -1,12 +1,18 @@
-package self.nesl.komicaviewer.model.komica;
+package self.nesl.komicaviewer.model.komica.sora;
 
-import org.jsoup.nodes.Document;
+import android.os.Bundle;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.StringRequestListener;
+
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.util.UrlUtil;
+import self.nesl.komicaviewer.model.komica.KomicaPost;
 
 import static self.nesl.komicaviewer.util.Util.getStyleMap;
 import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
@@ -15,7 +21,7 @@ import static self.nesl.komicaviewer.util.Util.parseJpnToEngWeek;
 import static self.nesl.komicaviewer.util.ProjectUtil.parseTime;
 import static self.nesl.komicaviewer.util.Util.print;
 
-public class SoraPost extends Post {
+public class SoraPost extends Post implements KomicaPost {
     private String fsub;
     private String fcom;
 
@@ -30,8 +36,8 @@ public class SoraPost extends Post {
     public SoraPost(){}
 
     public SoraPost(String boardUrl,String post_id, Element thread) {
-        super(post_id, thread);
-        this.setBoardUrl(boardUrl);
+        super(boardUrl, post_id);
+        this.setUrl(boardUrl + "/pixmicat.php?res=" + post_id);
 
         //get picUrl,thumbnailUrl
         try {
@@ -48,11 +54,10 @@ public class SoraPost extends Post {
         } catch (NullPointerException ignored) {
         }
 
-        // now: post_detail = "2019/12/15(日) 10:35:11.776 ID:ivN31vZw"
-        String[] post_detail;
         try {
             installDefaultDetail(thread);
         } catch (NullPointerException e) {
+            print(new Object(){}.getClass(),"use install2catDetail()");
             install2catDetail(thread,post_id);
         }
 
@@ -71,7 +76,7 @@ public class SoraPost extends Post {
         this.setPoster(post_detail[1]);
     }
 
-    private void install2catDetail(Element thread, String post_id){
+    public void install2catDetail(Element thread, String post_id){
         Element detailEle=thread.selectFirst(String.format("label[for='%s']", post_id));
         Element titleEle=detailEle.selectFirst("span.title");
         if(titleEle!=null){
@@ -89,17 +94,13 @@ public class SoraPost extends Post {
     public String getIntroduction(int words, String[] rank) {
         String ind = getQuote().replaceAll(">>(No\\.)*[0-9]{6,} *(\\(.*\\))*", "");
         ind = ind.replaceAll(">+.+\n", "");
-        if (ind.length() > words + 1) {
+        if (words!=0 && ind.length() > words) {
             ind = ind.substring(0, words + 1) + "...";
         }
         return ind.trim();
     }
 
     @Override
-    public String getUrl() {
-        return this.getBoardUrl() + "/pixmicat.php?res=" + getPostId();
-    }
-
     public void addPost(Element reply_ele) {
         String reply_id = reply_ele.selectFirst(".qlink").text().replace("No.", "");
         SoraPost reply = new SoraPost(this.getBoardUrl(),reply_id, reply_ele);
@@ -120,7 +121,8 @@ public class SoraPost extends Post {
         }
     }
 
-    private void installPreview(SoraPost parent,String target_id) {
+    @Override
+    public void installPreview(Post parent,String target_id) {
         Post target=target_id.equals(this.getPostId())? this : parent.getPost(target_id);
         String context = String.format(">>%s(%s)<br>",target_id, target.getIntroduction(10, null));
         this.getQuoteElement().prepend("<font color=#2bb1ff>" + context);
@@ -129,19 +131,33 @@ public class SoraPost extends Post {
         resquote.remove();
     }
 
-    private void installTitle(String title) {
+    @Override
+    public void installTitle(String title) {
         this.getQuoteElement().prepend(String.format("[%s]<br>",title));
     }
 
     @Override
-    public SoraPost parseDoc(Document doc,String boardSegment) {
-        String boardUrl=new UrlUtil(boardSegment).getUrl();
-        Element thread= installThreadTag(doc.body().getElementById("threads")).selectFirst("div.thread");
-        Element threadpost = thread.selectFirst("div.threadpost");
-        SoraPost subPost = new SoraPost(boardUrl,threadpost.attr("id").substring(1), threadpost);
-        for (Element reply_ele : thread.select("div.reply")) {
-            subPost.addPost(reply_ele);
-        }
-        return subPost;
+    public void download(Bundle bundle, OnResponse onResponse) {
+        print(new Object(){}.getClass(),"AndroidNetworking",getUrl());
+        AndroidNetworking.get(getUrl()).build().getAsString(new StringRequestListener() {
+            @Override
+            public void onResponse(String response) {
+                Element thread= installThreadTag(Jsoup.parse(response).body().getElementById("threads")).selectFirst("div.thread");
+                Element threadpost = thread.selectFirst("div.threadpost");
+                // 語言缺陷
+                // https://stackoverflow.com/questions/508639/why-must-delegation-to-a-different-constructor-happen-first-in-a-java-constructo
+                // this(boardUrl,threadpost.attr("id").substring(1), threadpost);
+                SoraPost subPost = new SoraPost(getBoardUrl(),threadpost.attr("id").substring(1), threadpost);
+                for (Element reply_ele : thread.select("div.reply")) {
+                    subPost.addPost(reply_ele);
+                }
+                onResponse.onResponse(subPost);
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                anError.printStackTrace();
+            }
+        });
     }
 }

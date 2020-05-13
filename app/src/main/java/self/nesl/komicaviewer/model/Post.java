@@ -2,8 +2,12 @@ package self.nesl.komicaviewer.model;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.format.DateUtils;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -14,6 +18,7 @@ import java.util.Date;
 
 public abstract class Post implements Serializable {
     private  Element postEle = null;
+    private  JSONObject jsonObject = null;
 
     private String postId = null;
     private String parentPostId = null;
@@ -37,17 +42,17 @@ public abstract class Post implements Serializable {
 
     public Post(){}
 
-    public Post(String post_id, Element threadpost) {
-        this.postId = post_id;
-        this.postEle=threadpost;
-    }
-
-    public Post(String post_id, Document doc) {
+    public Post(String boardUrl, String post_id) {
+        this.boardUrl=boardUrl;
         this.postId = post_id;
     }
 
     public Element getPostEle() {
         return postEle;
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
     }
 
     public String getPostId() {
@@ -68,6 +73,7 @@ public abstract class Post implements Serializable {
     }
 
     public String getTimeStr() {
+        if(time==null)return "";
         if(DateUtils.isToday(time.getTime())){
             return "今天 "+new SimpleDateFormat("hh:mm").format(time);
         }
@@ -127,8 +133,12 @@ public abstract class Post implements Serializable {
     // 預設是父親的url
     public void setBoardUrl(String boardUrl){this.boardUrl = boardUrl;}
 
-    public void setPostEle(Element post_ele) {
-        this.postEle = post_ele;
+    public void setPostEle(Element postEle) {
+        this.postEle=postEle;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject=jsonObject;
     }
 
     public void setPostId(String postId) {
@@ -190,7 +200,7 @@ public abstract class Post implements Serializable {
 //    abstract public static Post parseDoc(Document document,String url);
 //    abstract public Post parseDoc(Document document,String url); // abstract & static
 
-    abstract public void download(int page, OnResponse onResponse);
+    abstract public void download(Bundle bundle, OnResponse onResponse);
 
     public interface OnResponse {
         void onResponse(Post post);
@@ -225,7 +235,10 @@ public abstract class Post implements Serializable {
                 }
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                replyAll.size()!=0 &&
+                replyAll.get(0).getTime()!=null
+        ) {
             replyAll.sort((d1,d2) -> d1.getTime().compareTo(d2.getTime()));
         }
         return replyAll;
