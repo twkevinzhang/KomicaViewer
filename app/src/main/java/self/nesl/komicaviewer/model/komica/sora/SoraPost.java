@@ -16,12 +16,12 @@ import self.nesl.komicaviewer.model.Post;
 import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
 import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
 import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
-import static self.nesl.komicaviewer.util.Util.getStyleMap;
-import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
-import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
-import static self.nesl.komicaviewer.util.Util.parseJpnToEngWeek;
-import static self.nesl.komicaviewer.util.ProjectUtil.parseTime;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.getStyleMap;
+import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
+import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
+import static self.nesl.komicaviewer.util.Utils.parseJpnToEngWeek;
+import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class SoraPost extends Post{
     private String fsub;

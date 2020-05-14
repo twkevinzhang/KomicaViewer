@@ -12,13 +12,13 @@ import org.jsoup.nodes.Element;
 
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
-import self.nesl.komicaviewer.util.UrlUtil;
+import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
 import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
 import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
-import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class SoraBoard extends Post {
     private String fsub;
@@ -31,7 +31,7 @@ public class SoraBoard extends Post {
     }
 
     public SoraBoard(Document doc,String boardUrl,Post postModel){
-        String host=new UrlUtil(boardUrl).getHost();
+        String host=new UrlUtils(boardUrl).getHost();
 //        語言缺陷
 //        super(boardUrl,host,doc);
         this.setPostId(host);

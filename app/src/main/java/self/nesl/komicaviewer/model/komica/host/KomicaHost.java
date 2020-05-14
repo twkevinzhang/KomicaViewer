@@ -21,7 +21,7 @@ import self.nesl.komicaviewer.model.komica.mymoe.MymoePost;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class KomicaHost extends Host {
 

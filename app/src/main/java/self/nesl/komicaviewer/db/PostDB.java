@@ -16,10 +16,8 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
-import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
 import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public final class PostDB {
     public static final String DATABASE_NAME = "Post.db";

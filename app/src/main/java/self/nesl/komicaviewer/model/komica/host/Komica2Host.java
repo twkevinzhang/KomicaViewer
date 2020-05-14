@@ -15,7 +15,7 @@ import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
-import self.nesl.komicaviewer.util.UrlUtil;
+import self.nesl.komicaviewer.util.UrlUtils;
 
 public class Komica2Host extends Host{
 
@@ -63,7 +63,7 @@ public class Komica2Host extends Host{
 
     @Override
     public Post getPostModel(String urlOrSegment, boolean isBoard) {
-        String mhost=new UrlUtil(urlOrSegment).getHost();
+        String mhost=new UrlUtils(urlOrSegment).getHost();
         for(Map map:getSubHosts()){
             if(mhost.contains(map.get(MAP_HOST_COLUMN).toString())){
                 return (Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));

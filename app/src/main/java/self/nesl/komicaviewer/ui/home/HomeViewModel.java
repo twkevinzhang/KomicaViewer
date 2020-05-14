@@ -10,7 +10,7 @@ import self.nesl.komicaviewer.db.BoardPreferences;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class HomeViewModel extends ViewModel {
 

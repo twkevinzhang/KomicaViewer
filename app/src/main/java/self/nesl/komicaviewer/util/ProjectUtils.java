@@ -18,9 +18,9 @@ import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.host.Komica2Host;
 import self.nesl.komicaviewer.model.komica.host.KomicaHost;
 
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
-public class ProjectUtil {
+public class ProjectUtils {
     private static final String MAP_TITLE_COLUMN="title";
     private static final String MAP_LINK_COLUMN="link";
 

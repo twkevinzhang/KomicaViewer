@@ -20,7 +20,7 @@ import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
 import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 // nav_post
 public class PostFragment extends Fragment {

@@ -23,7 +23,7 @@ import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
 
 import static self.nesl.komicaviewer.Const.COLUMN_HOST;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 // nav_home
 public class HomeFragment extends Fragment {

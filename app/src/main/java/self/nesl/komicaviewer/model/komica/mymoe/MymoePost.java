@@ -2,25 +2,15 @@ package self.nesl.komicaviewer.model.komica.mymoe;
 
 import android.os.Bundle;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.StringRequestListener;
-
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import self.nesl.komicaviewer.model.Picture;
-import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
 import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
 import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
 import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
-import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
-import static self.nesl.komicaviewer.util.ProjectUtil.parseTime;
-import static self.nesl.komicaviewer.util.Util.getStyleMap;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class MymoePost extends SoraPost {
     String id2;

@@ -5,18 +5,18 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import self.nesl.komicaviewer.db.PostDB;
-import self.nesl.komicaviewer.util.UrlUtil;
+import self.nesl.komicaviewer.util.UrlUtils;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.ProjectUtil.getPostModel;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class PostViewModel extends ViewModel {
     private MutableLiveData<Post> post = new MutableLiveData<Post>();
     private String url;
 
     public void update() {
-        Post model = getPostModel(new UrlUtil(url).getLastPathSegment(), false);
+        Post model = getPostModel(new UrlUtils(url).getLastPathSegment(), false);
 
         if (model != null) {
             print(model.getClass(),"");

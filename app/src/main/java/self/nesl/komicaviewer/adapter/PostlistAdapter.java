@@ -1,6 +1,5 @@
 package self.nesl.komicaviewer.adapter;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder> {
     private ArrayList<Post> postlist;

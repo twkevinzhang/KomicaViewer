@@ -3,7 +3,7 @@ package self.nesl.komicaviewer.util;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ViewGroupUtil {
+public class ViewGroupUtils {
     public static ViewGroup getParent(View view) {
         return (ViewGroup)view.getParent();
     }

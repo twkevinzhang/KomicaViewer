@@ -6,27 +6,13 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
-import java.util.ArrayList;
-
-import self.nesl.komicaviewer.model.Picture;
-import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
-import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
-import self.nesl.komicaviewer.util.UrlUtil;
 
-import static self.nesl.komicaviewer.ui.board.BoardViewModel.COLUMN_PAGE;
-import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
-import static self.nesl.komicaviewer.util.ProjectUtil.parseTime;
-import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class MymoeBoard extends SoraBoard {
 

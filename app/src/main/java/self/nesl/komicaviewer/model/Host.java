@@ -1,12 +1,10 @@
 package self.nesl.komicaviewer.model;
 
-import org.jsoup.nodes.Document;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-import self.nesl.komicaviewer.util.UrlUtil;
+import self.nesl.komicaviewer.util.UrlUtils;
 
 public abstract class Host implements Serializable {
     public static String MAP_HOST_COLUMN="host";
@@ -15,7 +13,7 @@ public abstract class Host implements Serializable {
 
     private ArrayList<Post> boardlist;
     public String getUrl(){
-        return new UrlUtil(getHost()).getUrl();
+        return new UrlUtils(getHost()).getUrl();
     };
     abstract public String getHost();
     abstract public void downloadBoardlist(OnResponse onResponse);
@@ -35,7 +33,7 @@ public abstract class Host implements Serializable {
 
     // abstract & static
     public Post getPostModel(String urlOrSegment, boolean isBoard){
-        String mhost=new UrlUtil(urlOrSegment).getHost();
+        String mhost=new UrlUtils(urlOrSegment).getHost();
         Map[] subHosts=getSubHosts();
         if(subHosts==null || subHosts.length==0)return null;
         for(Map map:subHosts){

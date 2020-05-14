@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.ProjectUtil.getPostModel;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class BoardViewModel extends ViewModel {
     public static final String COLUMN_PAGE = "page";

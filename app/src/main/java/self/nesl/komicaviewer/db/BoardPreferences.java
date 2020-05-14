@@ -13,9 +13,9 @@ import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 
 import static android.content.Context.MODE_PRIVATE;
-import static self.nesl.komicaviewer.util.ProjectUtil.arrayMapToArrayPost;
-import static self.nesl.komicaviewer.util.ProjectUtil.arrayPostToArrayMap;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.ProjectUtils.arrayMapToArrayPost;
+import static self.nesl.komicaviewer.util.ProjectUtils.arrayPostToArrayMap;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public final class BoardPreferences {
     public static final String PREF_NAME = "board_urls";

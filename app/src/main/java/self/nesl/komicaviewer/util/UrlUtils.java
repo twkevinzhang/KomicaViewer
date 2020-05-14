@@ -5,18 +5,18 @@ import androidx.annotation.Nullable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
-public class UrlUtil {
+public class UrlUtils {
     String url;
     String baseUrl;
 
     //sora.komica.org/00/pixmicat.php?res=18287039
-    public UrlUtil(String url){
+    public UrlUtils(String url){
         this(url,null);
     }
 
-    public UrlUtil(String url, @Nullable String baseUrl){
+    public UrlUtils(String url, @Nullable String baseUrl){
         this.url=installProtocol(url);
         if(baseUrl!=null){
             this.baseUrl=installProtocol(baseUrl);

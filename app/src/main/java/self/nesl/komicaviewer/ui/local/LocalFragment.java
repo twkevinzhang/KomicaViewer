@@ -28,7 +28,7 @@ import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
 import static self.nesl.komicaviewer.Const.COLUMN_TABLE_NAME;
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
-import static self.nesl.komicaviewer.util.Util.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class LocalFragment extends Fragment {
 

@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Util {
+public class Utils {
     public static void print(@Nullable Class c, String... s){
         String s1=TextUtils.join(", ",s);
         if(c!=null){
@@ -45,7 +45,6 @@ public class Util {
     }
 
     public static String parseJpnToEngWeek(String s){
-        // todo
         String[] jpnWeek=new String[]{"月","火","水","木","金","土","日"};
         for(int i=0;i<jpnWeek.length;i++){
             s=s.replace(jpnWeek[i],engWeek[i]);
