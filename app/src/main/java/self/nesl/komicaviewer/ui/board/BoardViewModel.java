@@ -9,16 +9,16 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.ui.BaseViewModel;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class BoardViewModel extends ViewModel {
+public class BoardViewModel extends BaseViewModel {
     public static final String COLUMN_PAGE = "page";
-
-    private MutableLiveData<ArrayList<Post>> postlist=new MutableLiveData<ArrayList<Post>>();
     private String boardUrl;
 
+    @Override
     public void load(int page){
         Post model=getPostModel(boardUrl,true);
         if(model!=null){
@@ -27,7 +27,7 @@ public class BoardViewModel extends ViewModel {
             model.download(bundle, new Post.OnResponse() {
                 @Override
                 public void onResponse(Post post) {
-                    postlist.setValue(post.getReplies());
+                    getPost().setValue(post);
                 }
             });
 
@@ -36,9 +36,5 @@ public class BoardViewModel extends ViewModel {
 
     public void setBoardUrl(String s){
         this.boardUrl =s;
-    }
-
-    public LiveData<ArrayList<Post>> getPostlist() {
-        return postlist;
     }
 }

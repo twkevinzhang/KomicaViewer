@@ -29,6 +29,7 @@ MVVM in Android
  - [ ] 收藏貼文
  - [ ] Open Url in Browser
  - [ ] 肉餅臉產生器
+ - [ ] 依據ID生出頭像
  
 ###### 未來展望
  - 為使用者推薦K島上常用圖片(搜尋、上傳)
@@ -100,16 +101,33 @@ host > board > post
 ```
 繼承關係圖
 ============================
-    Host
+Model:
+
+   Host
     |__Komica2Host
     |__KomicaHost
          |__KomicaTop50Host
-============================
-    Post
+
+   Post
     |__SoraPost
     |    |__MymoePost
     |__SoraBoard
          |__MymoeBoard
+
+============================
+View:
+
+   BaseFragment
+    |__PostFragment
+    |__BoardFragment
+
+============================
+ViewModel:
+
+   BaseViewModel
+    |__PostViewModel
+    |__BoardViewModel
+    
 ============================
 ```
 ```
