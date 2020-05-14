@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import self.nesl.komicaviewer.model.komica.sora.SoraPost;
+
 public abstract class Post implements Serializable {
     private  Element postEle = null;
     private  JSONObject jsonObject = null;
@@ -42,9 +44,10 @@ public abstract class Post implements Serializable {
 
     public Post(){}
 
-    public Post(String boardUrl, String post_id) {
+    public Post(String boardUrl, String post_id,Element postEle) {
         this.boardUrl=boardUrl;
         this.postId = post_id;
+        this.postEle=postEle;
     }
 
     public Element getPostEle() {
@@ -195,12 +198,9 @@ public abstract class Post implements Serializable {
 
     abstract public String getIntroduction(int words, String[] rank);
 
-    // 語言缺陷: 一定要實例化(new)才能使用implement parseDoc()
-    // https://stackoverflow.com/questions/370962/why-cant-static-methods-be-abstract-in-java
-//    abstract public static Post parseDoc(Document document,String url);
-//    abstract public Post parseDoc(Document document,String url); // abstract & static
-
     abstract public void download(Bundle bundle, OnResponse onResponse);
+
+    abstract public Post newInstance(Bundle bundle);
 
     public interface OnResponse {
         void onResponse(Post post);

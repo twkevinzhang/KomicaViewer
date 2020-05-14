@@ -93,10 +93,10 @@ public class KomicaHost extends Host {
 
                         }
 
-//                        @Override
-//                        public Post parseDoc(Document document, String url) {
-//                            return null;
-//                        }
+                        @Override
+                        public Post newInstance(Bundle bundle) {
+                            return null;
+                        }
                     };
                     p.setTitle(li_title);
                     boards.add(p);

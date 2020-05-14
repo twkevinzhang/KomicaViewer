@@ -78,11 +78,6 @@ public class ProjectUtil {
         for(Map<String, String> map : maps){
             Post p=new Post(){
                 @Override
-                public String getUrl() {
-                    return map.get(MAP_LINK_COLUMN);
-                }
-
-                @Override
                 public String getIntroduction(int words, String[] rank) {
                     return null;
                 }
@@ -91,7 +86,13 @@ public class ProjectUtil {
                 public void download(Bundle bundle, OnResponse onResponse) {
 
                 }
+
+                @Override
+                public Post newInstance(Bundle bundle) {
+                    return null;
+                }
             };
+            p.setUrl(map.get(MAP_LINK_COLUMN));
             p.setTitle(map.get(MAP_TITLE_COLUMN));
             arrayList.add(p);
         }

@@ -12,8 +12,10 @@ import org.jsoup.select.Elements;
 
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.KomicaPost;
 
+import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
+import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
+import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
 import static self.nesl.komicaviewer.util.Util.getStyleMap;
 import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
 import static self.nesl.komicaviewer.util.Util.parseChiToEngWeek;
@@ -21,7 +23,7 @@ import static self.nesl.komicaviewer.util.Util.parseJpnToEngWeek;
 import static self.nesl.komicaviewer.util.ProjectUtil.parseTime;
 import static self.nesl.komicaviewer.util.Util.print;
 
-public class SoraPost extends Post implements KomicaPost {
+public class SoraPost extends Post{
     private String fsub;
     private String fcom;
 
@@ -35,17 +37,41 @@ public class SoraPost extends Post implements KomicaPost {
 
     public SoraPost(){}
 
-    public SoraPost(String boardUrl,String post_id, Element thread) {
-        super(boardUrl, post_id);
-        this.setUrl(boardUrl + "/pixmicat.php?res=" + post_id);
+    public SoraPost newInstance(Bundle bundle){
+       return new SoraPost(
+                bundle.getString(COLUMN_BOARD_URL),
+                bundle.getString(COLUMN_POST_ID),
+                new Element("<html>").html(bundle.getString(COLUMN_THREAD))
+        ).parse();
+    }
 
+    public SoraPost parse(){
+        setPictures();
+
+        try {
+            installDefaultDetail();
+        } catch (NullPointerException e) {
+            print(new Object(){}.getClass(),"use install2catDetail()");
+            install2catDetail();
+        }
+        setQuote();
+        setTitle();
+        return this;
+    }
+
+    private SoraPost(String boardUrl,String post_id, Element thread) {
+        super(boardUrl, post_id,thread);
+        this.setUrl(boardUrl + "/pixmicat.php?res=" + post_id);
+    }
+
+    public void setPictures(){
         //get picUrl,thumbnailUrl
         try {
-            Element thumbImg=thread.selectFirst("img");
+            Element thumbImg=getPostEle().selectFirst("img");
             this.addPic(new Picture(
                     thumbImg.parent().attr("href"),
                     thumbImg.attr("src"),
-                    boardUrl,
+                    super.getBoardUrl(),
                     0,
                     0,
                     Integer.parseInt(getStyleMap(thumbImg.attr("style")).get("width")[0].replace("px","")),
@@ -53,31 +79,17 @@ public class SoraPost extends Post implements KomicaPost {
             ));
         } catch (NullPointerException ignored) {
         }
-
-        try {
-            installDefaultDetail(thread);
-        } catch (NullPointerException e) {
-            print(new Object(){}.getClass(),"use install2catDetail()");
-            install2catDetail(thread,post_id);
-        }
-
-        //get quote
-        this.setQuoteElement(thread.selectFirst("div.quote"));
-
-        //get title
-        String title=this.getTitle(0);
-        if(title.length()>0)installTitle(title);
     }
 
-    private void installDefaultDetail(Element thread){
-        this.setTitle(thread.select("span.title").text());
-        String[] post_detail = thread.selectFirst("div.post-head span.now").text().split(" ID:");
+    public void installDefaultDetail(){
+        this.setTitle(getPostEle().select("span.title").text());
+        String[] post_detail = getPostEle().selectFirst("div.post-head span.now").text().split(" ID:");
         this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
         this.setPoster(post_detail[1]);
     }
 
-    public void install2catDetail(Element thread, String post_id){
-        Element detailEle=thread.selectFirst(String.format("label[for='%s']", post_id));
+    public void install2catDetail(){
+        Element detailEle=getPostEle().selectFirst(String.format("label[for='%s']", getPostId()));
         Element titleEle=detailEle.selectFirst("span.title");
         if(titleEle!=null){
             this.setTitle(titleEle.text().trim());
@@ -90,20 +102,14 @@ public class SoraPost extends Post implements KomicaPost {
         this.setPoster(post_detail[1]);
     }
 
-    @Override
-    public String getIntroduction(int words, String[] rank) {
-        String ind = getQuote().replaceAll(">>(No\\.)*[0-9]{6,} *(\\(.*\\))*", "");
-        ind = ind.replaceAll(">+.+\n", "");
-        if (words!=0 && ind.length() > words) {
-            ind = ind.substring(0, words + 1) + "...";
-        }
-        return ind.trim();
-    }
-
-    @Override
-    public void addPost(Element reply_ele) {
+    public void addPost(Element reply_ele,SoraPost postModel) {
         String reply_id = reply_ele.selectFirst(".qlink").text().replace("No.", "");
-        SoraPost reply = new SoraPost(this.getBoardUrl(),reply_id, reply_ele);
+
+        Bundle bundle =new Bundle();
+        bundle.putString(COLUMN_BOARD_URL,this.getBoardUrl());
+        bundle.putString(COLUMN_POST_ID,reply_id);
+        bundle.putString(COLUMN_THREAD,reply_ele.html());
+        SoraPost reply = postModel.newInstance(bundle);
 
         Elements eles = reply_ele.select("span.resquote a.qlink");
         if (eles.size() <= 0) {
@@ -121,7 +127,6 @@ public class SoraPost extends Post implements KomicaPost {
         }
     }
 
-    @Override
     public void installPreview(Post parent,String target_id) {
         Post target=target_id.equals(this.getPostId())? this : parent.getPost(target_id);
         String context = String.format(">>%s(%s)<br>",target_id, target.getIntroduction(10, null));
@@ -131,13 +136,23 @@ public class SoraPost extends Post implements KomicaPost {
         resquote.remove();
     }
 
-    @Override
-    public void installTitle(String title) {
-        this.getQuoteElement().prepend(String.format("[%s]<br>",title));
+    public void setTitle() {
+        String title=this.getTitle(0);
+        if(title.length()>0){
+            this.getQuoteElement().prepend(String.format("[%s]<br>",title));
+        }
+    }
+
+    public void setQuote(){
+        this.setQuoteElement(getPostEle().selectFirst("div.quote"));
     }
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
+        download(bundle, onResponse,this);
+    }
+
+    public void download(Bundle bundle, OnResponse onResponse,SoraPost postModel) {
         print(new Object(){}.getClass(),"AndroidNetworking",getUrl());
         AndroidNetworking.get(getUrl()).build().getAsString(new StringRequestListener() {
             @Override
@@ -147,9 +162,15 @@ public class SoraPost extends Post implements KomicaPost {
                 // 語言缺陷
                 // https://stackoverflow.com/questions/508639/why-must-delegation-to-a-different-constructor-happen-first-in-a-java-constructo
                 // this(boardUrl,threadpost.attr("id").substring(1), threadpost);
-                SoraPost subPost = new SoraPost(getBoardUrl(),threadpost.attr("id").substring(1), threadpost);
+
+
+                Bundle bundle =new Bundle();
+                bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
+                bundle.putString(COLUMN_POST_ID,threadpost.attr("id").substring(1));
+                bundle.putString(COLUMN_THREAD,threadpost.html());
+                SoraPost subPost = postModel.newInstance(bundle);
                 for (Element reply_ele : thread.select("div.reply")) {
-                    subPost.addPost(reply_ele);
+                    subPost.addPost(reply_ele,postModel);
                 }
                 onResponse.onResponse(subPost);
             }
@@ -159,5 +180,15 @@ public class SoraPost extends Post implements KomicaPost {
                 anError.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public String getIntroduction(int words, String[] rank) {
+        String ind = getQuote().replaceAll(">>(No\\.)*[0-9]{6,} *(\\(.*\\))*", "");
+        ind = ind.replaceAll(">+.+\n", "");
+        if (words!=0 && ind.length() > words) {
+            ind = ind.substring(0, words + 1) + "...";
+        }
+        return ind.trim();
     }
 }

@@ -17,7 +17,9 @@ public class PostViewModel extends ViewModel {
 
     public void update() {
         Post model = getPostModel(new UrlUtil(url).getLastPathSegment(), false);
+
         if (model != null) {
+            print(model.getClass(),"");
             model.setUrl(url);
             model.download(null, new Post.OnResponse() {
                 @Override

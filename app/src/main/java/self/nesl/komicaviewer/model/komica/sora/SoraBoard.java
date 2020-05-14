@@ -1,6 +1,5 @@
 package self.nesl.komicaviewer.model.komica.sora;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.androidnetworking.AndroidNetworking;
@@ -15,6 +14,9 @@ import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
 import self.nesl.komicaviewer.util.UrlUtil;
 
+import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
+import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
+import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
 import static self.nesl.komicaviewer.util.ProjectUtil.installThreadTag;
 import static self.nesl.komicaviewer.util.Util.print;
 
@@ -24,7 +26,11 @@ public class SoraBoard extends Post {
 
     public SoraBoard(){}
 
-    public SoraBoard(Document doc,String boardUrl){
+    public SoraBoard(Document doc,String boardUrl) {
+        this(doc,boardUrl,new SoraBoard());
+    }
+
+    public SoraBoard(Document doc,String boardUrl,Post postModel){
         String host=new UrlUtil(boardUrl).getHost();
 //        語言缺陷
 //        super(boardUrl,host,doc);
@@ -38,7 +44,12 @@ public class SoraBoard extends Post {
         Element threads=installThreadTag(doc.body().getElementById("threads"));
         for (Element thread : threads.select("div.thread")) {
             Element threadpost=thread.selectFirst("div.threadpost");
-            SoraPost post=new SoraPost(boardUrl,threadpost.attr("id").substring(1), threadpost);
+
+            Bundle bundle =new Bundle();
+            bundle.putString(COLUMN_BOARD_URL,boardUrl);
+            bundle.putString(COLUMN_POST_ID,threadpost.attr("id").substring(1));
+            bundle.putString(COLUMN_THREAD,threadpost.html());
+            Post post=postModel.newInstance(bundle);
 
             //get replyCount
             int replyCount=0;
@@ -82,5 +93,10 @@ public class SoraBoard extends Post {
                 anError.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public Post newInstance(Bundle bundle) {
+        return null;
     }
 }

@@ -17,4 +17,9 @@ public class Const {
     public static final String COLUMN_POST="post";
     public static final String COLUMN_POST_URL = "postUrl";
 
+    // new Instance
+    public static final String COLUMN_BOARD_URL="board_url";
+    public static final String COLUMN_POST_ID="post_id";
+    public static final String COLUMN_THREAD="thread";
+
 }

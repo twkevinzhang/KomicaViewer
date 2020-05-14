@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.json.JSONObject;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
+import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
+import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
+import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
 import static self.nesl.komicaviewer.util.Util.print;
 
 public final class PostDB {
@@ -76,12 +80,13 @@ public final class PostDB {
             // todo: Gson
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
+            Bundle bundle=new Bundle();
+            bundle.putString(COLUMN_BOARD_URL,csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)));
+            bundle.putString(COLUMN_POST_ID,csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
+            bundle.putString(COLUMN_THREAD,csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
+
             // todo: switch model
-           Post post =new SoraPost(
-                   csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)),
-                    csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),
-                    new Element("<html>").html(csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)))
-                    );
+           Post post =new SoraPost().newInstance(bundle);
             arr.add(post);
         }
         csr.close();

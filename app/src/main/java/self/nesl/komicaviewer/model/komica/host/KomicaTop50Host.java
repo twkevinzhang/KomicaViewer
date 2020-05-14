@@ -64,13 +64,7 @@ public class KomicaTop50Host extends Host {
                 url = url.substring(0, url.length() - 1);
             }
             String title = e.text();
-            String finalUrl = url;
             Post p=new Post(){
-                @Override
-                public String getUrl() {
-                    return finalUrl;
-                }
-
                 @Override
                 public String getIntroduction(int words, String[] rank) {
                     return null;
@@ -78,14 +72,14 @@ public class KomicaTop50Host extends Host {
 
                 @Override
                 public void download(Bundle bundle, OnResponse onResponse) {
-
                 }
 
-//                @Override
-//                public Post parseDoc(Document document, String url) {
-//                    return null;
-//                }
+                @Override
+                public Post newInstance(Bundle bundle) {
+                    return null;
+                }
             };
+            p.setUrl(url);
             p.setTitle(title);
             boards.add(p);
         }
