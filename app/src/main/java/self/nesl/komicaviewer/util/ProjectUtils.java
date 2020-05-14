@@ -34,7 +34,6 @@ public class ProjectUtils {
                 model.setBoardUrl(boardUrl);
                 return model;
             }
-            break;
         }
         return null;
     }
