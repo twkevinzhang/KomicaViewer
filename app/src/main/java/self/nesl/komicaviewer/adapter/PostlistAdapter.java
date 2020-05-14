@@ -8,12 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Picture;
@@ -23,18 +24,14 @@ import static self.nesl.komicaviewer.util.Utils.print;
 
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder> {
     private ArrayList<Post> postlist;
-    private Fragment fragment;
     private ItemOnClickListener callBack;
 
-    public PostlistAdapter(Fragment fragment, ItemOnClickListener callBack) {
-        this.fragment = fragment;
-        this.postlist = new ArrayList<Post>();
+    public PostlistAdapter(ItemOnClickListener callBack) {
+        this.postlist =  new ArrayList<Post>();
         this.callBack = callBack;
     }
 
-    // 建立ViewHolder
     public class PostlistViewHolder extends RecyclerView.ViewHolder {
-        // 宣告元件
         private ImageView imgThumb;
         private ImageView imgOri;
         private TextView txtPostId;
@@ -109,9 +106,6 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             });
         }
 
-
-
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +125,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     }
 
     public void addAllPost(ArrayList<Post> postlist) {
-        this.postlist.addAll(postlist);
+        this.postlist.addAll(new ArrayList<Post>(new HashSet<Post>(postlist)));
     }
 
     public void addThreadpost(Post post) {

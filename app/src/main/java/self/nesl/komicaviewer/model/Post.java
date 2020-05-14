@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 
+import androidx.annotation.RequiresApi;
+
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -15,6 +17,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
@@ -262,6 +265,28 @@ public abstract class Post implements Serializable {
         s += "\"replies\":[" + s3 + "]";
         s = s.replace("[,", "[");
         return ",{" + s + "}";
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(postId);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Post other = (Post) obj;
+        if (!Objects.equals(this.postId, other.postId)) {
+            return false;
+        }
+        return true;
     }
 
 }

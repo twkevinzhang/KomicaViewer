@@ -1,7 +1,9 @@
 ### 框架
 MVVM in Android
 
-min version: 7.0.0(api=24)，否則getReplies()無法日期排序
+### Min Version
+ - < 7.0.0 (N, api=24)，getReplies()無法日期排序
+ - < 4.4 (KITKAT, api=19)，Post.hashCode()無法比對重複
 
 ### 特色
  - 為了符合Komica聯合站的獨特架構，將`Host`與`Board`分離，兩者之間的Url並沒有依賴性

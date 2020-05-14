@@ -49,7 +49,7 @@ public class LocalFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
         final TextView txtMsg = v.findViewById(R.id.txtMsg);
-        final PostlistAdapter adapter = new PostlistAdapter(this, new PostlistAdapter.ItemOnClickListener() {
+        final PostlistAdapter adapter = new PostlistAdapter(new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
                 Bundle bundle = new Bundle();
