@@ -55,7 +55,7 @@ MVVM in Android
    - [ ] kagaminerin.org (3D STG、動作遊戲)
    - [ ] p.komica.acg.club.tw (兄貴)
    - [ ] 2cat.org (碧藍幻想、手機遊戲、Azur Lane、網頁遊戲)
-   - [ ] mymoe.moe (PAD、綜合2、三次實況)
+   - [x] mymoe.moe (PAD、綜合2、三次實況)
    - [ ] strange-komica.com (魔物獵人)
    - [ ] secilia.zawarudo.org (少女前線、AGA)
    - [ ] gzone-anime.info (TYPE-MOON)
@@ -96,10 +96,30 @@ MVVM in Android
     - [Komica+](https://github.com/TakumaMochizuki/Komica)
 
 ### 圖
-
-    host > board > post
-
-    getUrl() == getProtocol()+"://"+getHost()+getPath()
+```
+路徑圖
+host > board > post
+```
+```
+繼承關係圖
+============================
+    Host
+    |__Komica2Host
+    |__KomicaHost
+         |__KomicaTop50Host
+============================
+    Post
+    |__SoraPost
+    |    |__MymoePost
+    |__SoraBoard
+         |__MymoeBoard
+============================
+```
+```
+網址結構
+getUrl() == getProtocol()+"://"+getHost()+getPath() // http://sora.komica.org/00/pixmicat.php?res=18287039
+getLastPathSegment() // https://sora.komica.org/00
+```
 
 ### 如何新增Host?
  - let your `hostModel` implements `Host`

@@ -32,11 +32,6 @@ public class UrlUtils {
         return murl;
     }
 
-    // https://sora.komica.org
-    public String getUrlToHost() {
-        return getProtocol()+"://"+getHost();
-    }
-
     // sora.komica.org
     public String getHost() {
         String urlStr=baseUrl==null?this.url:this.baseUrl;

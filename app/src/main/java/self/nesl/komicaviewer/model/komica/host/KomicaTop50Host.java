@@ -16,13 +16,7 @@ import java.util.Map;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 
-public class KomicaTop50Host extends Host {
-    private KomicaHost komicaHost=new KomicaHost();
-
-    @Override
-    public String getHost() {
-        return komicaHost.getHost();
-    }
+public class KomicaTop50Host extends KomicaHost {
 
     @Override
     public void downloadBoardlist(OnResponse onResponse) {
@@ -42,16 +36,6 @@ public class KomicaTop50Host extends Host {
             }
         });
     }
-
-    @Override
-    public Map[] getSubHosts() {
-        return komicaHost.getSubHosts();
-    }
-
-//    @Override
-//    public Post getPostModel(Document document, String url, boolean isBoard) {
-//        return komicaHost.getPostModel(url,isBoard);
-//    }
 
     public static ArrayList<Post> parseTop50Boardlist(Document doc) {
         ArrayList<Post> boards = new ArrayList<Post>();
