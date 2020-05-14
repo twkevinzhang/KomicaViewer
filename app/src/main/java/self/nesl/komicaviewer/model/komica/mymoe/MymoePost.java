@@ -5,10 +5,6 @@ import android.os.Bundle;
 import org.jsoup.nodes.Element;
 
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
-
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
-import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
-import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
 import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
 import static self.nesl.komicaviewer.util.Utils.print;
 

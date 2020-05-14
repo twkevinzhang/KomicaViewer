@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
-
-import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public final class PostDB {
@@ -79,9 +77,9 @@ public final class PostDB {
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
             Bundle bundle=new Bundle();
-            bundle.putString(COLUMN_BOARD_URL,csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)));
-            bundle.putString(COLUMN_POST_ID,csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
-            bundle.putString(COLUMN_THREAD,csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
+            bundle.putString(SoraPost.COLUMN_BOARD_URL,csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)));
+            bundle.putString(SoraPost.COLUMN_POST_ID,csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
+            bundle.putString(SoraPost.COLUMN_THREAD,csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
 
             // todo: switch model
            Post post =new SoraPost().newInstance(bundle);

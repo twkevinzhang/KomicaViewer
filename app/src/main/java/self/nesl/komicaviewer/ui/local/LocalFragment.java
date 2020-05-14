@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
-
-import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
+import self.nesl.komicaviewer.ui.post.PostFragment;
 import static self.nesl.komicaviewer.Const.COLUMN_TABLE_NAME;
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
@@ -54,7 +53,7 @@ public class LocalFragment extends Fragment {
             @Override
             public void itemOnClick(Post post) {
                 Bundle bundle = new Bundle();
-                bundle.putString(COLUMN_POST_URL, (IS_TEST)?POST_URL:post.getUrl());
+                bundle.putString(PostFragment.COLUMN_POST_URL, (IS_TEST)?POST_URL:post.getUrl());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_local_to_nav_post,bundle);
             }

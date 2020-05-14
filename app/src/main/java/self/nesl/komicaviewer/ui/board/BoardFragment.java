@@ -22,14 +22,13 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
-
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD;
-import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
+import self.nesl.komicaviewer.ui.post.PostFragment;
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class BoardFragment extends Fragment{
+    public static final String COLUMN_BOARD="board";
     private BoardViewModel boardViewModel;
     private Post board;
     private int page = 0;
@@ -45,7 +44,7 @@ public class BoardFragment extends Fragment{
         super.onCreate(savedInstanceState);
         boardViewModel = ViewModelProviders.of(this).get(BoardViewModel.class);
         if (getArguments() != null) {
-            board = (Post)getArguments().getSerializable(COLUMN_BOARD);
+            board = (Post)getArguments().getSerializable(BoardFragment.COLUMN_BOARD);
             boardViewModel.setBoardUrl(board.getUrl());
             boardViewModel.load(page);
         }
@@ -61,7 +60,7 @@ public class BoardFragment extends Fragment{
             @Override
             public void itemOnClick(Post post) {
                 Bundle bundle = new Bundle();
-                bundle.putString(COLUMN_POST_URL, (IS_TEST)?POST_URL:post.getUrl());
+                bundle.putString(PostFragment.COLUMN_POST_URL, (IS_TEST)?POST_URL:post.getUrl());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_board_to_nav_post,bundle);
             }

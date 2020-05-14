@@ -21,12 +21,11 @@ import self.nesl.komicaviewer.adapter.BoardlistAdapter;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
-
-import static self.nesl.komicaviewer.Const.COLUMN_HOST;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 // nav_home
 public class HomeFragment extends Fragment {
+    public static final String COLUMN_HOST="host";
 
     private HomeViewModel homeViewModel;
     private Host host;

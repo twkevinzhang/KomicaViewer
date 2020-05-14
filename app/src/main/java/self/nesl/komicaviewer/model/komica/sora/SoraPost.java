@@ -12,10 +12,6 @@ import org.jsoup.select.Elements;
 
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
-
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
-import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
-import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
 import static self.nesl.komicaviewer.util.Utils.getStyleMap;
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
@@ -26,6 +22,10 @@ import static self.nesl.komicaviewer.util.Utils.print;
 public class SoraPost extends Post{
     private String fsub;
     private String fcom;
+
+    public static final String COLUMN_BOARD_URL="board_url";
+    public static final String COLUMN_POST_ID="post_id";
+    public static final String COLUMN_THREAD="thread";
 
 //    komica.org (
 //            [綜合,男性角色,短片2,寫真],

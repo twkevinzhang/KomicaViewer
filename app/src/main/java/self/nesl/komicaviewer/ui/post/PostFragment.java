@@ -19,12 +19,10 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
-import static self.nesl.komicaviewer.util.Utils.print;
-
 // nav_post
 public class PostFragment extends Fragment {
     private PostViewModel postViewModel;
+    public static final String COLUMN_POST_URL = "postUrl";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

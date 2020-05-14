@@ -24,8 +24,7 @@ import self.nesl.komicaviewer.model.komica.host.Komica2Host;
 import self.nesl.komicaviewer.model.komica.host.KomicaHost;
 import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
 import self.nesl.komicaviewer.ui.board.BoardFragment;
-import static self.nesl.komicaviewer.Const.COLUMN_HOST;
-
+import self.nesl.komicaviewer.ui.home.HomeFragment;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
 //                navigationView.setCheckedItem(item.getItemId()); // not work
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(COLUMN_HOST, host);
+                bundle.putSerializable(HomeFragment.COLUMN_HOST, host);
                 Navigation.findNavController(get(), R.id.nav_host_fragment)
                         .navigate(R.id.nav_home, bundle);
                 return false;

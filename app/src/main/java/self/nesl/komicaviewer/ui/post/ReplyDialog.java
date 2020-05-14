@@ -14,10 +14,9 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.Const.COLUMN_POST;
-
 public class ReplyDialog extends DialogFragment {
     private Post post;
+    public static final String COLUMN_POST="post";
 
     public ReplyDialog(Post post, FragmentManager fragmentManager){
         this.post=post;

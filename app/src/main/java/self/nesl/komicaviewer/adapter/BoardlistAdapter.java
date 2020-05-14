@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
-
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD;
-import static self.nesl.komicaviewer.Const.COLUMN_POST_URL;
+import self.nesl.komicaviewer.ui.board.BoardFragment;
 import static self.nesl.komicaviewer.Const.IS_TEST;
 import static self.nesl.komicaviewer.Const.POST_URL;
 
@@ -63,7 +61,7 @@ public class BoardlistAdapter extends RecyclerView.Adapter<BoardlistAdapter.Boar
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(COLUMN_BOARD, post);
+                bundle.putSerializable(BoardFragment.COLUMN_BOARD, post);
                 Navigation.findNavController(fragment.getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_home_to_nav_board,bundle);
             }

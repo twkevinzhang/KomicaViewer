@@ -13,10 +13,6 @@ import org.jsoup.nodes.Element;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
 import self.nesl.komicaviewer.util.UrlUtils;
-
-import static self.nesl.komicaviewer.Const.COLUMN_BOARD_URL;
-import static self.nesl.komicaviewer.Const.COLUMN_POST_ID;
-import static self.nesl.komicaviewer.Const.COLUMN_THREAD;
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -24,13 +20,17 @@ public class SoraBoard extends Post {
     private String fsub;
     private String fcom;
 
+    public static final String COLUMN_DOC="doc";
+    public static final String COLUMN_BOARD_URL="board_url";
+    public static final String COLUMN_THREAD="thread";
+
     public SoraBoard(){}
 
     public SoraBoard(Document doc,String boardUrl) {
-        this(doc,boardUrl,new SoraBoard());
+        this(doc,boardUrl,new SoraPost());
     }
 
-    public SoraBoard(Document doc,String boardUrl,Post postModel){
+    public SoraBoard(Document doc,String boardUrl,SoraPost postModel){
         String host=new UrlUtils(boardUrl).getHost();
 //        語言缺陷
 //        super(boardUrl,host,doc);
@@ -46,9 +46,9 @@ public class SoraBoard extends Post {
             Element threadpost=thread.selectFirst("div.threadpost");
 
             Bundle bundle =new Bundle();
-            bundle.putString(COLUMN_BOARD_URL,boardUrl);
-            bundle.putString(COLUMN_POST_ID,threadpost.attr("id").substring(1));
-            bundle.putString(COLUMN_THREAD,threadpost.html());
+            bundle.putString(SoraPost.COLUMN_BOARD_URL,boardUrl);
+            bundle.putString(SoraPost.COLUMN_POST_ID,threadpost.attr("id").substring(1));
+            bundle.putString(SoraPost.COLUMN_THREAD,threadpost.html());
             Post post=postModel.newInstance(bundle);
 
             //get replyCount
@@ -72,6 +72,10 @@ public class SoraBoard extends Post {
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
+        download(bundle,onResponse,this);
+    }
+
+    public void download(Bundle bundle, OnResponse onResponse,SoraBoard boardModel) {
         String pageUrl= getBoardUrl();
         int page=0;
         if(bundle!=null){
@@ -85,7 +89,12 @@ public class SoraBoard extends Post {
         AndroidNetworking.get(pageUrl).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                onResponse.onResponse(new SoraBoard(Jsoup.parse(response), getBoardUrl()));
+
+                Bundle bundle =new Bundle();
+                bundle.putString(COLUMN_DOC,Jsoup.parse(response).html());
+                bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
+
+                onResponse.onResponse(boardModel.newInstance(bundle));
             }
 
             @Override
@@ -96,7 +105,10 @@ public class SoraBoard extends Post {
     }
 
     @Override
-    public Post newInstance(Bundle bundle) {
-        return null;
+    public SoraBoard newInstance(Bundle bundle) {
+        return new SoraBoard(
+                Jsoup.parse(bundle.getString(COLUMN_DOC)),
+                bundle.getString(COLUMN_BOARD_URL)
+        );
     }
 }
