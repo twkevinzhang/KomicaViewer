@@ -9,7 +9,7 @@ import static self.nesl.komicaviewer.util.Utils.print;
 
 public class UrlUtils {
     String url;
-    String baseUrl;
+    String baseUrl=null;
 
     //sora.komica.org/00/pixmicat.php?res=18287039
     public UrlUtils(String url){
@@ -17,16 +17,26 @@ public class UrlUtils {
     }
 
     public UrlUtils(String url, @Nullable String baseUrl){
-        this.url=installProtocol(url);
         if(baseUrl!=null){
             this.baseUrl=installProtocol(baseUrl);
+            if(url.startsWith("/") && !url.startsWith("//")){
+                this.url=baseUrl+url;
+            }else{
+                this.url=installProtocol(url);
+            }
+        }else{
+            this.url=installProtocol(url);
         }
+    }
+
+    boolean hasProtocol(String murl){
+        return !(murl.contains("://") || murl.startsWith("/"));
     }
 
     String installProtocol(String murl){
         if(murl.startsWith("//")){
             murl="http:"+murl;
-        }else if(!murl.startsWith("/") && !murl.contains("://")){
+        }else if(!(murl.contains("://") || murl.startsWith("/"))){
             murl="http://"+murl;
         }
         return murl;
@@ -34,10 +44,8 @@ public class UrlUtils {
 
     // sora.komica.org
     public String getHost() {
-        String urlStr=baseUrl==null?this.url:this.baseUrl;
         try {
-            URL url=new URL(urlStr);
-            return url.getHost();
+            return new URL(this.url).getHost();
         }catch (MalformedURLException e){
             e.printStackTrace();
         }
@@ -47,8 +55,7 @@ public class UrlUtils {
     // /00/pixmicat.php
     public String getPath() {
         try {
-            URL url2=new URL(url);
-            return url2.getPath();
+            return new URL(url).getPath();
         }catch (MalformedURLException e){
             e.printStackTrace();
         }
@@ -58,22 +65,17 @@ public class UrlUtils {
     // https://sora.komica.org/00
     public String getLastPathSegment(){
         String url=getUrl();
-        return url.substring(url.indexOf(getHost()),url.lastIndexOf("/"));
+        return url.substring(0,url.lastIndexOf("/"));
     }
 
     // https://sora.komica.org/00/pixmicat.php?res=18287039
     public String getUrl(){
-        if(url.startsWith("/")){
-            return getProtocol()+"://"+getHost()+url;
-        }
         return url;
     }
 
     public String getProtocol() {
-        String urlStr=baseUrl==null?this.url:this.baseUrl;
         try {
-            URL url=new URL(urlStr);
-            return url.getProtocol();
+            return new URL(url).getProtocol();
         }catch (MalformedURLException e){
             e.printStackTrace();
         }

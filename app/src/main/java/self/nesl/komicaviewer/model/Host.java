@@ -6,6 +6,8 @@ import java.util.Map;
 
 import self.nesl.komicaviewer.util.UrlUtils;
 
+import static self.nesl.komicaviewer.util.Utils.print;
+
 public abstract class Host implements Serializable {
     public static String MAP_HOST_COLUMN="host";
     public static String MAP_POST_MODEL_COLUMN="postModel";

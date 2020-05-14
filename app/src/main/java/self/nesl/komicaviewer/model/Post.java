@@ -136,7 +136,6 @@ public abstract class Post implements Serializable {
         this.url=url;
     }
 
-    // 預設是父親的url
     public void setBoardUrl(String boardUrl){this.boardUrl = boardUrl;}
 
     public void setPostEle(Element postEle) {

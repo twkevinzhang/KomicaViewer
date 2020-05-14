@@ -65,6 +65,7 @@ public class SoraPost extends Post{
     }
 
     public void setPictures(){
+
         //get picUrl,thumbnailUrl
         try {
             Element thumbImg=getPostEle().selectFirst("img");

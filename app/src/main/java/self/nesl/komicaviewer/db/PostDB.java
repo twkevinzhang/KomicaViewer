@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
+import self.nesl.komicaviewer.util.UrlUtils;
+
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public final class PostDB {
@@ -73,17 +76,15 @@ public final class PostDB {
         ArrayList<Post> arr = new ArrayList<Post>();
         Cursor csr = mDatabase.rawQuery("select * from " + tableName + ";", null);
         while (csr.moveToNext()) {
-            // todo: Gson
+            // todo: toJson Gson
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
             Bundle bundle=new Bundle();
-            bundle.putString(SoraPost.COLUMN_BOARD_URL,csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL)));
+            String boardUrl=csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL));
+            bundle.putString(SoraPost.COLUMN_BOARD_URL,boardUrl);
             bundle.putString(SoraPost.COLUMN_POST_ID,csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
             bundle.putString(SoraPost.COLUMN_THREAD,csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
-
-            // todo: switch model
-           Post post =new SoraPost().newInstance(bundle);
-            arr.add(post);
+            arr.add(getPostModel(boardUrl, false).newInstance(bundle));
         }
         csr.close();
         return arr;
