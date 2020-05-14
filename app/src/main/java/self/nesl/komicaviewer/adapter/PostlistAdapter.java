@@ -1,5 +1,6 @@
 package self.nesl.komicaviewer.adapter;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     @Override
     public void onBindViewHolder(@NonNull final PostlistViewHolder holder, final int i) {
         final Post post = postlist.get(i);
-        holder.txtPostInd.setText(post.getIntroduction(0,null));
+        holder.txtPostInd.setText(Html.fromHtml(post.getQuoteElement().html()));
         holder.txtPostId.setText("No." + post.getPostId());
         holder.txtReplyCount.setText("回應:" + post.getReplyCount());
         holder.txtPoster.setText(post.getPoster());
