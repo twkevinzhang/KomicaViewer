@@ -61,8 +61,7 @@ public class ProjectUtils {
                 "yy/MM/dd(EEE) HH:mm:ss",
                 "yy/MM/dd(EEE)HH:mm:ss",
                 "yy/MM/dd(EEE)HH:mm",
-                "yyyy-mm-dd HH:mm:ss", // mymoe
-                "yy/MM/dd HH:mm:ss" // mymoe post
+                "yy/MM/dd HH:mm:ss" // mymoe
         )){
             try {
                 return new SimpleDateFormat(s, Locale.ENGLISH).parse(time);

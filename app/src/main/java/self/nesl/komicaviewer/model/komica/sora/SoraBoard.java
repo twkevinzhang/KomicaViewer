@@ -85,7 +85,7 @@ public class SoraBoard extends Post {
         if (page != 0) {
             pageUrl += "/pixmicat.php?page_num="+ page;
         }
-        print(new Object(){}.getClass(),"AndroidNetworking",pageUrl);
+        print(boardModel.getClass(),"AndroidNetworking",pageUrl);
         AndroidNetworking.get(pageUrl).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {

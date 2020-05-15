@@ -26,12 +26,13 @@ public class MymoePost extends SoraPost {
 
     public MymoePost(String boardUrl, String post_id, Element thread) {
         String[] strs = post_id.split(" ");
+
         setBoardUrl(boardUrl);
         setPostId(strs[0]);
         setPostEle(thread);
-        if (strs.length > 1) setId2(strs[1]);
-
         this.setUrl(boardUrl + "/pixmicat.php?res=" + post_id);
+
+        if (strs.length > 1) setId2(strs[1]);
     }
 
     public String getId2() {
@@ -43,7 +44,7 @@ public class MymoePost extends SoraPost {
     }
 
     @Override
-    public void installDefaultDetail(){
+    public void installDetail(){
         this.setTitle(getPostEle().select("span.title").text());
         Element detailEle = getPostEle().selectFirst("span.now");
         this.setTime(parseTime( detailEle.attr("title") ));

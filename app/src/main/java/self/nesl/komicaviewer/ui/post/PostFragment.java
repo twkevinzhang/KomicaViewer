@@ -23,6 +23,8 @@ import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.BaseFragment;
 
+import static self.nesl.komicaviewer.util.Utils.print;
+
 // nav_post
 public class PostFragment extends BaseFragment {
     private PostViewModel postViewModel;

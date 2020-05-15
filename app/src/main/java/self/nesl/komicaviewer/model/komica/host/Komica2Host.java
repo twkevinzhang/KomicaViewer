@@ -13,6 +13,8 @@ import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.model.komica.cyber.CyberBoard;
+import self.nesl.komicaviewer.model.komica.cyber.CyberPost;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtils;
@@ -44,8 +46,8 @@ public class Komica2Host extends Host{
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "cyber.boguspix.com");
-                    put(Host.MAP_POST_MODEL_COLUMN, null);
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_POST_MODEL_COLUMN, new CyberPost());
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new CyberBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "majeur.zawarudo.org");

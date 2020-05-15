@@ -47,19 +47,13 @@ public class SoraPost extends Post{
 
     public SoraPost parse(){
         setPictures();
-
-        try {
-            installDefaultDetail();
-        } catch (NullPointerException e) {
-            print(new Object(){}.getClass(),"use install2catDetail()");
-            install2catDetail();
-        }
+        installDetail();
         setQuote();
         setTitle();
         return this;
     }
 
-    private SoraPost(String boardUrl,String post_id, Element thread) {
+    public SoraPost(String boardUrl, String post_id, Element thread) {
         super(boardUrl, post_id,thread);
         this.setUrl(boardUrl + "/pixmicat.php?res=" + post_id);
     }
@@ -82,11 +76,16 @@ public class SoraPost extends Post{
         }
     }
 
-    public void installDefaultDetail(){
-        this.setTitle(getPostEle().select("span.title").text());
-        String[] post_detail = getPostEle().selectFirst("div.post-head span.now").text().split(" ID:");
-        this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
-        this.setPoster(post_detail[1]);
+    public void installDetail(){
+        try {
+            this.setTitle(getPostEle().select("span.title").text());
+            String[] post_detail = getPostEle().selectFirst("div.post-head span.now").text().split(" ID:");
+            this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
+            this.setPoster(post_detail[1]);
+        } catch (NullPointerException e) {
+            print(new Object(){}.getClass(),"use install2catDetail()");
+            install2catDetail();
+        }
     }
 
     public void install2catDetail(){
@@ -154,7 +153,7 @@ public class SoraPost extends Post{
     }
 
     public void download(Bundle bundle, OnResponse onResponse,SoraPost postModel) {
-        print(new Object(){}.getClass(),"AndroidNetworking",getUrl());
+        print(postModel.getClass(),"AndroidNetworking",getUrl());
         AndroidNetworking.get(getUrl()).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {

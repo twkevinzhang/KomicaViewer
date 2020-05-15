@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.model.komica.mymoe;
+package self.nesl.komicaviewer.model.komica.cyber;
 
 import android.os.Bundle;
 
@@ -9,29 +9,30 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import self.nesl.komicaviewer.model.komica.mymoe.MymoeBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class MymoeBoard extends SoraBoard {
+public class CyberBoard extends SoraBoard {
 
-    public MymoeBoard() {}
+    public CyberBoard() {}
 
     @Override
-    public MymoeBoard newInstance(Bundle bundle) {
-        return new MymoeBoard(
+    public CyberBoard newInstance(Bundle bundle) {
+        return new CyberBoard(
                 Jsoup.parse(bundle.getString(COLUMN_DOC)),
                 bundle.getString(COLUMN_BOARD_URL)
         );
     }
 
-    public MymoeBoard(Document doc,String boardUrl){
-       super(doc,boardUrl,new MymoePost());
+    public CyberBoard(Document doc, String boardUrl){
+       super(doc,boardUrl,new CyberPost());
     }
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        super.download(bundle,onResponse,this);
+        download(bundle,onResponse,this);
     }
 }
