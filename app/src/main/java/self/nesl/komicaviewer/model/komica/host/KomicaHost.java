@@ -120,7 +120,7 @@ public class KomicaHost extends Host {
         });
     }
 
-    public static ArrayList<Post> parseAllBoardlist(Document doc) {
+    public ArrayList<Post> parseAllBoardlist(Document doc) {
         ArrayList<Post> boards=new ArrayList<Post>();
         for (Element ul : doc.select("ul")) {
             String ui_title = ul.getElementsByClass("category").text();
@@ -131,29 +131,10 @@ public class KomicaHost extends Host {
                     li_link = li_link.substring(0, li_link.indexOf("/index."));
                 }
                 try {
-                    String finalLi_link = li_link;
-                    Post p=new Post(){
-                        @Override
-                        public String getUrl() {
-                            return finalLi_link;
-                        }
-
-                        @Override
-                        public String getIntroduction(int words, String[] rank) {
-                            return null;
-                        }
-
-                        @Override
-                        public void download(Bundle bundle, OnResponse onResponse) {
-
-                        }
-
-                        @Override
-                        public Post newInstance(Bundle bundle) {
-                            return null;
-                        }
-                    };
+                    Post p=getPostModel(li_link,true,true);
                     p.setTitle(li_title);
+                    p.setUrl(li_link);
+                    p.addTag(ui_title);
                     boards.add(p);
                 } catch (Exception e) {
                     e.printStackTrace();

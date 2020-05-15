@@ -7,10 +7,7 @@ import android.text.format.DateUtils;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.gson.JsonObject;
-
 import org.json.JSONObject;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.Serializable;
@@ -18,8 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
-
-import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
 public abstract class Post implements Serializable {
     private  Element postEle = null;
@@ -31,7 +26,7 @@ public abstract class Post implements Serializable {
     private String respondTo= null;
     private Date time= null;
     private String poster= null;
-    private String[] tag= null;
+    private ArrayList<String> tags = new ArrayList<String>();
     private int visitsCount = 0;
     private int replyCount = 0;
     private Element quoteElement = null;
@@ -90,8 +85,8 @@ public abstract class Post implements Serializable {
         return poster;
     }
 
-    public String[] getTag() {
-        return tag;
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
     public int getVisitsCount() {
@@ -166,8 +161,12 @@ public abstract class Post implements Serializable {
         this.poster = poster;
     }
 
-    public void setTag(String[] tag) {
-        this.tag = tag;
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    public void addAllTag(ArrayList<String> tag) {
+        this.tags.addAll(tag);
     }
 
     public void setVisitsCount(int visitsCount) {

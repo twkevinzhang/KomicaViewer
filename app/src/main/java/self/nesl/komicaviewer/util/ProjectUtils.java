@@ -29,13 +29,28 @@ public class ProjectUtils {
                 new KomicaHost(),
                 new Komica2Host(),
         }){
-            Post model=host.getPostModel(boardUrl,isBoard);
+            Post model=host.getPostModel(boardUrl,isBoard,false);
             if(model!=null){
                 model.setBoardUrl(boardUrl);
                 return model;
             }
         }
-        return null;
+        return new Post() {
+            @Override
+            public String getIntroduction(int words, String[] rank) {
+                return null;
+            }
+
+            @Override
+            public void download(Bundle bundle, OnResponse onResponse) {
+
+            }
+
+            @Override
+            public Post newInstance(Bundle bundle) {
+                return null;
+            }
+        };
     }
 
     public static Element installThreadTag(Element threads){
@@ -74,23 +89,9 @@ public class ProjectUtils {
         if(maps==null)return null;
         ArrayList<Post> arrayList=new ArrayList<Post>();
         for(Map<String, String> map : maps){
-            Post p=new Post(){
-                @Override
-                public String getIntroduction(int words, String[] rank) {
-                    return null;
-                }
-
-                @Override
-                public void download(Bundle bundle, OnResponse onResponse) {
-
-                }
-
-                @Override
-                public Post newInstance(Bundle bundle) {
-                    return null;
-                }
-            };
-            p.setUrl(map.get(MAP_LINK_COLUMN));
+            String url=map.get(MAP_LINK_COLUMN);
+            Post p=getPostModel(url,false);
+            p.setUrl(url);
             p.setTitle(map.get(MAP_TITLE_COLUMN));
             arrayList.add(p);
         }

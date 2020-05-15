@@ -16,6 +16,8 @@ import java.util.Map;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 
+import static self.nesl.komicaviewer.util.Utils.print;
+
 public class KomicaTop50Host extends KomicaHost {
 
     @Override
@@ -37,7 +39,7 @@ public class KomicaTop50Host extends KomicaHost {
         });
     }
 
-    public static ArrayList<Post> parseTop50Boardlist(Document doc) {
+    public ArrayList<Post> parseTop50Boardlist(Document doc) {
         ArrayList<Post> boards = new ArrayList<Post>();
         for (Element e : doc.getElementsByClass("divTableRow").select("a")) {
             String url = e.attr("href");
@@ -48,23 +50,10 @@ public class KomicaTop50Host extends KomicaHost {
                 url = url.substring(0, url.length() - 1);
             }
             String title = e.text();
-            Post p=new Post(){
-                @Override
-                public String getIntroduction(int words, String[] rank) {
-                    return null;
-                }
-
-                @Override
-                public void download(Bundle bundle, OnResponse onResponse) {
-                }
-
-                @Override
-                public Post newInstance(Bundle bundle) {
-                    return null;
-                }
-            };
-            p.setUrl(url);
+            Post p=getPostModel(url,true,true);
             p.setTitle(title);
+            p.setUrl(url);
+//            p.addTag(ui_title);
             boards.add(p);
         }
         return boards;

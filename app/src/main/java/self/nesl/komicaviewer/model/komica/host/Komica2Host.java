@@ -67,7 +67,7 @@ public class Komica2Host extends Host{
             public void onResponse(String response) {
                 Document doc= Jsoup.parse(response);
 //                ArrayList<Post> arrayList=KomicaHost.parseAllBoardlist(doc);
-                ArrayList<Post> arrayList=KomicaTop50Host.parseTop50Boardlist(doc); // top50
+                ArrayList<Post> arrayList=new KomicaTop50Host().parseTop50Boardlist(doc); // top50
                 setBoardlist(arrayList);
                 onResponse.onResponse(arrayList);
             }
