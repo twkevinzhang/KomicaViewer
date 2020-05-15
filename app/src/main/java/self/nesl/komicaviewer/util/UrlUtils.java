@@ -20,6 +20,7 @@ public class UrlUtils {
         if(baseUrl!=null){
             this.baseUrl=installProtocol(baseUrl);
             if(url.startsWith("/") && !url.startsWith("//")){
+                url=url.replace(new UrlUtils(baseUrl).getPath(),"");
                 this.url=baseUrl+url;
             }else{
                 this.url=installProtocol(url);
@@ -27,10 +28,6 @@ public class UrlUtils {
         }else{
             this.url=installProtocol(url);
         }
-    }
-
-    boolean hasProtocol(String murl){
-        return !(murl.contains("://") || murl.startsWith("/"));
     }
 
     String installProtocol(String murl){
