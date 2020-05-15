@@ -31,8 +31,6 @@ public class CyberPost extends SoraPost {
 
     @Override
     public void installDetail(){
-        print(new Object(){}.getClass(),getPostId());
-        print(new Object(){}.getClass(),getPostEle().ownText());
         String detailStr=getPostEle().ownText();
         detailStr=detailStr.length()==0?getPostEle().text():detailStr;
         String[] post_detail =detailStr.split(" ID:");

@@ -47,7 +47,7 @@ public class MymoePost extends SoraPost {
     public void installDetail(){
         this.setTitle(getPostEle().select("span.title").text());
         Element detailEle = getPostEle().selectFirst("span.now");
-        this.setTime(parseTime( detailEle.attr("title") ));
+        this.setTime(parseTime( detailEle.selectFirst("time").html() ));
         this.setPoster(detailEle.selectFirst("span.trip_id").text().replace("ID:",""));
     }
 
