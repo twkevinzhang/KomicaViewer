@@ -26,6 +26,8 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
+import static self.nesl.komicaviewer.util.Utils.print;
+
 public abstract class BaseFragment extends Fragment {
     private BaseViewModel viewModel;
     private int page = 0;
@@ -58,13 +60,15 @@ public abstract class BaseFragment extends Fragment {
             public void onChanged(Post post) {
                 assert post != null;
                 setTitle(post);
-                ArrayList posts=post.getReplies();
-                adapter.addAllPost(posts);
                 if(canLoad){
+                    ArrayList posts=post.getReplies(false);
+                    adapter.addAllPost(posts);
                     start = end;
                     end = start + posts.size();
                     adapter.notifyItemRangeInserted(start, end);
                 }else {
+                    ArrayList posts=post.getReplies(true);
+                    adapter.addAllPost(posts);
                     adapter.addThreadpost(post);
                     adapter.notifyDataSetChanged();
                 }

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import self.nesl.komicaviewer.R;
@@ -125,7 +126,9 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     }
 
     public void addAllPost(ArrayList<Post> postlist) {
-        this.postlist.addAll(new ArrayList<Post>(new HashSet<Post>(postlist)));
+        LinkedHashSet set=  new LinkedHashSet<>();
+        set.addAll(postlist);
+        this.postlist.addAll(set);
     }
 
     public void addThreadpost(Post post) {

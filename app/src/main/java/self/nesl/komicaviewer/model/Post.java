@@ -16,16 +16,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
+import static self.nesl.komicaviewer.util.Utils.print;
+
 public abstract class Post implements Serializable {
-    private  Element postEle = null;
-    private  JSONObject jsonObject = null;
+    private Element postEle = null;
+    private JSONObject jsonObject = null;
 
     private String postId = null;
     private String parentPostId = null;
-    private String title=null;
-    private String respondTo= null;
-    private Date time= null;
-    private String poster= null;
+    private String title = null;
+    private String respondTo = null;
+    private Date time = null;
+    private String poster = null;
     private ArrayList<String> tags = new ArrayList<String>();
     private int visitsCount = 0;
     private int replyCount = 0;
@@ -35,17 +37,18 @@ public abstract class Post implements Serializable {
     private boolean isReaded = false;
     // todo: toJson(Post)
     private transient ArrayList<Post> replyTree = new ArrayList<Post>();
-    private String boardUrl =null;
-    private String url =null;
+    private String boardUrl = null;
+    private String url = null;
 
     private Context context;
 
-    public Post(){}
+    public Post() {
+    }
 
-    public Post(String boardUrl, String post_id,Element postEle) {
-        this.boardUrl=boardUrl;
+    public Post(String boardUrl, String post_id, Element postEle) {
+        this.boardUrl = boardUrl;
         this.postId = post_id;
-        this.postEle=postEle;
+        this.postEle = postEle;
     }
 
     public Element getPostEle() {
@@ -61,7 +64,7 @@ public abstract class Post implements Serializable {
     }
 
     public String getTitle(int words) {
-        if(words!=0 && words<title.length())return title.substring(0,words);
+        if (words != 0 && words < title.length()) return title.substring(0, words);
         return title;
     }
 
@@ -74,9 +77,9 @@ public abstract class Post implements Serializable {
     }
 
     public String getTimeStr() {
-        if(time==null)return "";
-        if(DateUtils.isToday(time.getTime())){
-            return "今天 "+new SimpleDateFormat("hh:mm").format(time);
+        if (time == null) return "";
+        if (DateUtils.isToday(time.getTime())) {
+            return "今天 " + new SimpleDateFormat("hh:mm").format(time);
         }
         return new SimpleDateFormat("YY.MM.dd(E) hh:mm").format(time);
     }
@@ -94,14 +97,14 @@ public abstract class Post implements Serializable {
     }
 
     public int getReplyCount() {
-        return replyCount==0?getReplies().size():replyCount;
+        return replyCount == 0 ? getReplies().size() : replyCount;
     }
 
     public Element getQuoteElement() {
         return quoteElement;
     }
 
-    public String getQuote(){
+    public String getQuote() {
         return this.getQuoteElement().text().trim();
     }
 
@@ -121,24 +124,28 @@ public abstract class Post implements Serializable {
         return replyTree;
     }
 
-    public String getBoardUrl(){return this.boardUrl;}
+    public String getBoardUrl() {
+        return this.boardUrl;
+    }
 
-    public String getUrl(){
+    public String getUrl() {
         return this.url;
     }
 
-    public void setUrl(String url){
-        this.url=url;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setBoardUrl(String boardUrl){this.boardUrl = boardUrl;}
+    public void setBoardUrl(String boardUrl) {
+        this.boardUrl = boardUrl;
+    }
 
     public void setPostEle(Element postEle) {
-        this.postEle=postEle;
+        this.postEle = postEle;
     }
 
     public void setJsonObject(JSONObject jsonObject) {
-        this.jsonObject=jsonObject;
+        this.jsonObject = jsonObject;
     }
 
     public void setPostId(String postId) {
@@ -189,11 +196,11 @@ public abstract class Post implements Serializable {
         isReaded = readed;
     }
 
-    public void setAllPost(ArrayList<Post> all){
-        this.replyTree=all;
+    public void setAllPost(ArrayList<Post> all) {
+        this.replyTree = all;
     }
 
-    public void addAllPost(ArrayList<Post> all){
+    public void addAllPost(ArrayList<Post> all) {
         this.replyTree.addAll(all);
     }
 
@@ -208,39 +215,43 @@ public abstract class Post implements Serializable {
     }
 
     public void addPost(String target_id, Post insert_reply) {
-        if(target_id.equals(this.postId)){
+        if (target_id.equals(this.postId)) {
             this.replyTree.add(insert_reply);
             return;
         }
         for (Post reply : replyTree) {
-            if (reply.getPostId().equals(target_id))  reply.addPost(postId,insert_reply);
+            if (reply.getPostId().equals(target_id)) reply.addPost(postId, insert_reply);
         }
     }
 
     public Post getPost(String target_id) {
-        if(target_id.equals(this.postId))return this;
+        if (target_id.equals(this.postId)) return this;
         for (Post reply : this.replyTree) {
-            Post p=reply.getPost(target_id);
-            if(p!=null)return p;
+            Post p = reply.getPost(target_id);
+            if (p != null) return p;
         }
         return null;
     }
 
-    public ArrayList<Post> getReplies(){
-        ArrayList<Post> replyAll=new ArrayList<Post>();
-        if(replyAll.size()<=0){
-            for (Post reply : replyTree) {
-                if(!replyAll.contains(reply))replyAll.add(reply);
-                for(Post p : reply.getReplies()){
-                    if(!replyAll.contains(p))replyAll.add(p);
-                }
+    public ArrayList<Post> getReplies() {
+        return getReplies(false);
+    }
+
+    public ArrayList<Post> getReplies(boolean sort) {
+        ArrayList<Post> replyAll = new ArrayList<Post>();
+        for (Post reply : replyTree) {
+            if (!replyAll.contains(reply)) replyAll.add(reply);
+            for (Post p : reply.getReplies()) {
+                if (!replyAll.contains(p)) replyAll.add(p);
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                replyAll.size()!=0 &&
-                replyAll.get(0).getTime()!=null
+
+        if (sort &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                replyAll.size() != 0 &&
+                replyAll.get(0).getTime() != null
         ) {
-            replyAll.sort((d1,d2) -> d1.getTime().compareTo(d2.getTime()));
+            replyAll.sort((d1, d2) -> d1.getTime().compareTo(d2.getTime()));
         }
         return replyAll;
     }
@@ -251,7 +262,7 @@ public abstract class Post implements Serializable {
 
     @Override
     public String toString() {
-        String s= String.format("\"id\":%s,\"size\":%s,",getPostId(),replyTree.size()  );
+        String s = String.format("\"id\":%s,\"size\":%s,", getPostId(), replyTree.size());
         String s2 = getIntroduction(5, null);
         String s3 = "";
         if (s2 != null) {
