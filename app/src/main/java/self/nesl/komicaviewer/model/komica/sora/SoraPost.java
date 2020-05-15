@@ -89,17 +89,32 @@ public class SoraPost extends Post{
     }
 
     public void install2catDetail(){
-        Element detailEle=getPostEle().selectFirst(String.format("label[for='%s']", getPostId()));
-        Element titleEle=detailEle.selectFirst("span.title");
-        if(titleEle!=null){
-            this.setTitle(titleEle.text().trim());
-            titleEle.remove();
-        }
+        try {
+            Element detailEle=getPostEle().selectFirst(String.format("label[for='%s']", getPostId()));
+            Element titleEle=detailEle.selectFirst("span.title");
+            if(titleEle!=null){
+                this.setTitle(titleEle.text().trim());
+                titleEle.remove();
+            }
 
-        String s=detailEle.text().trim();
-        String[] post_detail=s.substring(1,s.length()-1).split(" ID:");
-        this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
-        this.setPoster(post_detail[1]);
+            String s=detailEle.text().trim();
+            String[] post_detail=s.substring(1,s.length()-1).split(" ID:");
+            this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
+            this.setPoster(post_detail[1]);
+        }catch (NullPointerException e){
+            print(new Object(){}.getClass(),"use installAnimeDetail()");
+            installAnimeDetail();
+        }
+    }
+
+    public void installAnimeDetail(){
+        // https://2cat.komica.org/~tedc21thc/anime/
+        // 沒有 label[for="3273507"]
+        String detailStr=getPostEle().ownText();
+        detailStr=detailStr.length()==0?getPostEle().text():detailStr;
+        String[] post_detail =detailStr.split(" ID:");
+        this.setTime(parseTime(parseChiToEngWeek(post_detail[0].substring(post_detail[0].indexOf("[")+1).trim())));
+        this.setPoster(post_detail[1].substring(0,post_detail[1].indexOf("]")));
     }
 
     public void addPost(Element reply_ele,SoraPost postModel) {
