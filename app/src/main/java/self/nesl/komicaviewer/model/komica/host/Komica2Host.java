@@ -37,6 +37,21 @@ public class Komica2Host extends Host{
                     put(Host.MAP_POST_MODEL_COLUMN, null);
                     put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN,  "p.komica.acg.club.tw");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN,  "cyber.boguspix.com");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN,  "majeur.zawarudo.org");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
         };
     }
 
@@ -59,16 +74,5 @@ public class Komica2Host extends Host{
                 anError.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public Post getPostModel(String urlOrSegment, boolean isBoard) {
-        String mhost=new UrlUtils(urlOrSegment).getHost();
-        for(Map map:getSubHosts()){
-            if(mhost.contains(map.get(MAP_HOST_COLUMN).toString())){
-                return (Post)(isBoard?map.get(MAP_BOARD_MODEL_COLUMN) :map.get(MAP_POST_MODEL_COLUMN));
-            }
-        }
-        return null;
     }
 }

@@ -39,9 +39,64 @@ public class KomicaHost extends Host {
                     put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "vi.anacel.com");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "acgspace.wsfun.com ");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "komica.dbfoxtw.me");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "anzuchang.com");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "komica.yucie.net");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "kagaminerin.org");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "p.komica.acg.club.tw");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "2cat.org");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "mymoe.moe");
                     put(Host.MAP_POST_MODEL_COLUMN, new MymoePost());
                     put(Host.MAP_BOARD_MODEL_COLUMN, new MymoeBoard());
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "strange-komica.com");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "secilia.zawarudo.org");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "gzone-anime.info");
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
         };
     }
