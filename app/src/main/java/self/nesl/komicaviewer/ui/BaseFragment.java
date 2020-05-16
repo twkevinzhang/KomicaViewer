@@ -3,10 +3,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -19,10 +17,6 @@ import android.widget.TextView;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.ui.board.BoardFragment;
-import self.nesl.komicaviewer.ui.board.BoardViewModel;
-
-import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -32,6 +26,7 @@ public abstract class BaseFragment extends Fragment {
     private BaseViewModel viewModel;
     private int page = 0;
     private boolean canLoad;
+    private PostlistAdapter.ItemOnClickListener listener;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -39,7 +34,7 @@ public abstract class BaseFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
         final TextView txtMsg=v.findViewById(R.id.txtMsg);
-        PostlistAdapter adapter=createAdapter();
+        PostlistAdapter adapter=new PostlistAdapter(listener);
 
         // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
@@ -59,20 +54,10 @@ public abstract class BaseFragment extends Fragment {
             @Override
             public void onChanged(Post post) {
                 assert post != null;
-                setTitle(post);
-                if(canLoad){
-                    ArrayList posts=post.getReplies(false);
-                    adapter.addAllPost(posts);
-                    start = end;
-                    end = start + posts.size();
-                    adapter.notifyItemRangeInserted(start, end);
-                }else {
-                    ArrayList posts=post.getReplies(true);
-                    adapter.addAllPost(posts);
-                    adapter.addThreadpost(post);
-                    adapter.notifyDataSetChanged();
-                }
-
+                whenDataChange(adapter,post);
+                start = end;
+                end = start + post.getReplies().size();
+                adapter.notifyItemRangeInserted(start, end);
                 txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
                 cateSwipeRefreshLayout.setRefreshing(false);
             }
@@ -104,29 +89,18 @@ public abstract class BaseFragment extends Fragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if(dy<0){
-//                    fab_menu_list.showMenuButton(true);
-//                }else{
-//                    fab_menu_list.hideMenuButton(true);
-//                }
-//                if(!recyclerView.canScrollVertically(-1)){
-//                    // 如果不能向上滑動，到頂了
-//                    fab_menu_list.showMenuButton(true);
-//                }
             }
         });
 
-
-
-        return v;
+        return doSomething(v);
     }
 
-    public void init(BaseViewModel viewModel,boolean canLoad){
+    public void init(BaseViewModel viewModel,boolean sort,boolean canLoad,PostlistAdapter.ItemOnClickListener listener){
         this.viewModel=viewModel;
-        this.canLoad=canLoad;
+        this.canLoad =canLoad;
+        this.listener=listener;
     }
 
-    abstract public PostlistAdapter createAdapter();
-    abstract public void setTitle(Post post);
+    abstract public void whenDataChange(PostlistAdapter adapter,Post post);
+    abstract public View doSomething(View v);
 }

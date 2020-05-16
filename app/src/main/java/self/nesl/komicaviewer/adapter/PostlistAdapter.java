@@ -110,7 +110,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callBack.itemOnClick(post);
+                if(callBack!=null)callBack.itemOnClick(post);
             }
         });
     }
@@ -132,7 +132,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     }
 
     public void addThreadpost(Post post) {
-        this.postlist.add(0, post);
+        if(!postlist.contains(post))postlist.add(0, post);
     }
 
     public void clear() {
