@@ -9,6 +9,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
@@ -26,7 +27,13 @@ public class SoraBoard extends Post {
                 Jsoup.parse(bundle.getString(COLUMN_THREAD)),
                 bundle.getString(COLUMN_BOARD_URL),
                 (Post)bundle.getSerializable(COLUMN_REPLY_MODEL)
-        );
+        ).parse();
+    }
+
+
+
+    public Elements getThreads(){
+        return installThreadTag(getPostEle().getElementById("threads")).select("div.thread");
     }
 
     public SoraBoard(){
@@ -37,18 +44,20 @@ public class SoraBoard extends Post {
         String host=new UrlUtils(boardUrl).getHost();
         this.setPostId(host);
         this.setUrl(boardUrl);
+        this.setPostEle(doc);
         this.setReplyModel(postModel);
+    }
 
+    public SoraBoard parse(){
         //get post secret name
-        fsub = doc.getElementById("fsub").attr("name");
-        fcom = doc.getElementById("fcom").attr("name");
+        fsub = getPostEle().getElementById("fsub").attr("name");
+        fcom = getPostEle().getElementById("fcom").attr("name");
 
-        Element threads=installThreadTag(doc.body().getElementById("threads"));
-        for (Element thread : threads.select("div.thread")) {
+        for (Element thread : getThreads()) {
             Element threadpost=thread.selectFirst("div.threadpost");
 
             Bundle bundle =new Bundle();
-            bundle.putString(SoraPost.COLUMN_BOARD_URL,boardUrl);
+            bundle.putString(SoraPost.COLUMN_BOARD_URL,getUrl());
             bundle.putString(SoraPost.COLUMN_POST_ID,threadpost.attr("id").substring(1));
             bundle.putString(SoraPost.COLUMN_THREAD,threadpost.html());
             Post post=getReplyModel().newInstance(bundle);
@@ -63,8 +72,9 @@ public class SoraBoard extends Post {
             replyCount += thread.getElementsByClass("reply").size();
             post.setReplyCount(replyCount);
 
-            this.addPost(host, post);
+            this.addPost(getPostId(), post);
         }
+        return this;
     }
 
     @Override
