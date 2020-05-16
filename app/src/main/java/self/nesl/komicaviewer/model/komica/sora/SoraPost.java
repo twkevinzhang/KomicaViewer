@@ -97,7 +97,7 @@ public class SoraPost extends Post{
             String[] post_detail=s.substring(1,s.length()-1).split(" ID:");
             this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
-        }catch (NullPointerException e){
+        }catch (NullPointerException | StringIndexOutOfBoundsException e){
             print(new Object(){}.getClass(),"use installAnimeDetail()");
             installAnimeDetail();
         }

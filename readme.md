@@ -52,7 +52,7 @@ MVVM in Android
    - [ ] komica.yucie.net (格鬥遊戲)
    - [ ] kagaminerin.org (3D STG、動作遊戲)
    - [ ] p.komica.acg.club.tw (兄貴)
-   - [ ] 2cat.org (
+   - [x] 2cat.org (
        - [碧藍幻想] 2cat.org/~granblue -> 2cat.org/granblue
        - [手機遊戲] 2cat.org/~handheld -> 2cat.org/cellphone
        - [Azur Lane] 2cat.org/~azurlane -> 2cat.org/azurlane
@@ -64,7 +64,15 @@ MVVM in Android
    - [ ] gzone-anime.info (TYPE-MOON)
  - Komica2 Top50:
    - [x] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
-   - [ ] 2cat.org (GIF裡,動畫裡,高解析裡,成人玩具,知識裡,偽娘裡,東方裡,)
+   - [ ] 2cat.org (
+       - [GIF裡] 
+       - [動畫裡]
+       - [高解析裡]
+       - [成人玩具]
+       - [知識裡]
+       - [偽娘裡]
+       - [東方裡]
+      )
    - [ ] p.komica.acg.club.tw (觸手裡)
    - [x] cyber.boguspix.com (機娘裡)
    - [ ] majeur.zawarudo.org (詢問裡)

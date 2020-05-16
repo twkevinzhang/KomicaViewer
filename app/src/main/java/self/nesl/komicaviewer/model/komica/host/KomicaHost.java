@@ -20,6 +20,7 @@ import self.nesl.komicaviewer.model.komica.mymoe.MymoeBoard;
 import self.nesl.komicaviewer.model.komica.mymoe.MymoePost;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
+import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -67,7 +68,7 @@ public class KomicaHost extends Host {
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "2cat.org");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new TwocatBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "mymoe.moe");

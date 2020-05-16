@@ -26,11 +26,9 @@ public class SoraBoard extends Post {
         return new SoraBoard(
                 Jsoup.parse(bundle.getString(COLUMN_THREAD)),
                 bundle.getString(COLUMN_BOARD_URL),
-                (Post)bundle.getSerializable(COLUMN_REPLY_MODEL)
+               getReplyModel()
         ).parse();
     }
-
-
 
     public Elements getThreads(){
         return installThreadTag(getPostEle().getElementById("threads")).select("div.thread");
@@ -82,6 +80,8 @@ public class SoraBoard extends Post {
         return getQuoteElement().text().trim();
     }
 
+
+    @Override
     public void download(Bundle bundle, OnResponse onResponse) {
         String pageUrl= getBoardUrl();
         int page=0;

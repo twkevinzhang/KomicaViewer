@@ -1,10 +1,19 @@
 package self.nesl.komicaviewer.util;
 
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,4 +59,21 @@ public class Utils {
         return s;
     }
 
+    public static Document netWorking(String url){
+        try {
+            HttpURLConnection connection1 = (HttpURLConnection)new URL(url).openConnection();
+            connection1.setReadTimeout(10000);
+            StringBuilder whole = new StringBuilder();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(new BufferedInputStream(connection1.getInputStream())));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null)
+                whole.append(inputLine);
+            in.close();
+            return Jsoup.parse(whole.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

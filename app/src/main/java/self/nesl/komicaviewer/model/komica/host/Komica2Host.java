@@ -15,6 +15,7 @@ import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
+import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
 import self.nesl.komicaviewer.util.UrlUtils;
 
 public class Komica2Host extends Host{
@@ -33,7 +34,7 @@ public class Komica2Host extends Host{
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "2cat.org");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new TwocatBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "p.komica.acg.club.tw");

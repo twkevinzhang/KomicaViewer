@@ -27,7 +27,7 @@ public class BoardViewModel extends BaseViewModel {
             model.download(bundle, new Post.OnResponse() {
                 @Override
                 public void onResponse(Post post) {
-                    getPost().setValue(post);
+                    getPost().postValue(post);
                 }
             });
 
