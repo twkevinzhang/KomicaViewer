@@ -20,22 +20,24 @@ public class SoraBoard extends Post {
     private String fsub;
     private String fcom;
 
-    public static final String COLUMN_DOC="doc";
-    public static final String COLUMN_BOARD_URL="board_url";
-    public static final String COLUMN_THREAD="thread";
-
-    public SoraBoard(){}
-
-    public SoraBoard(Document doc,String boardUrl) {
-        this(doc,boardUrl,new SoraPost());
+    @Override
+    public SoraBoard newInstance(Bundle bundle) {
+        return new SoraBoard(
+                Jsoup.parse(bundle.getString(COLUMN_THREAD)),
+                bundle.getString(COLUMN_BOARD_URL),
+                (Post)bundle.getSerializable(COLUMN_REPLY_MODEL)
+        );
     }
 
-    public SoraBoard(Document doc,String boardUrl,SoraPost postModel){
+    public SoraBoard(){
+        this.setReplyModel(new SoraPost());
+    }
+
+    public SoraBoard(Document doc,String boardUrl,Post postModel){
         String host=new UrlUtils(boardUrl).getHost();
-//        語言缺陷
-//        super(boardUrl,host,doc);
         this.setPostId(host);
         this.setUrl(boardUrl);
+        this.setReplyModel(postModel);
 
         //get post secret name
         fsub = doc.getElementById("fsub").attr("name");
@@ -49,7 +51,7 @@ public class SoraBoard extends Post {
             bundle.putString(SoraPost.COLUMN_BOARD_URL,boardUrl);
             bundle.putString(SoraPost.COLUMN_POST_ID,threadpost.attr("id").substring(1));
             bundle.putString(SoraPost.COLUMN_THREAD,threadpost.html());
-            Post post=postModel.newInstance(bundle);
+            Post post=getReplyModel().newInstance(bundle);
 
             //get replyCount
             int replyCount=0;
@@ -70,12 +72,7 @@ public class SoraBoard extends Post {
         return getQuoteElement().text().trim();
     }
 
-    @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        download(bundle,onResponse,this);
-    }
-
-    public void download(Bundle bundle, OnResponse onResponse,SoraBoard boardModel) {
         String pageUrl= getBoardUrl();
         int page=0;
         if(bundle!=null){
@@ -85,16 +82,17 @@ public class SoraBoard extends Post {
         if (page != 0) {
             pageUrl += "/pixmicat.php?page_num="+ page;
         }
-        print(boardModel.getClass(),"AndroidNetworking",pageUrl);
+        print(getClass(),"AndroidNetworking",pageUrl);
         AndroidNetworking.get(pageUrl).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
 
                 Bundle bundle =new Bundle();
-                bundle.putString(COLUMN_DOC,Jsoup.parse(response).html());
+                bundle.putString(COLUMN_THREAD,Jsoup.parse(response).html());
                 bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
+                bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
 
-                onResponse.onResponse(boardModel.newInstance(bundle));
+                onResponse.onResponse(newInstance(bundle));
             }
 
             @Override
@@ -102,13 +100,5 @@ public class SoraBoard extends Post {
                 anError.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public SoraBoard newInstance(Bundle bundle) {
-        return new SoraBoard(
-                Jsoup.parse(bundle.getString(COLUMN_DOC)),
-                bundle.getString(COLUMN_BOARD_URL)
-        );
     }
 }

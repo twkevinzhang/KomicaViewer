@@ -12,6 +12,8 @@ import org.jsoup.select.Elements;
 
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
+
+import static self.nesl.komicaviewer.db.PostDB.COLUMN_POST_ID;
 import static self.nesl.komicaviewer.util.Utils.getStyleMap;
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
@@ -22,10 +24,6 @@ import static self.nesl.komicaviewer.util.Utils.print;
 public class SoraPost extends Post{
     private String fsub;
     private String fcom;
-
-    public static final String COLUMN_BOARD_URL="board_url";
-    public static final String COLUMN_POST_ID="post_id";
-    public static final String COLUMN_THREAD="thread";
 
 //    komica.org (
 //            [綜合,男性角色,短片2,寫真],
@@ -59,8 +57,6 @@ public class SoraPost extends Post{
     }
 
     public void setPictures(){
-
-        //get picUrl,thumbnailUrl
         try {
             Element thumbImg=getPostEle().selectFirst("img");
             this.addPic(new Picture(
@@ -117,14 +113,14 @@ public class SoraPost extends Post{
         this.setPoster(post_detail[1].substring(0,post_detail[1].indexOf("]")));
     }
 
-    public void addPost(Element reply_ele,SoraPost postModel) {
+    public void addPost(Element reply_ele) {
         String reply_id = reply_ele.selectFirst(".qlink").text().replace("No.", "");
 
         Bundle bundle =new Bundle();
         bundle.putString(COLUMN_BOARD_URL,this.getBoardUrl());
         bundle.putString(COLUMN_POST_ID,reply_id);
         bundle.putString(COLUMN_THREAD,reply_ele.html());
-        SoraPost reply = postModel.newInstance(bundle);
+        SoraPost reply = newInstance(bundle);
 
         Elements eles = reply_ele.select("span.resquote a.qlink");
         if (eles.size() <= 0) {
@@ -164,28 +160,20 @@ public class SoraPost extends Post{
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        download(bundle, onResponse,this);
-    }
-
-    public void download(Bundle bundle, OnResponse onResponse,SoraPost postModel) {
-        print(postModel.getClass(),"AndroidNetworking",getUrl());
+        print(getClass(),"AndroidNetworking",getUrl());
         AndroidNetworking.get(getUrl()).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
                 Element thread= installThreadTag(Jsoup.parse(response).body().getElementById("threads")).selectFirst("div.thread");
                 Element threadpost = thread.selectFirst("div.threadpost");
-                // 語言缺陷
-                // https://stackoverflow.com/questions/508639/why-must-delegation-to-a-different-constructor-happen-first-in-a-java-constructo
-                // this(boardUrl,threadpost.attr("id").substring(1), threadpost);
-
 
                 Bundle bundle =new Bundle();
                 bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
                 bundle.putString(COLUMN_POST_ID,threadpost.attr("id").substring(1));
                 bundle.putString(COLUMN_THREAD,threadpost.html());
-                SoraPost subPost = postModel.newInstance(bundle);
+                SoraPost subPost = newInstance(bundle);
                 for (Element reply_ele : thread.select("div.reply")) {
-                    subPost.addPost(reply_ele,postModel);
+                    subPost.addPost(reply_ele);
                 }
                 onResponse.onResponse(subPost);
             }

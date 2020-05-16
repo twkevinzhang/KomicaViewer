@@ -16,8 +16,6 @@ public class Utils {
         }else{
             Log.e("print",s1);
         }
-
-//        System.out.println(s);
     }
 
     public static void print(String... s){

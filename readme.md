@@ -52,7 +52,12 @@ MVVM in Android
    - [ ] komica.yucie.net (格鬥遊戲)
    - [ ] kagaminerin.org (3D STG、動作遊戲)
    - [ ] p.komica.acg.club.tw (兄貴)
-   - [ ] 2cat.org (碧藍幻想、手機遊戲、Azur Lane、網頁遊戲)
+   - [ ] 2cat.org (
+       - [碧藍幻想] 2cat.org/~granblue -> 2cat.org/granblue
+       - [手機遊戲] 2cat.org/~handheld -> 2cat.org/cellphone
+       - [Azur Lane] 2cat.org/~azurlane -> 2cat.org/azurlane
+       - [網頁遊戲] 2cat.org/~webgame -> 2cat.org/webgame
+      )
    - [x] mymoe.moe (PAD、綜合2、三次實況)
    - [ ] strange-komica.com (魔物獵人)
    - [ ] secilia.zawarudo.org (少女前線、AGA)
@@ -145,3 +150,11 @@ getLastPathSegment() // https://sora.komica.org/00
 ### 如何新增Komica聯合站的Host?
  - let your `postModel` and `boardModel` implements `Post`
  - instantiate your `postModel` and `boardModel` in 33th line `KomicaHost.getSubHosts()`
+
+
+### Java的語言缺點
+ - 缺陷
+   - 不能abstract static function 
+   // https://stackoverflow.com/questions/370962/why-cant-static-methods-be-abstract-in-java
+   - super() or this()只能放在第一個，因此不能先宣告變數並處理後再傳入
+   // https://stackoverflow.com/questions/1168345/why-do-this-and-super-have-to-be-the-first-statement-in-a-constructor

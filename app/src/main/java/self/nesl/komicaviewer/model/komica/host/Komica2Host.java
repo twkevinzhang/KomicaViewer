@@ -29,27 +29,22 @@ public class Komica2Host extends Host{
         return new Map[]{
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "komica2.net");
-                    put(Host.MAP_POST_MODEL_COLUMN, new SoraPost());
                     put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "2cat.org");
-                    put(Host.MAP_POST_MODEL_COLUMN, null);
                     put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "p.komica.acg.club.tw");
-                    put(Host.MAP_POST_MODEL_COLUMN, null);
                     put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "cyber.boguspix.com");
-                    put(Host.MAP_POST_MODEL_COLUMN, new SoraPost());
                     put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "majeur.zawarudo.org");
-                    put(Host.MAP_POST_MODEL_COLUMN, null);
                     put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
         };

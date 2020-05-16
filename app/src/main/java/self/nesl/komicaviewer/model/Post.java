@@ -19,6 +19,11 @@ import java.util.Objects;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public abstract class Post implements Serializable {
+    public static final String COLUMN_REPLY_MODEL = "reply_model";
+    public static final String COLUMN_POST_ID = "id";
+    public static final String COLUMN_BOARD_URL="board_url";
+    public static final String COLUMN_THREAD="thread";
+
     private Element postEle = null;
     private JSONObject jsonObject = null;
 
@@ -39,6 +44,7 @@ public abstract class Post implements Serializable {
     private transient ArrayList<Post> replyTree = new ArrayList<Post>();
     private String boardUrl = null;
     private String url = null;
+    private Post replyModel = null;
 
     private Context context;
 
@@ -130,6 +136,14 @@ public abstract class Post implements Serializable {
 
     public String getUrl() {
         return this.url;
+    }
+
+    public Post getReplyModel() {
+        return replyModel;
+    }
+
+    public void setReplyModel(Post replyModel) {
+        this.replyModel = replyModel;
     }
 
     public void setUrl(String url) {

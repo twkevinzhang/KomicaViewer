@@ -50,7 +50,8 @@ public abstract class Host implements Serializable {
         if (subHosts != null && subHosts.length != 0) {
             for (Map map : subHosts) {
                 if (mhost.contains(map.get(MAP_HOST_COLUMN).toString())) {
-                    postModel=(Post) (isBoard ? map.get(MAP_BOARD_MODEL_COLUMN) : map.get(MAP_POST_MODEL_COLUMN));
+                    postModel=(Post)map.get(MAP_BOARD_MODEL_COLUMN);
+                    if(!isBoard && postModel!=null)postModel=postModel.getReplyModel();
                     break;
                 }
             }

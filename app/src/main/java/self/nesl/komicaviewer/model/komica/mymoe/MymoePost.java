@@ -50,9 +50,4 @@ public class MymoePost extends SoraPost {
         this.setTime(parseTime( detailEle.selectFirst("time").html() ));
         this.setPoster(detailEle.selectFirst("span.trip_id").text().replace("ID:",""));
     }
-
-    @Override
-    public void download(Bundle bundle, OnResponse onResponse) {
-        super.download(bundle, onResponse,this);
-    }
 }
