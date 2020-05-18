@@ -56,7 +56,7 @@ public abstract class BaseFragment extends Fragment {
                 assert post != null;
                 whenDataChange(adapter,post);
                 start = end;
-                end = start + post.getReplies().size();
+                end = start + adapter.getItemCount();
                 adapter.notifyItemRangeInserted(start, end);
                 txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
                 cateSwipeRefreshLayout.setRefreshing(false);

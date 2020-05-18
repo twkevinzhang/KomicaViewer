@@ -37,8 +37,10 @@ public class TwocatBoard extends SoraBoard {
         String pageUrl=getBoardUrl();
         String host=new UrlUtils(pageUrl).getHost();
         pageUrl=pageUrl.replace(host+"/~",host+"/");
-        if (bundle!=null) {
-            pageUrl += "/?page="+ bundle.getInt(BoardViewModel.COLUMN_PAGE);
+        this.setBoardUrl(pageUrl);
+        int page=bundle.getInt(BoardViewModel.COLUMN_PAGE);
+        if (page!=0) {
+            pageUrl += "/?page="+page;
         }
         print(getClass(),"AsyncTask",pageUrl);
         new AsyncTask<String, Void, Document>() {
@@ -52,6 +54,7 @@ public class TwocatBoard extends SoraBoard {
                 bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
 
                 onResponse.onResponse(newInstance(bundle));
+                print(doc.getElementById("title").html());
                 return doc;
             }
         }.execute(pageUrl);
