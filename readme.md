@@ -116,7 +116,7 @@ MVVM in Android
    - [ ] majeur.zawarudo.org (詢問裡)
  
 ### 下載
-
+   - [Download](https://github.com/neslxzhen/KomicaViewer/blob/v2/app-debug.apk)
 
  
 ### 額外套件 (dependencies)
