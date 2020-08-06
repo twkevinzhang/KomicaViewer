@@ -21,6 +21,7 @@ import self.nesl.komicaviewer.model.komica.mymoe.MymoePost;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
+import self.nesl.komicaviewer.model.komica.wsfun.WsfunBoard;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -34,57 +35,58 @@ public class KomicaHost extends Host {
     @Override
     public Map[] getSubHosts() {
         return new Map[]{
+                // add komica model item in there
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "komica.org");
+                    put(Host.MAP_HOST_COLUMN, "komica.org"); // 綜合、新番捏他、動畫
                     put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "vi.anacel.com");
+                    put(Host.MAP_HOST_COLUMN, "vi.anacel.com"); // Figure/GK
                     put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "acgspace.wsfun.com ");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "acgspace.wsfun.com"); // 艦隊收藏
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new WsfunBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "komica.dbfoxtw.me");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "komica.dbfoxtw.me"); // 人外
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "anzuchang.com");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "anzuchang.com"); // Idolmaster
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "komica.yucie.net");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "komica.yucie.net"); // 格鬥遊戲
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "kagaminerin.org");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "kagaminerin.org"); // 3D STG
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "p.komica.acg.club.tw");
                     put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "2cat.org");
+                    put(Host.MAP_HOST_COLUMN, "2cat.org"); // 碧藍幻想
                     put(Host.MAP_BOARD_MODEL_COLUMN, new TwocatBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "mymoe.moe");
+                    put(Host.MAP_HOST_COLUMN, "mymoe.moe"); // 綜合2
                     put(Host.MAP_BOARD_MODEL_COLUMN, new MymoeBoard());
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "strange-komica.com");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "strange-komica.com"); // 魔物獵人
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "secilia.zawarudo.org");
                     put(Host.MAP_BOARD_MODEL_COLUMN, null);
                 }},
                 new HashMap<String, Object>(){{
-                    put(Host.MAP_HOST_COLUMN, "gzone-anime.info");
-                    put(Host.MAP_BOARD_MODEL_COLUMN, null);
+                    put(Host.MAP_HOST_COLUMN, "gzone-anime.info"); // TYPE-MOON
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
         };
     }

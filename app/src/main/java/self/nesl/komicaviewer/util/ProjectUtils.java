@@ -26,6 +26,7 @@ public class ProjectUtils {
 
     public static Post getPostModel(String boardUrl, boolean isBoard){
         for(Host host : new Host[]{
+                // add model item in there
                 new KomicaHost(),
                 new Komica2Host(),
         }){

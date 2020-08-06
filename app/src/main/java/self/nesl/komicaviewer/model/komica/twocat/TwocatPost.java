@@ -18,13 +18,13 @@ public class TwocatPost extends SoraPost {
     }
 
     public TwocatPost(String boardUrl, String post_id, Element thread) {
-        setBoardUrl(boardUrl);
-        setPostId(post_id);
-        setPostEle(thread);
+        super(boardUrl, post_id,thread);
+        this.setUrl(boardUrl + "/?res=" + post_id);
     }
 
     @Override
-    public void installDetail() {
+    public void installDetail() { // 碧藍幻想: https://2cat.org/~granblue/
         install2catDetail();
+//        setPostEle(); // todo
     }
 }

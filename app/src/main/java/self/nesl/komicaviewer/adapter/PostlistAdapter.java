@@ -1,13 +1,17 @@
 package self.nesl.komicaviewer.adapter;
 
 import android.text.Html;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,13 +30,15 @@ import static self.nesl.komicaviewer.util.Utils.print;
 public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.PostlistViewHolder> {
     private ArrayList<Post> postlist;
     private ItemOnClickListener callBack;
+    private Fragment fragment;
 
-    public PostlistAdapter(ItemOnClickListener callBack) {
+    public PostlistAdapter( Fragment fragment,ItemOnClickListener callBack) {
         this.postlist =  new ArrayList<Post>();
         this.callBack = callBack;
+        this.fragment=fragment;
     }
 
-    public class PostlistViewHolder extends RecyclerView.ViewHolder {
+    public class PostlistViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgThumb;
         private ImageView imgOri;
         private TextView txtPostId;
@@ -64,7 +70,8 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
     @Override
     public void onBindViewHolder(@NonNull final PostlistViewHolder holder, final int i) {
         final Post post = postlist.get(i);
-        holder.txtPostInd.setText(Html.fromHtml(post.getQuoteElement().html()));
+
+        // other
         holder.txtPostId.setText("No." + post.getPostId());
         holder.txtReplyCount.setText("回應:" + post.getReplyCount());
         holder.txtPoster.setText(post.getPoster());
@@ -72,10 +79,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         holder.imgThumb.setVisibility(View.VISIBLE);
         holder.imgOri.setVisibility(View.GONE);
 
-        holder.imgThumb.setVisibility(View.VISIBLE);
-        holder.imgOri.setVisibility(View.GONE);
-
-        // set picUrl
+        // imgThumb & imgOri
         ArrayList<Picture> pics = post.getPics();
         String thumbUrl="",picUrl="";
         if(pics.size() != 0){
@@ -107,12 +111,19 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
             });
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        // itemView
+        View.OnClickListener onClickListener=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(callBack!=null)callBack.itemOnClick(post);
             }
-        });
+        };
+        holder.itemView.setOnClickListener(onClickListener);
+
+        // txtPostInd
+        holder.txtPostInd.setText(Html.fromHtml(post.getQuoteElement().html()));
+        holder.txtPostInd.setOnClickListener(onClickListener);
+
     }
 
     @Override

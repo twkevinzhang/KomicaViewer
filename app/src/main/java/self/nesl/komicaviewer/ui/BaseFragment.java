@@ -34,7 +34,7 @@ public abstract class BaseFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
         final TextView txtMsg=v.findViewById(R.id.txtMsg);
-        PostlistAdapter adapter=new PostlistAdapter(listener);
+        PostlistAdapter adapter=new PostlistAdapter(this,listener);
 
         // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
