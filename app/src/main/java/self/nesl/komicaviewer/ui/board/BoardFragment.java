@@ -48,8 +48,7 @@ public class BoardFragment extends BaseFragment {
     public void whenDataChange(PostlistAdapter adapter, Post post) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(board.getTitle(0));
         ArrayList posts = post.getReplies();
-        adapter.addAllPost(posts);
-
+        adapter.setPostlist(posts);
     }
 
     @Override

@@ -50,14 +50,11 @@ public abstract class BaseFragment extends Fragment {
 
         // data and adapter
         viewModel.getPost().observe(getViewLifecycleOwner(), new Observer<Post>() {
-            int start, end = 0;
             @Override
             public void onChanged(Post post) {
                 assert post != null;
                 whenDataChange(adapter,post);
-                start = end;
-                end = start + adapter.getItemCount();
-                adapter.notifyItemRangeInserted(start, end);
+                adapter.notifyDataSetChanged();
                 txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
                 cateSwipeRefreshLayout.setRefreshing(false);
             }

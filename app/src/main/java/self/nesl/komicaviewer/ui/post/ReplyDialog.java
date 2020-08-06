@@ -48,7 +48,7 @@ public class ReplyDialog extends DialogFragment {
         // lst
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
-        adapter.addAllPost(post.getReplies());
+        adapter.setPostlist(post.getReplies());
 
         // width
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

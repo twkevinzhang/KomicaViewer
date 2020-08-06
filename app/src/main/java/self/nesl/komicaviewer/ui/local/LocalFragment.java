@@ -71,7 +71,7 @@ public class LocalFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<Post> postlist) {
                 assert postlist != null;
-                adapter.addAllPost(postlist);
+                adapter.setPostlist(postlist);
                 adapter.notifyDataSetChanged();
             }
         });

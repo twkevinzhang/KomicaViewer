@@ -53,11 +53,11 @@ public class PostFragment extends BaseFragment {
     public void whenDataChange(PostlistAdapter adapter, Post post) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(post.getTitle(0));
         if(TREE){
-            this.adapter.addThreadpost(post);
-            adapter.addAllPost(post.getReplyTree());
-        }else{
+            adapter.setPostlist(post.getReplyTree());
             adapter.addThreadpost(post);
-            adapter.addAllPost(post.getReplies());
+        }else{
+            adapter.setPostlist(post.getReplies());
+            adapter.addThreadpost(post);
         }
     }
 

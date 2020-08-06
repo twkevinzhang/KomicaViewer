@@ -127,8 +127,13 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
 
     public void addAllPost(ArrayList<Post> postlist) {
         LinkedHashSet set=  new LinkedHashSet<>();
+        set.addAll(this.postlist);
         set.addAll(postlist);
         this.postlist.addAll(set);
+    }
+
+    public void setPostlist(ArrayList<Post> postlist) {
+        this.postlist=postlist;
     }
 
     public void addThreadpost(Post post) {

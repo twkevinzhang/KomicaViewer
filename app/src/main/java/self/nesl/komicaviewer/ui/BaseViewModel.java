@@ -16,4 +16,14 @@ public abstract class BaseViewModel extends ViewModel {
     public MutableLiveData<Post> getPost() {
         return post;
     }
+
+    public void insertPostlist(Post newPost){
+        Post oldPost= getPost().getValue();
+        if(oldPost!=null){
+            oldPost.addAllPost(newPost.getReplies());
+        }else{
+            oldPost=newPost;
+        }
+        getPost().postValue(oldPost);
+    }
 }

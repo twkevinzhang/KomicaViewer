@@ -21,17 +21,14 @@ public class BoardViewModel extends BaseViewModel {
     @Override
     public void load(int page){
         Post model=getPostModel(boardUrl,true);
-        if(model!=null){
-            Bundle bundle=new Bundle();
-            bundle.putInt(COLUMN_PAGE,page);
-            model.download(bundle, new Post.OnResponse() {
-                @Override
-                public void onResponse(Post post) {
-                    getPost().postValue(post);
-                }
-            });
-
-        }
+        Bundle bundle=new Bundle();
+        bundle.putInt(COLUMN_PAGE,page);
+        model.download(bundle, new Post.OnResponse() {
+            @Override
+            public void onResponse(Post post) {
+                BoardViewModel.super.insertPostlist(post);
+            }
+        });
     }
 
     public void setBoardUrl(String s){
