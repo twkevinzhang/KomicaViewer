@@ -44,7 +44,7 @@ public class MymoePost extends SoraPost {
     }
 
     @Override
-    public void installDetail(){
+    public void installDetail(){ // 粽2: https://alleyneblade.mymoe.moe/queensblade/
         this.setTitle(getPostEle().select("span.title").text());
         Element detailEle = getPostEle().selectFirst("span.now");
         this.setTime(parseTime( detailEle.selectFirst("time").html() ));

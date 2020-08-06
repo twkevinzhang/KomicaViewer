@@ -31,7 +31,7 @@ public class PostFragment extends BaseFragment {
     private PostViewModel postViewModel;
     public static final String COLUMN_POST_URL = "postUrl";
 
-    PostlistAdapter adapter = new PostlistAdapter(null);
+    PostlistAdapter adapter = new PostlistAdapter(this,null);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

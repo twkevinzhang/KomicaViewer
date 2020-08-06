@@ -49,15 +49,15 @@ MVVM in Android
          - [蘿蔔,鋼普拉,影視,特攝,軍武,中性角色,遊戲速報,飲食,小說,遊戲王,奇幻/科幻,電腦/消費電子,塗鴉王國,新聞,布袋戲,紙牌,網路遊戲]
          - [氣象,模型,玩偶,數學,校園,歐美動畫,夢,MAD,動物朋友,遊戲王,性轉換,3D,同人,體育,程設交流,掛圖,文化交流,擬人化,音樂,綜合討論,豆知識,連結,電腦,單身,寫作,精華區,少女漫畫,高解析度,FLASH]
    - [ ] vi.anacel.com [Figure/GK]
-   - [ ] acgspace.wsfun.com [艦隊收藏]
-   - [ ] komica.dbfoxtw.me 
+   - [x] acgspace.wsfun.com [艦隊收藏]
+   - [x] komica.dbfoxtw.me 
       - [人外]
       - [獨立遊戲,遊戲設計,Homestuck]
-   - [ ] anzuchang.com [Idolmaster]
-   - [ ] komica.yucie.net
+   - [x] anzuchang.com [Idolmaster]
+   - [x] komica.yucie.net
       - [格鬥遊戲]
       - [投票所,交易合購,彈幕,養成遊戲,FEZ,Pretty Cure,京都動畫,聲優綜合,田村/堀江/水樹,魔女,妹系,Lolita Fashion,足球,犬,貓]
-   - [ ] kagaminerin.org 
+   - [x] kagaminerin.org 
       - [3D STG,動作遊戲]
       - [閒談@香港,星座命理,美容,2D STG,冒險遊戲,RPG,APH,Pokemon,GAINAX,角色配對,催淚,素食]
    - [ ] p.komica.acg.club.tw [兄貴],[正太]
@@ -67,15 +67,15 @@ MVVM in Android
    - [x] mymoe.moe 
       - [PAD,綜合2,三次實況]
       - [歷史,笑話,New Age,政治,耳機,髮型,家政,讀書筆記,RPG Maker,CosmicBreak,Elsword,DNF,DOTA2,GW2,LOL,PSO2,SDGO,白貓Project,流亡黯道 PoE,新瑪奇英雄傳,爐石戰記,LoveLive!,禁書,STEAM]
-   - [ ] strange-komica.com [魔物獵人]
+   - [x] strange-komica.com [魔物獵人]
    - [ ] zawarudo.org 
       - [少女前線,AGA]
       - [COSPLAY,AGA,少女前線,線上繪圖,MMD/Vocaloid]
-   - [ ] gzone-anime.info 
+   - [x] gzone-anime.info 
       - [TYPE-MOON]
       - [綜合學術,生活消費,藝術,圖書]
 
-###### Komica All - Top50:
+###### Komica All 與 Top50 的差集:
    - [ ] moecorner.com [Apple]
    - [ ] 2nee.org [三次壁]
    - [ ] komicolle.org [Komicolle]
@@ -114,6 +114,37 @@ MVVM in Android
    - [ ] p.komica.acg.club.tw (觸手裡)
    - [x] cyber.boguspix.com (機娘裡)
    - [ ] majeur.zawarudo.org (詢問裡)
+
+### 目前困難
+ - 無法進入2nyan.org的裡站，找不到確切的版面網址，最終都會回到[手機/平板遊戲](https://2nyan.org/)。更新: 已找到解方，實作中。
+ 
+ 虛擬碼:
+ 
+```python
+# 取得 cookies
+session = requests.Session()
+r = session.get('https://2cat.org/~gifura/'
+    ,headers = {
+        'Referer':'https://2nyan.org/',
+    }
+)
+
+# 訪問src
+r = requests.get('https://2nyan.org/granblue/',cookies=session.cookies.get_dict())
+
+# 列印結果
+print(r.status_code)
+print(BeautifulSoup(r.content, 'html.parser'))
+
+```
+
+### 截圖
+   - ![1](./doc/1.PNG)
+   - ![2](./doc/2.PNG)
+   - ![3](./doc/3.PNG)
+   - ![4](./doc/4.PNG)
+   - ![5](./doc/5.PNG)
+
  
 ### 下載
    - [Download](https://github.com/neslxzhen/KomicaViewer/blob/v2/app-debug.apk)
@@ -191,11 +222,11 @@ getLastPathSegment() // https://sora.komica.org/00
  - let your `hostModel` implements `Host`
  - let your `postModel` and `boardModel` implements `Post`
  - call `addMenu(yourIcon,yourHost)` in 77th line of `MainActivity`,there are notes `// add host item in there`
- - instantiate your `hostModel` in 39th line `ProjectUtil.getPostModel()`
+ - instantiate your `hostModel` in 30th line `ProjectUtil.getPostModel()` ,there are notes `// add model item in there`
 
 ### 如何新增Komica聯合站的Host?
  - let your `postModel` and `boardModel` implements `Post`
- - instantiate your `postModel` and `boardModel` in 33th line `KomicaHost.getSubHosts()`
+ - instantiate your `postModel` and `boardModel` in 35th line of `KomicaHost.getSubHosts()`,there are notes `// add komica model item in there`
 
 
 ### Java的語言缺點

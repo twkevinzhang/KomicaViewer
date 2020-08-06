@@ -72,7 +72,7 @@ public class SoraPost extends Post{
         }
     }
 
-    public void installDetail(){
+    public void installDetail(){ // 綜合: https://sora.komica.org
         try {
             this.setTitle(getPostEle().select("span.title").text());
             String[] post_detail = getPostEle().selectFirst("div.post-head span.now").text().split(" ID:");
@@ -84,7 +84,7 @@ public class SoraPost extends Post{
         }
     }
 
-    public void install2catDetail(){
+    public void install2catDetail(){ // 新番捏他: https://2cat.komica.org/~tedc21thc/new
         try {
             Element detailEle=getPostEle().selectFirst(String.format("label[for='%s']", getPostId()));
             Element titleEle=detailEle.selectFirst("span.title");
@@ -98,14 +98,12 @@ public class SoraPost extends Post{
             this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
         }catch (NullPointerException | StringIndexOutOfBoundsException e){
-            print(new Object(){}.getClass(),"use installAnimeDetail()");
             installAnimeDetail();
         }
     }
 
-    public void installAnimeDetail(){
-        // https://2cat.komica.org/~tedc21thc/anime/
-        // 沒有 label[for="3273507"]
+    public void installAnimeDetail(){ // 動畫: https://2cat.komica.org/~tedc21thc/anime/ 比起 2cat 沒有label[for="3273507"]
+        print(new Object(){}.getClass(),"use installAnimeDetail()");
         String detailStr=getPostEle().ownText();
         detailStr=detailStr.length()==0?getPostEle().text():detailStr;
         String[] post_detail =detailStr.split(" ID:");
