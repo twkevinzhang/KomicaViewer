@@ -34,10 +34,10 @@ public class TwocatBoard extends SoraBoard {
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        String pageUrl=getBoardUrl();
+        String pageUrl=getUrl();
         String host=new UrlUtils(pageUrl).getHost();
         pageUrl=pageUrl.replace(host+"/~",host+"/");
-        this.setBoardUrl(pageUrl);
+        this.setUrl(pageUrl);
         int page=bundle.getInt(BoardViewModel.COLUMN_PAGE);
         if (page!=0) {
             pageUrl += "/?page="+page;
@@ -50,7 +50,7 @@ public class TwocatBoard extends SoraBoard {
 
                 Bundle bundle =new Bundle();
                 bundle.putString(COLUMN_THREAD,doc.html());
-                bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
+                bundle.putString(COLUMN_BOARD_URL,getUrl());
                 bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
 
                 onResponse.onResponse(newInstance(bundle));

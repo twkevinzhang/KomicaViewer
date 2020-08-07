@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.BaseViewModel;
 
-import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
+import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class BoardViewModel extends BaseViewModel {
@@ -20,7 +20,7 @@ public class BoardViewModel extends BaseViewModel {
 
     @Override
     public void load(int page){
-        Post model=getPostModel(boardUrl,true);
+        Post model=getCurrentHost().getPostModel(boardUrl,true);
         Bundle bundle=new Bundle();
         bundle.putInt(COLUMN_PAGE,page);
         model.download(bundle, new Post.OnResponse() {
@@ -31,7 +31,7 @@ public class BoardViewModel extends BaseViewModel {
         });
     }
 
-    public void setBoardUrl(String s){
+    public void setUrl(String s){
         this.boardUrl =s;
     }
 }

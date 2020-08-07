@@ -17,7 +17,7 @@ import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtils;
 
-import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
+import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public final class PostDB {
@@ -26,14 +26,13 @@ public final class PostDB {
 
     public static final String COLUMN_BOARD_URL = "board_url";
     public static final String COLUMN_POST_ID = "id";
+    public static final String COLUMN_POST_URL = "url";
     public static final String COLUMN_POST_HTML = "introduction";
     public static final String COLUMN_POST_JSON = "json";
     public static final String COLUMN_UPDATE = "update_time";
 
-    public static final String KEYS_SQL = TextUtils.join("=? and ", new String[]{
-            COLUMN_BOARD_URL,
-            COLUMN_POST_ID
-    })+"=?";
+    public static final String KEYS_SQL = COLUMN_POST_URL+"=?";
+
     public static final String TABLE_FAVORITE ="favorite";
     public static final String TABLE_HISTORY ="history";
     public static final String[] POST_TABLES =new String[]{
@@ -67,8 +66,7 @@ public final class PostDB {
 
     public static void deletePost(final Post post, String tableName) {
         mDatabase.delete(tableName, KEYS_SQL, new String[]{
-                post.getBoardUrl(),
-                post.getPostId()
+                post.getUrl(),
         });
     }
 
@@ -84,7 +82,7 @@ public final class PostDB {
             bundle.putString(SoraPost.COLUMN_BOARD_URL,boardUrl);
             bundle.putString(SoraPost.COLUMN_POST_ID,csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
             bundle.putString(SoraPost.COLUMN_THREAD,csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
-            arr.add(getPostModel(boardUrl, false).newInstance(bundle));
+            arr.add(getCurrentHost().getPostModel(boardUrl, false).newInstance(bundle));
         }
         csr.close();
         return arr;
@@ -93,8 +91,7 @@ public final class PostDB {
     public static boolean hasPost(final Post post, String tableName) {
         Cursor csr =
                 mDatabase.rawQuery("select * from " + tableName + " where " + KEYS_SQL +";", new String[]{
-                        post.getBoardUrl(),
-                        post.getPostId()
+                        post.getUrl()
                 }
         );
         return csr.moveToNext();
@@ -114,6 +111,7 @@ public final class PostDB {
                         "_id INTEGER PRIMARY KEY" +
                         "," + COLUMN_BOARD_URL + " TEXT" +
                         "," + COLUMN_POST_ID + " TEXT" +
+                        "," + COLUMN_POST_URL + " TEXT" +
                         "," + COLUMN_POST_HTML + " TEXT" +
                         "," + COLUMN_POST_JSON + " TEXT" +
                         "," + COLUMN_UPDATE + " TEXT" +

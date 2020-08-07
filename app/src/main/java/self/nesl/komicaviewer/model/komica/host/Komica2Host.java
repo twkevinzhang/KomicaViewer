@@ -30,7 +30,6 @@ public class Komica2Host extends Host{
 
     @Override
     public Map[] getSubHosts() {
-        print(new Object(){}.getClass(),"getSubHosts");
         return new Map[]{
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "komica2.net"); // 二次裡Ａ

@@ -11,7 +11,7 @@ import self.nesl.komicaviewer.ui.board.BoardViewModel;
 import self.nesl.komicaviewer.util.UrlUtils;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
+import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class PostViewModel extends BaseViewModel {
@@ -19,7 +19,7 @@ public class PostViewModel extends BaseViewModel {
 
     @Override
     public void load(int page) {
-        Post model = getPostModel(new UrlUtils(url).getLastPathSegment(), false);
+        Post model = getCurrentHost().getPostModel(new UrlUtils(url).getLastPathSegment(), false);
         model.setUrl(url);
         model.download(null, new Post.OnResponse() {
             @Override

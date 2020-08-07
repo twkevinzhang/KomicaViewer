@@ -56,7 +56,7 @@ public class InternalTwocatBoard extends TwocatBoard {
             public void onResponse(String response) {
                 Bundle bundle =new Bundle();
                 bundle.putString(COLUMN_THREAD, Jsoup.parse(response).html());
-                bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
+                bundle.putString(COLUMN_BOARD_URL,getUrl());
                 bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
 
                 onResponse.onResponse(newInstance(bundle));

@@ -39,7 +39,7 @@ public class BoardFragment extends BaseFragment {
         });
         if (getArguments() != null) {
             board = (Post) getArguments().getSerializable(BoardFragment.COLUMN_BOARD);
-            boardViewModel.setBoardUrl(board.getUrl());
+            boardViewModel.setUrl(board.getUrl());
             boardViewModel.load(0);
         }
     }

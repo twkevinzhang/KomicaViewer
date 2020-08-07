@@ -83,7 +83,7 @@ public class SoraBoard extends Post {
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        String pageUrl= getBoardUrl();
+        String pageUrl= getUrl();
         int page=0;
         if(bundle!=null){
             page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
@@ -99,7 +99,7 @@ public class SoraBoard extends Post {
 
                 Bundle bundle =new Bundle();
                 bundle.putString(COLUMN_THREAD,Jsoup.parse(response).html());
-                bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
+                bundle.putString(COLUMN_BOARD_URL,getUrl());
                 bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
 
                 onResponse.onResponse(newInstance(bundle));

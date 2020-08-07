@@ -34,7 +34,6 @@ public class KomicaHost extends Host {
 
     @Override
     public Map[] getSubHosts() {
-        print(new Object(){}.getClass(),"getSubHosts");
         return new Map[]{
                 // add komica model item in there
                 new HashMap<String, Object>(){{

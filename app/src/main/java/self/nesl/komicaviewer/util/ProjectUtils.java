@@ -23,36 +23,45 @@ import static self.nesl.komicaviewer.util.Utils.print;
 public class ProjectUtils {
     private static final String MAP_TITLE_COLUMN="title";
     private static final String MAP_LINK_COLUMN="link";
+    public static Host host;
 
-    public static Post getPostModel(String boardUrl, boolean isBoard){
-        for(Host host : new Host[]{
-                // add model item in there
-                new KomicaHost(),
-                new Komica2Host(),
-        }){
-            Post model=host.getPostModel(boardUrl,isBoard,false);
-            if(model!=null){
-                model.setBoardUrl(boardUrl);
-                return model;
-            }
-        }
-        return new Post() {
-            @Override
-            public String getIntroduction(int words, String[] rank) {
-                return null;
-            }
-
-            @Override
-            public void download(Bundle bundle, OnResponse onResponse) {
-
-            }
-
-            @Override
-            public Post newInstance(Bundle bundle) {
-                return null;
-            }
-        };
+    public static Host getCurrentHost(){
+        return host;
     }
+
+    public static void switchHost(Host mhost){
+        host=mhost;
+    }
+
+//    public static Post getPostModel(String boardUrl, boolean isBoard){
+//        for(Host host : new Host[]{
+//                // add model item in there
+//                new KomicaHost(),
+//                new Komica2Host(),
+//        }){
+//            Post model=host.getPostModel(boardUrl,isBoard);
+//            if(model!=null){
+//                model.setBoardUrl(boardUrl);
+//                return model;
+//            }
+//        }
+//        return new Post() {
+//            @Override
+//            public String getIntroduction(int words, String[] rank) {
+//                return null;
+//            }
+//
+//            @Override
+//            public void download(Bundle bundle, OnResponse onResponse) {
+//
+//            }
+//
+//            @Override
+//            public Post newInstance(Bundle bundle) {
+//                return null;
+//            }
+//        };
+//    }
 
     public static Element installThreadTag(Element threads){
         //如果找不到thread標籤，就是2cat.komica.org，要用addThreadTag()改成標準綜合版樣式
@@ -91,7 +100,7 @@ public class ProjectUtils {
         ArrayList<Post> arrayList=new ArrayList<Post>();
         for(Map<String, String> map : maps){
             String url=map.get(MAP_LINK_COLUMN);
-            Post p=getPostModel(url,false);
+            Post p=host.getPostModel(url,false,true);
             p.setUrl(url);
             p.setTitle(map.get(MAP_TITLE_COLUMN));
             arrayList.add(p);

@@ -25,6 +25,9 @@ import self.nesl.komicaviewer.model.komica.host.KomicaHost;
 import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
 import self.nesl.komicaviewer.ui.board.BoardFragment;
 import self.nesl.komicaviewer.ui.home.HomeFragment;
+
+import static self.nesl.komicaviewer.util.ProjectUtils.switchHost;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // default
+        switchHost(new KomicaTop50Host());
 
         // DB initialize
         BoardPreferences.initialize(this);
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 //                navigationView.setCheckedItem(item.getItemId()); // not work
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(HomeFragment.COLUMN_HOST, host);
+                switchHost(host);
                 Navigation.findNavController(get(), R.id.nav_host_fragment)
                         .navigate(R.id.nav_home, bundle);
                 return false;
