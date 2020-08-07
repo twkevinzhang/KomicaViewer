@@ -28,7 +28,6 @@ public class TwocatBoard extends SoraBoard {
 
     @Override
     public Elements getThreads(){
-        System.out.println(getPostEle().select("div.contents").html());
         return getPostEle().select("div.threadStructure");
     }
 
@@ -50,8 +49,7 @@ public class TwocatBoard extends SoraBoard {
 
                 Bundle bundle =new Bundle();
                 bundle.putString(COLUMN_THREAD,doc.html());
-                bundle.putString(COLUMN_BOARD_URL,getUrl());
-                bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
+                bundle.putString(COLUMN_POST_URL,getUrl());
 
                 onResponse.onResponse(newInstance(bundle));
                 print(doc.getElementById("title").html());

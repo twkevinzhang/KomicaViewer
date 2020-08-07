@@ -25,8 +25,8 @@ public class SoraBoard extends Post {
     public SoraBoard newInstance(Bundle bundle) {
         return new SoraBoard(
                 Jsoup.parse(bundle.getString(COLUMN_THREAD)),
-                bundle.getString(COLUMN_BOARD_URL),
-               getReplyModel()
+                bundle.getString(COLUMN_POST_URL),
+                getReplyModel()
         ).parse();
     }
 
@@ -55,10 +55,14 @@ public class SoraBoard extends Post {
             Element threadpost=thread.selectFirst("div.threadpost");
 
             Bundle bundle =new Bundle();
-            bundle.putString(SoraPost.COLUMN_BOARD_URL,getUrl());
-            bundle.putString(SoraPost.COLUMN_POST_ID,threadpost.attr("id").substring(1));
+            String postId=threadpost.attr("id").substring(1);
+            String postUrl=getUrl()+"/pixmicat.php?res=" + postId;
+            bundle.putString(SoraPost.COLUMN_POST_URL,postUrl);
+            bundle.putString(SoraPost.COLUMN_POST_ID,postId);
             bundle.putString(SoraPost.COLUMN_THREAD,threadpost.html());
             Post post=getReplyModel().newInstance(bundle);
+
+            post.setPostId(postId);
 
             //get replyCount
             int replyCount=0;
@@ -99,8 +103,7 @@ public class SoraBoard extends Post {
 
                 Bundle bundle =new Bundle();
                 bundle.putString(COLUMN_THREAD,Jsoup.parse(response).html());
-                bundle.putString(COLUMN_BOARD_URL,getUrl());
-                bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
+                bundle.putString(COLUMN_POST_URL,getUrl());
 
                 onResponse.onResponse(newInstance(bundle));
             }

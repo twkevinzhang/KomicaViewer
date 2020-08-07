@@ -13,7 +13,6 @@ import org.jsoup.select.Elements;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
-import static self.nesl.komicaviewer.db.PostDB.COLUMN_POST_ID;
 import static self.nesl.komicaviewer.util.Utils.getStyleMap;
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
@@ -37,8 +36,8 @@ public class SoraPost extends Post{
 
     public SoraPost newInstance(Bundle bundle){
        return new SoraPost(
-                bundle.getString(COLUMN_BOARD_URL),
-                bundle.getString(COLUMN_POST_ID),
+                bundle.getString(COLUMN_POST_URL),
+               bundle.getString(COLUMN_POST_ID),
                 new Element("<html>").html(bundle.getString(COLUMN_THREAD))
         ).parse();
     }
@@ -51,9 +50,8 @@ public class SoraPost extends Post{
         return this;
     }
 
-    public SoraPost(String boardUrl, String post_id, Element thread) {
-        super(boardUrl, post_id,thread);
-        this.setUrl(boardUrl + "/pixmicat.php?res=" + post_id);
+    public SoraPost(String postUrl,String postId, Element thread) {
+        super(postUrl,postId,thread);
     }
 
     public void setPictures(){
@@ -79,7 +77,7 @@ public class SoraPost extends Post{
             this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
         } catch (NullPointerException e) {
-            print(new Object(){}.getClass(),"use install2catDetail()");
+            print(new Object(){}.getClass(),"out installDetail()");
             install2catDetail();
         }
     }
@@ -98,6 +96,7 @@ public class SoraPost extends Post{
             this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
         }catch (NullPointerException | StringIndexOutOfBoundsException e){
+            print(new Object(){}.getClass(),"out install2catDetail()");
             installAnimeDetail();
         }
     }
@@ -115,7 +114,7 @@ public class SoraPost extends Post{
         String reply_id = reply_ele.selectFirst(".qlink").text().replace("No.", "");
 
         Bundle bundle =new Bundle();
-        bundle.putString(COLUMN_BOARD_URL,this.getBoardUrl());
+        bundle.putString(SoraPost.COLUMN_POST_URL,getUrl());
         bundle.putString(COLUMN_POST_ID,reply_id);
         bundle.putString(COLUMN_THREAD,reply_ele.html());
         SoraPost reply = newInstance(bundle);
@@ -158,15 +157,16 @@ public class SoraPost extends Post{
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        print(getClass(),"AndroidNetworking",getUrl());
-        AndroidNetworking.get(getUrl()).build().getAsString(new StringRequestListener() {
+        String url=getUrl();
+        print(getClass(),"AndroidNetworking",url);
+        AndroidNetworking.get(url).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
                 Element thread= installThreadTag(Jsoup.parse(response).body().getElementById("threads")).selectFirst("div.thread");
                 Element threadpost = thread.selectFirst("div.threadpost");
 
                 Bundle bundle =new Bundle();
-                bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
+                bundle.putString(SoraPost.COLUMN_POST_URL,url);
                 bundle.putString(COLUMN_POST_ID,threadpost.attr("id").substring(1));
                 bundle.putString(COLUMN_THREAD,threadpost.html());
                 SoraPost subPost = newInstance(bundle);

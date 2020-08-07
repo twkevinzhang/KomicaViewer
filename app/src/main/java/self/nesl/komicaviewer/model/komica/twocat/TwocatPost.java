@@ -8,7 +8,7 @@ public class TwocatPost extends SoraPost {
     @Override
     public TwocatPost newInstance(Bundle bundle) {
         return (TwocatPost) new TwocatPost(
-                bundle.getString(COLUMN_BOARD_URL),
+                bundle.getString(COLUMN_POST_URL),
                 bundle.getString(COLUMN_POST_ID),
                 new Element("<html>").html(bundle.getString(COLUMN_THREAD))
         ).parse();
@@ -17,9 +17,8 @@ public class TwocatPost extends SoraPost {
     public TwocatPost() {
     }
 
-    public TwocatPost(String boardUrl, String post_id, Element thread) {
-        super(boardUrl, post_id,thread);
-        this.setUrl(boardUrl + "/?res=" + post_id);
+    public TwocatPost(String postUrl,String postId, Element thread) {
+        super(postUrl,postId,thread);
     }
 
     @Override

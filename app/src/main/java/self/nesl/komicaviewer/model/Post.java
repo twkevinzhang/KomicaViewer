@@ -21,6 +21,7 @@ import static self.nesl.komicaviewer.util.Utils.print;
 public abstract class Post implements Serializable {
     public static final String COLUMN_REPLY_MODEL = "reply_model";
     public static final String COLUMN_POST_ID = "id";
+    public static final String COLUMN_POST_URL = "url";
     public static final String COLUMN_BOARD_URL="board_url";
     public static final String COLUMN_THREAD="thread";
 
@@ -51,9 +52,9 @@ public abstract class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String boardUrl, String post_id, Element postEle) {
-        this.boardUrl = boardUrl;
-        this.postId = post_id;
+    public Post(String url,String postId, Element postEle) {
+        this.url = url;
+        this.postId=postId;
         this.postEle = postEle;
     }
 
