@@ -10,6 +10,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.HashMap;
+
+import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 
@@ -56,15 +59,33 @@ public class SoraPost extends Post{
 
     public void setPictures(){
         try {
+
             Element thumbImg=getPostEle().selectFirst("img");
+            int[] size = new int[]{0, 0};
+
+            String style=thumbImg.attr("style");
+            if(style.length()>0) {
+                String[] sizeStrs = new String[]{"width", "height"};
+                for (int i = 0; i < 2; i++) {
+
+                    String sizeStr = getStyleMap(style).get(sizeStrs[i])[0];
+                    if (sizeStr.contains("px")) {
+                        sizeStr = sizeStr.replace("px", "");
+                        size[i] = Integer.parseInt(sizeStr);
+                    } else if (sizeStr.contains("%")) {
+
+                    }
+                }
+            }
+
             this.addPic(new Picture(
                     thumbImg.parent().attr("href"),
                     thumbImg.attr("src"),
                     super.getBoardUrl(),
                     0,
                     0,
-                    Integer.parseInt(getStyleMap(thumbImg.attr("style")).get("width")[0].replace("px","")),
-                    Integer.parseInt(getStyleMap(thumbImg.attr("style")).get("height")[0].replace("px",""))
+                    size[0],
+                    size[1]
             ));
         } catch (NullPointerException ignored) {
         }
@@ -77,7 +98,7 @@ public class SoraPost extends Post{
             this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
         } catch (NullPointerException e) {
-            print(new Object(){}.getClass(),"out installDetail()");
+//            print(new Object(){}.getClass(),"Exception out installDetail()");
             install2catDetail();
         }
     }
@@ -96,18 +117,26 @@ public class SoraPost extends Post{
             this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
         }catch (NullPointerException | StringIndexOutOfBoundsException e){
-            print(new Object(){}.getClass(),"out install2catDetail()");
+//            print(new Object(){}.getClass(),"Exception out install2catDetail()");
             installAnimeDetail();
         }
     }
 
     public void installAnimeDetail(){ // 動畫: https://2cat.komica.org/~tedc21thc/anime/ 比起 2cat 沒有label[for="3273507"]
-        print(new Object(){}.getClass(),"use installAnimeDetail()");
-        String detailStr=getPostEle().ownText();
-        detailStr=detailStr.length()==0?getPostEle().text():detailStr;
-        String[] post_detail =detailStr.split(" ID:");
-        this.setTime(parseTime(parseChiToEngWeek(post_detail[0].substring(post_detail[0].indexOf("[")+1).trim())));
-        this.setPoster(post_detail[1].substring(0,post_detail[1].indexOf("]")));
+        try{
+            String detailStr=getPostEle().ownText();
+            detailStr=detailStr.length()==0?getPostEle().text():detailStr;
+            String[] post_detail =detailStr.split(" ID:");
+            this.setTime(parseTime(parseChiToEngWeek(post_detail[0].substring(post_detail[0].indexOf("[")+1).trim())));
+            this.setPoster(post_detail[1].substring(0,post_detail[1].indexOf("]")));
+        }catch (ArrayIndexOutOfBoundsException e){
+            //            print(new Object(){}.getClass(),"Exception out installAnimeDetail()");
+            installInternetGIFDetail();
+        }
+    }
+
+    public void installInternetGIFDetail(){
+        // todo
     }
 
     public void addPost(Element reply_ele) {

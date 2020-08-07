@@ -27,41 +27,52 @@ public class InternalTwocatBoard extends TwocatBoard {
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        CookieJar cookieJar = new CookieJar() {
-            private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
-            @Override
-            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-                print(new Object(){}.getClass(),"saveFromResponse", cookies.toString());
-                cookieStore.put(url.host(), cookies);
-            }
+        OkHttpClient okHttpClient = new OkHttpClient
+                .Builder()
+                .cookieJar(new CookieJar() {
+                    private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
 
-            @Override
-            public List<Cookie> loadForRequest(HttpUrl url) {
-                print(new Object(){}.getClass(), "loadForRequest");
-                List<Cookie> cookies = cookieStore.get(url.host());
-                return cookies != null ? cookies : new ArrayList<Cookie>();
-            }
-        };
+                    @Override
+                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                        cookieStore.put(url.host(), cookies);
+                    }
 
-        String pageUrl="https://2cat.org/~gifura/";
+                    @Override
+                    public List<Cookie> loadForRequest(HttpUrl url) {
+                        List<Cookie> cookies = cookieStore.get(url.host());
+                        return cookies != null ? cookies : new ArrayList<Cookie>();
+                    }
+                })
+                .build();
+
+        String pageUrl = getUrl();
+
         AndroidNetworking.get(pageUrl)
-                .setOkHttpClient(
-                        new OkHttpClient.Builder()
-                                .cookieJar(cookieJar)
-                                .build()
-                )
+                .setOkHttpClient(okHttpClient)
                 .addHeaders("Referer", "https://2nyan.org/")
                 .build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                Bundle bundle =new Bundle();
-                bundle.putString(COLUMN_THREAD, Jsoup.parse(response).html());
-                bundle.putString(COLUMN_BOARD_URL,getUrl());
-                bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
+                AndroidNetworking.get("https://2nyan.org/granblue/")
+                        .setOkHttpClient(okHttpClient)
+                        .build().getAsString(new StringRequestListener() {
+                    @Override
+                    public void onResponse(String response) {
+                        print(this.getClass(),"OK");
+                        print(this.getClass(),"title",Jsoup.parse(response).select("title").text());
+                        Bundle bundle =new Bundle();
+                        bundle.putString(COLUMN_THREAD,response);
+                        bundle.putString(COLUMN_POST_URL,getUrl());
 
-                onResponse.onResponse(newInstance(bundle));
+                        onResponse.onResponse(newInstance(bundle));
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        anError.printStackTrace();
+                    }
+                });
             }
-
             @Override
             public void onError(ANError anError) {
                 anError.printStackTrace();

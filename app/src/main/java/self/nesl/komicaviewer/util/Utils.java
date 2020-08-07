@@ -33,11 +33,12 @@ public class Utils {
 
     public static Map<String, String[]> getStyleMap(String styleStr) {
         Map<String, String[]> keymaps = new HashMap<>();
-        // margin-top:-80px !important;color:#fcc;border-bottom:1px solid #ccc; background-color: #333; text-align:center
+        // margin-top:-80px !important;color:#fcc;border-bottom:1px
         String[] list = styleStr.split(":|;");
         for (int i = 0; i < list.length; i+=2) {
             keymaps.put(list[i].trim(),list[i+1].trim().split(" "));
         }
+        // { "margin-top":["-80px", "!important"], "color":["#fcc"], "border-bottom":["1px"] }
         return keymaps;
     }
 

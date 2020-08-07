@@ -102,7 +102,7 @@ public class SoraBoard extends Post {
             public void onResponse(String response) {
 
                 Bundle bundle =new Bundle();
-                bundle.putString(COLUMN_THREAD,Jsoup.parse(response).html());
+                bundle.putString(COLUMN_THREAD,response);
                 bundle.putString(COLUMN_POST_URL,getUrl());
 
                 onResponse.onResponse(newInstance(bundle));

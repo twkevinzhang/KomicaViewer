@@ -102,41 +102,18 @@ MVVM in Android
    
 ###### Komica2:
    - [x] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
-   - [ ] 2cat.org (
-       - [GIF裡] 
+   - [x] 2cat.org (
+       - [GIF裡] (有錯: For input string: "100%")
        - [動畫裡]
-       - [高解析裡]
+       - [高解析裡] (進不去)
        - [成人玩具]
        - [知識裡]
        - [偽娘裡]
-       - [東方裡]
+       - [東方裡] (進不去)
       )
    - [ ] p.komica.acg.club.tw (觸手裡)
    - [x] cyber.boguspix.com (機娘裡)
    - [ ] majeur.zawarudo.org (詢問裡)
-
-### 目前困難
- - 無法進入2nyan.org的裡站，找不到確切的版面網址，最終都會回到[手機/平板遊戲](https://2nyan.org/)。更新: 已找到解方，實作中。
- 
- 虛擬碼:
- 
-```python
-# 取得 cookies
-session = requests.Session()
-r = session.get('https://2cat.org/~gifura/'
-    ,headers = {
-        'Referer':'https://2nyan.org/',
-    }
-)
-
-# 訪問src
-r = requests.get('https://2nyan.org/granblue/',cookies=session.cookies.get_dict())
-
-# 列印結果
-print(r.status_code)
-print(BeautifulSoup(r.content, 'html.parser'))
-
-```
 
 ### 截圖
    - ![1](./doc/1.PNG)

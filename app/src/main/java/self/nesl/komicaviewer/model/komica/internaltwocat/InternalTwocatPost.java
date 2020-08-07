@@ -43,13 +43,11 @@ public class InternalTwocatPost extends TwocatPost {
             private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
             @Override
             public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-                print(new Object(){}.getClass(),"saveFromResponse", cookies.toString());
                 cookieStore.put(url.host(), cookies);
             }
 
             @Override
             public List<Cookie> loadForRequest(HttpUrl url) {
-                print(new Object(){}.getClass(), "loadForRequest");
                 List<Cookie> cookies = cookieStore.get(url.host());
                 return cookies != null ? cookies : new ArrayList<Cookie>();
             }
@@ -67,7 +65,7 @@ public class InternalTwocatPost extends TwocatPost {
             @Override
             public void onResponse(String response) {
                 Bundle bundle =new Bundle();
-                bundle.putString(COLUMN_THREAD, Jsoup.parse(response).html());
+                bundle.putString(COLUMN_THREAD, response);
                 bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
                 bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
 
