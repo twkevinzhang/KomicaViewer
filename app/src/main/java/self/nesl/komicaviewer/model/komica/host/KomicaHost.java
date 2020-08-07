@@ -34,6 +34,7 @@ public class KomicaHost extends Host {
 
     @Override
     public Map[] getSubHosts() {
+        print(new Object(){}.getClass(),"getSubHosts");
         return new Map[]{
                 // add komica model item in there
                 new HashMap<String, Object>(){{
@@ -121,7 +122,7 @@ public class KomicaHost extends Host {
                     li_link = li_link.substring(0, li_link.indexOf("/index."));
                 }
                 try {
-                    Post p=getPostModel(li_link,true,true);
+                    Post p=this.getPostModel(li_link,true,true);
                     p.setTitle(li_title);
                     p.setUrl(li_link);
                     p.addTag(ui_title);

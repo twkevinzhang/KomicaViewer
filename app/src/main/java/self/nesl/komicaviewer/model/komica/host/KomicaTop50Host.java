@@ -28,7 +28,7 @@ public class KomicaTop50Host extends KomicaHost {
 
             public void onResponse(String response) {
                 Document doc=Jsoup.parse(response);
-                ArrayList<Post> arrayList=parseTop50Boardlist(doc);
+                ArrayList<Post> arrayList=parseTop50Boardlist(doc,new KomicaTop50Host());
                 setBoardlist(arrayList);
                 onResponse.onResponse(arrayList);
             }
@@ -39,7 +39,7 @@ public class KomicaTop50Host extends KomicaHost {
         });
     }
 
-    public ArrayList<Post> parseTop50Boardlist(Document doc) {
+    public static ArrayList<Post> parseTop50Boardlist(Document doc,Host host) {
         ArrayList<Post> boards = new ArrayList<Post>();
         for (Element e : doc.getElementsByClass("divTableRow").select("a")) {
             String url = e.attr("href");
@@ -50,7 +50,7 @@ public class KomicaTop50Host extends KomicaHost {
                 url = url.substring(0, url.length() - 1);
             }
             String title = e.text();
-            Post p=getPostModel(url,true,true);
+            Post p=host.getPostModel(url,true,true);
             p.setTitle(title);
             p.setUrl(url);
 //            p.addTag(ui_title);
