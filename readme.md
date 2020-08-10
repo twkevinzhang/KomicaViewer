@@ -30,6 +30,9 @@ MVVM in Android
  - [ ] Open Url in Browser
  - [ ] 肉餅臉產生器
  - [ ] 依據ID生出頭像
+
+### 目前困難
+ - 像Pitt的點擊開圖
  
 ###### 未來展望
  - 為使用者推薦K島上常用圖片(搜尋、上傳)

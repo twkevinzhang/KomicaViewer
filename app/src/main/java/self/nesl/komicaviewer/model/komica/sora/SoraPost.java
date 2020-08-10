@@ -8,6 +8,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.util.UrlUtils;
+import self.nesl.komicaviewer.util.Utils;
 
 import static self.nesl.komicaviewer.util.Utils.getStyleMap;
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
@@ -46,8 +49,6 @@ public class SoraPost extends Post{
     }
 
     public SoraPost parse(){
-        setPictures();
-
         try {
             installDetail();
         } catch (NullPointerException e) {
@@ -59,6 +60,8 @@ public class SoraPost extends Post{
         }
 
         setQuote();
+        setPictures();
+        installPictureUrls();
         setTitle();
         return this;
     }
@@ -88,10 +91,12 @@ public class SoraPost extends Post{
                 }
             }
 
+            UrlUtils urlUtils=new UrlUtils(this.getUrl());
+
             this.addPic(new Picture(
                     thumbImg.parent().attr("href"),
                     thumbImg.attr("src"),
-                    super.getBoardUrl(),
+                    urlUtils.getProtocol()+"://"+urlUtils.getHost(),
                     0,
                     0,
                     size[0],
@@ -173,6 +178,13 @@ public class SoraPost extends Post{
 
     public void setQuote(){
         this.setQuoteElement(getPostEle().selectFirst("div.quote"));
+    }
+
+    public void installPictureUrls(){
+        for (Picture pic:getPics()) {
+            String html="<br><a href=\"{}\">{}</a>".replace("{}",pic.getOriginalUrl());
+            getQuoteElement().append(html);
+        }
     }
 
     @Override
