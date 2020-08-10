@@ -14,19 +14,17 @@ public class WsfunPost extends SoraPost {
     @Override
     public WsfunPost newInstance(Bundle bundle){
         return (WsfunPost)new WsfunPost(
-                bundle.getString(COLUMN_BOARD_URL),
+                bundle.getString(COLUMN_POST_URL),
                 bundle.getString(COLUMN_POST_ID),
                 new Element("<html>").html(bundle.getString(COLUMN_THREAD))
         ).parse();
     }
 
 
-    public WsfunPost(String boardUrl, String post_id, Element thread) {
+    public WsfunPost(String postUrl, String post_id, Element thread) {
         String[] strs = post_id.split(" ");
-        setBoardUrl(boardUrl);
         setPostId(strs[0]);
         setPostEle(thread);
-
-        this.setUrl(boardUrl + "/index.php?res=" + post_id);
+        setUrl(postUrl);
     }
 }

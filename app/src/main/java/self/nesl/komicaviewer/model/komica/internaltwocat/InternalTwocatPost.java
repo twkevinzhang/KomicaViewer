@@ -16,8 +16,11 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
 
+import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
+import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class InternalTwocatPost extends TwocatPost {
@@ -35,6 +38,29 @@ public class InternalTwocatPost extends TwocatPost {
 
     public InternalTwocatPost(String postUrl,String postId, Element thread) {
         super(postUrl,postId,thread);
+    }
+
+    @Override
+    public void installDetail(){ // 綜合: https://sora.komica.org
+        try {
+            install2catDetail();
+        } catch (NullPointerException e) {
+        }
+    }
+
+    @Override
+    public InternalTwocatPost parse(){
+        super.setPictures();
+
+        try {
+            super.install2catDetail();
+        }catch (NullPointerException | StringIndexOutOfBoundsException e2){
+            super.installAnimeDetail();
+        }
+
+        super.setQuote();
+        super.setTitle();
+        return this;
     }
 
     @Override

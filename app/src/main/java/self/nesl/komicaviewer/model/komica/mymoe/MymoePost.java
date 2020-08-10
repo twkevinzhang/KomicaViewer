@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import org.jsoup.nodes.Element;
 
+import self.nesl.komicaviewer.model.komica.internaltwocat.InternalTwocatPost;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -21,6 +22,15 @@ public class MymoePost extends SoraPost {
                 bundle.getString(COLUMN_POST_ID),
                 new Element("<html>").html(bundle.getString(COLUMN_THREAD))
         ).parse();
+    }
+
+    @Override
+    public MymoePost parse(){
+        super.setPictures();
+        this.installDetail();
+        super.setQuote();
+        super.setTitle();
+        return this;
     }
 
 
@@ -50,4 +60,6 @@ public class MymoePost extends SoraPost {
         this.setTime(parseTime( detailEle.selectFirst("time").html() ));
         this.setPoster(detailEle.selectFirst("span.trip_id").text().replace("ID:",""));
     }
+
+
 }

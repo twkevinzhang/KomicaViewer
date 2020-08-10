@@ -22,8 +22,17 @@ public class TwocatPost extends SoraPost {
     }
 
     @Override
-    public void installDetail() { // 碧藍幻想: https://2cat.org/~granblue/
-        install2catDetail();
-//        setPostEle(); // todo
+    public SoraPost parse(){
+        super.setPictures();
+
+        try {
+            super.install2catDetail();
+        }catch (NullPointerException | StringIndexOutOfBoundsException e){
+            super.installAnimeDetail();
+        }
+
+        super.setQuote();
+        super.setTitle();
+        return this;
     }
 }

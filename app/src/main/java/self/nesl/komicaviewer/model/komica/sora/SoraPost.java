@@ -47,7 +47,17 @@ public class SoraPost extends Post{
 
     public SoraPost parse(){
         setPictures();
-        installDetail();
+
+        try {
+            installDetail();
+        } catch (NullPointerException e) {
+            try {
+                install2catDetail();
+            }catch (NullPointerException | StringIndexOutOfBoundsException e2){
+                installAnimeDetail();
+            }
+        }
+
         setQuote();
         setTitle();
         return this;
@@ -92,19 +102,13 @@ public class SoraPost extends Post{
     }
 
     public void installDetail(){ // 綜合: https://sora.komica.org
-        try {
             this.setTitle(getPostEle().select("span.title").text());
             String[] post_detail = getPostEle().selectFirst("div.post-head span.now").text().split(" ID:");
             this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
-        } catch (NullPointerException e) {
-//            print(new Object(){}.getClass(),"Exception out installDetail()");
-            install2catDetail();
-        }
     }
 
     public void install2catDetail(){ // 新番捏他: https://2cat.komica.org/~tedc21thc/new
-        try {
             Element detailEle=getPostEle().selectFirst(String.format("label[for='%s']", getPostId()));
             Element titleEle=detailEle.selectFirst("span.title");
             if(titleEle!=null){
@@ -116,27 +120,14 @@ public class SoraPost extends Post{
             String[] post_detail=s.substring(1,s.length()-1).split(" ID:");
             this.setTime(parseTime(parseJpnToEngWeek(post_detail[0].trim())));
             this.setPoster(post_detail[1]);
-        }catch (NullPointerException | StringIndexOutOfBoundsException e){
-//            print(new Object(){}.getClass(),"Exception out install2catDetail()");
-            installAnimeDetail();
-        }
     }
 
     public void installAnimeDetail(){ // 動畫: https://2cat.komica.org/~tedc21thc/anime/ 比起 2cat 沒有label[for="3273507"]
-        try{
-            String detailStr=getPostEle().ownText();
-            detailStr=detailStr.length()==0?getPostEle().text():detailStr;
-            String[] post_detail =detailStr.split(" ID:");
-            this.setTime(parseTime(parseChiToEngWeek(post_detail[0].substring(post_detail[0].indexOf("[")+1).trim())));
-            this.setPoster(post_detail[1].substring(0,post_detail[1].indexOf("]")));
-        }catch (ArrayIndexOutOfBoundsException e){
-            //            print(new Object(){}.getClass(),"Exception out installAnimeDetail()");
-            installInternetGIFDetail();
-        }
-    }
-
-    public void installInternetGIFDetail(){
-        // todo
+        String detailStr=getPostEle().ownText();
+        detailStr=detailStr.length()==0?getPostEle().text():detailStr;
+        String[] post_detail =detailStr.split(" ID:");
+        this.setTime(parseTime(parseChiToEngWeek(post_detail[0].substring(post_detail[0].indexOf("[")+1).trim())));
+        this.setPoster(post_detail[1].substring(0,post_detail[1].indexOf("]")));
     }
 
     public void addPost(Element reply_ele) {
