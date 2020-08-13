@@ -26,7 +26,7 @@ public abstract class BaseFragment extends Fragment {
     private BaseViewModel viewModel;
     private int page = 0;
     private int maxPage = 0;
-    private PostlistAdapter.ItemOnClickListener listener;
+    private PostlistAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -34,7 +34,6 @@ public abstract class BaseFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
         final TextView txtMsg=v.findViewById(R.id.txtMsg);
-        PostlistAdapter adapter=new PostlistAdapter(this,listener);
 
         // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
@@ -60,7 +59,7 @@ public abstract class BaseFragment extends Fragment {
             }
         });
 
-        // lst
+        // lst.addOnScrollListener
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
         lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -79,6 +78,8 @@ public abstract class BaseFragment extends Fragment {
                         page += 1;
                         txtMsg.setText("載入中" + page);
                         viewModel.load(page);
+                    }else{
+                        txtMsg.setText("極限了~maxPage:" +maxPage+",now: "+page);
                     }
                 } else if (!recyclerView.canScrollVertically(-1)) {
                     txtMsg.setText("到頂了(不能向上滑動)");
@@ -93,10 +94,10 @@ public abstract class BaseFragment extends Fragment {
         return v;
     }
 
-    public void init(BaseViewModel viewModel,int maxPage,PostlistAdapter.ItemOnClickListener listener){
+    public void init(BaseViewModel viewModel,int maxPage,PostlistAdapter adapter){
         this.viewModel=viewModel;
         this.maxPage=maxPage;
-        this.listener=listener;
+        this.adapter=adapter;
     }
 
     abstract public void whenDataChange(PostlistAdapter adapter,Post post);

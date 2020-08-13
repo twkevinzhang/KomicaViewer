@@ -13,6 +13,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.BaseFragment;
+import self.nesl.komicaviewer.ui.adapter.ThreadlistAdapter;
 import self.nesl.komicaviewer.ui.post.PostFragment;
 
 import static self.nesl.komicaviewer.Const.IS_TEST;
@@ -28,7 +29,7 @@ public class BoardFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boardViewModel = ViewModelProviders.of(this).get(BoardViewModel.class);
-        super.init(boardViewModel, 99,  new PostlistAdapter.ItemOnClickListener() {
+        super.init(boardViewModel, 99, new ThreadlistAdapter(this,new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
                 Bundle bundle = new Bundle();
@@ -36,7 +37,7 @@ public class BoardFragment extends BaseFragment {
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_board_to_nav_post, bundle);
             }
-        });
+        }));
         if (getArguments() != null) {
             board = (Post) getArguments().getSerializable(BoardFragment.COLUMN_BOARD);
             boardViewModel.setUrl(board.getUrl());

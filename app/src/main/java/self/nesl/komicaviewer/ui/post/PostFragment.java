@@ -28,12 +28,12 @@ public class PostFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
-        super.init(postViewModel, 0,  new PostlistAdapter.ItemOnClickListener() {
+        super.init(postViewModel, 0, new PostlistAdapter(this,new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
                 new ReplyDialog(post, getFragmentManager());
             }
-        });
+        }));
         if (getArguments() != null) {
             postViewModel.setPostUrl(getArguments().getString(COLUMN_POST_URL));
             postViewModel.load(0);
