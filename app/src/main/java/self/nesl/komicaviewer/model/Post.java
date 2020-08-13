@@ -118,10 +118,6 @@ public abstract class Post implements Serializable {
         return this.getQuoteElement().text().trim();
     }
 
-
-
-
-
     public boolean isTop() {
         return isTop;
     }
@@ -133,10 +129,6 @@ public abstract class Post implements Serializable {
     public ArrayList<Post> getReplyTree() {
         return replyTree;
     }
-
-
-
-
 
     public String getUrl() {
         return this.url;
@@ -248,7 +240,7 @@ public abstract class Post implements Serializable {
     }
 
     public ArrayList<Post> getReplies() {
-        return getReplies(false);
+        return getReplies(true);
     }
 
     public ArrayList<Post> getReplies(boolean sort) {
