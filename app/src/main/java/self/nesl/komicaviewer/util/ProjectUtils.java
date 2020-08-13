@@ -33,36 +33,6 @@ public class ProjectUtils {
         host=mhost;
     }
 
-//    public static Post getPostModel(String boardUrl, boolean isBoard){
-//        for(Host host : new Host[]{
-//                // add model item in there
-//                new KomicaHost(),
-//                new Komica2Host(),
-//        }){
-//            Post model=host.getPostModel(boardUrl,isBoard);
-//            if(model!=null){
-//                model.setBoardUrl(boardUrl);
-//                return model;
-//            }
-//        }
-//        return new Post() {
-//            @Override
-//            public String getIntroduction(int words, String[] rank) {
-//                return null;
-//            }
-//
-//            @Override
-//            public void download(Bundle bundle, OnResponse onResponse) {
-//
-//            }
-//
-//            @Override
-//            public Post newInstance(Bundle bundle) {
-//                return null;
-//            }
-//        };
-//    }
-
     public static Element installThreadTag(Element threads){
         //如果找不到thread標籤，就是2cat.komica.org，要用addThreadTag()改成標準綜合版樣式
         if (threads.selectFirst("div.thread") == null) {

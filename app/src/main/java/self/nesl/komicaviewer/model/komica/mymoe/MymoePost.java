@@ -26,7 +26,7 @@ public class MymoePost extends SoraPost {
     @Override
     public MymoePost parse(){
         super.setPicture();
-        this.installDetail();
+        this.installDefaultDetail();
         super.setQuote();
         super.setTitle();
         return this;
@@ -52,7 +52,7 @@ public class MymoePost extends SoraPost {
     }
 
     @Override
-    public void installDetail(){ // 粽2: https://alleyneblade.mymoe.moe/queensblade/
+    public void installDefaultDetail(){ // 粽2: https://alleyneblade.mymoe.moe/queensblade/
         this.setTitle(getPostElement().select("span.title").text());
         Element detailEle = getPostElement().selectFirst("span.now");
         this.setTime(parseTime( detailEle.selectFirst("time").html() ));

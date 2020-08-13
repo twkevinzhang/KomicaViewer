@@ -17,6 +17,7 @@ import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
+import self.nesl.komicaviewer.ui.board.BoardViewModel;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -26,7 +27,18 @@ public class InternalTwocatBoard extends TwocatBoard {
     }
 
     @Override
+    public String setUrl(String pageUrl, int page){
+        return pageUrl;
+    }
+
+    @Override
     public void download(Bundle bundle, OnResponse onResponse) {
+        int page=0;
+        if(bundle!=null){
+            page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
+        }
+        String pageUrl= setUrl(getUrl(),page);
+
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder()
                 .cookieJar(new CookieJar() {
@@ -45,8 +57,7 @@ public class InternalTwocatBoard extends TwocatBoard {
                 })
                 .build();
 
-        String pageUrl = getUrl();
-
+        print(this,"AndroidNetworking",pageUrl);
         AndroidNetworking.get(pageUrl)
                 .setOkHttpClient(okHttpClient)
                 .addHeaders("Referer", "https://2nyan.org/")
@@ -58,9 +69,7 @@ public class InternalTwocatBoard extends TwocatBoard {
                         .build().getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        print(this,"OK");
-                        print(this,"title",Jsoup.parse(response).select("title").text());
-                        Bundle bundle =new Bundle();
+                       Bundle bundle =new Bundle();
                         bundle.putString(COLUMN_THREAD,response);
                         bundle.putString(COLUMN_POST_URL,getUrl());
 

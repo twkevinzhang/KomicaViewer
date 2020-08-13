@@ -8,15 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import org.jsoup.nodes.Element;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Post;
+
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public class ThreadlistAdapter extends PostlistAdapter {
     public ThreadlistAdapter(Fragment fragment, ItemOnClickListener callBack) {
@@ -38,12 +46,16 @@ public class ThreadlistAdapter extends PostlistAdapter {
 
         holder.txtPostInd.setText(post.getIntroduction(50,null));
 
-        Glide.with(holder.img)
-                .load(post.getPictureUrl())
-                .placeholder(R.drawable.ic_launcher_background)
-                .centerCrop()
-                .into(holder.img);
-
-
+        String url=post.getPictureUrl();
+        if(url!=null){
+//            print(this,"PostId",post.getPostId(),"Picture: ",url);
+            Glide.with(holder.img)
+                    .load(post.getPictureUrl())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .centerCrop()
+                    .error(R.drawable.ic_menu_camera)
+                    .into(holder.img);
+        }
     }
+
 }

@@ -49,8 +49,17 @@ public class SoraPost extends Post{
     }
 
     public SoraPost parse(){
+        setDetail();
+        setQuote();
+        setPicture();
+        installPictureUrls();
+        setTitle();
+        return this;
+    }
+
+    public void setDetail(){
         try {
-            installDetail();
+            installDefaultDetail();
         } catch (NullPointerException e) {
             try {
                 install2catDetail();
@@ -58,12 +67,6 @@ public class SoraPost extends Post{
                 installAnimeDetail();
             }
         }
-
-        setQuote();
-        setPicture();
-        installPictureUrls();
-        setTitle();
-        return this;
     }
 
     public SoraPost(String postUrl,String postId, Element thread) {
@@ -73,40 +76,17 @@ public class SoraPost extends Post{
     public void setPicture(){
         try {
             Element thumbImg= getPostElement().selectFirst("img");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             UrlUtils urlUtils=new UrlUtils(this.getUrl());
             String originalUrl=thumbImg.parent().attr("href");
+            String thumbUrl=thumbImg.attr("src");
             String baseUrl=urlUtils.getProtocol()+"://"+urlUtils.getHost();
             this.setPictureUrl(new UrlUtils(originalUrl, baseUrl).getUrl());
-
-
-
-
-
-
 
         } catch (NullPointerException ignored) {
         }
     }
 
-    public void installDetail(){ // 綜合: https://sora.komica.org
+    public void installDefaultDetail(){ // 綜合: https://sora.komica.org
         this.setTitle(getPostElement().select("span.title").text());
         String[] post_detail = getPostElement().selectFirst("div.post-head span.now").text().split(" ID:");
         this.setTime(parseTime(parseChiToEngWeek(post_detail[0].trim())));
