@@ -58,8 +58,8 @@ public class InternalTwocatBoard extends TwocatBoard {
                         .build().getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        print(this.getClass(),"OK");
-                        print(this.getClass(),"title",Jsoup.parse(response).select("title").text());
+                        print(this,"OK");
+                        print(this,"title",Jsoup.parse(response).select("title").text());
                         Bundle bundle =new Bundle();
                         bundle.putString(COLUMN_THREAD,response);
                         bundle.putString(COLUMN_POST_URL,getUrl());

@@ -182,7 +182,8 @@ public class SoraPost extends Post{
 
     public void installPictureUrls(){
         for (Picture pic:getPics()) {
-            String html="<br><a href=\"{}\">{}</a>".replace("{}",pic.getOriginalUrl());
+            String html="<br><a href=\"{}\">{}</a><img src=\"{}\">"
+                    .replace("{}",pic.getOriginalUrl());
             getQuoteElement().append(html);
         }
     }
@@ -190,7 +191,7 @@ public class SoraPost extends Post{
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
         String url=getUrl();
-        print(getClass(),"AndroidNetworking",url);
+        print(this,"AndroidNetworking",url);
         AndroidNetworking.get(url).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {

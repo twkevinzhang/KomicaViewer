@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Utils {
-    public static void print(@Nullable Class c, String... s){
+    public static void print(@Nullable Object o, String... s){
         String s1=TextUtils.join(", ",s);
-        if(c!=null){
-            Log.e(c.getName(),s1);
+        if(o!=null){
+            Log.e(o.getClass().getName(),s1);
         }else{
             Log.e("print",s1);
         }

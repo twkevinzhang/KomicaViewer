@@ -41,7 +41,7 @@ public class TwocatBoard extends SoraBoard {
         if (page!=0) {
             pageUrl += "/?page="+page;
         }
-        print(getClass(),"AsyncTask",pageUrl);
+        print(this,"AsyncTask",pageUrl);
         new AsyncTask<String, Void, Document>() {
             @Override
             protected Document doInBackground(String... strings) {
