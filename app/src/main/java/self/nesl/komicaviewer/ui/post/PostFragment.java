@@ -28,7 +28,7 @@ public class PostFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
-        super.init(postViewModel, true, false, new PostlistAdapter.ItemOnClickListener() {
+        super.init(postViewModel, 0,  new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
                 new ReplyDialog(post, getFragmentManager());
@@ -50,15 +50,5 @@ public class PostFragment extends BaseFragment {
             adapter.setPostlist(post.getReplies());
             adapter.addThreadpost(post);
         }
-    }
-
-
-    @Override
-    public View doSomething(View v) {
-        final RecyclerView lst = v.findViewById(R.id.rcLst2);
-        lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        lst.setAdapter(adapter);
-
-        return v;
     }
 }

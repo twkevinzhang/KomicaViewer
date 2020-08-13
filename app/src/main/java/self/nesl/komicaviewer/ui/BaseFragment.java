@@ -1,29 +1,31 @@
-package self.nesl.komicaviewer.ui;
-import android.os.Bundle;
+        package self.nesl.komicaviewer.ui;
+        import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+        import androidx.annotation.NonNull;
+        import androidx.annotation.Nullable;
+        import androidx.fragment.app.Fragment;
+        import androidx.lifecycle.Observer;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
+        import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.TextView;
 
-import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
-import self.nesl.komicaviewer.model.Post;
+        import self.nesl.komicaviewer.R;
+        import self.nesl.komicaviewer.model.Post;
+        import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
 
-import static self.nesl.komicaviewer.util.Utils.print;
+        import java.util.ArrayList;
+
+        import static self.nesl.komicaviewer.util.Utils.print;
 
 public abstract class BaseFragment extends Fragment {
     private BaseViewModel viewModel;
     private int page = 0;
-    private boolean canLoad;
+    private int maxPage = 0;
     private PostlistAdapter.ItemOnClickListener listener;
 
     @Override
@@ -65,18 +67,19 @@ public abstract class BaseFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(!canLoad)return;
+
                 if (!recyclerView.canScrollVertically(1)) {
                     // 如果不能向下滑動，到底了
                     if (cateSwipeRefreshLayout.isRefreshing()) {
                         txtMsg.setText("急三小");
                         return;
                     }
-                    cateSwipeRefreshLayout.setRefreshing(true);
-                    page += 1;
-                    txtMsg.setText("載入中" + page);
-                    viewModel.load(page);
-
+                    if(page<maxPage){
+                        cateSwipeRefreshLayout.setRefreshing(true);
+                        page += 1;
+                        txtMsg.setText("載入中" + page);
+                        viewModel.load(page);
+                    }
                 } else if (!recyclerView.canScrollVertically(-1)) {
                     txtMsg.setText("到頂了(不能向上滑動)");
                 }
@@ -87,15 +90,15 @@ public abstract class BaseFragment extends Fragment {
             }
         });
 
-        return doSomething(v);
+        return v;
     }
 
-    public void init(BaseViewModel viewModel,boolean sort,boolean canLoad,PostlistAdapter.ItemOnClickListener listener){
+    public void init(BaseViewModel viewModel,int maxPage,PostlistAdapter.ItemOnClickListener listener){
         this.viewModel=viewModel;
-        this.canLoad =canLoad;
+        this.maxPage=maxPage;
         this.listener=listener;
     }
 
     abstract public void whenDataChange(PostlistAdapter adapter,Post post);
-    abstract public View doSomething(View v);
+
 }

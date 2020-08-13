@@ -28,7 +28,7 @@ public class BoardFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boardViewModel = ViewModelProviders.of(this).get(BoardViewModel.class);
-        super.init(boardViewModel, false, true, new PostlistAdapter.ItemOnClickListener() {
+        super.init(boardViewModel, 99,  new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
                 Bundle bundle = new Bundle();
@@ -49,11 +49,6 @@ public class BoardFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(board.getTitle(0));
         ArrayList posts = post.getReplies();
         adapter.setPostlist(posts);
-    }
-
-    @Override
-    public View doSomething(View v) {
-        return v;
     }
 }
 
