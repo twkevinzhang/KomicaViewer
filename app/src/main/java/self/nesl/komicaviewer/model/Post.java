@@ -29,7 +29,6 @@ public abstract class Post implements Serializable {
     public static final String COLUMN_THREAD="thread";
 
     private Element postElement = null;
-    private JSONObject jsonObject = null;
 
     private String postId = null;
 
@@ -67,10 +66,6 @@ public abstract class Post implements Serializable {
 
     public Element getPostElement() {
         return postElement;
-    }
-
-    public JSONObject getJsonObject() {
-        return jsonObject;
     }
 
     public String getPostId() {
@@ -165,10 +160,6 @@ public abstract class Post implements Serializable {
 
 
 
-    }
-
-    public void setJsonObject(JSONObject jsonObject) {
-        this.jsonObject = jsonObject;
     }
 
     public void setPostId(String postId) {

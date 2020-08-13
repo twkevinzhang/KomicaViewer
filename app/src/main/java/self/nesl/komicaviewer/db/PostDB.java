@@ -55,10 +55,6 @@ public final class PostDB {
         if (ele!=null){
             values.put(COLUMN_POST_HTML, ele.html());
         }
-        JSONObject jsonObject=post.getJsonObject();
-        if (jsonObject!=null){
-            values.put(COLUMN_POST_HTML,jsonObject.toString());
-        }
         // todo: toJson(Post)
 //        values.put(COLUMN_POST_JSON, new Gson().toJson(post));
         values.put(COLUMN_UPDATE, System.currentTimeMillis());
