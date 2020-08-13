@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import org.jsoup.nodes.Element;
 
-import self.nesl.komicaviewer.model.komica.internaltwocat.InternalTwocatPost;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -18,7 +17,7 @@ public class MymoePost extends SoraPost {
     @Override
     public MymoePost newInstance(Bundle bundle){
         return (MymoePost)new MymoePost(
-                bundle.getString(COLUMN_BOARD_URL),
+                bundle.getString(COLUMN_POST_URL),
                 bundle.getString(COLUMN_POST_ID),
                 new Element("<html>").html(bundle.getString(COLUMN_THREAD))
         ).parse();
@@ -26,7 +25,7 @@ public class MymoePost extends SoraPost {
 
     @Override
     public MymoePost parse(){
-        super.setPictures();
+        super.setPicture();
         this.installDetail();
         super.setQuote();
         super.setTitle();
@@ -34,13 +33,12 @@ public class MymoePost extends SoraPost {
     }
 
 
-    public MymoePost(String boardUrl, String post_id, Element thread) {
+    public MymoePost(String url, String post_id, Element thread) {
         String[] strs = post_id.split(" ");
 
-        setBoardUrl(boardUrl);
         setPostId(strs[0]);
-        setPostEle(thread);
-        this.setUrl(boardUrl + "/pixmicat.php?res=" + post_id);
+        setPostElement(thread);
+        this.setUrl(url);
 
         if (strs.length > 1) setId2(strs[1]);
     }
@@ -55,8 +53,8 @@ public class MymoePost extends SoraPost {
 
     @Override
     public void installDetail(){ // 粽2: https://alleyneblade.mymoe.moe/queensblade/
-        this.setTitle(getPostEle().select("span.title").text());
-        Element detailEle = getPostEle().selectFirst("span.now");
+        this.setTitle(getPostElement().select("span.title").text());
+        Element detailEle = getPostElement().selectFirst("span.now");
         this.setTime(parseTime( detailEle.selectFirst("time").html() ));
         this.setPoster(detailEle.selectFirst("span.trip_id").text().replace("ID:",""));
     }

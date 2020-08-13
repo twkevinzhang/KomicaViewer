@@ -15,10 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.adapter.PostlistAdapter;
+import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
-
-import java.util.ArrayList;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 

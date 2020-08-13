@@ -17,7 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.adapter.BoardlistAdapter;
+import self.nesl.komicaviewer.ui.adapter.BoardlistAdapter;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;

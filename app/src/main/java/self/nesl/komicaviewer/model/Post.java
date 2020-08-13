@@ -1,65 +1,72 @@
-package self.nesl.komicaviewer.model;
+        package self.nesl.komicaviewer.model;
 
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.format.DateUtils;
+        import android.content.Context;
+        import android.graphics.Bitmap;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.text.format.DateUtils;
 
-import androidx.annotation.RequiresApi;
+        import androidx.annotation.RequiresApi;
 
-import org.json.JSONObject;
-import org.jsoup.nodes.Element;
+        import org.json.JSONObject;
+        import org.jsoup.nodes.Element;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+        import java.io.Serializable;
+        import java.net.MalformedURLException;
+        import java.net.URL;
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
+        import java.util.Date;
+        import java.util.Objects;
 
-import static self.nesl.komicaviewer.util.Utils.print;
+        import static self.nesl.komicaviewer.util.Utils.print;
 
 public abstract class Post implements Serializable {
-    public static final String COLUMN_REPLY_MODEL = "reply_model";
+
     public static final String COLUMN_POST_ID = "id";
     public static final String COLUMN_POST_URL = "url";
-    public static final String COLUMN_BOARD_URL="board_url";
+
     public static final String COLUMN_THREAD="thread";
 
-    private Element postEle = null;
+    private Element postElement = null;
     private JSONObject jsonObject = null;
 
     private String postId = null;
-    private String parentPostId = null;
+
     private String title = null;
-    private String respondTo = null;
+
     private Date time = null;
     private String poster = null;
     private ArrayList<String> tags = new ArrayList<String>();
     private int visitsCount = 0;
     private int replyCount = 0;
     private Element quoteElement = null;
-    private ArrayList<Picture> pics = new ArrayList<Picture>();
+    private String pictureUrl=null;
     private boolean isTop = false;
     private boolean isReaded = false;
-    // todo: toJson(Post)
-    private transient ArrayList<Post> replyTree = new ArrayList<Post>();
-    private String boardUrl = null;
+
+    private transient ArrayList<Post> replyTree = new ArrayList<Post>(); // todo: toJson(Post)
+
     private String url = null;
     private Post replyModel = null;
 
-    private Context context;
+
 
     public Post() {
     }
 
-    public Post(String url,String postId, Element postEle) {
-        this.url = url;
+    public Post(String url,String postId, Element postElement) {
+        this.url=url;
         this.postId=postId;
-        this.postEle = postEle;
+        this.postElement = postElement;
     }
 
-    public Element getPostEle() {
-        return postEle;
+    public String getPictureUrl(){
+        return pictureUrl;
+    }
+
+    public Element getPostElement() {
+        return postElement;
     }
 
     public JSONObject getJsonObject() {
@@ -75,9 +82,10 @@ public abstract class Post implements Serializable {
         return title;
     }
 
-    public String getRespondTo() {
-        return respondTo;
+    public void setPictureUrl(String pictureUrl){
+        this.pictureUrl=pictureUrl;
     }
+
 
     public Date getTime() {
         return time;
@@ -115,9 +123,9 @@ public abstract class Post implements Serializable {
         return this.getQuoteElement().text().trim();
     }
 
-    public ArrayList<Picture> getPics() {
-        return pics;
-    }
+
+
+
 
     public boolean isTop() {
         return isTop;
@@ -131,9 +139,9 @@ public abstract class Post implements Serializable {
         return replyTree;
     }
 
-    public String getBoardUrl() {
-        return this.boardUrl;
-    }
+
+
+
 
     public String getUrl() {
         return this.url;
@@ -151,12 +159,12 @@ public abstract class Post implements Serializable {
         this.url = url;
     }
 
-    public void setBoardUrl(String boardUrl) {
-        this.boardUrl = boardUrl;
-    }
+    public void setPostElement(Element postElement) {
+        this.postElement = postElement;
 
-    public void setPostEle(Element postEle) {
-        this.postEle = postEle;
+
+
+
     }
 
     public void setJsonObject(JSONObject jsonObject) {
@@ -171,9 +179,9 @@ public abstract class Post implements Serializable {
         this.title = title;
     }
 
-    public void setRespondTo(String respondTo) {
-        this.respondTo = respondTo;
-    }
+
+
+
 
     public void setTime(Date time) {
         this.time = time;
@@ -271,9 +279,9 @@ public abstract class Post implements Serializable {
         return replyAll;
     }
 
-    public void addPic(Picture pic) {
-        this.pics.add(pic);
-    }
+
+
+
 
     @Override
     public String toString() {

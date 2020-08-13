@@ -10,7 +10,7 @@ import androidx.navigation.Navigation;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.adapter.PostlistAdapter;
+import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.BaseFragment;
 import self.nesl.komicaviewer.ui.post.PostFragment;

@@ -24,7 +24,7 @@ public class WsfunPost extends SoraPost {
     public WsfunPost(String postUrl, String post_id, Element thread) {
         String[] strs = post_id.split(" ");
         setPostId(strs[0]);
-        setPostEle(thread);
+        setPostElement(thread);
         setUrl(postUrl);
     }
 }

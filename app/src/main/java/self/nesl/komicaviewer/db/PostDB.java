@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
-import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -52,7 +51,7 @@ public final class PostDB {
         ContentValues values = new ContentValues();
         values.put(COLUMN_POST_ID, post.getPostId());
         values.put(COLUMN_POST_URL, post.getUrl());
-        Element ele=post.getPostEle();
+        Element ele=post.getPostElement();
         if (ele!=null){
             values.put(COLUMN_POST_HTML, ele.html());
         }

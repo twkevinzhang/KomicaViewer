@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.adapter.PostlistAdapter;
+import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 
 public class ReplyDialog extends DialogFragment {

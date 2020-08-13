@@ -21,7 +21,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.adapter.PostlistAdapter;
+import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.post.PostFragment;
 import static self.nesl.komicaviewer.Const.COLUMN_TABLE_NAME;

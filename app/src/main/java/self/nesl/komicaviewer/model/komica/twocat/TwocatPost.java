@@ -23,7 +23,7 @@ public class TwocatPost extends SoraPost {
 
     @Override
     public SoraPost parse(){
-        super.setPictures();
+        super.setPicture();
 
         try {
             super.install2catDetail();

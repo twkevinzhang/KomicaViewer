@@ -2,20 +2,12 @@ package self.nesl.komicaviewer.model.komica.twocat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import 	java.net.HttpURLConnection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import java.net.URL;
-import self.nesl.komicaviewer.model.Post;
+
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
-import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
 import self.nesl.komicaviewer.util.UrlUtils;
-import self.nesl.komicaviewer.util.Utils;
 
 import static self.nesl.komicaviewer.util.Utils.netWorking;
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -28,7 +20,7 @@ public class TwocatBoard extends SoraBoard {
 
     @Override
     public Elements getThreads(){
-        return getPostEle().select("div.threadStructure");
+        return getPostElement().select("div.threadStructure");
     }
 
     @Override

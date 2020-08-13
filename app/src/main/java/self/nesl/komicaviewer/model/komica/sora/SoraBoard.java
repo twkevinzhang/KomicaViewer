@@ -1,21 +1,21 @@
-package self.nesl.komicaviewer.model.komica.sora;
+        package self.nesl.komicaviewer.model.komica.sora;
 
-import android.os.Bundle;
+        import android.os.Bundle;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.StringRequestListener;
+        import com.androidnetworking.AndroidNetworking;
+        import com.androidnetworking.error.ANError;
+        import com.androidnetworking.interfaces.StringRequestListener;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+        import org.jsoup.Jsoup;
+        import org.jsoup.nodes.Document;
+        import org.jsoup.nodes.Element;
+        import org.jsoup.select.Elements;
 
-import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.ui.board.BoardViewModel;
-import self.nesl.komicaviewer.util.UrlUtils;
-import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
-import static self.nesl.komicaviewer.util.Utils.print;
+        import self.nesl.komicaviewer.model.Post;
+        import self.nesl.komicaviewer.ui.board.BoardViewModel;
+        import self.nesl.komicaviewer.util.UrlUtils;
+        import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
+        import static self.nesl.komicaviewer.util.Utils.print;
 
 public class SoraBoard extends Post {
     private String fsub;
@@ -31,7 +31,7 @@ public class SoraBoard extends Post {
     }
 
     public Elements getThreads(){
-        return installThreadTag(getPostEle().getElementById("threads")).select("div.thread");
+        return installThreadTag(getPostElement().getElementById("threads")).select("div.thread");
     }
 
     public SoraBoard(){
@@ -42,14 +42,14 @@ public class SoraBoard extends Post {
         String host=new UrlUtils(boardUrl).getHost();
         this.setPostId(host);
         this.setUrl(boardUrl);
-        this.setPostEle(doc);
+        this.setPostElement(doc);
         this.setReplyModel(postModel);
     }
 
     public SoraBoard parse(){
         //get post secret name
-        fsub = getPostEle().getElementById("fsub").attr("name");
-        fcom = getPostEle().getElementById("fcom").attr("name");
+        fsub = getPostElement().getElementById("fsub").attr("name");
+        fcom = getPostElement().getElementById("fcom").attr("name");
 
         for (Element thread : getThreads()) {
             Element threadpost=thread.selectFirst("div.threadpost");

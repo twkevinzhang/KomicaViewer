@@ -5,7 +5,6 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
@@ -16,11 +15,8 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
 
-import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
-import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class InternalTwocatPost extends TwocatPost {
@@ -50,7 +46,7 @@ public class InternalTwocatPost extends TwocatPost {
 
     @Override
     public InternalTwocatPost parse(){
-        super.setPictures();
+        super.setPicture();
 
         try {
             super.install2catDetail();
@@ -92,8 +88,8 @@ public class InternalTwocatPost extends TwocatPost {
             public void onResponse(String response) {
                 Bundle bundle =new Bundle();
                 bundle.putString(COLUMN_THREAD, response);
-                bundle.putString(COLUMN_BOARD_URL,getBoardUrl());
-                bundle.putSerializable(COLUMN_REPLY_MODEL,getReplyModel());
+                bundle.putString(COLUMN_POST_URL, pageUrl); //todo
+                bundle.putString(COLUMN_POST_ID, "todo"); //todo
 
                 onResponse.onResponse(newInstance(bundle));
             }

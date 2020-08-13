@@ -1,13 +1,9 @@
-package self.nesl.komicaviewer.adapter;
+package self.nesl.komicaviewer.ui.adapter;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,16 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.model.Picture;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.board.BoardFragment;
-import static self.nesl.komicaviewer.Const.IS_TEST;
-import static self.nesl.komicaviewer.Const.POST_URL;
 
 public class BoardlistAdapter extends RecyclerView.Adapter<BoardlistAdapter.BoardlistViewHolder> {
     private ArrayList<Post> postlist=new ArrayList<>();
