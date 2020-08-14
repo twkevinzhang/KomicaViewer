@@ -67,7 +67,7 @@ MVVM in Android
    - [x] 2cat.org 
       - [碧藍幻想,手機遊戲,Azur Lane,網頁遊戲]
       - [動物綜合,二次壁,職業,財經,法律,繪師,猜謎,天文,超常現象,服飾,女性向遊戲,VR/體感遊戲,桌上遊戲]
-   - [x] mymoe.moe 
+   - [x] mymoe.moe (關站，Code白寫了QQ) 
       - [PAD,綜合2,三次實況]
       - [歷史,笑話,New Age,政治,耳機,髮型,家政,讀書筆記,RPG Maker,CosmicBreak,Elsword,DNF,DOTA2,GW2,LOL,PSO2,SDGO,白貓Project,流亡黯道 PoE,新瑪奇英雄傳,爐石戰記,LoveLive!,禁書,STEAM]
    - [x] strange-komica.com [魔物獵人]
@@ -106,7 +106,7 @@ MVVM in Android
 ###### Komica2:
    - [x] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
    - [x] 2cat.org (
-       - [GIF裡] (有錯: For input string: "100%")
+       - [GIF裡]
        - [動畫裡]
        - [高解析裡] (進不去)
        - [成人玩具]
@@ -119,11 +119,7 @@ MVVM in Android
    - [ ] majeur.zawarudo.org (詢問裡)
 
 ### 截圖
-   - ![1](./doc/1.PNG)
-   - ![2](./doc/2.PNG)
-   - ![3](./doc/3.PNG)
-   - ![4](./doc/4.PNG)
-   - ![5](./doc/5.PNG)
+![1](./doc/1.PNG)、![2](./doc/2.PNG)、![3](./doc/3.PNG)、![4](./doc/4.PNG)、![5](./doc/5.PNG)
 
  
 ### 下載
@@ -131,11 +127,23 @@ MVVM in Android
 
  
 ### 額外套件 (dependencies)
-    implementation 'com.amitshekhar.android:android-networking:1.0.2'
-    implementation 'org.jsoup:jsoup:1.12.1'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    implementation 'com.github.clans:fab:1.6.4'
-    implementation 'com.google.code.gson:gson:2.8.6'
+```gradle
+   // 原生
+   implementation 'androidx.appcompat:appcompat:1.2.0'
+   implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+   implementation 'com.google.android.material:material:1.2.0'
+   implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+   implementation 'androidx.navigation:navigation-fragment:2.3.0'
+   implementation 'androidx.navigation:navigation-ui:2.3.0'
+   implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+   // 第三方
+   implementation 'com.amitshekhar.android:android-networking:1.0.2'
+   implementation 'org.jsoup:jsoup:1.12.1'
+   implementation 'com.github.bumptech.glide:glide:4.9.0'
+   implementation 'com.github.clans:fab:1.6.4'
+   implementation 'com.google.code.gson:gson:2.8.6'
+```
     
 ### Commit記錄方式
  - Fix: 修復原本的Bug
