@@ -44,7 +44,7 @@ public class ThreadlistAdapter extends PostlistAdapter {
         final Post post = postlist.get(i);
         super.setDetail(holder, post);
 
-        holder.txtPostInd.setText(post.getIntroduction(50,null));
+        holder.txtPostInd.setText(post.getIntroduction(23,null));
 
         String url=post.getPictureUrl();
         if(url!=null){
