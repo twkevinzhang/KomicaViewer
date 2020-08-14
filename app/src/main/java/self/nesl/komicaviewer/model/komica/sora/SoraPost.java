@@ -171,7 +171,7 @@ public class SoraPost extends Post{
                 Element threadpost = thread.selectFirst("div.threadpost");
 
                 SoraPost subPost = newInstance(new PostDTO(
-                        url,
+                        getUrl(),
                         threadpost.attr("id").substring(1),
                         threadpost
                 ));

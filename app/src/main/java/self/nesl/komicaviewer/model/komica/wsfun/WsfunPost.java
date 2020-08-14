@@ -18,6 +18,7 @@ public class WsfunPost extends SoraPost {
         String[] strs = dto.postId.split(" ");
         setPostId(strs[0]);
         setPostElement(dto.postElement);
-        setUrl(dto.boardUrl);
+        setBoardUrl(dto.boardUrl);
+        this.setUrl(dto.boardUrl+"/index.php?res="+dto.postId);
     }
 }
