@@ -24,9 +24,14 @@ public class SoraBoard extends Post  {
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        int page = 0;
-        if (bundle != null) {
-            page = bundle.getInt(BoardViewModel.COLUMN_PAGE, 0);
+        String pageUrl= getUrl();
+        int page=0;
+        if(bundle!=null){
+            page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
+        }
+
+        if (page != 0) {
+            pageUrl += "/pixmicat.php?page_num="+ page;
         }
 
         print(this, "AndroidNetworking", pageUrl);
@@ -47,7 +52,7 @@ public class SoraBoard extends Post  {
     public SoraBoard newInstance(PostDTO dto) {
         return new SoraBoard(
                 dto.postElement,
-                dto.postUrl,
+                dto.boardUrl,
                 getReplyModel()
         ).parse();
     }
@@ -74,7 +79,7 @@ public class SoraBoard extends Post  {
 
             String postId = threadpost.attr("id").substring(1);
             Post model=getReplyModel();
-            Post post=model.newInstance(new PostDTO(getUrl() ,postId,threadpost)); // todo
+            Post post=model.newInstance(new PostDTO(getUrl() ,postId,threadpost));
 
             //get replyCount
             int replyCount = 0;

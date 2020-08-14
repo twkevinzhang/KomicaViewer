@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
+import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -25,20 +26,20 @@ public final class PostDB {
     public static final String DATABASE_NAME = "Post.db";
     public static SQLiteDatabase mDatabase;
 
-    public static final String COLUMN_POST_URL = "url";
+    public static final String COLUMN_BOARD_URL = "board_url";
     public static final String COLUMN_POST_ID = "id";
+
     public static final String COLUMN_POST_HTML = "introduction";
     public static final String COLUMN_POST_JSON = "json";
     public static final String COLUMN_UPDATE = "update_time";
 
     public static final String KEYS_SQL = TextUtils.join("=? and ", new String[]{
-            COLUMN_POST_ID,
-            COLUMN_POST_URL
-    })+"=?";
-
-    public static final String TABLE_FAVORITE ="favorite";
-    public static final String TABLE_HISTORY ="history";
-    public static final String[] POST_TABLES =new String[]{
+            COLUMN_BOARD_URL,
+            COLUMN_POST_ID
+    }) + "=?";
+    public static final String TABLE_FAVORITE = "favorite";
+    public static final String TABLE_HISTORY = "history";
+    public static final String[] POST_TABLES = new String[]{
             TABLE_FAVORITE, TABLE_HISTORY
     };
 
@@ -52,9 +53,9 @@ public final class PostDB {
         if (hasPost(post, tableName)) deletePost(post, tableName);
         ContentValues values = new ContentValues();
         values.put(COLUMN_POST_ID, post.getPostId());
-        values.put(COLUMN_POST_URL, post.getUrl());
-        Element ele=post.getPostElement();
-        if (ele!=null){
+        values.put(COLUMN_BOARD_URL, post.getBoardUrl());
+        Element ele = post.getPostElement();
+        if (ele != null) {
             values.put(COLUMN_POST_HTML, ele.html());
         }
         // todo: toJson(Post)
@@ -65,8 +66,8 @@ public final class PostDB {
 
     public static void deletePost(final Post post, String tableName) {
         mDatabase.delete(tableName, KEYS_SQL, new String[]{
-                post.getPostId(),
-                post.getUrl(),
+                post.getBoardUrl(),
+                post.getPostId()
         });
     }
 
@@ -77,12 +78,12 @@ public final class PostDB {
             // todo: toJson Gson
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
-            String postUrl=csr.getString(csr.getColumnIndex(COLUMN_POST_URL));
-            arr.add(getCurrentHost().getPostModel(postUrl, false).newInstance(
-                    new PostDTO(postUrl,
-                            csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),
-                            Jsoup.parse(csr.getString(csr.getColumnIndex(COLUMN_POST_HTML))))
-            ));
+            String boardUrl = csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL));
+            arr.add(getCurrentHost().getPostModel(boardUrl, false).newInstance(new PostDTO(
+                    boardUrl,
+                    csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),
+                    Jsoup.parse(csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)))
+            )));
         }
         csr.close();
         return arr;
@@ -90,11 +91,11 @@ public final class PostDB {
 
     public static boolean hasPost(final Post post, String tableName) {
         Cursor csr =
-                mDatabase.rawQuery("select * from " + tableName + " where " + KEYS_SQL +";", new String[]{
-                        post.getPostId(),
-                        post.getUrl()
-                }
-        );
+                mDatabase.rawQuery("select * from " + tableName + " where " + KEYS_SQL + ";", new String[]{
+                                post.getBoardUrl(),
+                                post.getPostId()
+                        }
+                );
         return csr.moveToNext();
     }
 
@@ -110,7 +111,7 @@ public final class PostDB {
             for (String s : POST_TABLES) {
                 db.execSQL("CREATE TABLE " + s + " (" +
                         "_id INTEGER PRIMARY KEY" +
-                        "," + COLUMN_POST_URL + " TEXT" +
+                        "," + COLUMN_BOARD_URL + " TEXT" +
                         "," + COLUMN_POST_ID + " TEXT" +
                         "," + COLUMN_POST_HTML + " TEXT" +
                         "," + COLUMN_POST_JSON + " TEXT" +

@@ -97,7 +97,7 @@ public class InternalTwocatPost extends TwocatPost {
                         .build().getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        onResponse.onResponse(newInstance(new PostDTO(getUrl(),null,Jsoup.parse(response))));
+                        onResponse.onResponse(newInstance(new PostDTO(boardUrl,null,Jsoup.parse(response))));
                     }
 
                     @Override

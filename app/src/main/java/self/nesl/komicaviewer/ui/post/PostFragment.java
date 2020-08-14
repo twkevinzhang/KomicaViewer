@@ -36,7 +36,6 @@ public class PostFragment extends BaseFragment {
                 new ReplyDialog(post, getFragmentManager());
             }
         }));
-
     }
 
     @Override

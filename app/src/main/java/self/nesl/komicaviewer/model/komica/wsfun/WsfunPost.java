@@ -1,9 +1,5 @@
 package self.nesl.komicaviewer.model.komica.wsfun;
 
-import android.os.Bundle;
-
-import org.jsoup.nodes.Element;
-
 import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
@@ -22,6 +18,6 @@ public class WsfunPost extends SoraPost {
         String[] strs = dto.postId.split(" ");
         setPostId(strs[0]);
         setPostElement(dto.postElement);
-        setUrl(dto.postUrl);
+        setUrl(dto.boardUrl);
     }
 }

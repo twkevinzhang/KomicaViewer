@@ -65,16 +65,14 @@ public class SoraPost extends Post{
 
     public SoraPost(PostDTO dto) {
         super(dto);
+        this.setUrl(dto.boardUrl+"/pixmicat.php?res="+dto.postId);
     }
 
     public void setPicture() {
         try {
             Element thumbImg = getPostElement().selectFirst("img");
-            UrlUtils urlUtils = new UrlUtils(this.getUrl());
             String originalUrl = thumbImg.parent().attr("href");
-            String thumbUrl = thumbImg.attr("src");
-            String baseUrl = urlUtils.getProtocol() + "://" + urlUtils.getHost();
-            this.setPictureUrl(new UrlUtils(originalUrl, baseUrl).getUrl());
+            this.setPictureUrl(new UrlUtils(originalUrl, this.getBoardUrl()).getUrl());
 
         } catch (NullPointerException ignored) {
         }

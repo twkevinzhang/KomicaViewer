@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.model.komica.mymoe;
 
-import android.os.Bundle;
-
 import org.jsoup.nodes.Element;
 
 import self.nesl.komicaviewer.dto.PostDTO;
@@ -35,7 +33,7 @@ public class MymoePost extends SoraPost {
 
         setPostId(strs[0]);
         setPostElement(dto.postElement);
-        this.setUrl(dto.postUrl);
+        this.setUrl(dto.boardUrl);
 
         if (strs.length > 1) setId2(strs[1]);
     }

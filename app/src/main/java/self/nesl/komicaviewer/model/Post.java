@@ -1,7 +1,5 @@
         package self.nesl.komicaviewer.model;
 
-        import android.content.Context;
-        import android.graphics.Bitmap;
         import android.os.Build;
         import android.os.Bundle;
         import android.text.format.DateUtils;
@@ -9,12 +7,9 @@
         import androidx.annotation.RequiresApi;
         import self.nesl.komicaviewer.dto.PostDTO;
 
-        import org.json.JSONObject;
         import org.jsoup.nodes.Element;
 
         import java.io.Serializable;
-        import java.net.MalformedURLException;
-        import java.net.URL;
         import java.text.SimpleDateFormat;
         import java.util.ArrayList;
         import java.util.Date;
@@ -23,6 +18,7 @@
         import static self.nesl.komicaviewer.util.Utils.print;
 
 public abstract class Post implements Serializable {
+    public static final String COLUMN_BOARD_URL= "board_id";
     public static final String COLUMN_POST_ID = "id";
     public static final String COLUMN_POST_URL = "url";
     public static final String COLUMN_THREAD="thread";
@@ -31,6 +27,7 @@ public abstract class Post implements Serializable {
     private String postId = null;
     private String url = null;
 
+    private String boardUrl=null;
     private String title = null;
     private Date time = null;
     private String poster = null;
@@ -48,11 +45,16 @@ public abstract class Post implements Serializable {
     }
 
     public Post(PostDTO dto) {
-        this.url=dto.postUrl;
+        this.boardUrl=dto.boardUrl;
         this.postId=dto.postId;
         this.postElement = dto.postElement;
     }
-
+    public String getBoardUrl(){
+        return boardUrl;
+    }
+    public void setBoardUrl(){
+        this.boardUrl=boardUrl;
+    }
     public String getPictureUrl(){
         return pictureUrl;
     }
