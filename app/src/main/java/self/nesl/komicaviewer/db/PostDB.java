@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 
+import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
@@ -75,12 +77,12 @@ public final class PostDB {
             // todo: toJson Gson
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
-            Bundle bundle=new Bundle();
             String postUrl=csr.getString(csr.getColumnIndex(COLUMN_POST_URL));
-            bundle.putString(SoraPost.COLUMN_POST_ID,csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
-            bundle.putString(SoraPost.COLUMN_POST_URL,postUrl);
-            bundle.putString(SoraPost.COLUMN_THREAD,csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
-            arr.add(getCurrentHost().getPostModel(postUrl, false).newInstance(bundle));
+            arr.add(getCurrentHost().getPostModel(postUrl, false).newInstance(
+                    new PostDTO(postUrl,
+                            csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),
+                            Jsoup.parse(csr.getString(csr.getColumnIndex(COLUMN_POST_HTML))))
+            ));
         }
         csr.close();
         return arr;

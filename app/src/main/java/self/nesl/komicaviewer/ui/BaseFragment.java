@@ -14,11 +14,11 @@
         import android.view.ViewGroup;
         import android.widget.TextView;
 
+        import java.util.ArrayList;
+
         import self.nesl.komicaviewer.R;
         import self.nesl.komicaviewer.model.Post;
         import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
-
-        import java.util.ArrayList;
 
         import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -48,11 +48,12 @@ public abstract class BaseFragment extends Fragment {
         });
 
         // data and adapter
-        viewModel.getPost().observe(getViewLifecycleOwner(), new Observer<Post>() {
+        viewModel.getList().observe(getViewLifecycleOwner(), new Observer<ArrayList<Post>>() {
             @Override
-            public void onChanged(Post post) {
-                assert post != null;
-                whenDataChange(adapter,post);
+            public void onChanged(ArrayList<Post> arr) {
+                assert arr != null;
+                adapter.setPostlist(arr);
+                whenDataChange(adapter,arr);
                 adapter.notifyDataSetChanged();
                 txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
                 cateSwipeRefreshLayout.setRefreshing(false);
@@ -100,6 +101,6 @@ public abstract class BaseFragment extends Fragment {
         this.adapter=adapter;
     }
 
-    abstract public void whenDataChange(PostlistAdapter adapter,Post post);
+    abstract public void whenDataChange(PostlistAdapter adapter,ArrayList<Post> arr);
 
 }

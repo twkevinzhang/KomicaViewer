@@ -17,25 +17,21 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class InternalTwocatPost extends TwocatPost {
     @Override
-    public InternalTwocatPost newInstance(Bundle bundle) {
-        return (InternalTwocatPost) new InternalTwocatPost(
-                bundle.getString(COLUMN_POST_URL),
-                bundle.getString(COLUMN_POST_ID),
-                new Element("<html>").html(bundle.getString(COLUMN_THREAD))
-        ).parse();
+    public InternalTwocatPost newInstance(PostDTO dto) {
+        return (InternalTwocatPost) new InternalTwocatPost(dto).parse();
     }
 
-    public InternalTwocatPost() {
-    }
+    public InternalTwocatPost(){}
 
-    public InternalTwocatPost(String postUrl, String postId, Element thread) {
-        super(postUrl, postId, thread);
+    public InternalTwocatPost(PostDTO dto) {
+        super(dto);
     }
 
     @Override
@@ -101,11 +97,7 @@ public class InternalTwocatPost extends TwocatPost {
                         .build().getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString(COLUMN_THREAD, response);
-                        bundle.putString(COLUMN_POST_URL, getUrl());
-
-                        onResponse.onResponse(newInstance(bundle));
+                        onResponse.onResponse(newInstance(new PostDTO(getUrl(),null,Jsoup.parse(response))));
                     }
 
                     @Override

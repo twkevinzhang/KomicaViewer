@@ -7,6 +7,7 @@
         import android.text.format.DateUtils;
 
         import androidx.annotation.RequiresApi;
+        import self.nesl.komicaviewer.dto.PostDTO;
 
         import org.json.JSONObject;
         import org.jsoup.nodes.Element;
@@ -22,18 +23,15 @@
         import static self.nesl.komicaviewer.util.Utils.print;
 
 public abstract class Post implements Serializable {
-
     public static final String COLUMN_POST_ID = "id";
     public static final String COLUMN_POST_URL = "url";
-
     public static final String COLUMN_THREAD="thread";
 
     private Element postElement = null;
-
     private String postId = null;
+    private String url = null;
 
     private String title = null;
-
     private Date time = null;
     private String poster = null;
     private ArrayList<String> tags = new ArrayList<String>();
@@ -43,21 +41,16 @@ public abstract class Post implements Serializable {
     private String pictureUrl=null;
     private boolean isTop = false;
     private boolean isReaded = false;
-
     private transient ArrayList<Post> replyTree = new ArrayList<Post>(); // todo: toJson(Post)
-
-    private String url = null;
     private Post replyModel = null;
-
-
 
     public Post() {
     }
 
-    public Post(String url,String postId, Element postElement) {
-        this.url=url;
-        this.postId=postId;
-        this.postElement = postElement;
+    public Post(PostDTO dto) {
+        this.url=dto.postUrl;
+        this.postId=dto.postId;
+        this.postElement = dto.postElement;
     }
 
     public String getPictureUrl(){
@@ -148,10 +141,6 @@ public abstract class Post implements Serializable {
 
     public void setPostElement(Element postElement) {
         this.postElement = postElement;
-
-
-
-
     }
 
     public void setPostId(String postId) {
@@ -161,10 +150,6 @@ public abstract class Post implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-
-
-
-
 
     public void setTime(Date time) {
         this.time = time;
@@ -214,7 +199,7 @@ public abstract class Post implements Serializable {
 
     abstract public void download(Bundle bundle, OnResponse onResponse);
 
-    abstract public Post newInstance(Bundle bundle);
+    abstract public Post newInstance(PostDTO dto);
 
     public interface OnResponse {
         void onResponse(Post post);

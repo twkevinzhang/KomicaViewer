@@ -1,29 +1,27 @@
 package self.nesl.komicaviewer.ui;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
-import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Post;
 
 public abstract class BaseViewModel extends ViewModel {
 
-    public MutableLiveData<Post> post=new MutableLiveData<Post>();
+    public MutableLiveData<ArrayList<Post>> arr=new MutableLiveData<ArrayList<Post>>();
     abstract public void load(int page);
-    public MutableLiveData<Post> getPost() {
-        return post;
+    public MutableLiveData<ArrayList<Post>> getList() {
+        return arr;
     }
 
-    public void insertPostlist(Post newPost){
-        Post oldPost= getPost().getValue();
+    public void insertPostlist(ArrayList<Post> newArr){
+        ArrayList<Post> oldPost=arr.getValue();
         if(oldPost!=null){
-            oldPost.addAllPost(newPost.getReplies());
+            oldPost.addAll(newArr);
         }else{
-            oldPost=newPost;
+            oldPost=newArr;
         }
-        getPost().postValue(oldPost);
+        arr.postValue(oldPost);
     }
 }

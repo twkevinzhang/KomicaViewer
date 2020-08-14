@@ -16,6 +16,7 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
 
@@ -27,7 +28,7 @@ public class InternalTwocatBoard extends TwocatBoard {
     }
 
     @Override
-    public String setUrl(String pageUrl, int page){
+    public String setDownloadUrl(String pageUrl, int page){
         return pageUrl;
     }
 
@@ -37,7 +38,7 @@ public class InternalTwocatBoard extends TwocatBoard {
         if(bundle!=null){
             page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
         }
-        String pageUrl= setUrl(getUrl(),page);
+        String pageUrl= setDownloadUrl(getUrl(),page);
 
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder()
@@ -69,11 +70,7 @@ public class InternalTwocatBoard extends TwocatBoard {
                         .build().getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                       Bundle bundle =new Bundle();
-                        bundle.putString(COLUMN_THREAD,response);
-                        bundle.putString(COLUMN_POST_URL,getUrl());
-
-                        onResponse.onResponse(newInstance(bundle));
+                        onResponse.onResponse(newInstance(new PostDTO(getUrl(),null,Jsoup.parse(response))));
                     }
 
                     @Override

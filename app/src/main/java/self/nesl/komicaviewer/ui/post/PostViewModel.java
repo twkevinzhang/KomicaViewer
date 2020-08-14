@@ -15,22 +15,22 @@ import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class PostViewModel extends BaseViewModel {
-    private String url;
+    private Post post;
 
     @Override
     public void load(int page) {
-        Post model = getCurrentHost().getPostModel(new UrlUtils(url).getLastPathSegment(), false);
-        model.setUrl(url);
+        Post model = getCurrentHost().getPostModel(new UrlUtils(post.getUrl()).getLastPathSegment(), false);
+        model.setUrl(post.getUrl());
         model.download(null, new Post.OnResponse() {
             @Override
             public void onResponse(Post post1) {
                 PostDB.addPost(post1, PostDB.TABLE_HISTORY);
-                PostViewModel.super.insertPostlist(post1);
+                PostViewModel.super.insertPostlist(post1.getReplies());
             }
         });
     }
 
-    public void setPostUrl(String url) {
-        this.url = url;
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

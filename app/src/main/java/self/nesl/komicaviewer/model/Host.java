@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
+import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -21,8 +22,6 @@ public abstract class Host implements Serializable {
         return new UrlUtils(getHost()).getUrl();
     }
 
-    ;
-
     abstract public String getHost();
 
     abstract public void downloadBoardlist(OnResponse onResponse);
@@ -30,8 +29,6 @@ public abstract class Host implements Serializable {
     public ArrayList<Post> getBoardlist() {
         return boardlist;
     }
-
-    ;
 
     public void setBoardlist(ArrayList<Post> boardlist) {
         this.boardlist = boardlist;
@@ -71,7 +68,7 @@ public abstract class Host implements Serializable {
                 public void download(Bundle bundle, OnResponse onResponse) {}
 
                 @Override
-                public Post newInstance(Bundle bundle) {
+                public Post newInstance(PostDTO dto) {
                     return null;
                 }
             };

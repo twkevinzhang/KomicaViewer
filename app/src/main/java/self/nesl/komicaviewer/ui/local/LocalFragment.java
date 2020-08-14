@@ -53,7 +53,7 @@ public class LocalFragment extends Fragment {
             @Override
             public void itemOnClick(Post post) {
                 Bundle bundle = new Bundle();
-                bundle.putString(PostFragment.COLUMN_POST_URL, (IS_TEST)?POST_URL:post.getUrl());
+                bundle.putString(PostFragment.COLUMN_POST, (IS_TEST)?POST_URL:post.getUrl());
                 Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
                         .navigate(R.id.action_nav_local_to_nav_post,bundle);
             }

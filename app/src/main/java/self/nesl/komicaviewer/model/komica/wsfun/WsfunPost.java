@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import org.jsoup.nodes.Element;
 
+import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 
 public class WsfunPost extends SoraPost {
@@ -12,19 +13,15 @@ public class WsfunPost extends SoraPost {
     }
 
     @Override
-    public WsfunPost newInstance(Bundle bundle){
-        return (WsfunPost)new WsfunPost(
-                bundle.getString(COLUMN_POST_URL),
-                bundle.getString(COLUMN_POST_ID),
-                new Element("<html>").html(bundle.getString(COLUMN_THREAD))
-        ).parse();
+    public WsfunPost newInstance(PostDTO dto){
+        return (WsfunPost)new WsfunPost(dto).parse();
     }
 
 
-    public WsfunPost(String postUrl, String post_id, Element thread) {
-        String[] strs = post_id.split(" ");
+    public WsfunPost(PostDTO dto) {
+        String[] strs = dto.postId.split(" ");
         setPostId(strs[0]);
-        setPostElement(thread);
-        setUrl(postUrl);
+        setPostElement(dto.postElement);
+        setUrl(dto.postUrl);
     }
 }

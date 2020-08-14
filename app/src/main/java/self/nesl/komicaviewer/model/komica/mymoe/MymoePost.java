@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import org.jsoup.nodes.Element;
 
+import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -15,12 +16,8 @@ public class MymoePost extends SoraPost {
     }
 
     @Override
-    public MymoePost newInstance(Bundle bundle){
-        return (MymoePost)new MymoePost(
-                bundle.getString(COLUMN_POST_URL),
-                bundle.getString(COLUMN_POST_ID),
-                new Element("<html>").html(bundle.getString(COLUMN_THREAD))
-        ).parse();
+    public MymoePost newInstance(PostDTO dto){
+        return (MymoePost)new MymoePost(dto).parse();
     }
 
     @Override
@@ -33,12 +30,12 @@ public class MymoePost extends SoraPost {
     }
 
 
-    public MymoePost(String url, String post_id, Element thread) {
-        String[] strs = post_id.split(" ");
+    public MymoePost(PostDTO dto) {
+        String[] strs = dto.postId.split(" ");
 
         setPostId(strs[0]);
-        setPostElement(thread);
-        this.setUrl(url);
+        setPostElement(dto.postElement);
+        this.setUrl(dto.postUrl);
 
         if (strs.length > 1) setId2(strs[1]);
     }
