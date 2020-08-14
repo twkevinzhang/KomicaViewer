@@ -7,7 +7,6 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,47 +17,29 @@ import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import self.nesl.komicaviewer.dto.PostDTO;
-import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
+import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
+import self.nesl.komicaviewer.ui.board.BoardViewModel;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class InternalTwocatPost extends TwocatPost {
-    @Override
-    public InternalTwocatPost newInstance(PostDTO dto) {
-        return (InternalTwocatPost) new InternalTwocatPost(dto).parse();
-    }
-
-    public InternalTwocatPost(){}
-
-    public InternalTwocatPost(PostDTO dto) {
-        super(dto);
+public class InTwocatBoard extends TwocatBoard {
+    public InTwocatBoard() {
+        this.setReplyModel(new InTwocatPost());
     }
 
     @Override
-    public void installDefaultDetail() { // 綜合: https://sora.komica.org
-        try {
-            install2catDetail();
-        } catch (NullPointerException e) {
-        }
-    }
-
-    @Override
-    public InternalTwocatPost parse() {
-        super.setPicture();
-
-        try {
-            super.install2catDetail();
-        } catch (NullPointerException | StringIndexOutOfBoundsException e2) {
-            super.installAnimeDetail();
-        }
-
-        super.setQuote();
-        super.setTitle();
-        return this;
+    public String getDownloadUrl(int page){
+        return getUrl();
     }
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
+        int page=0;
+        if(bundle!=null){
+            page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
+        }
+        String pageUrl=getDownloadUrl(page);
+
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder()
                 .cookieJar(new CookieJar() {
@@ -77,27 +58,19 @@ public class InternalTwocatPost extends TwocatPost {
                 })
                 .build();
 
-        String[] arr= getUrl().split("/");
-        String boardUrl="https://2cat.org/~"+arr[1];
-        String pageUrl="https://2nyan.org/granblue/"+arr[2];
-
-        print(this,"getUrl()",getUrl());
-
-        print(this,"AndroidNetworking",getUrl());
-        print(this,"AndroidNetworking-1",boardUrl);
-        AndroidNetworking.get(boardUrl)
+        print(this,"AndroidNetworking",pageUrl);
+        AndroidNetworking.get(pageUrl)
                 .setOkHttpClient(okHttpClient)
                 .addHeaders("Referer", "https://2nyan.org/")
                 .build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                print(this,"AndroidNetworking-2",pageUrl);
-                AndroidNetworking.get(pageUrl)
+                AndroidNetworking.get("https://2nyan.org/granblue/")
                         .setOkHttpClient(okHttpClient)
                         .build().getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        onResponse.onResponse(newInstance(new PostDTO(boardUrl,null,Jsoup.parse(response))));
+                        onResponse.onResponse(newInstance(new PostDTO(getUrl(),null,Jsoup.parse(response))));
                     }
 
                     @Override
@@ -106,7 +79,6 @@ public class InternalTwocatPost extends TwocatPost {
                     }
                 });
             }
-
             @Override
             public void onError(ANError anError) {
                 anError.printStackTrace();

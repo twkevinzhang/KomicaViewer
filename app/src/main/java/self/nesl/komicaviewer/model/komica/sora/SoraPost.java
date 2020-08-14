@@ -156,13 +156,13 @@ public class SoraPost extends Post{
         }
     }
 
-    public String setDownloadUrl(String pageUrl) {
-        return pageUrl;
+    public String getDownloadUrl(int page) {
+        return getUrl();
     }
 
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        String url = setDownloadUrl(getUrl());
+        String url = getDownloadUrl(0);
         print(this, "AndroidNetworking", url);
         AndroidNetworking.get(url).build().getAsString(new StringRequestListener() {
             @Override

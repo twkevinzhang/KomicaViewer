@@ -43,7 +43,8 @@ public class TwocatPost extends SoraPost {
     }
 
     @Override
-    public String setDownloadUrl(String pageUrl){
+    public String getDownloadUrl(int page){
+        String pageUrl=getUrl();
         UrlUtils urlUtils=new UrlUtils(pageUrl);
         String host= urlUtils.getProtocol()+"://"+urlUtils.getHost();
         pageUrl=pageUrl.replace(host+"/~",host+"/");
