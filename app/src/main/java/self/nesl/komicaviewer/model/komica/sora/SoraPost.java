@@ -73,7 +73,6 @@ public class SoraPost extends Post{
             Element thumbImg = getPostElement().selectFirst("img");
             String originalUrl = thumbImg.parent().attr("href");
             this.setPictureUrl(new UrlUtils(originalUrl, this.getBoardUrl()).getUrl());
-
         } catch (NullPointerException ignored) {
         }
     }
@@ -138,7 +137,7 @@ public class SoraPost extends Post{
 
     public void setTitle() {
         String title = this.getTitle(0);
-        if (title.length() > 0) {
+        if (title!=null && title.length() > 0) {
             this.getQuoteElement().prepend(String.format("[%s]<br>", title));
         }
     }

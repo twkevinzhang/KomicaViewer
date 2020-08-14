@@ -26,7 +26,7 @@ public class BoardViewModel extends BaseViewModel {
         model.download(bundle, new Post.OnResponse() {
             @Override
             public void onResponse(Post post) {
-                BoardViewModel.super.insertPostlist(post.getReplies());
+                BoardViewModel.super.insertPostlist(post.getReplies(false));
             }
         });
     }

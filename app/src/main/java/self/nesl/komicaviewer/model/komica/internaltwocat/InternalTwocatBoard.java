@@ -28,8 +28,8 @@ public class InternalTwocatBoard extends TwocatBoard {
     }
 
     @Override
-    public String setDownloadUrl(String pageUrl, int page){
-        return pageUrl;
+    public String getDownloadUrl(int page){
+        return getUrl();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class InternalTwocatBoard extends TwocatBoard {
         if(bundle!=null){
             page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
         }
-        String pageUrl= setDownloadUrl(getUrl(),page);
+        String pageUrl=getDownloadUrl(page);
 
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder()

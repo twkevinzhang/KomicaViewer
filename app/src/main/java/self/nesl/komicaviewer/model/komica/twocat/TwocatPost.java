@@ -1,6 +1,6 @@
 package self.nesl.komicaviewer.model.komica.twocat;
-import android.os.Bundle;
-import org.jsoup.nodes.Element;
+
+import java.text.MessageFormat;
 
 import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
@@ -31,16 +31,14 @@ public class TwocatPost extends SoraPost {
     }
 
     @Override
-    public void setPicture(){ //todo
+    public void setPicture(){
+        String boardCode= new UrlUtils(getBoardUrl()).getPath();
         try {
-//            print(getPostId(),"===================");
-            Element thumbImg= getPostElement().selectFirst("img");
-            UrlUtils urlUtils=new UrlUtils(this.getUrl());
-            String originalUrl=thumbImg.attr("src");
-            String baseUrl=urlUtils.getProtocol()+"://"+urlUtils.getHost();
-            this.setPictureUrl(new UrlUtils(originalUrl, baseUrl).getUrl());
-//            print(getPictureUrl());
+            String fileName= getPostElement().selectFirst("a.imglink[href=#]").attr("title");
+            String newLink=MessageFormat.format("//img.2nyan.org{0}/src/{1}",boardCode,fileName);
+            this.setPictureUrl(new UrlUtils(newLink, this.getBoardUrl()).getUrl());
         } catch (NullPointerException ignored) {
+            ignored.printStackTrace();
         }
     }
 

@@ -19,7 +19,7 @@ public class PostViewModel extends BaseViewModel {
 
     @Override
     public void load(int page) {
-        Post model = getCurrentHost().getPostModel(new UrlUtils(post.getUrl()).getLastPathSegment(), false);
+        Post model = getCurrentHost().getPostModel(post.getUrl(), false);
         model.setUrl(post.getUrl());
         model.download(null, new Post.OnResponse() {
             @Override

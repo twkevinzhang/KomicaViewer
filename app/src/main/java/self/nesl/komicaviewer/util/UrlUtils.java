@@ -78,4 +78,8 @@ public class UrlUtils {
         }
         return null;
     }
+
+    public String getHasProtocolHost() {
+        return  getProtocol()+"://"+getHost();
+    }
 }

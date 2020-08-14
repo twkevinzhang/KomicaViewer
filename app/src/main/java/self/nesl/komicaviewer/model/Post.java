@@ -52,7 +52,7 @@ public abstract class Post implements Serializable {
     public String getBoardUrl(){
         return boardUrl;
     }
-    public void setBoardUrl(){
+    public void setBoardUrl(String boardUrl){
         this.boardUrl=boardUrl;
     }
     public String getPictureUrl(){

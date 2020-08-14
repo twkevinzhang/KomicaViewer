@@ -22,23 +22,30 @@ public class SoraBoard extends Post  {
     private String fsub;
     private String fcom;
 
+    public String getDownloadUrl(int page){
+        String pageUrl=getUrl();
+        if (page != 0) {
+            pageUrl += "/pixmicat.php?page_num="+ page;
+        }
+        return pageUrl;
+    }
+
     @Override
     public void download(Bundle bundle, OnResponse onResponse) {
-        String pageUrl= getUrl();
         int page=0;
         if(bundle!=null){
             page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
         }
-
-        if (page != 0) {
-            pageUrl += "/pixmicat.php?page_num="+ page;
-        }
+        String pageUrl=getDownloadUrl(page);
 
         print(this, "AndroidNetworking", pageUrl);
         AndroidNetworking.get(pageUrl).build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                onResponse.onResponse(newInstance(new PostDTO(getUrl(), null, Jsoup.parse(response))));
+                onResponse.onResponse(newInstance(new PostDTO(
+                        getUrl(),
+                        new UrlUtils(getUrl()).getHost(),
+                        Jsoup.parse(response))));
             }
 
             @Override
@@ -105,8 +112,4 @@ public class SoraBoard extends Post  {
     public String getIntroduction(int words, String[] rank) {
         return getQuoteElement().text().trim();
     }
-
-
-
-
 }

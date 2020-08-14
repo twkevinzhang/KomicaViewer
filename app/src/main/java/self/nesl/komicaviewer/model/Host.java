@@ -44,9 +44,9 @@ public abstract class Host implements Serializable {
         return getPostModel(urlOrSegment,isBoard,false);
     }
 
-    public Post getPostModel(String urlOrSegment, boolean isBoard,boolean newInstanceWhenNull) {
+    public Post getPostModel(String postUrl, boolean isBoard,boolean newInstanceWhenNull) {
         Post postModel = null;
-        String mhost = new UrlUtils(urlOrSegment).getHost();
+        String mhost = new UrlUtils(postUrl).getHost();
         Map[] subHosts = getSubHosts();
         if (subHosts != null && subHosts.length != 0) {
             for (Map map : subHosts) {
@@ -74,7 +74,7 @@ public abstract class Host implements Serializable {
             };
         }
         if(postModel!=null){
-            postModel.setUrl(urlOrSegment);
+            postModel.setUrl(postUrl);
         }
         return postModel;
     }
