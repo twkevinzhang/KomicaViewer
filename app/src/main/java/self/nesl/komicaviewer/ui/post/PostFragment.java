@@ -2,6 +2,7 @@ package self.nesl.komicaviewer.ui.post;
 
 import android.os.Bundle;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,11 +37,14 @@ public class PostFragment extends BaseFragment {
                 new ReplyDialog(post, getFragmentManager());
             }
         }));
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mainThread.getTitle(0));
+        mainThread.getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">原文連結: {0}</a>",mainThread.getUrl()));
+
     }
 
     @Override
     public void whenDataChange(PostlistAdapter adapter, ArrayList<Post> arr) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mainThread.getTitle(0));
         adapter.addThreadpost(mainThread);
     }
 }

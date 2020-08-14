@@ -43,11 +43,12 @@ public class BoardFragment extends BaseFragment {
                         .navigate(R.id.action_nav_board_to_nav_post, bundle);
             }
         }));
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(this.board.getTitle(0));
     }
 
     @Override
     public void whenDataChange(PostlistAdapter adapter, ArrayList<Post> arr) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(this.board.getTitle(0));
     }
 }
 

@@ -12,6 +12,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
+import java.text.MessageFormat;
+
 import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.util.UrlUtils;
@@ -149,10 +151,7 @@ public class SoraPost extends Post{
     public void installPictureUrls() {
         String url = this.getPictureUrl();
         if (url != null) {
-            getQuoteElement().append(
-                    "<br><a href=\"{}\">{}</a><img src=\"{}\">"
-                            .replace("{}", url)
-            );
+            getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">{0}</a><br><img src=\"{0}\">",url));
         }
     }
 

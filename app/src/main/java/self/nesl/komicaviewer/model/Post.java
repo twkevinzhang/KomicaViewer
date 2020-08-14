@@ -2,6 +2,8 @@
 
         import android.os.Build;
         import android.os.Bundle;
+        import android.os.Parcel;
+        import android.os.Parcelable;
         import android.text.format.DateUtils;
 
         import androidx.annotation.RequiresApi;
@@ -17,7 +19,7 @@
 
         import static self.nesl.komicaviewer.util.Utils.print;
 
-public abstract class Post implements Serializable {
+public abstract class Post implements Serializable, Parcelable {
     public static final String COLUMN_BOARD_URL= "board_id";
     public static final String COLUMN_POST_ID = "id";
     public static final String COLUMN_POST_URL = "url";
@@ -249,9 +251,15 @@ public abstract class Post implements Serializable {
         return replyAll;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
 
-
+    }
 
     @Override
     public String toString() {

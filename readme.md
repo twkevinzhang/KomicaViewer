@@ -27,7 +27,7 @@ MVVM in Android
  - [ ] 點擊留言
  - [ ] 備份
  - [ ] 收藏貼文
- - [ ] Open Url in Browser
+ - [x] Open Url in Browser
  - [ ] 肉餅臉產生器
  - [ ] 依據ID生出頭像
 
