@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.model.komica.sora;
 
-import android.os.Bundle;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
@@ -67,7 +65,6 @@ public class SoraPost extends Post{
 
     public SoraPost(PostDTO dto) {
         super(dto);
-        this.setUrl(dto.boardUrl+"/pixmicat.php?res="+dto.postId);
     }
 
     public void setPicture() {
@@ -155,13 +152,14 @@ public class SoraPost extends Post{
         }
     }
 
-    public String getDownloadUrl(int page) {
-        return getUrl();
+    @Override
+    public String getDownloadUrl(int page, String boardUrl,String postId) {
+        return boardUrl+"/pixmicat.php?res="+postId;
     }
 
     @Override
-    public void download(Bundle bundle, OnResponse onResponse) {
-        String url = getDownloadUrl(0);
+    public void download(OnResponse onResponse, int page, String boardUrl, String postId) {
+        String url = getDownloadUrl(page,boardUrl,postId);
         print(this, "AndroidNetworking", url);
         AndroidNetworking.get(url).build().getAsString(new StringRequestListener() {
             @Override
@@ -170,7 +168,7 @@ public class SoraPost extends Post{
                 Element threadpost = thread.selectFirst("div.threadpost");
 
                 SoraPost subPost = newInstance(new PostDTO(
-                        getUrl(),
+                        boardUrl,
                         threadpost.attr("id").substring(1),
                         threadpost
                 ));

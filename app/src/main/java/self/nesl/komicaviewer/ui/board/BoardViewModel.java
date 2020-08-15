@@ -2,12 +2,6 @@ package self.nesl.komicaviewer.ui.board;
 
 import android.os.Bundle;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import java.util.ArrayList;
-
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.BaseViewModel;
 
@@ -21,14 +15,12 @@ public class BoardViewModel extends BaseViewModel {
     @Override
     public void load(int page){
         Post model=getCurrentHost().getPostModel(board.getUrl(),true);
-        Bundle bundle=new Bundle();
-        bundle.putInt(COLUMN_PAGE,page);
-        model.download(bundle, new Post.OnResponse() {
+        model.download(new Post.OnResponse() {
             @Override
             public void onResponse(Post post) {
                 BoardViewModel.super.insertPostlist(post.getReplies(false));
             }
-        });
+        },page,board.getUrl(),board.getPostId() );
     }
 
     public void setBoard(Post board){

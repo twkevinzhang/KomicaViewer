@@ -1,35 +1,35 @@
-        package self.nesl.komicaviewer.model;
+package self.nesl.komicaviewer.model;
 
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.os.Parcel;
-        import android.os.Parcelable;
-        import android.text.format.DateUtils;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.format.DateUtils;
 
-        import androidx.annotation.RequiresApi;
-        import self.nesl.komicaviewer.dto.PostDTO;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import self.nesl.komicaviewer.dto.PostDTO;
 
-        import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Element;
 
-        import java.io.Serializable;
-        import java.text.SimpleDateFormat;
-        import java.util.ArrayList;
-        import java.util.Date;
-        import java.util.Objects;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
-        import static self.nesl.komicaviewer.util.Utils.print;
+import static self.nesl.komicaviewer.util.Utils.print;
 
-public abstract class Post implements Serializable, Parcelable {
-    public static final String COLUMN_BOARD_URL= "board_id";
+public abstract class Post implements Serializable, Parcelable, Cloneable {
+    public static final String COLUMN_BOARD_URL = "board_id";
     public static final String COLUMN_POST_ID = "id";
     public static final String COLUMN_POST_URL = "url";
-    public static final String COLUMN_THREAD="thread";
+    public static final String COLUMN_THREAD = "thread";
 
     private Element postElement = null;
     private String postId = null;
     private String url = null;
 
-    private String boardUrl=null;
+    private String boardUrl = null;
     private String title = null;
     private Date time = null;
     private String poster = null;
@@ -37,7 +37,7 @@ public abstract class Post implements Serializable, Parcelable {
     private int visitsCount = 0;
     private int replyCount = 0;
     private Element quoteElement = null;
-    private String pictureUrl=null;
+    private String pictureUrl = null;
     private boolean isTop = false;
     private boolean isReaded = false;
     private transient ArrayList<Post> replyTree = new ArrayList<Post>(); // todo: toJson(Post)
@@ -47,17 +47,23 @@ public abstract class Post implements Serializable, Parcelable {
     }
 
     public Post(PostDTO dto) {
-        this.boardUrl=dto.boardUrl;
-        this.postId=dto.postId;
+        this.boardUrl = dto.boardUrl;
+        this.postId = dto.postId;
         this.postElement = dto.postElement;
+        if(this.url==null){
+            this.url=getDownloadUrl(0,boardUrl,postId);
+        }
     }
-    public String getBoardUrl(){
+
+    public String getBoardUrl() {
         return boardUrl;
     }
-    public void setBoardUrl(String boardUrl){
-        this.boardUrl=boardUrl;
+
+    public void setBoardUrl(String boardUrl) {
+        this.boardUrl = boardUrl;
     }
-    public String getPictureUrl(){
+
+    public String getPictureUrl() {
         return pictureUrl;
     }
 
@@ -74,8 +80,8 @@ public abstract class Post implements Serializable, Parcelable {
         return title;
     }
 
-    public void setPictureUrl(String pictureUrl){
-        this.pictureUrl=pictureUrl;
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
 
@@ -201,7 +207,9 @@ public abstract class Post implements Serializable, Parcelable {
 
     abstract public String getIntroduction(int words, String[] rank);
 
-    abstract public void download(Bundle bundle, OnResponse onResponse);
+    abstract public String getDownloadUrl(int page, String boardUrl,String postId);
+
+    abstract public void download(OnResponse onResponse, int page, String boardUrl,@Nullable String postId);
 
     abstract public Post newInstance(PostDTO dto);
 
@@ -297,6 +305,17 @@ public abstract class Post implements Serializable, Parcelable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Post clone() {
+        Post clone=null;
+        try {
+            clone= (Post)super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clone;
     }
 
 }

@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.model.komica.sora;
 
-import android.os.Bundle;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
@@ -23,21 +21,17 @@ public class SoraBoard extends Post  {
     private String fsub;
     private String fcom;
 
-    public String getDownloadUrl(int page){
-        String pageUrl=getUrl();
+    @Override
+    public String getDownloadUrl(int page, String boardUrl,String postId){
         if (page != 0) {
-            pageUrl += "/pixmicat.php?page_num="+ page;
+            boardUrl += "/pixmicat.php?page_num="+ page;
         }
-        return pageUrl;
+        return boardUrl;
     }
 
     @Override
-    public void download(Bundle bundle, OnResponse onResponse) {
-        int page=0;
-        if(bundle!=null){
-            page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
-        }
-        String pageUrl=getDownloadUrl(page);
+    public void download(OnResponse onResponse, int page, String boardUrl, String postId) {
+        String pageUrl=getDownloadUrl(page,boardUrl,postId);
 
         print(this, "AndroidNetworking", pageUrl);
         AndroidNetworking.get(pageUrl).build().getAsString(new StringRequestListener() {
@@ -82,7 +76,6 @@ public class SoraBoard extends Post  {
             String postId = threadpost.attr("id").substring(1);
             Post model=getCurrentHost().getPostModel(getUrl(), true).getReplyModel();
             Post post=model.newInstance(new PostDTO(getUrl() ,postId,threadpost));
-            print(this,post.getUrl());
 
             //get replyCount
             int replyCount = 0;

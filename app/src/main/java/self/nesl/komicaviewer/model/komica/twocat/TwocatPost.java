@@ -38,16 +38,13 @@ public class TwocatPost extends SoraPost {
             String newLink=MessageFormat.format("//img.2nyan.org{0}/src/{1}",boardCode,fileName);
             this.setPictureUrl(new UrlUtils(newLink, this.getBoardUrl()).getUrl());
         } catch (NullPointerException ignored) {
-            ignored.printStackTrace();
         }
     }
 
     @Override
-    public String getDownloadUrl(int page){
-        String pageUrl=getUrl();
-        UrlUtils urlUtils=new UrlUtils(pageUrl);
-        String host= urlUtils.getProtocol()+"://"+urlUtils.getHost();
-        pageUrl=pageUrl.replace(host+"/~",host+"/");
-        return pageUrl;
+    public String getDownloadUrl(int page, String boardUrl,String postId) {
+        String host=new UrlUtils(boardUrl).getHost();
+        boardUrl=boardUrl.replace(host+"/~",host+"/");
+        return boardUrl+"/?res="+postId;
     }
 }

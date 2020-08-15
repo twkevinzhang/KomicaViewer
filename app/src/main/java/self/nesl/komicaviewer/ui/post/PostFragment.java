@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.BaseFragment;
@@ -39,12 +40,15 @@ public class PostFragment extends BaseFragment {
         }));
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mainThread.getTitle(0));
-        mainThread.getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">原文連結: {0}</a>",mainThread.getUrl()));
+
 
     }
 
     @Override
     public void whenDataChange(PostlistAdapter adapter, ArrayList<Post> arr) {
-        adapter.addThreadpost(mainThread);
+        Post mainThreadVO = mainThread.clone();
+        mainThreadVO.getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">原文連結: {0}</a>",mainThread.getUrl()));
+        adapter.addThreadpost(mainThreadVO);
+
     }
 }

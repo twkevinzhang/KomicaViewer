@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.model;
 
-import android.os.Bundle;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -65,7 +63,12 @@ public abstract class Host implements Serializable {
                 }
 
                 @Override
-                public void download(Bundle bundle, OnResponse onResponse) {}
+                public String getDownloadUrl(int page, String boardUrl, String postId) {
+                    return null;
+                }
+
+                @Override
+                public void download(OnResponse onResponse, int page, String boardUrl, String postId) {}
 
                 @Override
                 public Post newInstance(PostDTO dto) {

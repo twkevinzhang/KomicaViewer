@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.model.komica.internaltwocat;
 
-import android.os.Bundle;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
@@ -28,17 +26,13 @@ public class InTwocatBoard extends TwocatBoard {
     }
 
     @Override
-    public String getDownloadUrl(int page){
+    public String getDownloadUrl(int page, String boardUrl,String postId){
         return getUrl();
     }
 
     @Override
-    public void download(Bundle bundle, OnResponse onResponse) {
-        int page=0;
-        if(bundle!=null){
-            page=bundle.getInt(BoardViewModel.COLUMN_PAGE,0);
-        }
-        String pageUrl=getDownloadUrl(page);
+    public void download(OnResponse onResponse, int page, String boardUrl, String postId) {
+        String pageUrl=getDownloadUrl(page,boardUrl,postId);
 
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder()

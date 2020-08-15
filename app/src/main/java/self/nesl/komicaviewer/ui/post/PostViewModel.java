@@ -1,14 +1,7 @@
 package self.nesl.komicaviewer.ui.post;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import java.util.ArrayList;
-
 import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.ui.BaseViewModel;
-import self.nesl.komicaviewer.ui.board.BoardViewModel;
-import self.nesl.komicaviewer.util.UrlUtils;
 import self.nesl.komicaviewer.model.Post;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
@@ -19,15 +12,14 @@ public class PostViewModel extends BaseViewModel {
 
     @Override
     public void load(int page) {
-        Post model = getCurrentHost().getPostModel(post.getUrl(), false);
-        model.setUrl(post.getUrl());
-        model.download(null, new Post.OnResponse() {
+        Post model = getCurrentHost().getPostModel(post.getBoardUrl(), false);
+        model.download( new Post.OnResponse() {
             @Override
             public void onResponse(Post post1) {
                 PostDB.addPost(post1, PostDB.TABLE_HISTORY);
                 PostViewModel.super.insertPostlist(post1.getReplies());
             }
-        });
+        },0,post.getBoardUrl(),post.getPostId() );
     }
 
     public void setPost(Post post) {

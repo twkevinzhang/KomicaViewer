@@ -1,14 +1,11 @@
 package self.nesl.komicaviewer.model.komica.internaltwocat;
 
-import android.os.Bundle;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.jsoup.Jsoup;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +16,6 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
-import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -63,7 +59,12 @@ public class InTwocatPost extends TwocatPost {
     }
 
     @Override
-    public void download(Bundle bundle, OnResponse onResponse) {
+    public String getDownloadUrl(int page, String boardUrl,String postId) {
+        return "https://2nyan.org/granblue/?res="+postId;
+    }
+
+    @Override
+    public void download(OnResponse onResponse, int page, String boardUrl, String postId) {
         OkHttpClient okHttpClient = new OkHttpClient
                 .Builder()
                 .cookieJar(new CookieJar() {
@@ -81,11 +82,7 @@ public class InTwocatPost extends TwocatPost {
                     }
                 })
                 .build();
-
-        String[] arr= getUrl().replace("//","").split("/");
-        String boardUrl="https://2cat.org/"+arr[1];
-        String pageUrl="https://2nyan.org/granblue/"+arr[2];
-        String postId=arr[2].replace("pixmicat.php?res=","");
+        String pageUrl=getDownloadUrl(page, boardUrl, postId);;
 
         print(this,"AndroidNetworking",getUrl());
         print(this,"AndroidNetworking-1",boardUrl);
