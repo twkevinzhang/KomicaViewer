@@ -18,11 +18,12 @@ public class ReplyDialog extends DialogFragment {
     private Post post;
     public static final String COLUMN_POST="post";
 
-    public ReplyDialog(Post post, FragmentManager fragmentManager){
-        this.post=post;
-        if(post.getReplyCount()!=0){
-            this.show(fragmentManager, post.getPostId()+"dialog");
-        }
+    public static ReplyDialog newInstance(Post post) {
+        ReplyDialog fragment = new ReplyDialog();
+        Bundle args = new Bundle();
+        args.putSerializable(COLUMN_POST, post);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -34,6 +35,19 @@ public class ReplyDialog extends DialogFragment {
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+
+        // safety check // https://stackoverflow.com/questions/12478520/how-to-set-dialogfragments-width-and-height#answer-20364233
+        if (getDialog() == null) return;
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(getDialog().getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        getDialog().getWindow().setAttributes(lp);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_reply, container);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
@@ -41,7 +55,8 @@ public class ReplyDialog extends DialogFragment {
         final PostlistAdapter adapter = new PostlistAdapter(this,new PostlistAdapter.ItemOnClickListener() {
             @Override
             public void itemOnClick(Post post) {
-                new ReplyDialog(post,getFragmentManager());
+                ReplyDialog dialog=ReplyDialog.newInstance(post);
+                dialog.show(getFragmentManager(), post.getPostId() + "dialog");
             }
         });
 
@@ -49,13 +64,6 @@ public class ReplyDialog extends DialogFragment {
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         lst.setAdapter(adapter);
         adapter.setPostlist(post.getReplies());
-
-        // width
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(getDialog().getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT+20;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT+20;
-        getDialog().getWindow().setAttributes(lp);
 
         return v;
     }
