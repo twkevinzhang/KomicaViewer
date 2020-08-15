@@ -13,9 +13,10 @@ MVVM in Android
  - 更好的commit格式
 
 ### 學習重點
- - MVVM與物件導向實作
+ - MVVM
  - fragment, **Navigation-fragment**, AppBar新功能實戰
  - 遵守SOLID
+ - POJO
 
 
 ### 常用功能
@@ -33,6 +34,7 @@ MVVM in Android
 
 ### 目前困難
  - 像Pitt的點擊開圖
+ - GIF裏站等站的圖片需要傳送cookie才能瀏覽
  
 ###### 未來展望
  - 為使用者推薦K島上常用圖片(搜尋、上傳)
@@ -207,14 +209,13 @@ getLastPathSegment() // https://sora.komica.org/00
 ```
 
 ### 如何新增Host?
- - let your `hostModel` implements `Host`
- - let your `postModel` and `boardModel` implements `Post`
- - call `addMenu(yourIcon,yourHost)` in 77th line of `MainActivity`,there are notes `// add host item in there`
- - instantiate your `hostModel` in 30th line `ProjectUtil.getPostModel()` ,there are notes `// add model item in there`
+ - let your `hostModel` implements `Host` like `KomicaHost`
+ - let your `postModel` and `boardModel` implements `Post` like `SoraBoard` and `SoraPost`
+ - put your `hostModel` in 34th line of `ProjectUtils.getHosts()`,there are notes `// add host item in there`
 
 ### 如何新增Komica聯合站的Host?
  - let your `postModel` and `boardModel` implements `Post`
- - instantiate your `postModel` and `boardModel` in 35th line of `KomicaHost.getSubHosts()`,there are notes `// add komica model item in there`
+ - instantiate your `postModel` and `boardModel` in 96th line of `KomicaHost.getSubHosts()`,there are notes `// add komica model item in there`
 
 
 ### Java的語言缺點

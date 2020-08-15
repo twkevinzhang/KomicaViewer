@@ -4,24 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public abstract class Host implements Serializable {
     public static String MAP_HOST_COLUMN = "host";
-    public static String MAP_POST_MODEL_COLUMN = "postModel";
     public static String MAP_BOARD_MODEL_COLUMN = "boardModel";
 
-    private int icon= R.drawable.ic_menu_slideshow;
+    private int icon=0;
     private ArrayList<Post> boardlist;
 
     public String getUrl() {
-        return new UrlUtils(getName()).getUrl();
+        return new UrlUtils(getHost()).getUrl();
     }
 
-    abstract public String getName();
+    abstract public String getHost();
 
     abstract public void downloadBoardlist(OnResponse onResponse);
 

@@ -20,8 +20,9 @@ import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class KomicaTop50Host extends KomicaHost {
+
     @Override
-    public String getName() {
+    public String getHost() {
         return "komica.org";
     }
 

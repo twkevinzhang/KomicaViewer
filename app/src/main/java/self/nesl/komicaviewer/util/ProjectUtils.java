@@ -35,7 +35,8 @@ public class ProjectUtils {
         return new Host[]{
                 new KomicaTop50Host(),
                 new Komica2Host(),
-//                new KomicaHost()
+                new KomicaHost(),
+                // add host item in there
         };
     }
 

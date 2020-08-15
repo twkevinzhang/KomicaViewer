@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.mymoe.MymoeBoard;
@@ -28,15 +29,18 @@ import static self.nesl.komicaviewer.util.Utils.print;
 
 public class KomicaHost extends Host {
 
+    public KomicaHost(){
+        setIcon( R.drawable.ic_menu_slideshow);
+    }
+
     @Override
-    public String getName() {
+    public String getHost() {
         return "komica.org";
     }
 
     @Override
     public Map[] getSubHosts() {
         return new Map[]{
-                // add komica model item in there
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "komica.org"); // 綜合、新番捏他、動畫
                     put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
@@ -89,6 +93,7 @@ public class KomicaHost extends Host {
                     put(Host.MAP_HOST_COLUMN, "gzone-anime.info"); // TYPE-MOON
                     put(Host.MAP_BOARD_MODEL_COLUMN, new SoraBoard());
                 }},
+                // add komica model item in there
         };
     }
 

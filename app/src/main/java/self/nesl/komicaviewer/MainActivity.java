@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addMenu(Menu menu, int icon, Host host) {
-        MenuItem item = menu.add(host.getName());
+        MenuItem item = menu.add(host.getHost());
         item.setIcon(icon);
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override

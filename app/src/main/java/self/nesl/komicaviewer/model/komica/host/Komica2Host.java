@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.in2cat.InTwocatBoard;
@@ -20,8 +21,12 @@ import static self.nesl.komicaviewer.util.Utils.print;
 
 public class Komica2Host extends Host{
 
+    public Komica2Host(){
+        setIcon( R.drawable.ic_menu_slideshow);
+    }
+
     @Override
-    public String getName() {
+    public String getHost() {
         return "komica2.net";
     }
 
