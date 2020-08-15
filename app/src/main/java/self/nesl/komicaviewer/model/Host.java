@@ -76,9 +76,6 @@ public abstract class Host implements Serializable {
                 }
             };
         }
-        if(postModel!=null){
-            postModel.setUrl(postUrl);
-        }
         return postModel;
     }
 }

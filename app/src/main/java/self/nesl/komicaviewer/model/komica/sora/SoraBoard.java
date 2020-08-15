@@ -38,8 +38,8 @@ public class SoraBoard extends Post  {
             @Override
             public void onResponse(String response) {
                 onResponse.onResponse(newInstance(new PostDTO(
-                        getUrl(),
-                        new UrlUtils(getUrl()).getHost(),
+                        boardUrl,
+                        new UrlUtils(boardUrl).getHost(),
                         Jsoup.parse(response))));
             }
 
