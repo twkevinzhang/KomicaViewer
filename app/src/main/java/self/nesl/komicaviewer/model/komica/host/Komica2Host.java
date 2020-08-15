@@ -21,7 +21,7 @@ import static self.nesl.komicaviewer.util.Utils.print;
 public class Komica2Host extends Host{
 
     @Override
-    public String getHost() {
+    public String getName() {
         return "komica2.net";
     }
 

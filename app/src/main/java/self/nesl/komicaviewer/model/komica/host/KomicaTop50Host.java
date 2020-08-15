@@ -16,9 +16,14 @@ import java.util.Map;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class KomicaTop50Host extends KomicaHost {
+    @Override
+    public String getName() {
+        return "komica.org";
+    }
 
     @Override
     public void downloadBoardlist(OnResponse onResponse) {
@@ -50,7 +55,7 @@ public class KomicaTop50Host extends KomicaHost {
                 url = url.substring(0, url.length() - 1);
             }
             String title = e.text();
-            Post p=host.getPostModel(url,true,true);
+            Post p=getPostModel(url,true,true);
             p.setTitle(title);
             p.setUrl(url);
 //            p.addTag(ui_title);

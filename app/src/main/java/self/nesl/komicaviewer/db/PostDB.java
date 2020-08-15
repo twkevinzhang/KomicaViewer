@@ -18,8 +18,7 @@ import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtils;
-
-import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public final class PostDB {
@@ -77,10 +76,7 @@ public final class PostDB {
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
             String boardUrl = csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL));
-//            print(new Object(),"boardUrl",boardUrl);
-//            print(new Object(),"COLUMN_POST_ID",csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
-//            print(new Object(),"COLUMN_POST_HTML",csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
-            arr.add(getCurrentHost().getPostModel(boardUrl, false).newInstance(new PostDTO(
+            arr.add(getPostModel(boardUrl, false).newInstance(new PostDTO(
                     boardUrl,
                     csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),
                     Jsoup.parse(csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)))

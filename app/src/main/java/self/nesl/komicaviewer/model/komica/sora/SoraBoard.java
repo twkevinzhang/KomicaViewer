@@ -12,8 +12,7 @@ import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.ui.board.BoardViewModel;
 import self.nesl.komicaviewer.util.UrlUtils;
-
-import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -74,7 +73,7 @@ public class SoraBoard extends Post  {
             Element threadpost = thread.selectFirst("div.threadpost");
 
             String postId = threadpost.attr("id").substring(1);
-            Post model=getCurrentHost().getPostModel(getUrl(), true).getReplyModel();
+            Post model=getPostModel(getUrl(), true).getReplyModel();
             Post post=model.newInstance(new PostDTO(getUrl() ,postId,threadpost));
 
             //get replyCount

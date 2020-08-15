@@ -23,12 +23,13 @@ import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
 import self.nesl.komicaviewer.model.komica.wsfun.WsfunBoard;
 
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class KomicaHost extends Host {
 
     @Override
-    public String getHost() {
+    public String getName() {
         return "komica.org";
     }
 
@@ -121,7 +122,7 @@ public class KomicaHost extends Host {
                     li_link = li_link.substring(0, li_link.indexOf("/index."));
                 }
                 try {
-                    Post p=this.getPostModel(li_link,true,true);
+                    Post p=getPostModel(li_link,true,true);
                     p.setTitle(li_title);
                     p.setUrl(li_link);
                     p.addTag(ui_title);

@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
         final TextView txtMsg = v.findViewById(R.id.txtMsg);
 
         // title
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(host.getHost());
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(host.getName());
 
         // lst
         lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));

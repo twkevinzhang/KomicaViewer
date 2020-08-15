@@ -3,8 +3,7 @@ package self.nesl.komicaviewer.ui.post;
 import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.ui.BaseViewModel;
 import self.nesl.komicaviewer.model.Post;
-
-import static self.nesl.komicaviewer.util.ProjectUtils.getCurrentHost;
+import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class PostViewModel extends BaseViewModel {
@@ -12,7 +11,7 @@ public class PostViewModel extends BaseViewModel {
 
     @Override
     public void load(int page) {
-        Post model = getCurrentHost().getPostModel(post.getBoardUrl(), false);
+        Post model = getPostModel(post.getBoardUrl(), false);
         model.download( new Post.OnResponse() {
             @Override
             public void onResponse(Post post1) {

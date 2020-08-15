@@ -2,7 +2,6 @@ package self.nesl.komicaviewer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,13 +19,9 @@ import com.google.android.material.snackbar.Snackbar;
 import self.nesl.komicaviewer.db.BoardPreferences;
 import self.nesl.komicaviewer.db.PostDB;
 import self.nesl.komicaviewer.model.Host;
-import self.nesl.komicaviewer.model.komica.host.Komica2Host;
-import self.nesl.komicaviewer.model.komica.host.KomicaHost;
-import self.nesl.komicaviewer.model.komica.host.KomicaTop50Host;
-import self.nesl.komicaviewer.ui.board.BoardFragment;
 import self.nesl.komicaviewer.ui.home.HomeFragment;
 
-import static self.nesl.komicaviewer.util.ProjectUtils.switchHost;
+import static self.nesl.komicaviewer.util.ProjectUtils.getHosts;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,9 +35,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // default
-        switchHost(new KomicaTop50Host());
 
         // DB initialize
         BoardPreferences.initialize(this);
@@ -78,9 +70,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         // add host item in there
-        Menu boardMenu=navigationView.getMenu().addSubMenu("board");
-        addMenu( boardMenu,  R.drawable.ic_menu_slideshow, new KomicaTop50Host());
-        addMenu(boardMenu, R.drawable.ic_menu_slideshow, new Komica2Host());
+        Menu boardMenu=navigationView.getMenu().addSubMenu("host");
+        for(Host host:getHosts()){
+            addMenu( boardMenu,host.getIcon(), host);
+        }
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
@@ -110,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addMenu(Menu menu, int icon, Host host) {
-        MenuItem item = menu.add(host.getHost());
+        MenuItem item = menu.add(host.getName());
         item.setIcon(icon);
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -118,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
 //                navigationView.setCheckedItem(item.getItemId()); // not work
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(HomeFragment.COLUMN_HOST, host);
-                switchHost(host);
                 Navigation.findNavController(get(), R.id.nav_host_fragment)
                         .navigate(R.id.nav_home, bundle);
                 return false;
