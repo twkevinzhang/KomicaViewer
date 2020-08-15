@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import self.nesl.komicaviewer.dto.PostDTO;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import java.io.Serializable;
@@ -260,16 +261,6 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
-    @Override
     public String toString() {
         String s = String.format("\"id\":%s,\"size\":%s,", getPostId(), replyTree.size());
         String s2 = getIntroduction(5, null);
@@ -318,4 +309,57 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
         return clone;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(boardUrl);
+        dest.writeString(postId);
+        dest.writeString(postElement.html());
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        /**
+         * 从序列化后的对象中创建原始对象
+         */
+        @Override
+        public Post createFromParcel(Parcel source) {
+            return new Post(new PostDTO(
+                    source.readString(),
+                    source.readString(),
+                    Jsoup.parse(source.readString())
+            )) {
+                @Override
+                public String getIntroduction(int words, String[] rank) {
+                    return null;
+                }
+
+                @Override
+                public String getDownloadUrl(int page, String boardUrl, String postId) {
+                    return null;
+                }
+
+                @Override
+                public void download(OnResponse onResponse, int page, String boardUrl, @Nullable String postId) {
+
+                }
+
+                @Override
+                public Post newInstance(PostDTO dto) {
+                    return null;
+                }
+            };
+        }
+
+        /**
+         * 创建指定长度的原始对象数组
+         */
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 }
