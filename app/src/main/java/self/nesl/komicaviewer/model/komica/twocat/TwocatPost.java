@@ -45,6 +45,7 @@ public class TwocatPost extends SoraPost {
     public String getDownloadUrl(int page, String boardUrl,String postId) {
         String host=new UrlUtils(boardUrl).getHost();
         boardUrl=boardUrl.replace(host+"/~",host+"/");
+        this.setBoardUrl(boardUrl);
         return boardUrl+"/?res="+postId;
     }
 }

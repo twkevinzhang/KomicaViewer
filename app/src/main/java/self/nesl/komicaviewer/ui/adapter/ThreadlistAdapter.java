@@ -46,8 +46,8 @@ public class ThreadlistAdapter extends PostlistAdapter {
 
         holder.txtPostInd.setText(post.getIntroduction(23,null));
 
-        String url=post.getPictureUrl();
-        if(url!=null){
+        holder.img.setTag(R.id.imageid, post.getPostId());
+        if(holder.img.getTag(R.id.imageid).equals(post.getPostId())){
             Glide.with(holder.img)
                     .load(post.getPictureUrl())
                     .placeholder(R.drawable.ic_launcher_background)
