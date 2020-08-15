@@ -303,8 +303,10 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
         Post clone=null;
         try {
             clone= (Post)super.clone();
+            clone.setQuoteElement(this.getQuoteElement().clone());
+            clone.setPostElement(this.getPostElement().clone());
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // impossible
         }
         return clone;
     }
@@ -316,9 +318,11 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(boardUrl);
-        dest.writeString(postId);
-        dest.writeString(postElement.html());
+        try{
+            dest.writeString(boardUrl);
+            dest.writeString(postId);
+            dest.writeString(postElement.html());
+        }catch (NullPointerException ignored){}
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
