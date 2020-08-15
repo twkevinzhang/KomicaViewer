@@ -31,7 +31,9 @@ public class BoardFragment extends BaseFragment {
         if (getArguments() != null) {
             board = (Post) getArguments().getSerializable(BoardFragment.COLUMN_BOARD);
             boardViewModel.setBoard(board);
-            boardViewModel.load(0);
+            if(boardViewModel.getList().getValue()==null){
+                boardViewModel.load(0);
+            }
         }
 
         super.init(boardViewModel, 99, new ThreadlistAdapter(this,new PostlistAdapter.ItemOnClickListener() {

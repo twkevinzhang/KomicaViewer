@@ -8,7 +8,6 @@ import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class BoardViewModel extends BaseViewModel {
-    public static final String COLUMN_PAGE = "page";
     private Post board;
 
     @Override

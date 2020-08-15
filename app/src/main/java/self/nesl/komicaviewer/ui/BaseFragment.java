@@ -1,26 +1,27 @@
-        package self.nesl.komicaviewer.ui;
-        import android.os.Bundle;
+package self.nesl.komicaviewer.ui;
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.fragment.app.Fragment;
-        import androidx.lifecycle.Observer;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
-        import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import android.os.Bundle;
 
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-        import java.util.ArrayList;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-        import self.nesl.komicaviewer.R;
-        import self.nesl.komicaviewer.model.Post;
-        import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
+import java.util.ArrayList;
 
-        import static self.nesl.komicaviewer.util.Utils.print;
+import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.model.Post;
+import self.nesl.komicaviewer.ui.adapter.PostlistAdapter;
+
+import static self.nesl.komicaviewer.util.Utils.print;
 
 public abstract class BaseFragment extends Fragment {
     private BaseViewModel viewModel;
@@ -33,7 +34,7 @@ public abstract class BaseFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_post, container, false);
         final RecyclerView lst = v.findViewById(R.id.rcLst);
-        final TextView txtMsg=v.findViewById(R.id.txtMsg);
+        final TextView txtMsg = v.findViewById(R.id.txtMsg);
 
         // SwipeRefreshLayout
         final SwipeRefreshLayout cateSwipeRefreshLayout = v.findViewById(R.id.refresh_layout);
@@ -53,7 +54,7 @@ public abstract class BaseFragment extends Fragment {
             public void onChanged(ArrayList<Post> arr) {
                 assert arr != null;
                 adapter.setPostlist(arr);
-                whenDataChange(adapter,arr);
+                whenDataChange(adapter, arr);
                 adapter.notifyDataSetChanged();
                 txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
                 cateSwipeRefreshLayout.setRefreshing(false);
@@ -74,13 +75,13 @@ public abstract class BaseFragment extends Fragment {
                         txtMsg.setText("急三小");
                         return;
                     }
-                    if(page<maxPage){
+                    if (page < maxPage) {
                         cateSwipeRefreshLayout.setRefreshing(true);
                         page += 1;
                         txtMsg.setText("載入中" + page);
                         viewModel.load(page);
-                    }else{
-                        txtMsg.setText("極限了~maxPage:" +maxPage+",now: "+page);
+                    } else {
+                        txtMsg.setText("極限了~maxPage:" + maxPage + ",now: " + page);
                     }
                 } else if (!recyclerView.canScrollVertically(-1)) {
                     txtMsg.setText("到頂了(不能向上滑動)");
@@ -95,12 +96,12 @@ public abstract class BaseFragment extends Fragment {
         return v;
     }
 
-    public void init(BaseViewModel viewModel,int maxPage,PostlistAdapter adapter){
-        this.viewModel=viewModel;
-        this.maxPage=maxPage;
-        this.adapter=adapter;
+    public void init(BaseViewModel viewModel, int maxPage, PostlistAdapter adapter) {
+        this.viewModel = viewModel;
+        this.maxPage = maxPage;
+        this.adapter = adapter;
     }
 
-    abstract public void whenDataChange(PostlistAdapter adapter,ArrayList<Post> arr);
+    abstract public void whenDataChange(PostlistAdapter adapter, ArrayList<Post> arr);
 
 }

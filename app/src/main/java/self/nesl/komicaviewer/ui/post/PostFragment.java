@@ -31,7 +31,9 @@ public class PostFragment extends BaseFragment {
         if (getArguments() != null) {
             mainThread = (Post) getArguments().getSerializable(COLUMN_POST);
             postViewModel.setPost(mainThread);
-            postViewModel.load(0);
+            if(postViewModel.getList().getValue()==null){
+                postViewModel.load(0);
+            }
         }
 
         super.init(postViewModel, 0, new PostlistAdapter(this, new PostlistAdapter.ItemOnClickListener() {
