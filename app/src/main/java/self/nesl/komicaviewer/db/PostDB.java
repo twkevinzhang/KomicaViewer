@@ -54,10 +54,8 @@ public final class PostDB {
         ContentValues values = new ContentValues();
         values.put(COLUMN_POST_ID, post.getPostId());
         values.put(COLUMN_BOARD_URL, post.getBoardUrl());
-        Element ele = post.getPostElement();
-        if (ele != null) {
-            values.put(COLUMN_POST_HTML, ele.html());
-        }
+        values.put(COLUMN_POST_HTML, post.getPostOriginalElement().html());
+
         // todo: toJson(Post)
 //        values.put(COLUMN_POST_JSON, new Gson().toJson(post));
         values.put(COLUMN_UPDATE, System.currentTimeMillis());
@@ -79,6 +77,9 @@ public final class PostDB {
 //          Post  post=new Gson().fromJson(csr.getString(csr.getColumnIndex(COLUMN_POST_JSON)),Post.class);
 
             String boardUrl = csr.getString(csr.getColumnIndex(COLUMN_BOARD_URL));
+//            print(new Object(),"boardUrl",boardUrl);
+//            print(new Object(),"COLUMN_POST_ID",csr.getString(csr.getColumnIndex(COLUMN_POST_ID)));
+//            print(new Object(),"COLUMN_POST_HTML",csr.getString(csr.getColumnIndex(COLUMN_POST_HTML)));
             arr.add(getCurrentHost().getPostModel(boardUrl, false).newInstance(new PostDTO(
                     boardUrl,
                     csr.getString(csr.getColumnIndex(COLUMN_POST_ID)),

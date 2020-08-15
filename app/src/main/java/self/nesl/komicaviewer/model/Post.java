@@ -43,6 +43,7 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
     private boolean isReaded = false;
     private transient ArrayList<Post> replyTree = new ArrayList<Post>(); // todo: toJson(Post)
     private Post replyModel = null;
+    private Element postOriginalElement = null;
 
     public Post() {
     }
@@ -50,7 +51,7 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
     public Post(PostDTO dto) {
         this.boardUrl = dto.boardUrl;
         this.postId = dto.postId;
-        this.postElement = dto.postElement;
+        this.setPostElement(dto.postElement);
         if(this.url==null){
             this.url=getDownloadUrl(0,boardUrl,postId);
         }
@@ -117,6 +118,9 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
     public Element getQuoteElement() {
         return quoteElement;
     }
+    public Element getPostOriginalElement() {
+        return postOriginalElement;
+    }
 
     public String getQuote() {
         return this.getQuoteElement().text().trim();
@@ -152,6 +156,7 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
 
     public void setPostElement(Element postElement) {
         this.postElement = postElement;
+        this.postOriginalElement=postElement.clone();
     }
 
     public void setPostId(String postId) {

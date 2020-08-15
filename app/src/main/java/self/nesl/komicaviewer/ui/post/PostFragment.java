@@ -38,10 +38,7 @@ public class PostFragment extends BaseFragment {
                 new ReplyDialog(post, getFragmentManager());
             }
         }));
-
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mainThread.getTitle(0));
-
-
     }
 
     @Override
