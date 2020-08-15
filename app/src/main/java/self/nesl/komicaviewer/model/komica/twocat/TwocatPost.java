@@ -33,6 +33,7 @@ public class TwocatPost extends SoraPost {
     @Override
     public void setPicture(){
         String boardCode= new UrlUtils(getBoardUrl()).getPath();
+        boardCode=boardCode.replace("/~","/");
         try {
             String fileName= getPostElement().selectFirst("a.imglink[href=#]").attr("title");
             String newLink=MessageFormat.format("//img.2nyan.org{0}/src/{1}",boardCode,fileName);
@@ -45,7 +46,6 @@ public class TwocatPost extends SoraPost {
     public String getDownloadUrl(int page, String boardUrl,String postId) {
         String host=new UrlUtils(boardUrl).getHost();
         boardUrl=boardUrl.replace(host+"/~",host+"/");
-        this.setBoardUrl(boardUrl);
         return boardUrl+"/?res="+postId;
     }
 }

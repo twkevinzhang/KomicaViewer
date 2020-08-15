@@ -13,7 +13,7 @@ import java.util.Map;
 
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.internaltwocat.InTwocatBoard;
+import self.nesl.komicaviewer.model.komica.in2cat.InTwocatBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 
 import static self.nesl.komicaviewer.util.Utils.print;

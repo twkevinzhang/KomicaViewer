@@ -38,11 +38,11 @@ public class PostFragment extends BaseFragment {
                 new ReplyDialog(post, getFragmentManager());
             }
         }));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mainThread.getTitle(0));
-    }
+        }
 
     @Override
     public void whenDataChange(PostlistAdapter adapter, ArrayList<Post> arr) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mainThread.getTitle(0));
         Post mainThreadVO = mainThread.clone();
         mainThreadVO.getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">原文連結: {0}</a>",mainThread.getUrl()));
         adapter.addThreadpost(mainThreadVO);

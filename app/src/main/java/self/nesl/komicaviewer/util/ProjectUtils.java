@@ -126,7 +126,7 @@ public class ProjectUtils {
             ArrayList<Post> boards=getBoards(host);
             if(boards==null || boards.size()==0)continue;
             for(Post board:boards){
-                if(boardUrl.contains(board.getUrl())){
+                if(boardUrl.contains(board.getUrl())){ // todo: 2cat.org/~fuck can't in
                     for (Map map : host.getSubHosts()) {
                         if (boardUrl.contains(map.get(MAP_HOST_COLUMN).toString())) {
                             postModel=(Post)map.get(MAP_BOARD_MODEL_COLUMN);
@@ -134,6 +134,7 @@ public class ProjectUtils {
                             break;
                         }
                     }
+                    break;
                 }
             }
         }

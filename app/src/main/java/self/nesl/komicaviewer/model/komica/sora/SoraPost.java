@@ -97,7 +97,7 @@ public class SoraPost extends Post{
         this.setPoster(post_detail[1]);
     }
 
-    public void installAnimeDetail() { // 動畫: https://2cat.komica.org/~tedc21thc/anime/ 比起 2cat 沒有label[for="3273507"]
+    public void installAnimeDetail() { // 動畫: https://2cat.komica.org/~tedc21thc/anime/ 比起 2cat.komica 沒有label[for="3273507"]
         String detailStr = getPostElement().ownText();
         detailStr = detailStr.length() == 0 ? getPostElement().text() : detailStr;
         String[] post_detail = detailStr.split(" ID:");

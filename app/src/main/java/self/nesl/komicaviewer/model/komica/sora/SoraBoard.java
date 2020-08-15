@@ -38,7 +38,7 @@ public class SoraBoard extends Post  {
             public void onResponse(String response) {
                 onResponse.onResponse(newInstance(new PostDTO(
                         boardUrl,
-                        new UrlUtils(boardUrl).getHost(),
+                        null,
                         Jsoup.parse(response))));
             }
 
