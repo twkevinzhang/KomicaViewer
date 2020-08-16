@@ -23,7 +23,7 @@ public class KomicaTop50Host extends KomicaHost {
 
     @Override
     public String getHost() {
-        return "komica.org";
+        return "komica.org (Top50)";
     }
 
     @Override

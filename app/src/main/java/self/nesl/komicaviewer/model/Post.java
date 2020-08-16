@@ -94,9 +94,9 @@ public abstract class Post implements Serializable, Parcelable, Cloneable {
     public String getTimeStr() {
         if (time == null) return "";
         if (DateUtils.isToday(time.getTime())) {
-            return "今天 " + new SimpleDateFormat("hh:mm").format(time);
+            return "今天 " + new SimpleDateFormat("HH:mm").format(time);
         }
-        return new SimpleDateFormat("YY.MM.dd(E) hh:mm").format(time);
+        return new SimpleDateFormat("YY.MM.dd(E) HH:mm").format(time);
     }
 
     public String getPoster() {

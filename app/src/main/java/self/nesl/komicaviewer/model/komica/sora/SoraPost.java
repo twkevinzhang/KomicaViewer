@@ -71,7 +71,9 @@ public class SoraPost extends Post{
         try {
             Element thumbImg = getPostElement().selectFirst("img");
             String originalUrl = thumbImg.parent().attr("href");
-            this.setPictureUrl(new UrlUtils(originalUrl, this.getBoardUrl()).getUrl());
+            String url=new UrlUtils(originalUrl, this.getBoardUrl()).getUrl();
+            print(this,url);
+            this.setPictureUrl(url);
         } catch (NullPointerException ignored) {
         }
     }
@@ -107,7 +109,7 @@ public class SoraPost extends Post{
 
     public void addPost(Element reply_ele) {
         String reply_id = reply_ele.selectFirst(".qlink").text().replace("No.", "");
-        SoraPost reply = newInstance(new PostDTO(getUrl()+"r"+reply_id,reply_id, reply_ele));
+        SoraPost reply = newInstance(new PostDTO(getBoardUrl(),reply_id, reply_ele));
 
         Elements eles = reply_ele.select("span.resquote a.qlink");
         if (eles.size() <= 0) {
