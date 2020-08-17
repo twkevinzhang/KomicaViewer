@@ -73,7 +73,7 @@ public class PostlistAdapter extends RecyclerView.Adapter<PostlistAdapter.Postli
         fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
 
-        // todo
+        // todo: 讓圖片大小可以遵守dialog大小
 //        int width=holder.itemView.getWidth();
 //        print(this,"width",width+"");
 
