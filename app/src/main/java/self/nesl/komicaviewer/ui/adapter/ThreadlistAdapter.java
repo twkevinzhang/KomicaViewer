@@ -8,13 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 
 import org.jsoup.nodes.Element;
 
@@ -48,11 +41,11 @@ public class ThreadlistAdapter extends PostlistAdapter {
 
         holder.img.setTag(R.id.imageid, post.getPostId());
         if(holder.img.getTag(R.id.imageid).equals(post.getPostId())){
-            Glide.with(holder.img)
+            Glide.with(holder.img.getContext())
                     .load(post.getPictureUrl())
                     .placeholder(R.drawable.ic_launcher_background)
                     .centerCrop()
-                    .error(R.drawable.ic_menu_camera)
+                    .error(R.drawable.ic_error_404)
                     .into(holder.img);
         }
     }
