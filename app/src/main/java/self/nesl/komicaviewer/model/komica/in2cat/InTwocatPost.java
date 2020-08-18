@@ -6,6 +6,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 
 import org.jsoup.Jsoup;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
+import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
@@ -56,7 +58,14 @@ public class InTwocatPost extends TwocatPost {
 
     @Override
     public void setPicture(){
-        // todo
+        String boardCode= new UrlUtils(getBoardUrl()).getPath();
+        boardCode=boardCode.replace("/~","/");
+        try {
+            String picNo= getPostElement().selectFirst("img.img[src=//img.2nyan.org/share/trans.png]").attr("alt");
+            String newLink=MessageFormat.format("https://thumb.2nyan.org{0}/thumb/{1}s.jpg",boardCode,picNo);
+            this.setPictureUrl(new UrlUtils(newLink, this.getBoardUrl()).getUrl());
+        } catch (NullPointerException ignored) {
+        }
     }
 
     @Override
