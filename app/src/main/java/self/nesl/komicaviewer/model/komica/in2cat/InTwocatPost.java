@@ -28,7 +28,8 @@ public class InTwocatPost extends TwocatPost {
         return (InTwocatPost) new InTwocatPost(dto).parse();
     }
 
-    public InTwocatPost(){}
+    public InTwocatPost() {
+    }
 
     public InTwocatPost(PostDTO dto) {
         super(dto);
@@ -58,67 +59,36 @@ public class InTwocatPost extends TwocatPost {
     }
 
     @Override
-    public void setPicture(){
-        String boardCode= getBoardId(getBoardUrl());
+    public void setPicture() {
+        String boardCode = getBoardId(getBoardUrl());
         try {
-            String picNo= getPostElement().selectFirst("img.img[src=//img.2nyan.org/share/trans.png]").attr("alt");
-            String newLink=MessageFormat.format("https://thumb.2nyan.org/{0}/thumb/{1}s.jpg",boardCode,picNo);
+            String picNo = getPostElement().selectFirst("img.img[src=//img.2nyan.org/share/trans.png]").attr("alt");
+            String newLink = MessageFormat.format("https://thumb.2nyan.org/{0}/thumb/{1}s.jpg", boardCode, picNo);
             this.setPictureUrl(new UrlUtils(newLink, this.getBoardUrl()).getUrl());
         } catch (NullPointerException ignored) {
         }
     }
 
     @Override
-    public String getDownloadUrl(int page, String boardUrl,String postId) {
-        return "https://2nyan.org/granblue/?res="+postId;
+    public String getDownloadUrl(int page, String boardUrl, String postId) {
+        return "https://2nyan.org/granblue/?res=" + postId + "&page=all";
     }
 
     @Override
     public void download(OnResponse onResponse, int page, String boardUrl, String postId) {
-        OkHttpClient okHttpClient = new OkHttpClient
-                .Builder()
-                .cookieJar(new CookieJar() {
-                    private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
-
-                    @Override
-                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-                        cookieStore.put(url.host(), cookies);
-                    }
-
-                    @Override
-                    public List<Cookie> loadForRequest(HttpUrl url) {
-                        List<Cookie> cookies = cookieStore.get(url.host());
-                        return cookies != null ? cookies : new ArrayList<Cookie>();
-                    }
-                })
-                .build();
-        String pageUrl=getDownloadUrl(page, boardUrl, postId);;
-
-        print(this,"AndroidNetworking",pageUrl);
-        print(this,"AndroidNetworking-1",boardUrl);
-        AndroidNetworking.get(boardUrl)
+        OkHttpClient okHttpClient = InTwocatBoard.okHttpClient;
+        String pageUrl = getDownloadUrl(page, boardUrl, postId);
+        print(this, "AndroidNetworking", pageUrl);
+        AndroidNetworking.get(pageUrl)
                 .setOkHttpClient(okHttpClient)
-                .addHeaders("Referer", "https://2nyan.org/")
                 .build().getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                print(this,"AndroidNetworking-2",pageUrl);
-                AndroidNetworking.get(pageUrl)
-                        .setOkHttpClient(okHttpClient)
-                        .build().getAsString(new StringRequestListener() {
-                    @Override
-                    public void onResponse(String response) {
-                        onResponse.onResponse(newInstance(new PostDTO(
-                                boardUrl,
-                                postId,
-                                Jsoup.parse(response)
-                        )));
-                    }
-                    @Override
-                    public void onError(ANError anError) {
-                        anError.printStackTrace();
-                    }
-                });
+                onResponse.onResponse(newInstance(new PostDTO(
+                        boardUrl,
+                        postId,
+                        Jsoup.parse(response)
+                )));
             }
 
             @Override

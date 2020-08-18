@@ -27,7 +27,7 @@ public class InTwocatBoard extends TwocatBoard {
         this.setReplyModel(new InTwocatPost());
     }
 
-    private static OkHttpClient okHttpClient;
+    public static OkHttpClient okHttpClient;
 
     private String workUrl = "https://2nyan.org/granblue";
 
