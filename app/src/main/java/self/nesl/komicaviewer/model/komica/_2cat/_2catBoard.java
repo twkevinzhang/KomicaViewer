@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.model.komica.twocat;
+package self.nesl.komicaviewer.model.komica._2cat;
 
 import org.jsoup.select.Elements;
 
@@ -8,7 +8,7 @@ import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class TwocatBoard extends SoraBoard {
+public class _2catBoard extends SoraBoard {
 
     @Override
     public String getDownloadUrl(int page, String boardUrl,String postId){
@@ -17,11 +17,11 @@ public class TwocatBoard extends SoraBoard {
         return page!=0?boardUrl+"/?page="+page:boardUrl;
     }
 
-    public TwocatBoard() {
-        this.setReplyModel(new TwocatPost());
+    public _2catBoard() {
+        this.setReplyModel(new _2catPost());
     }
 
-    public TwocatBoard(PostDTO dto) {
+    public _2catBoard(PostDTO dto) {
         this.setPostId(getBoardId(dto.boardUrl));
         this.setUrl(dto.boardUrl);
         this.setPostElement(dto.postElement);

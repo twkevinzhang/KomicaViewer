@@ -1,7 +1,5 @@
 package self.nesl.komicaviewer.model.komica.host;
 
-import android.os.Bundle;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
@@ -18,10 +16,8 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
 import self.nesl.komicaviewer.model.komica.mymoe.MymoeBoard;
-import self.nesl.komicaviewer.model.komica.mymoe.MymoePost;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
-import self.nesl.komicaviewer.model.komica.sora.SoraPost;
-import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
+import self.nesl.komicaviewer.model.komica._2cat._2catBoard;
 import self.nesl.komicaviewer.model.komica.wsfun.WsfunBoard;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.getPostModel;
@@ -75,7 +71,7 @@ public class KomicaHost extends Host {
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "2cat.org"); // 碧藍幻想
-                    put(Host.MAP_BOARD_MODEL_COLUMN, new TwocatBoard());
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new _2catBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "mymoe.moe"); // 綜合2

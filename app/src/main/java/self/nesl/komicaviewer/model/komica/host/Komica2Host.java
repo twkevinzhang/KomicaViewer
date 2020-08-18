@@ -14,7 +14,7 @@ import java.util.Map;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.model.Host;
 import self.nesl.komicaviewer.model.Post;
-import self.nesl.komicaviewer.model.komica.in2cat.InTwocatBoard;
+import self.nesl.komicaviewer.model.komica.in2cat.In2catBoard;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -39,7 +39,7 @@ public class Komica2Host extends Host{
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "2cat.org"); // GIF裡
-                    put(Host.MAP_BOARD_MODEL_COLUMN, new InTwocatBoard());
+                    put(Host.MAP_BOARD_MODEL_COLUMN, new In2catBoard());
                 }},
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN,  "p.komica.acg.club.tw"); // 觸手裡

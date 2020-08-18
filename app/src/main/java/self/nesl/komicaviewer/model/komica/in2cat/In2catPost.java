@@ -7,31 +7,25 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import org.jsoup.Jsoup;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import okhttp3.Cookie;
-import okhttp3.CookieJar;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import self.nesl.komicaviewer.dto.PostDTO;
-import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
+import self.nesl.komicaviewer.model.komica._2cat._2catPost;
 import self.nesl.komicaviewer.util.UrlUtils;
 
-import static self.nesl.komicaviewer.model.komica.twocat.TwocatBoard.getBoardId;
+import static self.nesl.komicaviewer.model.komica._2cat._2catBoard.getBoardId;
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class InTwocatPost extends TwocatPost {
+public class In2catPost extends _2catPost {
     @Override
-    public InTwocatPost newInstance(PostDTO dto) {
-        return (InTwocatPost) new InTwocatPost(dto).parse();
+    public In2catPost newInstance(PostDTO dto) {
+        return (In2catPost) new In2catPost(dto).parse();
     }
 
-    public InTwocatPost() {
+    public In2catPost() {
     }
 
-    public InTwocatPost(PostDTO dto) {
+    public In2catPost(PostDTO dto) {
         super(dto);
     }
 
@@ -44,7 +38,7 @@ public class InTwocatPost extends TwocatPost {
     }
 
     @Override
-    public InTwocatPost parse() {
+    public In2catPost parse() {
         setPicture();
 
         try {
@@ -76,7 +70,7 @@ public class InTwocatPost extends TwocatPost {
 
     @Override
     public void download(OnResponse onResponse, int page, String boardUrl, String postId) {
-        OkHttpClient okHttpClient = InTwocatBoard.okHttpClient;
+        OkHttpClient okHttpClient = In2catBoard.okHttpClient;
         String pageUrl = getDownloadUrl(page, boardUrl, postId);
         print(this, "AndroidNetworking", pageUrl);
         AndroidNetworking.get(pageUrl)

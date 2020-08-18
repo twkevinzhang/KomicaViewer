@@ -17,14 +17,13 @@ import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import self.nesl.komicaviewer.dto.PostDTO;
-import self.nesl.komicaviewer.model.komica.twocat.TwocatBoard;
-import self.nesl.komicaviewer.util.UrlUtils;
+import self.nesl.komicaviewer.model.komica._2cat._2catBoard;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class InTwocatBoard extends TwocatBoard {
-    public InTwocatBoard() {
-        this.setReplyModel(new InTwocatPost());
+public class In2catBoard extends _2catBoard {
+    public In2catBoard() {
+        this.setReplyModel(new In2catPost());
     }
 
     public static OkHttpClient okHttpClient;

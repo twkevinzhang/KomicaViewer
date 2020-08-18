@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.model.komica.twocat;
+package self.nesl.komicaviewer.model.komica._2cat;
 
 import java.text.MessageFormat;
 
@@ -6,19 +6,19 @@ import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtils;
 
-import static self.nesl.komicaviewer.model.komica.twocat.TwocatBoard.getBoardId;
+import static self.nesl.komicaviewer.model.komica._2cat._2catBoard.getBoardId;
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class TwocatPost extends SoraPost {
+public class _2catPost extends SoraPost {
 
     @Override
-    public TwocatPost newInstance(PostDTO dto) {
-        return (TwocatPost) new TwocatPost(dto).parse();
+    public _2catPost newInstance(PostDTO dto) {
+        return (_2catPost) new _2catPost(dto).parse();
     }
 
-    public TwocatPost(){}
+    public _2catPost(){}
 
-    public TwocatPost(PostDTO dto) {
+    public _2catPost(PostDTO dto) {
         super(dto);
     }
 
