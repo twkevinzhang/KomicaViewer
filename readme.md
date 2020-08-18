@@ -6,7 +6,7 @@ MVVM in Android
  - < 4.4 (KITKAT, api=19)，Post.hashCode()無法比對重複
 
 ### 特色
- - 為了符合Komica聯合站的獨特架構，將`Host`與`Board`分離，兩者之間的Url並沒有依賴性
+ - 為了符合Komica聯合站的獨特架構，將`Host`與`Board`分離，兩者之間的Url並沒有依賴性，僅依靠`ProjectUtils.getPostModel()`來取得依存關係。
 
 ### 分支說明
  - 強化MVVM的觀念，增強Model的功能
@@ -17,7 +17,6 @@ MVVM in Android
  - fragment, **Navigation-fragment**, AppBar新功能實戰
  - 遵守SOLID
  - POJO
-
 
 ### 常用功能
  - [x] 預覽reply的引用內容(ex. >>12345678 (我的家庭真可愛...) )
@@ -34,7 +33,7 @@ MVVM in Android
 
 ### 目前困難
  - 像Pitt的點擊開圖
- - GIF裏站等站的圖片需要傳送cookie才能瀏覽
+ - GIF裏站等站的原圖被js加密過
  
 ###### 未來展望
  - 為使用者推薦K島上常用圖片(搜尋、上傳)
