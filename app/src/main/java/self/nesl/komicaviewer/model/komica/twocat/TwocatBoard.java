@@ -2,6 +2,7 @@ package self.nesl.komicaviewer.model.komica.twocat;
 
 import org.jsoup.select.Elements;
 
+import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.sora.SoraBoard;
 import self.nesl.komicaviewer.util.UrlUtils;
 
@@ -18,6 +19,17 @@ public class TwocatBoard extends SoraBoard {
 
     public TwocatBoard() {
         this.setReplyModel(new TwocatPost());
+    }
+
+    public TwocatBoard(PostDTO dto) {
+        this.setPostId(getBoardId(dto.boardUrl));
+        this.setUrl(dto.boardUrl);
+        this.setPostElement(dto.postElement);
+    }
+
+    public static String getBoardId(String url){
+        String boardCode= new UrlUtils(url).getPath();
+        return boardCode.replace("/~","");
     }
 
     @Override

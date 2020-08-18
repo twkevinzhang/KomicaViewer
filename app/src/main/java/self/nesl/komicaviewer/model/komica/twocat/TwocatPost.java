@@ -6,6 +6,7 @@ import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.sora.SoraPost;
 import self.nesl.komicaviewer.util.UrlUtils;
 
+import static self.nesl.komicaviewer.model.komica.twocat.TwocatBoard.getBoardId;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class TwocatPost extends SoraPost {
@@ -32,11 +33,10 @@ public class TwocatPost extends SoraPost {
 
     @Override
     public void setPicture(){
-        String boardCode= new UrlUtils(getBoardUrl()).getPath();
-        boardCode=boardCode.replace("/~","/");
+        String boardCode= getBoardId(getBoardUrl());
         try {
             String fileName= getPostElement().selectFirst("a.imglink[href=#]").attr("title");
-            String newLink=MessageFormat.format("//img.2nyan.org{0}/src/{1}",boardCode,fileName);
+            String newLink=MessageFormat.format("//img.2nyan.org/{0}/src/{1}",boardCode,fileName);
             this.setPictureUrl(new UrlUtils(newLink, this.getBoardUrl()).getUrl());
         } catch (NullPointerException ignored) {
         }

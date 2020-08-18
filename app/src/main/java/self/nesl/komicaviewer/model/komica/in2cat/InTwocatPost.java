@@ -19,6 +19,7 @@ import self.nesl.komicaviewer.dto.PostDTO;
 import self.nesl.komicaviewer.model.komica.twocat.TwocatPost;
 import self.nesl.komicaviewer.util.UrlUtils;
 
+import static self.nesl.komicaviewer.model.komica.twocat.TwocatBoard.getBoardId;
 import static self.nesl.komicaviewer.util.Utils.print;
 
 public class InTwocatPost extends TwocatPost {
@@ -58,11 +59,10 @@ public class InTwocatPost extends TwocatPost {
 
     @Override
     public void setPicture(){
-        String boardCode= new UrlUtils(getBoardUrl()).getPath();
-        boardCode=boardCode.replace("/~","/");
+        String boardCode= getBoardId(getBoardUrl());
         try {
             String picNo= getPostElement().selectFirst("img.img[src=//img.2nyan.org/share/trans.png]").attr("alt");
-            String newLink=MessageFormat.format("https://thumb.2nyan.org{0}/thumb/{1}s.jpg",boardCode,picNo);
+            String newLink=MessageFormat.format("https://thumb.2nyan.org/{0}/thumb/{1}s.jpg",boardCode,picNo);
             this.setPictureUrl(new UrlUtils(newLink, this.getBoardUrl()).getUrl());
         } catch (NullPointerException ignored) {
         }
