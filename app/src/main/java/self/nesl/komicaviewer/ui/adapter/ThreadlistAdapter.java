@@ -37,16 +37,22 @@ public class ThreadlistAdapter extends PostlistAdapter {
         final Post post = postlist.get(i);
         super.setDetail(holder, post);
 
-        holder.txtPostInd.setText(post.getIntroduction(23,null));
+        holder.txtPostInd.setText(post.getIntroduction(23, null));
 
+        String url = post.getPictureUrl();
         holder.img.setTag(R.id.imageid, post.getPostId());
-        if(holder.img.getTag(R.id.imageid).equals(post.getPostId())){
+        if (url != null && url.length() > 0
+                && holder.img.getTag(R.id.imageid).equals(post.getPostId())
+        ) {
             Glide.with(holder.img.getContext())
-                    .load(post.getPictureUrl())
+                    .load(url)
                     .placeholder(R.drawable.ic_launcher_background)
                     .centerCrop()
                     .error(R.drawable.ic_error_404)
                     .into(holder.img);
+        } else {
+            Glide.with(holder.img.getContext()).clear(holder.img);
+            holder.img.setImageDrawable(fragment.getResources().getDrawable(R.drawable.ic_launcher_background));
         }
     }
 

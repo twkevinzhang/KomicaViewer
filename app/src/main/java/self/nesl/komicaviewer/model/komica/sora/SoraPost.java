@@ -72,7 +72,6 @@ public class SoraPost extends Post{
             Element thumbImg = getPostElement().selectFirst("img");
             String originalUrl = thumbImg.parent().attr("href");
             String url=new UrlUtils(originalUrl, this.getBoardUrl()).getUrl();
-            print(this,url);
             this.setPictureUrl(url);
         } catch (NullPointerException ignored) {
         }
