@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
@@ -56,7 +57,12 @@ public abstract class BaseFragment extends Fragment {
                 adapter.setPostlist(arr);
                 whenDataChange(adapter, arr);
                 adapter.notifyDataSetChanged();
-                txtMsg.setText("onChanged,getItemCount: " + adapter.getItemCount());
+                txtMsg.setText(MessageFormat.format(
+                        "onChanged," +
+                                "adapter.getItemCount:{0}," +
+                                "arr.length:{1}",
+                        adapter.getItemCount(), arr.size())
+                );
                 cateSwipeRefreshLayout.setRefreshing(false);
             }
         });

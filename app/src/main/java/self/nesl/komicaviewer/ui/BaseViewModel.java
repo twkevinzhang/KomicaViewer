@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import self.nesl.komicaviewer.model.Post;
 
@@ -18,7 +19,11 @@ public abstract class BaseViewModel extends ViewModel {
     public void insertPostlist(ArrayList<Post> newArr){
         ArrayList<Post> oldPost=arr.getValue();
         if(oldPost!=null){
-            oldPost.addAll(newArr);
+            LinkedHashSet set=  new LinkedHashSet<>();
+            set.addAll(arr.getValue());
+            set.addAll(newArr);
+            oldPost.clear();
+            oldPost.addAll(set);
         }else{
             oldPost=newArr;
         }
