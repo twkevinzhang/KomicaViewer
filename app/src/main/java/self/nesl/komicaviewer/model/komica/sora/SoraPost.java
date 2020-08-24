@@ -50,8 +50,7 @@ public class SoraPost extends Post{
         setPicture();
         setDetail();
         setQuote();
-        installPictureUrls();
-        installVideo();
+        installPicture();
         setTitle();
         return this;
     }
@@ -147,14 +146,16 @@ public class SoraPost extends Post{
         this.setQuoteElement(getPostElement().selectFirst("div.quote"));
     }
 
-    public void installPictureUrls() {
+    public void installPicture() {
         String url = this.getPictureUrl();
         if (url != null) {
-            getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">{0}</a><br><img src=\"{0}\">",url));
-        }
-    }
+            if(url.endsWith(".webm")){
+                getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">{0}</a><br><video src=\"{0}\" type=\"video/webm\">",url));
+            }else{
+                getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">{0}</a><br><img src=\"{0}\">",url));
+            }
 
-    void installVideo() {
+        }
     }
 
     @Override
