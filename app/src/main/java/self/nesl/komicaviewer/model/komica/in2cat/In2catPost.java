@@ -30,29 +30,6 @@ public class In2catPost extends _2catPost {
     }
 
     @Override
-    public void installDefaultDetail() { // 綜合: https://sora.komica.org
-        try {
-            install2catDetail();
-        } catch (NullPointerException e) {
-        }
-    }
-
-    @Override
-    public In2catPost parse() {
-        setPicture();
-
-        try {
-            install2catDetail();
-        } catch (NullPointerException | StringIndexOutOfBoundsException e2) {
-            installAnimeDetail();
-        }
-
-        setQuote();
-        setTitle();
-        return this;
-    }
-
-    @Override
     public void setPicture() {
         String boardCode = getBoardId(getBoardUrl());
         try {

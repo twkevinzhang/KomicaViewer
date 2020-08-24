@@ -39,14 +39,19 @@ public class SoraPost extends Post{
     }
 
     public SoraPost newInstance(PostDTO dto) {
-        return new SoraPost(dto).parse();
+        return (SoraPost)new SoraPost(dto).parse();
     }
 
-    public SoraPost parse() {
+    public SoraPost(PostDTO dto) {
+        super(dto);
+    }
+
+    public Object parse() {
+        setPicture();
         setDetail();
         setQuote();
-        setPicture();
         installPictureUrls();
+        installVideo();
         setTitle();
         return this;
     }
@@ -61,10 +66,6 @@ public class SoraPost extends Post{
                 installAnimeDetail();
             }
         }
-    }
-
-    public SoraPost(PostDTO dto) {
-        super(dto);
     }
 
     public void setPicture() {
@@ -126,7 +127,7 @@ public class SoraPost extends Post{
         }
     }
 
-    public void installPreview(Post parent, String target_id) {
+    void installPreview(Post parent, String target_id) {
         Post target = target_id.equals(this.getPostId()) ? this : parent.getPost(target_id);
         String context = String.format(">>%s(%s)<br>", target_id, target.getIntroduction(10, null));
         this.getQuoteElement().prepend("<font color=#2bb1ff>" + context);
@@ -151,6 +152,9 @@ public class SoraPost extends Post{
         if (url != null) {
             getQuoteElement().append(MessageFormat.format("<br><a href=\"{0}\">{0}</a><br><img src=\"{0}\">",url));
         }
+    }
+
+    void installVideo() {
     }
 
     @Override

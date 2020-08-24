@@ -19,12 +19,11 @@ public class MymoePost extends SoraPost {
     }
 
     @Override
-    public MymoePost parse(){
-        super.setPicture();
-        this.installDefaultDetail();
-        super.setQuote();
-        super.setTitle();
-        return this;
+    public void setDetail() {  // 粽2: https://alleyneblade.mymoe.moe/queensblade/
+        this.setTitle(getPostElement().select("span.title").text());
+        Element detailEle = getPostElement().selectFirst("span.now");
+        this.setTime(parseTime( detailEle.selectFirst("time").html() ));
+        this.setPoster(detailEle.selectFirst("span.trip_id").text().replace("ID:",""));
     }
 
 
@@ -45,14 +44,4 @@ public class MymoePost extends SoraPost {
     public void setId2(String id2) {
         this.id2 = id2;
     }
-
-    @Override
-    public void installDefaultDetail(){ // 粽2: https://alleyneblade.mymoe.moe/queensblade/
-        this.setTitle(getPostElement().select("span.title").text());
-        Element detailEle = getPostElement().selectFirst("span.now");
-        this.setTime(parseTime( detailEle.selectFirst("time").html() ));
-        this.setPoster(detailEle.selectFirst("span.trip_id").text().replace("ID:",""));
-    }
-
-
 }
