@@ -87,16 +87,16 @@ public class MainActivity extends AppCompatActivity {
     public void addMenu(Menu menu, int icon, Host host) {
         MenuItem item = menu.add(host.getDomain());
         item.setIcon(icon);
-//        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(HomeFragment.COLUMN_HOST, host);
-//                Navigation.findNavController(get(), R.id.nav_host_fragment)
-//                        .navigate(R.id.nav_home, bundle);
-//                return false;
-//            }
-//        });
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(HomeFragment.COLUMN_HOST, host);
+                Navigation.findNavController(get(), R.id.nav_host_fragment)
+                        .navigate(R.id.nav_home, bundle);
+                return false;
+            }
+        });
     }
 
     private MainActivity get() {
