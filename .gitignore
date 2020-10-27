@@ -12,4 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
-.idea
+app/src/main/java/self/nesl/komicaviewer/Config.java
+/.idea/*

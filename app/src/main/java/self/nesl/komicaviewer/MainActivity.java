@@ -1,6 +1,7 @@
 package self.nesl.komicaviewer;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
@@ -16,6 +17,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import self.nesl.komicaviewer.db.BoardPreferences;
+import self.nesl.komicaviewer.host.Host;
+import self.nesl.komicaviewer.host.Komica2Host;
+import self.nesl.komicaviewer.host.Komica2_50Host;
+import self.nesl.komicaviewer.host.Komica_50Host;
+import self.nesl.komicaviewer.host.KomicaHost;
+import self.nesl.komicaviewer.ui.home.HomeFragment;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -24,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // DB initialize
+        BoardPreferences.initialize(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,10 +67,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         // add host item in there
-//        Menu boardMenu=navigationView.getMenu().addSubMenu("host");
-//        for(Host host:getHosts()){
-//            addMenu( boardMenu,host.getIcon(), host);
-//        }
+        Menu boardMenu=navigationView.getMenu().addSubMenu("host");
+        for(Host host:new Host[]{
+                new KomicaHost(),
+                new Komica_50Host(),
+                new Komica2Host(),
+                new Komica2_50Host()
+        }){
+            addMenu( boardMenu,host.getIcon(), host);
+        }
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
@@ -72,5 +91,24 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void addMenu(Menu menu, int icon, Host host) {
+        MenuItem item = menu.add(host.getName());
+        item.setIcon(icon);
+//        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(HomeFragment.COLUMN_HOST, host);
+//                Navigation.findNavController(get(), R.id.nav_host_fragment)
+//                        .navigate(R.id.nav_home, bundle);
+//                return false;
+//            }
+//        });
+    }
+
+    private MainActivity get() {
+        return this;
     }
 }
