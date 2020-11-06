@@ -16,6 +16,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import self.nesl.komicaviewer.db.BoardPreferences;
+import self.nesl.komicaviewer.db.PostDB;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -24,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // DB initialize
+        BoardPreferences.initialize(this);
+        PostDB.initialize(this);
 
         // toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -17,6 +17,9 @@ import self.nesl.komicaviewer.models.Host;
 import self.nesl.komicaviewer.models.Request;
 import self.nesl.komicaviewer.models.po.Post;
 import self.nesl.komicaviewer.models.komica.sora.SoraBoardRequest;
+import self.nesl.komicaviewer.models.komica.sora.SoraPostParser;
+import self.nesl.komicaviewer.models.komica.sora.SoraThreadRequest;
+import self.nesl.komicaviewer.util.UrlUtils;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.urlParse;
 import static self.nesl.komicaviewer.util.Utils.print;
@@ -38,6 +41,7 @@ public class KomicaHost extends Host {
                 new HashMap<String, Object>(){{
                     put(Host.MAP_HOST_COLUMN, "komica.org"); // 綜合、新番捏他、動畫
                     put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
                 }}
         };
     }
