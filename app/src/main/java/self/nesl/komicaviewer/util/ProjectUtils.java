@@ -11,6 +11,7 @@ import java.util.Map;
 
 import self.nesl.komicaviewer.models.Host;
 import self.nesl.komicaviewer.models.Request;
+import self.nesl.komicaviewer.models.komica.host.KomicaHost;
 import self.nesl.komicaviewer.models.po.Post;
 import self.nesl.komicaviewer.models.komica.host.KomicaTop50Host;
 import self.nesl.komicaviewer.models.komica.sora.SoraBoardRequest;
@@ -34,6 +35,13 @@ public class ProjectUtils {
             }
         }
         return threads;
+    }
+
+    public static Host[] getHosts(){
+        return new Host[]{
+                new KomicaTop50Host(),
+                new KomicaHost(),
+        };
     }
 
     public static Date parseTime(String time){

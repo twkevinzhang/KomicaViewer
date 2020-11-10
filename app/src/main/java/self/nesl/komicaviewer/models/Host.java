@@ -8,6 +8,9 @@ import java.util.Map;
 
 import self.nesl.komicaviewer.models.po.Post;
 import self.nesl.komicaviewer.util.UrlUtils;
+
+import static self.nesl.komicaviewer.util.Utils.print;
+
 public abstract class Host implements Serializable {
     public static String MAP_HOST_COLUMN = "host";
     public static String MAP_BOARD_MODEL_COLUMN = "boardModel";
@@ -55,11 +58,11 @@ public abstract class Host implements Serializable {
     public Request getRequest(String url,String tag){
             for (Map map: getRequests()) {
                 try {
-                    if(tag.equals(BOARD) && url.contains(map.get(Host.MAP_HOST_COLUMN).toString())){
-                        return ((Class<? extends Request>)map.get(Host.MAP_BOARD_MODEL_COLUMN)).getDeclaredConstructor(new Class[]{String.class}).newInstance(url);
-                    }else if(tag.equals(POST) && url.contains(map.get(Host.MAP_HOST_COLUMN).toString())){
-                        return ((Class<? extends Request>)map.get(Host.MAP_POST_MODEL_COLUMN)).getDeclaredConstructor(new Class[]{String.class}).newInstance(url);
-                    }
+                    print(map.get(Host.MAP_HOST_COLUMN).toString());
+                    if(url.contains(map.get(Host.MAP_HOST_COLUMN).toString()))
+                        return ((Class<? extends Request>)map.get(tag.equals(BOARD)?Host.MAP_BOARD_MODEL_COLUMN:Host.MAP_POST_MODEL_COLUMN))
+                                .getDeclaredConstructor(new Class[]{String.class})
+                                .newInstance(url);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InstantiationException e) {

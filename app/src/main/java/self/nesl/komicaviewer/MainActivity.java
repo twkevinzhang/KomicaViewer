@@ -1,6 +1,7 @@
 package self.nesl.komicaviewer;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
@@ -18,6 +19,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import self.nesl.komicaviewer.db.BoardPreferences;
 import self.nesl.komicaviewer.db.PostDB;
+import self.nesl.komicaviewer.models.Host;
+import self.nesl.komicaviewer.ui.home.HomeFragment;
+
+import static self.nesl.komicaviewer.util.ProjectUtils.getHosts;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         // add host item in there
-//        Menu boardMenu=navigationView.getMenu().addSubMenu("host");
-//        for(Host host:getHosts()){
-//            addMenu( boardMenu,host.getIcon(), host);
-//        }
+        Menu boardMenu=navigationView.getMenu().addSubMenu("host");
+        for(Host host:getHosts()){
+            addMenu( boardMenu,host.getIcon(), host);
+        }
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
@@ -81,5 +86,25 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void addMenu(Menu menu, int icon, Host host) {
+        MenuItem item = menu.add(host.getName());
+        item.setIcon(icon);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+//                navigationView.setCheckedItem(item.getItemId()); // not work
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(HomeFragment.COLUMN_HOST, host);
+                Navigation.findNavController(get(), R.id.nav_host_fragment)
+                        .navigate(R.id.nav_home, bundle);
+                return false;
+            }
+        });
+    }
+
+    private MainActivity get() {
+        return this;
     }
 }

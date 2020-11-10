@@ -50,6 +50,73 @@ public class KomicaHost extends Host {
                     put(Host.MAP_BOARD_MODEL_COLUMN, _2catBoardRequest.class);
                     put(Host.MAP_POST_MODEL_COLUMN, _2catThreadRequest.class);
                 }}
+                ,
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "komica.org"); // 綜合、新番捏他、動畫
+                    put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "vi.anacel.com"); // Figure/GK
+                    put(Host.MAP_BOARD_MODEL_COLUMN,null);
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "acgspace.wsfun.com"); // 艦隊收藏
+                    put(Host.MAP_BOARD_MODEL_COLUMN,null);
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "komica.dbfoxtw.me"); // 人外
+                    put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "anzuchang.com"); // Idolmaster
+                    put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "komica.yucie.net"); // 格鬥遊戲
+                    put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "kagaminerin.org"); // 3D STG
+                    put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "p.komica.acg.club.tw");
+                    put(Host.MAP_BOARD_MODEL_COLUMN,null);
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "2cat.org"); // 碧藍幻想
+                    put(Host.MAP_BOARD_MODEL_COLUMN,_2catBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, _2catThreadRequest.class);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "mymoe.moe"); // 綜合2
+                    put(Host.MAP_BOARD_MODEL_COLUMN,null);
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "strange-komica.com"); // 魔物獵人
+                    put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "secilia.zawarudo.org");
+                    put(Host.MAP_BOARD_MODEL_COLUMN,null);
+                    put(Host.MAP_POST_MODEL_COLUMN, null);
+                }},
+                new HashMap<String, Object>(){{
+                    put(Host.MAP_HOST_COLUMN, "gzone-anime.info"); // TYPE-MOON
+                    put(Host.MAP_BOARD_MODEL_COLUMN, SoraBoardRequest.class);
+                    put(Host.MAP_POST_MODEL_COLUMN, SoraThreadRequest.class);
+                }},
+                // add komica model item in there
         };
     }
 
