@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="self.nesl.komicaviewer.ui.home.HomeFragment"
+        android:name="self.nesl.komicaviewer.ui.home.BoardListFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_nav_board"
@@ -23,8 +23,8 @@
 
     <fragment
         android:id="@+id/nav_board"
-        android:name="self.nesl.komicaviewer.ui.board.BoardFragment"
-        tools:layout="@layout/fragment_post" >
+        android:name="self.nesl.komicaviewer.ui.board.ThreadListFragment"
+        tools:layout="@layout/fragment_posts" >
         <action
             android:id="@+id/action_nav_board_to_nav_post"
             app:destination="@id/nav_post" />
@@ -34,7 +34,7 @@
         android:id="@+id/nav_history"
         android:name="self.nesl.komicaviewer.ui.local.LocalFragment"
         android:label="@string/menu_history"
-        tools:layout="@layout/fragment_post" >
+        tools:layout="@layout/fragment_posts" >
         <argument
             android:name="tableName"
             app:argType="string"
@@ -48,7 +48,7 @@
         android:id="@+id/nav_favorite"
         android:name="self.nesl.komicaviewer.ui.local.LocalFragment"
         android:label="@string/menu_favorite"
-        tools:layout="@layout/fragment_post" >
+        tools:layout="@layout/fragment_posts" >
         <argument
             android:name="tableName"
             app:argType="string"
@@ -60,8 +60,8 @@
 
     <fragment
         android:id="@+id/nav_post"
-        android:name="self.nesl.komicaviewer.ui.post.PostFragment"
-        tools:layout="@layout/fragment_post" >
+        android:name="self.nesl.komicaviewer.ui.post.PostListFragment"
+        tools:layout="@layout/fragment_posts" >
     </fragment>
 
 </navigation>

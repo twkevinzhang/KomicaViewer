@@ -1,28 +1,7 @@
-### 框架
-MVVM in Android
+# KomciaViewer
+Browse between multiple forums.
 
-### 授權
- - 該庫的所有程式碼皆以GPL的方式授權出去，被授權者應以同樣的授權方式公開程式碼，以保持開源世界的活躍。
- - 本程式碼允許商業使用，但仍應遵守GPL授權將程式碼公開(token等機密資訊除外)，或是支付授權金(550美元/1個開發者)以保持商業用途程式碼的機密。
-
-### Min Version
- - < 7.0.0 (N, api=24)，getReplies()無法日期排序
- - < 4.4 (KITKAT, api=19)，Post.hashCode()無法比對重複
-
-### 特色
- - 為了符合Komica聯合站的獨特架構，將`Host`與`Board`分離，兩者之間的Url並沒有依賴性，僅依靠`ProjectUtils.getPostModel()`來取得依存關係。
-
-### 分支說明
- - 強化MVVM的觀念，增強Model的功能
- - 更好的commit格式
-
-### 學習重點
- - MVVM
- - fragment, **Navigation-fragment**, AppBar新功能實戰
- - 遵守SOLID
- - POJO
-
-### 常用功能
+## 常用功能
  - [x] 預覽reply的引用內容(ex. >>12345678 (我的家庭真可愛...) )
  - [x] 點擊開啟樹狀留言圖Dialog
  - [x] 閱讀歷史
@@ -35,17 +14,17 @@ MVVM in Android
  - [ ] 肉餅臉產生器
  - [ ] 依據ID生出頭像
 
-### 目前困難
+## 目前困難
  - 像Pitt的點擊開圖
  - GIF裏站等站的原圖被js加密過
  
-###### 未來展望
+### 未來
  - 為使用者推薦K島上常用圖片(搜尋、上傳)
  - 追蹤文章
  - 個人化推薦文章(自行設定關鍵字)
  
-### 目前版面
-###### Komica Top50:
+## 目前版面
+### Komica Top50:
    - [x] komica.org
       - sora: [綜合,男性角色,短片2,寫真],[改造,求圖]
       - 2cat: 
@@ -83,7 +62,7 @@ MVVM in Android
       - [TYPE-MOON]
       - [綜合學術,生活消費,藝術,圖書]
 
-###### Komica All 與 Top50 的差集:
+### Komica All 與 Top50 的差集:
    - [ ] moecorner.com [Apple]
    - [ ] 2nee.org [三次壁]
    - [ ] komicolle.org [Komicolle]
@@ -108,7 +87,7 @@ MVVM in Android
    - [ ] www.karlsland.net/t7s [],[T7S]
    - [ ] www.wowhk.org [],[WOW]
    
-###### Komica2:
+### Komica2:
    - [x] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
    - [x] 2cat.org (
        - [GIF裡]
@@ -123,40 +102,14 @@ MVVM in Android
    - [x] cyber.boguspix.com (機娘裡)
    - [ ] majeur.zawarudo.org (詢問裡)
 
-### 截圖
+## 截圖
 ![1](./doc/1.PNG)、![2](./doc/2.PNG)、![3](./doc/3.PNG)、![4](./doc/4.PNG)、![5](./doc/5.PNG)
 
  
-### 下載
+## 下載
    - [Download](https://github.com/neslxzhen/KomicaViewer/blob/master/app-debug.apk)
 
- 
-### 額外套件 (dependencies)
-```gradle
-   // 原生
-   implementation 'androidx.appcompat:appcompat:1.2.0'
-   implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-   implementation 'com.google.android.material:material:1.2.0'
-   implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-   implementation 'androidx.navigation:navigation-fragment:2.3.0'
-   implementation 'androidx.navigation:navigation-ui:2.3.0'
-   implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-
-   // 第三方
-   implementation 'com.amitshekhar.android:android-networking:1.0.2'
-   implementation 'org.jsoup:jsoup:1.12.1'
-   implementation 'com.github.bumptech.glide:glide:4.9.0'
-   implementation 'com.github.clans:fab:1.6.4'
-   implementation 'com.google.code.gson:gson:2.8.6'
-```
-    
-### Commit記錄方式
- - Fix: 修復原本的Bug
- - Update: 做了結構上的重大改變，不影響其他功能
- - Add: 新增功能
- - Del: 刪除功能
-
-### 參考來源
+## 參考來源
  - 搜尋
     - [EhViewer](https://github.com/seven332/EhViewer)
  - 風格
@@ -168,60 +121,7 @@ MVVM in Android
     - [Komica20160704/homu-api](https://homu.homu-api.com/api) and [Repository](https://github.com/Komica20160704/homu-api)
     - [Komica+](https://github.com/TakumaMochizuki/Komica)
 
-### 圖
-```
-路徑圖
-host > board > post
-```
-```
-繼承關係圖
-============================
-Model:
-
-   Host
-    |__Komica2Host
-    |__KomicaHost
-         |__KomicaTop50Host
-
-   Post
-    |__SoraPost
-    |    |__MymoePost
-    |__SoraBoard
-         |__MymoeBoard
-
-============================
-View:
-
-   BaseFragment
-    |__PostFragment
-    |__BoardFragment
-
-============================
-ViewModel:
-
-   BaseViewModel
-    |__PostViewModel
-    |__BoardViewModel
-    
-============================
-```
-```
-網址結構
-getUrl() == getProtocol()+"://"+getHost()+getPath() // http://sora.komica.org/00/pixmicat.php?res=18287039
-getLastPathSegment() // https://sora.komica.org/00
-```
-
-### 如何新增Host?
- - let your `hostModel` implements `Host` like `KomicaHost`
- - let your `postModel` and `boardModel` implements `Post` like `SoraBoard` and `SoraPost`
- - put your `hostModel` in 34th line of `ProjectUtils.getHosts()`,there are notes `// add host item in there`
-
-### 如何新增Komica聯合站的Host?
- - let your `postModel` and `boardModel` implements `Post`
- - instantiate your `postModel` and `boardModel` in 96th line of `KomicaHost.getSubHosts()`,there are notes `// add komica model item in there`
-
-
-### Java的語言缺點
+## Java的語言缺點
  - 缺陷
    - 不能abstract static function 
    // https://stackoverflow.com/questions/370962/why-cant-static-methods-be-abstract-in-java
