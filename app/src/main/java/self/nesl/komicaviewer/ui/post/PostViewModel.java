@@ -15,11 +15,10 @@ public class PostViewModel extends BaseViewModel {
 
     @Override
     public KThread beforePost(KThread kThread) {
-        kThread=kThread.getReplies().get(0);
         kThread=doSomething(kThread);
         if(kThread.getQuote()==null)
             kThread.setQuote(new Element("html"));
-        kThread.getQuote().append(MessageFormat.format("<br><a href=\"{0}\">原文連結: {0}</a>", kThread.getUrl()));
+        kThread.getReplies().get(0).getQuote().append(MessageFormat.format("<br><a href=\"{0}\">原文連結: {0}</a>", kThread.getUrl()));
         return kThread;
     }
 

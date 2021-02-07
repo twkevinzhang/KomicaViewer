@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.dto.KThread;
@@ -59,7 +58,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_post, container, false);
-        final RecyclerView lst = v.findViewById(R.id.rcLst);
+        final RecyclerView rcLst = v.findViewById(R.id.rcLst);
         final TextView txtMsg = v.findViewById(R.id.txtMsg);
 
         // SwipeRefreshLayout
@@ -78,25 +77,25 @@ public abstract class BaseFragment extends Fragment {
         viewModel.getPost().observe(getViewLifecycleOwner(), new Observer<KThread>() {
             @Override
             public void onChanged(KThread thread) {
-                ArrayList<KThread> arr=thread.getReplies(false,0);
-                if(arr==null) arr=new ArrayList<KThread>();
-                adapter.setPostlist(arr);
+//                ArrayList<KThread> arr=thread.getReplies(false,0);
+//                if(arr==null) arr=new ArrayList<KThread>();
+                adapter.setPost(thread);
                 whenDataChange(adapter, thread);
                 adapter.notifyDataSetChanged();
                 txtMsg.setText(MessageFormat.format(
                         "onChanged," +
                                 "adapter.getItemCount:{0}," +
                                 "arr.length:{1}",
-                        adapter.getItemCount(), arr.size())
+                        adapter.getItemCount(), thread.getReplies().size())
                 );
                 cateSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        // lst.addOnScrollListener
-        lst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        lst.setAdapter(adapter);
-        lst.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        // rcLst.addOnScrollListener
+        rcLst.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        rcLst.setAdapter(adapter);
+        rcLst.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -117,7 +116,7 @@ public abstract class BaseFragment extends Fragment {
                     }
                 } else if (!recyclerView.canScrollVertically(-1)) {
                     txtMsg.setText("到頂了(不能向上滑動)");
-                }else{
+                } else {
                     txtMsg.setText("滑動中");
                 }
             }
@@ -126,9 +125,13 @@ public abstract class BaseFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
         });
-
+        v=onCreatedView(v);
         return v;
     }
 
     abstract public void whenDataChange(ThreadAdapter adapter, KThread thread);
+
+    public View onCreatedView(View v) {
+        return v;
+    }
 }

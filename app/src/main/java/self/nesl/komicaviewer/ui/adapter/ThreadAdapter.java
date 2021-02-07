@@ -8,22 +8,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.jsoup.nodes.Element;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
+
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.dto.KThread;
 
 public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder> {
-    public ArrayList<KThread> postlist;
+    public KThread thread;
     public ItemOnClickListener callBack;
     public Fragment fragment;
 
     public ThreadAdapter(Fragment fragment, ItemOnClickListener callBack) {
-        this.postlist =  new ArrayList<KThread>();
+        this.thread =  new KThread(null,null);
         this.callBack = callBack;
         this.fragment=fragment;
     }
@@ -35,6 +35,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
         public TextView txtPoster;
         public TextView txtTime;
         public WebView webView;
+        public RecyclerView threads;
         public ImageView img;
 
         ThreadViewHolder(View v) {
@@ -46,6 +47,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
             txtPostInd = v.findViewById(R.id.txtPostInd);
             webView=v.findViewById(R.id.webView);
             img=v.findViewById(R.id.img);
+            threads=v.findViewById(R.id.threads);
 //            itemView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         }
 
@@ -61,7 +63,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
 
     @Override
     public void onBindViewHolder(@NonNull ThreadViewHolder holder, final int i) {
-        KThread post = postlist.get(i);
+        KThread post = thread.getReplies().get(i);
         setDetail(holder,post);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -78,6 +80,16 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
         }
         holder.webView.setInitialScale(250);
         holder.webView.loadDataWithBaseURL("",quoteEle.html(),"text/html","UTF-8","");
+
+        ThreadAdapter adapter=new ThreadAdapter(fragment,new ThreadAdapter.ItemOnClickListener() {
+            @Override
+            public void itemOnClick(KThread thread) {
+            }
+        });
+        holder.threads.setLayoutManager(new LinearLayoutManager(fragment.getContext()));
+        adapter.setPost(post);
+        holder.threads.setAdapter(adapter);
+
     }
 
     void setDetail(ThreadViewHolder holder, KThread post){
@@ -104,26 +116,15 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
 
     @Override
     public int getItemCount() {
-        return postlist.size();
+        return thread.getReplies().size();
     }
 
-    public void addAllPost(ArrayList<KThread> postlist) {
-        LinkedHashSet set=  new LinkedHashSet<>();
-        set.addAll(this.postlist);
-        set.addAll(postlist);
-        this.postlist.addAll(set);
-    }
-
-    public void setPostlist(ArrayList<KThread> postlist) {
-        this.postlist=postlist;
-    }
-
-    public void addThreadpost(KThread post) {
-        if(!postlist.contains(post))postlist.add(0, post);
+    public void setPost(KThread thread) {
+        this.thread=thread;
     }
 
     public void clear() {
-        postlist.clear();
+        thread.removeAll();
     }
 
     public interface ItemOnClickListener {
