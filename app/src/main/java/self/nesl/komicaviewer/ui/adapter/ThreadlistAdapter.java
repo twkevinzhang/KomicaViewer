@@ -26,7 +26,7 @@ public class ThreadlistAdapter extends ThreadAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull ThreadViewHolder holder, final int i) {
-        final KThread post = postlist.get(i);
+        final KThread post = thread.getReplies().get(i);
         super.setDetail(holder, post);
 
         holder.txtPostInd.setText(post.getDescription(23));
