@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +28,7 @@ public class Post implements Serializable, Cloneable, Title, Id {
     private Element origin = null;
     private String pictureUrl = null;
     private boolean isReaded = false;
-    private String description = null;
+    private String text = null;
 
     public Post(String url, String id) {
         this.url = url;
@@ -147,12 +146,12 @@ public class Post implements Serializable, Cloneable, Title, Id {
         isReaded = readed;
     }
 
-    public String getDescription() {
-        return description;
+    public String getText() {
+        return text;
     }
 
     public String getDescription(int words) {
-        String ind = this.description;
+        String ind = this.text;
         if (ind == null) ind = "";
         if (words != 0 && ind.length() > words) {
             ind = ind.substring(0, words + 1) + "...";
@@ -160,8 +159,8 @@ public class Post implements Serializable, Cloneable, Title, Id {
         return ind;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override

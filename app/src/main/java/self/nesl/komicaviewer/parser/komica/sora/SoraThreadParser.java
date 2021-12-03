@@ -4,39 +4,52 @@ import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 
 import org.jsoup.nodes.Element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.Parser;
-import self.nesl.komicaviewer.util.UrlUtils;
 
 public class SoraThreadParser implements Parser<List<Post>> {
-//    komica.org (
-//            [綜合,男性角色,短片2,寫真],
-//            [新番捏他,新番實況,漫畫,動畫,萌,車],
-//            [四格],
-//            [女性角色,歡樂惡搞,GIF,Vtuber],
-//            [蘿蔔,鋼普拉,影視,特攝,軍武,中性角色,遊戲速報,飲食,小說,遊戲王,奇幻/科幻,電腦/消費電子,塗鴉王國,新聞,布袋戲,紙牌,網路遊戲]
-//            )
+    private String url;
+    private Element root;
+    private List<Post> posts;
 
-    public String url;
-
-    public SoraThreadParser(String source){
-
-    }
-
-    public SoraThreadParser(Element element, String url, String postId) {
-        super(new Post(url, postId), element);
+    public SoraThreadParser(String url, Element source) {
         this.url = url;
+        this.root = source;
+        posts = new ArrayList<>();
     }
 
     public List<Post> parse() {
-        Element thread = installThreadTag(post.getOrigin().selectFirst("#threads")).selectFirst("div.thread");
-        Element threadpost = thread.selectFirst("div.threadpost");
-        SoraPostParser subPost = new SoraPostParser(threadpost, new UrlUtils(url).getLastPathSegment(), threadpost.attr("id").substring(1));
+        Element thread = installThreadTag(root.selectFirst("#threads")).selectFirst("div.thread");
         for (Element reply_ele : thread.select("div.reply")) {
-            subPost.addPost(reply_ele);
+            String postId = reply_ele.attr("id").substring(1); // #r12345678
+            String postUrl = url + "#r" + postId;
+            Post post= getPostParser(postUrl, reply_ele).parse();
+            posts.add(post);
         }
-        return subPost.parse();
+        injectCount(posts);
+        String threadId = new SoraPostParser.UrlTool(url).getSoraId();
+        removeReplyTo(posts, threadId);
+        return posts;
+    }
+
+    private static void injectCount(List<Post> posts){
+        for (Post post: posts) {
+            long count = posts.stream().filter(p-> post.getId().equals(p.getReplyTo())).count();
+            post.setReplyCount((int) count);
+        }
+    }
+
+    private static void removeReplyTo(List<Post> posts, String threadId){
+        for (Post post: posts) {
+            if(threadId.equals(post.getReplyTo()))
+                post.setReplyTo(null);
+        }
+    }
+
+    protected Parser<Post> getPostParser(String url, Element source) {
+        return new SoraPostParser(url, source);
     }
 }
