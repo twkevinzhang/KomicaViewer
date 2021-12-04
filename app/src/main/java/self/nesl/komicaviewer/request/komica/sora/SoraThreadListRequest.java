@@ -3,10 +3,13 @@ package self.nesl.komicaviewer.request.komica.sora;
 import static self.nesl.komicaviewer.ui.SampleViewModel.PAGE;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import org.jsoup.Jsoup;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.Post;
@@ -59,7 +62,7 @@ public class SoraThreadListRequest extends Request<List<Post>> {
             if(!hasPageFragment()){
                 return url;
             }
-            return url.split(suffix)[0];
+            return url.split(Pattern.quote(suffix))[0];
         }
     }
 }

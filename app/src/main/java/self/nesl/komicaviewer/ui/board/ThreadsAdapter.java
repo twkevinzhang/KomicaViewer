@@ -35,10 +35,7 @@ public class ThreadsAdapter extends SampleAdapter<Post, ThreadViewHolder> {
         holder.txtPostInd.setText(post.getDescription(23));
 
         String url = post.getPictureUrl();
-        holder.img.setTag(R.id.imageid, post.getId());
-        if (url != null && url.length() > 0
-                && holder.img.getTag(R.id.imageid).equals(post.getId())
-        ) {
+        if (url != null) {
             Glide.with(context)
                     .load(url)
                     .placeholder(R.drawable.ic_launcher_background)

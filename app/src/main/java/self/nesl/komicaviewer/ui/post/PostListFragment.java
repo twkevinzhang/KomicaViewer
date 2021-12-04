@@ -30,4 +30,7 @@ public class PostListFragment extends SampleListFragment<Post, Post> {
             adapter = new PostListAdapter(null);
         return adapter;
     }
+
+    @Override
+    protected int getMaxPage(){ return 0; }
 }

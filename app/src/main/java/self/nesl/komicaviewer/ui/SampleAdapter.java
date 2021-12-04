@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
@@ -16,7 +17,9 @@ public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> ex
     @Override
     public void onBindViewHolder(@NonNull VH holder, final int i) {
         final DATA data = list.get(i);
-        holder.itemView.setOnClickListener(v -> callBack.OnClick(holder.itemView, data));
+
+        if(callBack!= null)
+            holder.itemView.setOnClickListener(v -> callBack.OnClick(holder.itemView, data));
     }
 
     @Override
@@ -30,7 +33,11 @@ public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> ex
     }
 
     public void addAll(List<DATA> list) {
-        this.list.addAll(list);
+        LinkedHashSet set=  new LinkedHashSet<>();
+        set.addAll(this.list);
+        set.addAll(list);
+        this.list.clear();
+        this.list.addAll(set);
         notifyDataSetChanged();
     }
 
