@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.ui.post;
+package self.nesl.komicaviewer.ui.thread;
 
 import android.os.Bundle;
 
@@ -8,15 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.Collections;
 import java.util.List;
 
-import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.repository.BoardRepository;
 import self.nesl.komicaviewer.repository.PostRepository;
 import self.nesl.komicaviewer.request.PostListRequestFactory;
 import self.nesl.komicaviewer.request.Request;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
-public class PostListViewModel extends SampleViewModel<Post, Post> {
+public class ThreadViewModel extends SampleViewModel<Post, Post> {
     public static final String COLUMN_POST = "post";
 
     private PostRepository postRepository;
@@ -24,7 +22,7 @@ public class PostListViewModel extends SampleViewModel<Post, Post> {
     private MutableLiveData<List<Post>> _list = new MutableLiveData<>();
     private MutableLiveData<Post> _detail = new MutableLiveData<>();
 
-    public PostListViewModel() {
+    public ThreadViewModel() {
         this.postRepository = new PostRepository();
         _list.postValue(Collections.emptyList());
     }

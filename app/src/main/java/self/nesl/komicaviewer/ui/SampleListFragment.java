@@ -73,7 +73,6 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends
     }
 
     protected void initAdapter() {
-        rvLst.setAdapter(getAdapter());
         rvLst.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView rv, int newState) {
@@ -100,6 +99,11 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends
             public void onScrolled(RecyclerView rv, int dx, int dy) {
             }
         });
+        setAdapter();
+    }
+
+    protected void setAdapter(){
+        rvLst.setAdapter(getAdapter());
     }
 
     protected void loadDetail(){

@@ -32,6 +32,13 @@ public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> ex
         return list.size();
     }
 
+    public void add(DATA item) {
+        if(!this.list.contains(item)){
+            this.list.add(item);
+            notifyItemInserted(this.list.size());
+        }
+    }
+
     public void addAll(List<DATA> list) {
         LinkedHashSet set=  new LinkedHashSet<>();
         set.addAll(this.list);

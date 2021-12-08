@@ -60,7 +60,7 @@
 
     <fragment
         android:id="@+id/nav_post"
-        android:name="self.nesl.komicaviewer.ui.post.PostListFragment"
+        android:name="self.nesl.komicaviewer.ui.thread.ThreadFragment"
         tools:layout="@layout/fragment_posts" >
     </fragment>
 

@@ -1,7 +1,6 @@
-package self.nesl.komicaviewer.ui.post;
+package self.nesl.komicaviewer.ui.board;
 
 import android.content.Context;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,39 +14,39 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.SampleAdapter;
-import self.nesl.komicaviewer.ui.render.PostRender;
 import self.nesl.komicaviewer.ui.viewholder.PostViewHolder;
+import self.nesl.komicaviewer.ui.viewholder.ThreadViewHolder;
 
-public class PostListAdapter extends SampleAdapter<Post, PostViewHolder> {
+public class ThreadListAdapter extends SampleAdapter<Post, ThreadViewHolder> {
     @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ThreadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_post, parent, false);
-        return new PostViewHolder(view);
+                .inflate(R.layout.item_thread, parent, false);
+        return new ThreadViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull ThreadViewHolder holder, final int i) {
         super.onBindViewHolder(holder, i);
         final Post post = list.get(i);
-
+        Context context = holder.img.getContext();
         setDetail(holder, post);
 
-        PostRender render = new PostRender(post, list, holder.txtPost);;
-        holder.txtPost.setText(render.render());
+        holder.txtPostInd.setText(post.getDescription(23));
 
-        if (post.getPictureUrl() != null){
-            holder.img.setVisibility(View.VISIBLE);
-            Glide.with(holder.img.getContext())
-                    .load(post.getPictureUrl())
+        String url = post.getPictureUrl();
+        if (url != null) {
+            Glide.with(context)
+                    .load(url)
                     .placeholder(R.drawable.bg_background)
+                    .centerCrop()
                     .error(R.drawable.ic_error_404)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.img);
-        }else{
-            holder.img.setVisibility(View.GONE);
-        }
+        } else {
+            Glide.with(context).clear(holder.img);
+       }
     }
 
     private void setDetail(PostViewHolder holder, Post data) {
@@ -56,4 +55,5 @@ public class PostListAdapter extends SampleAdapter<Post, PostViewHolder> {
         holder.txtPoster.setText(data.getPoster());
         holder.txtTime.setText(data.getTimeStr());
     }
+
 }

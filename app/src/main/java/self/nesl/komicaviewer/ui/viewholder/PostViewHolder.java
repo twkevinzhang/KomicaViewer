@@ -8,8 +8,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.util.List;
 
 import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.render.PostRender;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
     public TextView txtPostId;
@@ -30,5 +35,31 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         txtPost = v.findViewById(R.id.txtPost);
         img = v.findViewById(R.id.img);
 //            itemView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+    }
+
+    public void bind(Post post, List<Post> posts){
+        setDetail(post);
+
+        PostRender render = new PostRender(post, posts, txtPost);;
+        txtPost.setText(render.render());
+
+        if (post.getPictureUrl() != null){
+            img.setVisibility(View.VISIBLE);
+            Glide.with(img.getContext())
+                    .load(post.getPictureUrl())
+                    .placeholder(R.drawable.bg_background)
+                    .error(R.drawable.ic_error_404)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(img);
+        }else{
+            img.setVisibility(View.GONE);
+        }
+    }
+
+    private void setDetail(Post data) {
+        txtPostId.setText("No." + data.getId());
+        txtReplyCount.setText("回應:" + data.getReplyCount());
+        txtPoster.setText(data.getPoster());
+        txtTime.setText(data.getTimeStr());
     }
 }

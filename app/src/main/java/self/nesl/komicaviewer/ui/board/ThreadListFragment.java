@@ -1,6 +1,6 @@
 package self.nesl.komicaviewer.ui.board;
 
-import static self.nesl.komicaviewer.ui.post.PostListViewModel.COLUMN_POST;
+import static self.nesl.komicaviewer.ui.thread.ThreadViewModel.COLUMN_POST;
 
 import android.os.Bundle;
 
@@ -18,7 +18,7 @@ import self.nesl.komicaviewer.ui.SampleAdapter;
 
 public class ThreadListFragment extends SampleListFragment<Board, Post> {
     private ThreadListViewModel threadListViewModel;
-    private ThreadsAdapter adapter = new ThreadsAdapter();
+    private ThreadListAdapter adapter;
 
     @Override
     protected void initAdapter() {
@@ -40,6 +40,8 @@ public class ThreadListFragment extends SampleListFragment<Board, Post> {
 
     @Override
     protected SampleAdapter<Post, ? extends RecyclerView.ViewHolder> getAdapter() {
+        if(adapter == null)
+            adapter = new ThreadListAdapter();
         return adapter;
     }
 }
