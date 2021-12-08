@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.parser.komica.sora;
 
+import static self.nesl.komicaviewer.util.TestUtils.print;
+
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.jsoup.Jsoup;
@@ -18,6 +20,10 @@ public class SoraPostParserTest extends TestCase {
 
     public void testParse() {
         Post post= parser.parse();
-        TestUtils.print(new Gson().toJson(post));
+        print(new Gson().toJson(post));
+    }
+
+    public void testParseText() {
+        print(parser.parseText());
     }
 }

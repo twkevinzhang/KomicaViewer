@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import self.nesl.komicaviewer.R;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
@@ -15,7 +17,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public TextView txtReplyCount;
     public TextView txtPoster;
     public TextView txtTime;
-    public WebView webView;
+    public TextView txtPost;
     public ImageView img;
 
     public PostViewHolder(View v) {
@@ -25,9 +27,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         txtPostId = v.findViewById(R.id.txtId);
         txtPoster = v.findViewById(R.id.txtPoster);
         txtPostInd = v.findViewById(R.id.txtPostInd);
-        webView = v.findViewById(R.id.webView);
+        txtPost = v.findViewById(R.id.txtPost);
         img = v.findViewById(R.id.img);
 //            itemView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
     }
-
 }

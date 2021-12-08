@@ -27,7 +27,7 @@ public class PostListFragment extends SampleListFragment<Post, Post> {
     @Override
     protected SampleAdapter<Post, ? extends RecyclerView.ViewHolder> getAdapter() {
         if(adapter == null)
-            adapter = new PostListAdapter(null);
+            adapter = new PostListAdapter();
         return adapter;
     }
 

@@ -4,7 +4,12 @@ import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
 import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.Utils.parseJpnToEngWeek;
 
+import android.util.Log;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 
 import java.util.Date;
 import java.util.UUID;
@@ -41,7 +46,7 @@ public class SoraPostParser implements Parser<Post> {
         post.setPictureUrl(parsePicture());
         setDetail();
         post.setReplyTo(parseReplyTo());
-        post.setText(parseText());
+        setText();
         return post;
     }
 
@@ -72,14 +77,34 @@ public class SoraPostParser implements Parser<Post> {
     protected String parseReplyTo(){
         Element element = root.selectFirst("span.resquote");
         if(element != null)
-            return element.text().replaceAll(">","");
+            return element.text()
+                    .replaceAll(">","")
+                    .replaceAll("No\\.","");
         return null;
     }
 
+    protected void setText(){
+        post.setText(parseText());
+        post.setQuote(parseQuote());
+    }
+
     protected String parseText() {
-        String ind = root.selectFirst(".quote").text().replaceAll(">>(No\\.)*[0-9]{6,} *(\\(.*\\))*", "");
-        ind = ind.replaceAll(">+.+\n", "");
+        String alpha= "&gt;"; // is ">"
+        String ind = cleanPreserveLineBreaks(root.selectFirst(".quote").html())
+                .replaceAll(alpha + alpha + "(No\\.)*[0-9]{6,} *(\\(.*\\))*", "")
+                .replaceAll(alpha+ "+.+\n", "");
         return ind.trim();
+    }
+
+    protected String parseQuote() {
+        return null;
+    }
+
+    private static String cleanPreserveLineBreaks(String bodyHtml) {
+        // get pretty printed html with preserved br and p tags
+        String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));
+        // get plain text with preserved line breaks by disabled prettyPrint
+        return Jsoup.clean(prettyPrintedBodyFragment, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
 
 

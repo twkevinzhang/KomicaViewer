@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
@@ -38,14 +39,14 @@ public class ThreadsAdapter extends SampleAdapter<Post, ThreadViewHolder> {
         if (url != null) {
             Glide.with(context)
                     .load(url)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.bg_background)
                     .centerCrop()
                     .error(R.drawable.ic_error_404)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.img);
         } else {
             Glide.with(context).clear(holder.img);
-            holder.img.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_launcher_background));
-        }
+       }
     }
 
     private void setDetail(PostViewHolder holder, Post data) {

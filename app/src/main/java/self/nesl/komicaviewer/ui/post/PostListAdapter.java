@@ -1,26 +1,24 @@
 package self.nesl.komicaviewer.ui.post;
 
+import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
-import org.jsoup.nodes.Element;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.SampleAdapter;
+import self.nesl.komicaviewer.ui.render.PostRender;
 import self.nesl.komicaviewer.ui.viewholder.PostViewHolder;
 
 public class PostListAdapter extends SampleAdapter<Post, PostViewHolder> {
-    public DisplayMetrics displayMetrics;
-
-    public PostListAdapter(DisplayMetrics displayMetrics) {
-        this.displayMetrics = displayMetrics;
-    }
-
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,21 +34,20 @@ public class PostListAdapter extends SampleAdapter<Post, PostViewHolder> {
 
         setDetail(holder, post);
 
+        PostRender render = new PostRender(post, list, holder.txtPost);;
+        holder.txtPost.setText(render.render());
 
-////        DisplayMetrics displayMetrics = new DisplayMetrics();
-////        fragment.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//        int width = displayMetrics.widthPixels;
-//
-//        // todo: 讓圖片大小可以遵守dialog大小
-////        int width=holder.itemView.getWidth();
-////        print(this,"width",width+"");
-//
-//        Element quoteEle = post.getShow();
-//        for (Element imgEle : quoteEle.select("img")) {
-//            imgEle.attr("width", (width / 3) + "");
-//        }
-//        holder.webView.setInitialScale(250);
-//        holder.webView.loadDataWithBaseURL("", quoteEle.html(), "text/html", "UTF-8", "");
+        if (post.getPictureUrl() != null){
+            holder.img.setVisibility(View.VISIBLE);
+            Glide.with(holder.img.getContext())
+                    .load(post.getPictureUrl())
+                    .placeholder(R.drawable.bg_background)
+                    .error(R.drawable.ic_error_404)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.img);
+        }else{
+            holder.img.setVisibility(View.GONE);
+        }
     }
 
     private void setDetail(PostViewHolder holder, Post data) {
@@ -58,10 +55,5 @@ public class PostListAdapter extends SampleAdapter<Post, PostViewHolder> {
         holder.txtReplyCount.setText("回應:" + data.getReplyCount());
         holder.txtPoster.setText(data.getPoster());
         holder.txtTime.setText(data.getTimeStr());
-    }
-
-    public void addThreadpost(Post post) {
-        if (!list.contains(post)) list.add(0, post);
-        notifyDataSetChanged();
     }
 }
