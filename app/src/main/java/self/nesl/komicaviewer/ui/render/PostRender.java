@@ -1,5 +1,6 @@
 package self.nesl.komicaviewer.ui.render;
 
+import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -9,16 +10,19 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.thread.ReplyDialog;
 
 public class PostRender extends SpannableStringRender{
     private Post post;
     private List<Post> posts;
     private TextView textView;
     private SpannableStringBuilder strBuilder;
+    private OnReplyToClickListener onReplyToClickListener;
 
     public PostRender(Post post, List<Post> posts, TextView textView){
         super(textView);
@@ -26,7 +30,6 @@ public class PostRender extends SpannableStringRender{
         this.posts=posts;
         this.textView=textView;
         this.strBuilder = new SpannableStringBuilder();
-
     }
 
     @Override
@@ -45,20 +48,25 @@ public class PostRender extends SpannableStringRender{
 
     public void addReplyFor(String replyTo){
         Optional<Post> result= posts.stream().filter(b -> b.getId().equals(replyTo)).findFirst();
-        String preview;
         if(result.isPresent()){
             Post replyFor= result.get();
-            preview = MessageFormat.format("{0} ({1})", replyTo, replyFor.getDescription(10));
+            String preview = MessageFormat.format("{0} ({1})", replyTo, replyFor.getDescription(10));
+            new LinkBuilder(strBuilder).addLink(preview, ()-> onReplyToClickListener.onReplyToClickListener(replyFor, posts));
         }else{
-            preview = replyTo;
+            new LinkBuilder(strBuilder).addLink(replyTo, null);
         }
-        new LinkBuilder(strBuilder).addLink(preview, ()->{
-            Toast.makeText(textView.getContext(), replyTo, Toast.LENGTH_SHORT).show();
-        });
     }
 
     public void addText(String text){
         strBuilder.append(text);
+    }
+
+    public void setReplyToOnClickListener(OnReplyToClickListener onReplyToClickListener){
+        this.onReplyToClickListener=onReplyToClickListener;
+    }
+
+    public interface OnReplyToClickListener{
+        void onReplyToClickListener(Post replyTo, List<Post> list);
     }
 }
 

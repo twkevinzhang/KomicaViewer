@@ -99,10 +99,6 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends
             public void onScrolled(RecyclerView rv, int dx, int dy) {
             }
         });
-        setAdapter();
-    }
-
-    protected void setAdapter(){
         rvLst.setAdapter(getAdapter());
     }
 

@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.format.DateUtils;
 
 import org.jsoup.nodes.Element;
@@ -14,7 +16,7 @@ import java.util.Objects;
 import self.nesl.komicaviewer.feature.Id;
 import self.nesl.komicaviewer.feature.Title;
 
-public class Post implements Serializable, Cloneable, Title, Id {
+public class Post implements Serializable, Parcelable, Cloneable, Title, Id {
     private String id = null;
     private String replyTo = null;
     private String quote = null;
@@ -34,6 +36,33 @@ public class Post implements Serializable, Cloneable, Title, Id {
         this.url = url;
         this.id = id;
     }
+
+    protected Post(Parcel in) {
+        id = in.readString();
+        replyTo = in.readString();
+        quote = in.readString();
+        url = in.readString();
+        title = in.readString();
+        poster = in.readString();
+        tags = in.createStringArrayList();
+        visitsCount = in.readInt();
+        replyCount = in.readInt();
+        pictureUrl = in.readString();
+        isReaded = in.readByte() != 0;
+        text = in.readString();
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 
     @Override
     public String getId() {
@@ -200,5 +229,26 @@ public class Post implements Serializable, Cloneable, Title, Id {
             return "今天 " + new SimpleDateFormat("HH:mm").format(createAt);
         }
         return new SimpleDateFormat("YY.MM.dd(E) HH:mm").format(createAt);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(replyTo);
+        dest.writeString(quote);
+        dest.writeString(url);
+        dest.writeString(title);
+        dest.writeString(poster);
+        dest.writeStringList(tags);
+        dest.writeInt(visitsCount);
+        dest.writeInt(replyCount);
+        dest.writeString(pictureUrl);
+        dest.writeByte((byte) (isReaded ? 1 : 0));
+        dest.writeString(text);
     }
 }

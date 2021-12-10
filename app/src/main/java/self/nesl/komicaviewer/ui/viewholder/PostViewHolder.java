@@ -1,20 +1,25 @@
 package self.nesl.komicaviewer.ui.viewholder;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.render.PostRender;
+import self.nesl.komicaviewer.ui.thread.ReplyDialog;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
     public TextView txtPostId;
@@ -24,8 +29,9 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public TextView txtTime;
     public TextView txtPost;
     public ImageView img;
+    private PostRender.OnReplyToClickListener onReplyToClickListener;
 
-    public PostViewHolder(View v) {
+    public PostViewHolder(View v, PostRender.OnReplyToClickListener onReplyToClickListener) {
         super(v);
         txtTime = v.findViewById(R.id.txtTime);
         txtReplyCount = v.findViewById(R.id.txtReplyCount);
@@ -34,13 +40,14 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         txtPostInd = v.findViewById(R.id.txtPostInd);
         txtPost = v.findViewById(R.id.txtPost);
         img = v.findViewById(R.id.img);
-//            itemView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        this.onReplyToClickListener = onReplyToClickListener;
     }
 
     public void bind(Post post, List<Post> posts){
         setDetail(post);
 
-        PostRender render = new PostRender(post, posts, txtPost);;
+        PostRender render = new PostRender(post, posts, txtPost);
+        render.setReplyToOnClickListener(onReplyToClickListener);
         txtPost.setText(render.render());
 
         if (post.getPictureUrl() != null){

@@ -2,11 +2,9 @@ package self.nesl.komicaviewer.ui.render;
 
 import android.text.Html;
 import android.text.SpannableStringBuilder;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -40,7 +38,8 @@ public class LinkBuilder {
         strBuilder.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                onClickListener.onClick();
+                if(onClickListener != null)
+                    onClickListener.onClick();
             }
         }, start, end, flags);
         strBuilder.removeSpan(span);
