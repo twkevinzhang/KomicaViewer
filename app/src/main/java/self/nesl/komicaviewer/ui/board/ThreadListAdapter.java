@@ -30,30 +30,6 @@ public class ThreadListAdapter extends SampleAdapter<Post, ThreadViewHolder> {
     public void onBindViewHolder(@NonNull ThreadViewHolder holder, final int i) {
         super.onBindViewHolder(holder, i);
         final Post post = list.get(i);
-        Context context = holder.img.getContext();
-        setDetail(holder, post);
-
-        holder.txtPostInd.setText(post.getDescription(23));
-
-        String url = post.getPictureUrl();
-        if (url != null) {
-            Glide.with(context)
-                    .load(url)
-                    .placeholder(R.drawable.bg_background)
-                    .centerCrop()
-                    .error(R.drawable.ic_error_404)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(holder.img);
-        } else {
-            Glide.with(context).clear(holder.img);
-       }
+        holder.bind(post, list);
     }
-
-    private void setDetail(PostViewHolder holder, Post data) {
-        holder.txtPostId.setText("No." + data.getId());
-        holder.txtReplyCount.setText("回應:" + data.getReplyCount());
-        holder.txtPoster.setText(data.getPoster());
-        holder.txtTime.setText(data.getTimeStr());
-    }
-
 }
