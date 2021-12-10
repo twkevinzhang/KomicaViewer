@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation "androidx.core:core-ktx:+"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation 'com.github.Priyansh-Kedia:OpenGraphParser:2.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

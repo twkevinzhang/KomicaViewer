@@ -10,39 +10,36 @@ import androidx.annotation.NonNull;
 
 import org.jsoup.nodes.Element;
 
-public class LinkBuilder {
+public class SpanBuilder extends SpannableStringBuilder{
     private static final String LINK = "http://doSomething";
-    private SpannableStringBuilder strBuilder;
 
-    public LinkBuilder(SpannableStringBuilder strBuilder){
-        this.strBuilder =strBuilder;
-    }
-
-    public void addLink(String text, OnClickListener onClickListener){
+    public static SpanBuilder create(String text, OnClickListener onClickListener){
         Element linkable= new Element("a").attr("href", LINK).appendText(text);
         CharSequence sequence = Html.fromHtml(linkable.toString(), Html.FROM_HTML_MODE_COMPACT);
-        SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
+        SpanBuilder strBuilder = new SpanBuilder(sequence);
         URLSpan[] urls = strBuilder.getSpans(strBuilder.length(), sequence.length(), URLSpan.class);
         for(URLSpan span : urls) {
-            makeLinkClickable(strBuilder, onClickListener, span);
+            strBuilder.makeLinkClickable(onClickListener, span);
         }
-        strBuilder.append("\n");
-        this.strBuilder.append(strBuilder);
+        return strBuilder;
     }
 
-    private void makeLinkClickable(SpannableStringBuilder strBuilder, OnClickListener onClickListener, final URLSpan span)
-    {
-        int start = strBuilder.getSpanStart(span);
-        int end = strBuilder.getSpanEnd(span);
-        int flags = strBuilder.getSpanFlags(span);
-        strBuilder.setSpan(new ClickableSpan() {
+    private SpanBuilder(CharSequence text){
+        super(text);
+    }
+
+    private void makeLinkClickable(OnClickListener onClickListener, final URLSpan span){
+        int start = getSpanStart(span);
+        int end = getSpanEnd(span);
+        int flags = getSpanFlags(span);
+        setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
                 if(onClickListener != null)
                     onClickListener.onClick();
             }
         }, start, end, flags);
-        strBuilder.removeSpan(span);
+        removeSpan(span);
     }
 
     public interface OnClickListener {

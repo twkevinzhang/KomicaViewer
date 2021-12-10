@@ -23,7 +23,7 @@ public class ThreadListFragment extends SampleListFragment<Board, Post> {
     @Override
     protected void initAdapter() {
         super.initAdapter();
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(root);
         adapter.setOnClickListener((view, thread) -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(COLUMN_POST, thread);

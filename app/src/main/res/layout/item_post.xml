@@ -51,11 +51,12 @@
 
     </WebView>
 
-    <TextView
-        android:id="@+id/txtPost"
+    <FrameLayout
+        android:id="@+id/contener"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/img"

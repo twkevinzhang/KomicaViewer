@@ -1,13 +1,17 @@
 package self.nesl.komicaviewer.ui.viewholder;
 
+import static self.nesl.komicaviewer.ui.thread.ReplyDialog.COLUMN_POST;
+import static self.nesl.komicaviewer.ui.thread.ReplyDialog.COLUMN_POST_LIST;
+
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,28 +31,44 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public TextView txtReplyCount;
     public TextView txtPoster;
     public TextView txtTime;
-    public TextView txtPost;
+    public FrameLayout contener;
     public ImageView img;
-    private PostRender.OnReplyToClickListener onReplyToClickListener;
+    private FragmentManager fragmentManager;
 
-    public PostViewHolder(View v, PostRender.OnReplyToClickListener onReplyToClickListener) {
+    public PostViewHolder(View v, FragmentManager FragmentManager) {
         super(v);
         txtTime = v.findViewById(R.id.txtTime);
         txtReplyCount = v.findViewById(R.id.txtReplyCount);
         txtPostId = v.findViewById(R.id.txtId);
         txtPoster = v.findViewById(R.id.txtPoster);
         txtPostInd = v.findViewById(R.id.txtPostInd);
-        txtPost = v.findViewById(R.id.txtPost);
+        contener = v.findViewById(R.id.contener);
         img = v.findViewById(R.id.img);
-        this.onReplyToClickListener = onReplyToClickListener;
+        this.fragmentManager = FragmentManager;
     }
 
     public void bind(Post post, List<Post> posts){
         setDetail(post);
 
-        PostRender render = new PostRender(post, posts, txtPost);
-        render.setReplyToOnClickListener(onReplyToClickListener);
-        txtPost.setText(render.render());
+        Context context = itemView.getContext();
+        PostRender render = new PostRender(context);
+        render.setOnReplyToClickListener(new PostRender.OnPostClickListener() {
+            @Override
+            public void onReplyToClick(Post replyTo, List<Post> list) {
+                Toast.makeText(context, replyTo.getId(), Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(COLUMN_POST,replyTo);
+                bundle.putParcelableArrayList(COLUMN_POST_LIST, new ArrayList<>(list));
+                ReplyDialog.newInstance(bundle).show(fragmentManager, "ReplyDialog2");
+            }
+
+            @Override
+            public void onLinkClick(String link) {
+
+            }
+        });
+        contener.removeAllViews();
+        contener.addView(render.render(post, posts));
 
         if (post.getPictureUrl() != null){
             img.setVisibility(View.VISIBLE);

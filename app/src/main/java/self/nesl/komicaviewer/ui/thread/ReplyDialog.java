@@ -17,6 +17,7 @@ import java.util.List;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.render.PostRender;
 import self.nesl.komicaviewer.ui.viewholder.PostViewHolder;
 
 public class ReplyDialog extends DialogFragment {
@@ -56,13 +57,7 @@ public class ReplyDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.item_post, container);
-        PostViewHolder binder= new PostViewHolder(v, (replyTo, list) -> {
-            Toast.makeText(getContext(), replyTo.getId(), Toast.LENGTH_SHORT).show();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(COLUMN_POST,replyTo);
-            bundle.putParcelableArrayList(COLUMN_POST_LIST, new ArrayList<>(list));
-            ReplyDialog.newInstance(bundle).show(getChildFragmentManager(), "ReplyDialog2");
-        });
+        PostViewHolder binder= new PostViewHolder(v,getChildFragmentManager());
         binder.bind(post, list);
 
         return v;

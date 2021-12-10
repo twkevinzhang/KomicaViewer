@@ -21,6 +21,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.feature.Title;
 
 public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends Fragment {
+    protected View root;
     protected SwipeRefreshLayout refresh;
     protected RecyclerView rvLst;
     protected TextView txtMsg;
@@ -40,12 +41,17 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends
         rvLst = v.findViewById(R.id.rcLst);
         txtMsg = v.findViewById(R.id.txtMsg);
         refresh = v.findViewById(R.id.refresh_layout);
+        root =v;
+        return v;
+    }
+
+    @Override
+    final public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRefresh();
         initObserver();
         initAdapter();
         loadDetail();
         loadPage(0);
-        return v;
     }
 
     protected void initRefresh() {

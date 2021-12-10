@@ -25,7 +25,7 @@ public class BoardListFragment extends SampleListFragment<Category, Board> {
     @Override
     protected void initAdapter() {
         super.initAdapter();
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(root);
         adapter.setOnClickListener((view, board) -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(COLUMN_THREAD_LIST, board);
