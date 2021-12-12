@@ -13,10 +13,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.feature.Id;
 import self.nesl.komicaviewer.feature.Title;
 
-public class Post implements Serializable, Parcelable, Cloneable, Title, Id {
+public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Layout {
     private String id = null;
     private String replyTo = null;
     private String quote = null;
@@ -250,5 +251,10 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id {
         dest.writeString(pictureUrl);
         dest.writeByte((byte) (isReaded ? 1 : 0));
         dest.writeString(text);
+    }
+
+    @Override
+    public int layout() {
+        return R.layout.item_post;
     }
 }

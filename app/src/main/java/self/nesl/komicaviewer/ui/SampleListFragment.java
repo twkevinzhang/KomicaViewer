@@ -19,8 +19,9 @@ import java.text.MessageFormat;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.feature.Title;
+import self.nesl.komicaviewer.models.Layout;
 
-public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends Fragment {
+public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends Layout> extends Fragment {
     protected View root;
     protected SwipeRefreshLayout refresh;
     protected RecyclerView rvLst;
@@ -37,7 +38,7 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends
     @Override
     final public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                                    @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_posts, container, false);
+        View v = inflater.inflate(R.layout.fragment_refresh_list, container, false);
         rvLst = v.findViewById(R.id.rcLst);
         txtMsg = v.findViewById(R.id.txtMsg);
         refresh = v.findViewById(R.id.refresh_layout);
@@ -55,10 +56,12 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends
     }
 
     protected void initRefresh() {
-        refresh.setOnRefreshListener(() -> {
-            clearPage();
-            loadPage(0);
-        });
+        refresh.setOnRefreshListener(this::refresh);
+    }
+
+    protected void refresh(){
+        clearPage();
+        loadPage(0);
     }
 
     protected void initObserver() {
@@ -133,7 +136,7 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN> extends
 
     protected abstract SampleViewModel<DETAIL, CHILDREN> getViewModel();
 
-    protected abstract SampleAdapter<CHILDREN, ? extends RecyclerView.ViewHolder> getAdapter();
+    protected abstract SampleAdapter<CHILDREN> getAdapter();
 
     protected int getMaxPage() {
         return 99;

@@ -10,23 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.ui.viewholder.LinkPreview;
+import self.nesl.komicaviewer.ui.viewbinder.LinkPreviewBinder;
 
 public class PostRender {
-    private LinearLayout root;
-    private OnPostClickListener onPostClickListener;
+    Post post;
+    LinearLayout root;
+    OnLinkClickListener onLinkClickListener;
 
-    public PostRender(Context context){
+    public PostRender(Context context, Post post){
         this.root =new LinearLayout(context);
+        this.post=post;
         root.setOrientation(LinearLayout.VERTICAL);
         root.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -34,45 +32,17 @@ public class PostRender {
         ));
     }
 
-    public View render(Post post, List<Post> list){
-        if(post.getQuote() != null) addQuote(post.getQuote());
-        if(post.getReplyTo() != null) addReplyFor(post.getReplyTo(), list);
+    public View render(){
         if(post.getText() != null) addLinkedArticle(post.getText());
+        if(post.getUrl() != null) addFrom(post.getUrl());
         return root;
-    }
-
-    /**
-     * 結果：<span color="gray"> >> 但是我覺得...</span>
-     * @param quote 引言。例如：但是我覺得...
-     */
-    private void addQuote(String quote){
-        String show = ">> "+quote;
-        SpanBuilder builder=  SpanBuilder.create(show, ()->{
-            Toast.makeText(root.getContext(), quote, Toast.LENGTH_SHORT).show();
-        });
-        root.addView(new RenderTool(root.getContext()).renderSpan(builder));
-    }
-
-    /**
-     * 結果：<a href="http://doSomething"> > No.12345678 </a>
-     * @param replyTo parent
-     * @param posts 包含 [replyFor] 的 list
-     */
-    private void addReplyFor(String replyTo, List<Post> posts){
-        Optional<Post> result = posts.stream().filter(p->p.getId().equals(replyTo)).findFirst();
-        if(result.isPresent()){
-            Post replyFor = result.get();
-            String preview = MessageFormat.format("{0} ({1})", replyFor.getId(), replyFor.getDescription(10));
-            SpanBuilder builder= SpanBuilder.create(preview, ()-> onPostClickListener.onReplyToClick(replyFor, posts));
-            root.addView(new RenderTool(root.getContext()).renderSpan(builder));
-        }
     }
 
     /**
      * 將文章中的連結在原處加上預覽圖
      * @param text 包含連結的文章
      */
-    private void addLinkedArticle(String text){
+    void addLinkedArticle(String text){
         RenderTool tool= new RenderTool(root.getContext());
         Matcher m = Patterns.WEB_URL.matcher(text);
 
@@ -90,6 +60,12 @@ public class PostRender {
         root.addView(tool.renderText(lastParagraph));
     }
 
+    private void addFrom(String url){
+        RenderTool tool = new RenderTool(root.getContext());
+        root.addView(tool.renderText("原文連結："));
+        root.addView(tool.renderLink(url));
+    }
+
     class RenderTool {
         private Context context;
         RenderTool(Context context){
@@ -99,14 +75,16 @@ public class PostRender {
         private View renderPreview(ViewGroup view, String link){
             View preview = LayoutInflater.from(context)
                     .inflate(R.layout.link_preview, view, false);
-            new LinkPreview(preview).bind(link);
+            new LinkPreviewBinder(preview, link).render();
+            preview.setOnClickListener(v -> {
+                onLinkClickListener.onLinkClick(link);
+            });
             return preview;
         }
 
         private View renderLink(String link){
             SpanBuilder builder = SpanBuilder.create(link, ()->{
-                onPostClickListener.onLinkClick(link);
-                Toast.makeText(context, link, Toast.LENGTH_SHORT).show();
+                onLinkClickListener.onLinkClick(link);
             });
             return renderSpan(builder);
         }
@@ -117,7 +95,7 @@ public class PostRender {
             return textView;
         }
 
-        private View renderSpan(SpanBuilder text){
+        View renderSpan(SpanBuilder text){
             TextView textView = new TextView(context);
             textView.setText(text);
             textView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -125,12 +103,11 @@ public class PostRender {
         }
     }
 
-    public void setOnReplyToClickListener(OnPostClickListener onPostClickListener){
-        this.onPostClickListener = onPostClickListener;
+    public void setOnLinkClickListener(OnLinkClickListener onLinkClickListener){
+        this.onLinkClickListener = onLinkClickListener;
     }
 
-    public interface OnPostClickListener {
-        void onReplyToClick(Post replyTo, List<Post> list);
+    public interface OnLinkClickListener {
         void onLinkClick(String link);
     }
 }

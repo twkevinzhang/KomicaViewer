@@ -11,16 +11,35 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-    public List<DATA> list = new ArrayList<>();
+import self.nesl.komicaviewer.models.Board;
+import self.nesl.komicaviewer.models.Layout;
+import self.nesl.komicaviewer.ui.viewholder.ViewHolderBinder;
+
+public abstract class SampleAdapter<DATA extends Layout> extends RecyclerView.Adapter<ViewHolderBinder> {
+    private List<Layout> headers = new ArrayList<>();
+    private List<DATA> list = new ArrayList<>();
     private OnClickListener<DATA> callBack;
 
     @Override
-    public void onBindViewHolder(@NonNull VH holder, final int i) {
-        final DATA data = list.get(i);
+    public int getItemViewType(int position) {
+        return getAll().get(position).layout();
+    }
 
-        if(callBack!= null)
-            holder.itemView.setOnClickListener(v -> callBack.OnClick(holder.itemView, data));
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolderBinder holder, final int position) {
+        int dataStart = headers.size();
+        if(position >= dataStart){
+            if(callBack!= null) {
+                DATA data = list.get(position - dataStart);
+                holder.itemView.setOnClickListener(v -> callBack.OnClick(holder.itemView, data));
+            }
+        }
+    }
+
+    public List<Layout> getAll(){
+        List<Layout> list1 = new ArrayList<>(headers);
+        list1.addAll(list);
+        return list1;
     }
 
     @Override
@@ -30,13 +49,14 @@ public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> ex
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return headers.size()+ list.size();
     }
 
     public void add(DATA item) {
         if(!this.list.contains(item)){
             this.list.add(item);
-            notifyItemInserted(this.list.size());
+            notifyItemInserted(getItemCount());
+            onDataChange();
         }
     }
 
@@ -45,17 +65,30 @@ public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> ex
         LinkedHashSet<DATA> set=  new LinkedHashSet<>(list);
         set.removeAll(this.list);
         this.list.addAll(set);
-        notifyItemRangeInserted(this.list.size() - set.size(),  set.size());
+        notifyItemRangeInserted(getItemCount() - set.size(),  set.size());
+        onDataChange();
+    }
+
+    public void addHeader(Layout layout) {
+        this.headers.add(0, layout);
+        notifyItemInserted(0);
     }
 
     public void clear() {
         int size = list.size();
         list.clear();
         notifyItemRangeRemoved(0, size);
+        onDataChange();
     }
+
+    public void onDataChange(){}
 
     public void setOnClickListener(OnClickListener<DATA> callBack) {
         this.callBack = callBack;
+    }
+
+    public List<DATA> getDataList(){
+        return list;
     }
 
     public interface OnClickListener<T> {

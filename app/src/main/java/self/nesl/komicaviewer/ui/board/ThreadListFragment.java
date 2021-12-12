@@ -39,7 +39,7 @@ public class ThreadListFragment extends SampleListFragment<Board, Post> {
     }
 
     @Override
-    protected SampleAdapter<Post, ? extends RecyclerView.ViewHolder> getAdapter() {
+    protected SampleAdapter<Post> getAdapter() {
         if(adapter == null)
             adapter = new ThreadListAdapter();
         return adapter;

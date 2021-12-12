@@ -1,5 +1,6 @@
-package self.nesl.komicaviewer.ui.board;
+package self.nesl.komicaviewer.ui.thread;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +11,29 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Layout;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.SampleAdapter;
-import self.nesl.komicaviewer.ui.viewholder.ThreadViewHolder;
+import self.nesl.komicaviewer.ui.viewbinder.PostViewBinder;
+import self.nesl.komicaviewer.ui.viewholder.HeadPostViewHolder;
 import self.nesl.komicaviewer.ui.viewholder.ViewHolderBinder;
 
-public class ThreadListAdapter extends SampleAdapter<Post> {
+public class HeadPostAdapter extends SampleAdapter<Post> {
+    private Activity activity;
+
+    public HeadPostAdapter(Activity activity){
+        this.activity=activity;
+    }
+
     @NonNull
     @Override
     public ViewHolderBinder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_thread, parent, false);
-        return new ThreadViewHolder(view);
+                .inflate(R.layout.item_post, parent, false);
+        return new HeadPostViewHolder(view, activity);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderBinder holder, final int i) {
         super.onBindViewHolder(holder, i);
         if(getAll().get(i) instanceof Post)
-            holder.bind(getAll().get(i));
+             holder.bind(getAll().get(i));
     }
 }

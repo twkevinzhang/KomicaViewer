@@ -18,13 +18,13 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
     public static final String COLUMN_POST = "post";
 
     private PostRepository postRepository;
-    private Post thread;
-    private MutableLiveData<List<Post>> _list = new MutableLiveData<>();
+    Post thread;
+    private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Post> _detail = new MutableLiveData<>();
+    MutableLiveData<Boolean> isTree = new MutableLiveData<>(true);
 
     public ThreadViewModel() {
         this.postRepository = new PostRepository();
-        _list.postValue(Collections.emptyList());
     }
 
     public void setArgs(Bundle bundle) {

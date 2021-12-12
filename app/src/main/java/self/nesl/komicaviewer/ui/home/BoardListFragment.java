@@ -52,7 +52,7 @@ public class BoardListFragment extends SampleListFragment<Category, Board> {
     }
 
     @Override
-    protected SampleAdapter<Board, ? extends RecyclerView.ViewHolder> getAdapter() {
+    protected SampleAdapter<Board> getAdapter() {
         if(adapter == null)
             adapter = new BoardListAdapter();
         return adapter;

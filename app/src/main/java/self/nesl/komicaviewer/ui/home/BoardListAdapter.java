@@ -13,8 +13,12 @@ import java.util.List;
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.ui.SampleAdapter;
 import self.nesl.komicaviewer.ui.viewholder.BoardViewHolder;
+import self.nesl.komicaviewer.ui.viewholder.ViewHolderBinder;
 
-public class BoardListAdapter extends SampleAdapter<Board, BoardViewHolder> {
+public class BoardListAdapter extends SampleAdapter<Board> {
+    BoardListAdapter(){
+        super();
+    }
     @NonNull
     @Override
     public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -24,10 +28,9 @@ public class BoardListAdapter extends SampleAdapter<Board, BoardViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final BoardViewHolder holder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolderBinder holder, final int i) {
         super.onBindViewHolder(holder, i);
-        Board board = list.get(i);
-        holder.txt1.setText(board.getTitle());
-        holder.txt2.setText(board.getUrl());
+        if(getAll().get(i) instanceof Board)
+            holder.bind(getAll().get(i));
     }
 }

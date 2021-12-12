@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.ui.viewholder;
+package self.nesl.komicaviewer.ui.viewbinder;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,22 +20,24 @@ import com.kedia.ogparser.OpenGraphResult;
 
 import self.nesl.komicaviewer.R;
 
-public class LinkPreview {
+public class LinkPreviewBinder {
     private View root;
     private ImageView imgPreview;
     private TextView txtTitle;
     private TextView txtDesc;
     private TextView txtDomain;
+    private String url;
 
-    public LinkPreview(View v) {
+    public LinkPreviewBinder(View v, String url) {
         root= v;
+        this.url=url;
         imgPreview = v.findViewById(R.id.imgPreview);
         txtTitle = v.findViewById(R.id.txtTitle);
         txtDesc = v.findViewById(R.id.txtDesc);
         txtDomain = v.findViewById(R.id.txtDomain);
     }
 
-    public void bind(String url){
+    public void render(){
         Context context = root.getContext();
         new OpenGraphParser(new OpenGraphCallback() {
             @Override
@@ -46,7 +48,6 @@ public class LinkPreview {
                 txtTitle.setText(result.getTitle());
                 txtDesc.setText(result.getDescription());
                 txtDomain.setText(result.getSiteName());
-                Log.e("neslx", new Gson().toJson(result));
             }
 
             @Override

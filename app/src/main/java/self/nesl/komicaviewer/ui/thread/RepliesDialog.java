@@ -1,33 +1,35 @@
 package self.nesl.komicaviewer.ui.thread;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.render.CommentRender;
 import self.nesl.komicaviewer.ui.render.PostRender;
-import self.nesl.komicaviewer.ui.viewholder.PostViewHolder;
+import self.nesl.komicaviewer.ui.viewholder.CommentViewHolder;
 
-public class ReplyDialog extends DialogFragment {
+public class RepliesDialog extends DialogFragment {
     public static final String COLUMN_POST="post";
-    public static final String COLUMN_POST_LIST="postlist";
+    public static final String COLUMN_ALL ="replies";
+    private List<Post> all;
     private Post post;
-    private List<Post> list;
+    private RecyclerView rcLst;
+    private CommentListAdapter adapter;
 
-    public static ReplyDialog newInstance(Bundle bundle) {
-        ReplyDialog dialog = new ReplyDialog();
+    public static RepliesDialog newInstance(Bundle bundle) {
+        RepliesDialog dialog = new RepliesDialog();
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -36,8 +38,8 @@ public class ReplyDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            all = getArguments().getParcelableArrayList(COLUMN_ALL);
             post = (Post)getArguments().getSerializable(COLUMN_POST);
-            list = getArguments().getParcelableArrayList(COLUMN_POST_LIST);
         }
     }
 
@@ -56,10 +58,22 @@ public class ReplyDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.item_post, container);
-        PostViewHolder binder= new PostViewHolder(v,getChildFragmentManager());
-        binder.bind(post, list);
+        View v = inflater.inflate(R.layout.layout_list, container);
+        rcLst = v.findViewById(R.id.rcLst);
 
+        initAdapter();
+        adapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
+        adapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
+        adapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
         return v;
+    }
+
+    private void initAdapter(){
+        adapter= new CommentListAdapter(false);
+        String threadId = post.getId();
+        List<Post> replies= all.stream().filter(p -> threadId.equals(p.getReplyTo())).collect(Collectors.toList());
+        adapter.setAll(all);
+        adapter.addAll(replies);
+        rcLst.setAdapter(adapter);
     }
 }

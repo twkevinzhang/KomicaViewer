@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.feature.Id;
 import self.nesl.komicaviewer.feature.Title;
 
-public class Board implements Title, Id, Serializable {
+public class Board implements Title, Id, Serializable, Layout {
     private String id;
     private String title;
     private String url;
@@ -46,5 +47,10 @@ public class Board implements Title, Id, Serializable {
 
     public void addTag(String tag) {
         this.tags.add(tag);
+    }
+
+    @Override
+    public int layout() {
+        return android.R.layout.simple_list_item_2;
     }
 }

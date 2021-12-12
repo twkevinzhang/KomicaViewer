@@ -1,41 +1,47 @@
 package self.nesl.komicaviewer.ui.viewholder;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.util.List;
+
 
 import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.models.Layout;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.viewbinder.PostViewBinder;
 
-public class ThreadViewHolder extends PostViewHolder {
-
+public class ThreadViewHolder extends ViewHolderBinder {
     public ThreadViewHolder(View v) {
-        super(v, null);
+        super(v);
     }
 
-    public void bind(Post data, List<Post> posts){
-        txtPostId.setText("No." + data.getId());
+    public void bind(Layout layout){
+        Post data = (Post) layout;
+        PostViewBinder binder= new PostViewBinder(itemView, data);
+        binder.txtPostId.setText("No." + data.getId());
+        binder.txtPoster.setText(data.getPoster());
+        binder.txtTime.setText(data.getTimeStr());
+        binder.txtPostInd.setText(data.getDescription(23));
+
+        TextView txtReplyCount = itemView.findViewById(R.id.txtReplyCount);
         txtReplyCount.setText("回應:" + data.getReplyCount());
-        txtPoster.setText(data.getPoster());
-        txtTime.setText(data.getTimeStr());
-        txtPostInd.setText(data.getDescription(23));
 
         String url = data.getPictureUrl();
         if (url != null) {
-            Glide.with(img.getContext())
+            Glide.with(binder.img.getContext())
                     .load(url)
                     .placeholder(R.drawable.bg_background)
                     .centerCrop()
                     .error(R.drawable.ic_error_404)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(img);
+                    .into(binder.img);
         } else {
-            Glide.with(img.getContext()).clear(img);
+            Glide.with(binder.img.getContext()).clear(binder.img);
         }
     }
 }
