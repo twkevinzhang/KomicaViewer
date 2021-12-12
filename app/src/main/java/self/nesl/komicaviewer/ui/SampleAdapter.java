@@ -1,5 +1,6 @@
 package self.nesl.komicaviewer.ui;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -40,17 +41,17 @@ public abstract class SampleAdapter<DATA, VH extends RecyclerView.ViewHolder> ex
     }
 
     public void addAll(List<DATA> list) {
-        LinkedHashSet set=  new LinkedHashSet<>();
-        set.addAll(this.list);
-        set.addAll(list);
-        this.list.clear();
+        if(list.isEmpty()) return;
+        LinkedHashSet<DATA> set=  new LinkedHashSet<>(list);
+        set.removeAll(this.list);
         this.list.addAll(set);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(this.list.size() - set.size(),  set.size());
     }
 
     public void clear() {
+        int size = list.size();
         list.clear();
-        notifyDataSetChanged();
+        notifyItemRangeRemoved(0, size);
     }
 
     public void setOnClickListener(OnClickListener<DATA> callBack) {
