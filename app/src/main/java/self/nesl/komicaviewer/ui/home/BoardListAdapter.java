@@ -26,11 +26,4 @@ public class BoardListAdapter extends SampleAdapter<Board> {
                 .inflate(android.R.layout.simple_list_item_2, parent, false);
         return new BoardViewHolder(view);
     }
-
-    @Override
-    public void onBindViewHolder(@NonNull final ViewHolderBinder holder, final int i) {
-        super.onBindViewHolder(holder, i);
-        if(getAll().get(i) instanceof Board)
-            holder.bind(getAll().get(i));
-    }
 }

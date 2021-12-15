@@ -55,13 +55,6 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolderBinder holder, final int i) {
-        super.onBindViewHolder(holder, i);
-        if(getAll().get(i) instanceof Post)
-            holder.bind(getAll().get(i));
-    }
-
     public static List<Post> toPostList(List<Layout> list){
         List<Layout> list1= list.stream().filter(layout1-> layout1 instanceof Post).collect(Collectors.toList());
         return list1.stream().map(layout1 -> (Post) layout1).collect(Collectors.toList());

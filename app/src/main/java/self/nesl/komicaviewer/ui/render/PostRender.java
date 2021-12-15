@@ -17,7 +17,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.viewbinder.LinkPreviewBinder;
 
-public class PostRender {
+public class PostRender implements Render {
     Post post;
     LinearLayout root;
     OnLinkClickListener onLinkClickListener;
@@ -75,7 +75,7 @@ public class PostRender {
         private View renderPreview(ViewGroup view, String link){
             View preview = LayoutInflater.from(context)
                     .inflate(R.layout.link_preview, view, false);
-            new LinkPreviewBinder(preview, link).render();
+            new LinkPreviewBinder(preview, link).bind();
             preview.setOnClickListener(v -> {
                 onLinkClickListener.onLinkClick(link);
             });

@@ -33,10 +33,8 @@ public class SwitcherViewHolder extends ViewHolderBinder {
 
 
     public void bind(Layout layout){
-        // FIXME: swtComment.OnCheckedChangeListener not work.
-//        swtComment.setOnCheckedChangeListener(onSwitchListener);
         swtComment.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            Log.e("neslx", String.valueOf(isChecked));
+
         });
     }
 }

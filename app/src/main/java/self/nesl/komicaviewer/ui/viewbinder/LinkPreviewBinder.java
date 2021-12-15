@@ -37,7 +37,7 @@ public class LinkPreviewBinder {
         txtDomain = v.findViewById(R.id.txtDomain);
     }
 
-    public void render(){
+    public void bind(){
         Context context = root.getContext();
         new OpenGraphParser(new OpenGraphCallback() {
             @Override

@@ -1,22 +1,17 @@
 package self.nesl.komicaviewer.ui.viewbinder;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.ui.render.PostRender;
+import self.nesl.komicaviewer.ui.render.Render;
 
 public class PostViewBinder {
     public TextView txtPostId;
@@ -27,11 +22,12 @@ public class PostViewBinder {
     public ImageView img;
     Post post;
     Context context;
-    Activity activity;
+    Render render;
 
-    public PostViewBinder(View v, Post post) {
+    public PostViewBinder(View v, Post post, Render render) {
         context= v.getContext();
         this.post=post;
+        this.render=render;
         txtTime = v.findViewById(R.id.txtTime);
         txtPostId = v.findViewById(R.id.txtId);
         txtPoster = v.findViewById(R.id.txtPoster);
@@ -40,33 +36,20 @@ public class PostViewBinder {
         img = v.findViewById(R.id.img);
     }
 
-    public void setActivity(Activity activity){
-        this.activity=activity;
-    }
-
-    public void render(){
+    public void bind(){
         setDetail();
         contener.removeAllViews();
-        contener.addView(contentView(activity));
+        contener.addView(render.render());
         setImage();
     }
 
-    public void setDetail() {
+    private void setDetail() {
         txtPostId.setText("No." + post.getId());
         txtPoster.setText(post.getPoster());
         txtTime.setText(post.getTimeStr());
     }
 
-    public View contentView(Activity activity){
-        PostRender render = new PostRender(context, post);
-        render.setOnLinkClickListener(link -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-            activity.startActivity(browserIntent);
-        });
-        return render.render();
-    }
-
-    public void setImage(){
+    private void setImage(){
         if (post.getPictureUrl() != null){
             img.setVisibility(View.VISIBLE);
             Glide.with(img.getContext())

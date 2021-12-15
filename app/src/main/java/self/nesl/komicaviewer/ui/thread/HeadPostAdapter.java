@@ -29,11 +29,4 @@ public class HeadPostAdapter extends SampleAdapter<Post> {
                 .inflate(R.layout.item_post, parent, false);
         return new HeadPostViewHolder(view, activity);
     }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolderBinder holder, final int i) {
-        super.onBindViewHolder(holder, i);
-        if(getAll().get(i) instanceof Post)
-             holder.bind(getAll().get(i));
-    }
 }

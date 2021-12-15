@@ -34,6 +34,7 @@ public abstract class SampleAdapter<DATA extends Layout> extends RecyclerView.Ad
                 holder.itemView.setOnClickListener(v -> callBack.OnClick(holder.itemView, data));
             }
         }
+        holder.bind(getAll().get(position));
     }
 
     public List<Layout> getAll(){
