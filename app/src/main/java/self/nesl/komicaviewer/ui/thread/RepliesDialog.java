@@ -1,9 +1,7 @@
 package self.nesl.komicaviewer.ui.thread;
-import static self.nesl.komicaviewer.util.ProjectUtils.filterReplies;
 import static self.nesl.komicaviewer.util.ProjectUtils.filterRepliesList;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +10,10 @@ import android.view.WindowManager;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.ui.render.CommentRender;
-import self.nesl.komicaviewer.ui.render.PostRender;
-import self.nesl.komicaviewer.ui.viewholder.CommentViewHolder;
 
 public class RepliesDialog extends DialogFragment {
     public static final String COLUMN_POST="post";
@@ -72,10 +64,10 @@ public class RepliesDialog extends DialogFragment {
     }
 
     private void initAdapter(){
-        adapter= new CommentListAdapter(false);
+        adapter= new CommentListAdapter();
         String threadId = post.getId();
         List<Post> replies= filterRepliesList(threadId, all);
-        adapter.setAll(all);
+        adapter.setAllComments(all);
         adapter.addAll(replies);
         rcLst.setAdapter(adapter);
     }

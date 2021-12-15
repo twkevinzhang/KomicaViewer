@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp">
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/swtComment"
+        android:id="@+id/swtCommentsCollapse"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:text="swtComment" />
+        android:text="收合" />
 
 </LinearLayout>

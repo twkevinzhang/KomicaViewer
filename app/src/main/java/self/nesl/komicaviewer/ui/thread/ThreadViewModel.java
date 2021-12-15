@@ -21,7 +21,7 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
     Post thread;
     private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Post> _detail = new MutableLiveData<>();
-    MutableLiveData<Boolean> isTree = new MutableLiveData<>(true);
+    Boolean isTree = false;
 
     public ThreadViewModel() {
         this.postRepository = new PostRepository();

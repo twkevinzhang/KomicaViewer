@@ -33,12 +33,10 @@ public class CommentListAdapter extends SampleAdapter<Post>{
     private CommentRender.OnLinkClickListener OnLinkClickListener;
     private CompoundButton.OnCheckedChangeListener onSwitchListener;
     private CommentRender.OnAllReplyClickListener OnAllReplyClickListener;
-    private List<Post> all;
+    private List<Post> allComments;
 
-    public CommentListAdapter(boolean addSwitcher){
-        all = super.getDataList();
-        if(addSwitcher)
-            addHeader(() -> R.layout.header_comment_list);
+    public void addSwitcher(){
+        addHeader(() -> R.layout.header_comment_list);
     }
 
     @NonNull
@@ -47,7 +45,7 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         switch (layout){
             case R.layout.item_post:
-                return new CommentViewHolder(view, OnReplyToClickListener, OnLinkClickListener, OnAllReplyClickListener, all);
+                return new CommentViewHolder(view, OnReplyToClickListener, OnLinkClickListener, OnAllReplyClickListener, allComments);
             case R.layout.header_comment_list:
                 return new SwitcherViewHolder(view, onSwitchListener);
             default:
@@ -60,8 +58,8 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         return list1.stream().map(layout1 -> (Post) layout1).collect(Collectors.toList());
     }
 
-    public void setAll(List<Post> list){
-        this.all = list;
+    public void setAllComments(List<Post> list){
+        this.allComments = list;
     }
 
     public void setOnReplyToClickListener(CommentRender.OnReplyToClickListener OnReplyToClickListener){

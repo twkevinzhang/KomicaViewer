@@ -57,7 +57,6 @@ public abstract class SampleAdapter<DATA extends Layout> extends RecyclerView.Ad
         if(!this.list.contains(item)){
             this.list.add(item);
             notifyItemInserted(getItemCount());
-            onDataChange();
         }
     }
 
@@ -67,22 +66,18 @@ public abstract class SampleAdapter<DATA extends Layout> extends RecyclerView.Ad
         set.removeAll(this.list);
         this.list.addAll(set);
         notifyItemRangeInserted(getItemCount() - set.size(),  set.size());
-        onDataChange();
     }
 
     public void addHeader(Layout layout) {
-        this.headers.add(0, layout);
+        this.headers.add(layout);
         notifyItemInserted(0);
     }
 
     public void clear() {
-        int size = list.size();
+        int dataSize = list.size();
         list.clear();
-        notifyItemRangeRemoved(0, size);
-        onDataChange();
+        notifyItemRangeRemoved(this.headers.size(), dataSize);
     }
-
-    public void onDataChange(){}
 
     public void setOnClickListener(OnClickListener<DATA> callBack) {
         this.callBack = callBack;
