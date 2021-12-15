@@ -6,7 +6,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import self.nesl.komicaviewer.feature.Id;
+import self.nesl.komicaviewer.models.Post;
 
 public class ProjectUtils {
     public static Element installThreadTag(Element threads) {
@@ -40,5 +46,31 @@ public class ProjectUtils {
             }
         }
         return null;
+    }
+
+    public static List<Post> filterRepliesList(String threadId, List<Post> list){
+        return filterReplies(threadId, list).collect(Collectors.toList());
+    }
+
+    public static Stream<Post> filterReplies(String threadId, List<Post> list){
+        return list.stream().filter(r->
+                (threadId == null && r.getReplyTo() == null) ||
+                (threadId != null && threadId.equals(r.getReplyTo()))
+        );
+    }
+
+    public static <T extends Id> List<T> filterWithList(String id, List<T> list){
+        return filter(id, list).collect(Collectors.toList());
+    }
+
+    public static <T extends Id> Stream<T> filter(String id, List<T> list){
+        return list.stream().filter(r-> id.equals(r.getId()));
+    }
+
+    public static <T extends Id> T find(String id, List<T> list){
+        return list.stream()
+                .filter(item -> id.equals(item.getId()))
+                .findFirst()
+                .orElse(null);
     }
 }

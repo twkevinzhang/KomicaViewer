@@ -1,5 +1,8 @@
 package self.nesl.komicaviewer.repository;
 
+import static self.nesl.komicaviewer.util.ProjectUtils.filter;
+import static self.nesl.komicaviewer.util.ProjectUtils.find;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +26,7 @@ public class CategoryRepository implements Repository<Category> {
     @Override
     public void get(String id, OnResponse<Category> onResponse) {
         getAll(hosts-> {
-            onResponse.onResponse(hosts.stream().filter(host -> host.getId().equals(id)).findFirst().get());
+            onResponse.onResponse(find(id, hosts));
         });
     }
 }

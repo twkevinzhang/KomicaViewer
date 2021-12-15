@@ -1,5 +1,6 @@
 package self.nesl.komicaviewer.parser.komica.sora;
 
+import static self.nesl.komicaviewer.util.ProjectUtils.filterReplies;
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 
 import org.jsoup.nodes.Element;
@@ -37,7 +38,7 @@ public class SoraThreadParser implements Parser<List<Post>> {
 
     private static void injectCount(List<Post> posts){
         for (Post post: posts) {
-            long count = posts.stream().filter(p-> post.getId().equals(p.getReplyTo())).count();
+            long count = filterReplies(post.getId(), posts).count();
             post.setReplyCount((int) count);
         }
     }

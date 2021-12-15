@@ -1,4 +1,7 @@
 package self.nesl.komicaviewer.ui.thread;
+import static self.nesl.komicaviewer.util.ProjectUtils.filterReplies;
+import static self.nesl.komicaviewer.util.ProjectUtils.filterRepliesList;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,7 +74,7 @@ public class RepliesDialog extends DialogFragment {
     private void initAdapter(){
         adapter= new CommentListAdapter(false);
         String threadId = post.getId();
-        List<Post> replies= all.stream().filter(p -> threadId.equals(p.getReplyTo())).collect(Collectors.toList());
+        List<Post> replies= filterRepliesList(threadId, all);
         adapter.setAll(all);
         adapter.addAll(replies);
         rcLst.setAdapter(adapter);

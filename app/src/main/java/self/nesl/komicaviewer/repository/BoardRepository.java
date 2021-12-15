@@ -1,5 +1,7 @@
 package self.nesl.komicaviewer.repository;
 
+import static self.nesl.komicaviewer.util.ProjectUtils.find;
+
 import android.util.Log;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class BoardRepository implements Repository<Board> {
     @Override
     public void get(String li_link, OnResponse<Board> onResponse) {
         getAll(boards->{
-            onResponse.onResponse(boards.stream().filter(b -> b.getId().equals(li_link)).findFirst().get());
+            onResponse.onResponse(find(li_link, boards));
         });
     }
 }
