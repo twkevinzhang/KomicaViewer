@@ -60,6 +60,7 @@ public class RepliesDialog extends DialogFragment {
         adapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
         adapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
         adapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
+        adapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(v.getContext()));
         return v;
     }
 

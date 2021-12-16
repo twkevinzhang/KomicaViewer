@@ -8,23 +8,33 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.gallery.Poster;
 import self.nesl.komicaviewer.ui.viewbinder.LinkPreviewBinder;
 
 public class PostRender implements Render {
+    static Pattern IMAGE_LINK_PATTERN = Pattern.compile("(http(s?):/)(/[^/]+)+" + "\\.(?:jpg|gif|png)");
     Post post;
     LinearLayout root;
+    List<String> imageUrls;
     OnLinkClickListener onLinkClickListener;
+    OnImageClickListener onImageClickListener;
 
     public PostRender(Context context, Post post){
         this.root =new LinearLayout(context);
         this.post=post;
+        this.imageUrls = new ArrayList<>();
         root.setOrientation(LinearLayout.VERTICAL);
         root.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -52,7 +62,14 @@ public class PostRender implements Render {
             String preParagraph = text.substring(index, m.start());
             root.addView(tool.renderText(preParagraph));
             root.addView(tool.renderLink(url));
-            root.addView(tool.renderPreview(root, url));
+
+            boolean isImageUrl = IMAGE_LINK_PATTERN.matcher(url).find();
+            if(isImageUrl){
+                imageUrls.add(url);
+                root.addView(tool.renderImage(imageUrls.size() -1));
+            }else{
+                root.addView(tool.renderPreview(root, url));
+            }
 
             index = m.end();
         }
@@ -72,9 +89,9 @@ public class PostRender implements Render {
             this.context=context;
         }
 
-        private View renderPreview(ViewGroup view, String link){
-            View preview = LayoutInflater.from(context)
-                    .inflate(R.layout.link_preview, view, false);
+        private View renderPreview(ViewGroup parent, String link){
+            View preview = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.link_preview, parent, false);
             new LinkPreviewBinder(preview, link).bind();
             preview.setOnClickListener(v -> {
                 onLinkClickListener.onLinkClick(link);
@@ -101,6 +118,15 @@ public class PostRender implements Render {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
             return textView;
         }
+
+        View renderImage(int index){
+            String url = imageUrls.get(index);
+            ImageView imageView = new ImageView(context);
+            List<Poster> infoList = imageUrls.stream().map(u-> new Poster(u, post)).collect(Collectors.toList());
+            imageView.setOnClickListener(v -> onImageClickListener.onImageClick(v, infoList, index));
+            new ImageRender(imageView, url).render();
+            return imageView;
+        }
     }
 
     public void setOnLinkClickListener(OnLinkClickListener onLinkClickListener){
@@ -109,6 +135,14 @@ public class PostRender implements Render {
 
     public interface OnLinkClickListener {
         void onLinkClick(String link);
+    }
+
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener){
+        this.onImageClickListener = onImageClickListener;
+    }
+
+    public interface OnImageClickListener {
+        void onImageClick(View v, List<Poster> posterList, int startPosition);
     }
 }
 

@@ -12,8 +12,9 @@ import self.nesl.komicaviewer.ui.viewbinder.PostViewBinder;
 
 public class CommentViewHolder extends ViewHolderBinder {
     private CommentRender.OnReplyToClickListener OnReplyToClickListener;
-    private CommentRender.OnLinkClickListener OnLinkClickListener;
+    private PostRender.OnLinkClickListener OnLinkClickListener;
     private CommentRender.OnAllReplyClickListener OnAllReplyClickListener;
+    private PostRender.OnImageClickListener OnImageClickListener;
     private List<Post> list;
     
     public CommentViewHolder(
@@ -21,12 +22,14 @@ public class CommentViewHolder extends ViewHolderBinder {
             CommentRender.OnReplyToClickListener OnReplyToClickListener,
             PostRender.OnLinkClickListener OnLinkClickListener,
             CommentRender.OnAllReplyClickListener OnAllReplyClickListener,
+            PostRender.OnImageClickListener OnImageClickListener,
             List<Post> list
     ) {
         super(v);
         this.OnReplyToClickListener=OnReplyToClickListener;
         this.OnLinkClickListener=OnLinkClickListener;
         this.OnAllReplyClickListener=OnAllReplyClickListener;
+        this.OnImageClickListener=OnImageClickListener;
         this.list=list;
     }
 
@@ -37,6 +40,7 @@ public class CommentViewHolder extends ViewHolderBinder {
         render.setOnReplyToClickListener(OnReplyToClickListener);
         render.setOnLinkClickListener(OnLinkClickListener);
         render.setOnAllReplyClickListener(OnAllReplyClickListener);
+        render.setOnImageClickListener(OnImageClickListener);
 
         PostViewBinder binder = new PostViewBinder(itemView, comment, render);
         binder.bind();

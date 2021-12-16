@@ -47,6 +47,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation 'com.github.Priyansh-Kedia:OpenGraphParser:2.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 }
 repositories {
     mavenCentral()

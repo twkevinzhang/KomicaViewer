@@ -43,10 +43,10 @@ public class SoraPostParser implements Parser<Post> {
 
     @Override
     public Post parse() {
-        post.setPictureUrl(parsePicture());
         setDetail();
         post.setReplyTo(parseReplyTo());
         setText();
+        setPicture();
         return post;
     }
 
@@ -63,6 +63,14 @@ public class SoraPostParser implements Parser<Post> {
         post.setTitle(title);
         post.setPoster(poster);
         post.setCreateAt(createAt);
+    }
+
+    protected void setPicture(){
+        String url = parsePicture();
+        if(url != null){
+            post.setPictureUrl(url);
+            addTextToPost(url);
+        }
     }
 
     protected String parsePicture() {
@@ -84,7 +92,7 @@ public class SoraPostParser implements Parser<Post> {
     }
 
     protected void setText(){
-        post.setText(parseText());
+        addTextToPost(parseText());
         post.setQuote(parseQuote());
     }
 
@@ -94,6 +102,13 @@ public class SoraPostParser implements Parser<Post> {
                 .replaceAll(alpha + alpha + "(No\\.)*[0-9]{6,} *(\\(.*\\))*", "")
                 .replaceAll(alpha+ "+.+\n", "");
         return ind.trim();
+    }
+
+    private void addTextToPost(String text){
+        String pre = "";
+        if(post.getText() != null)
+            pre = post.getText();
+        post.setText(pre + text);
     }
 
     protected String parseQuote() {

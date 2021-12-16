@@ -71,6 +71,7 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
             commentAdapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
             commentAdapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
             commentAdapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
+            commentAdapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext()));
         }
         return commentAdapter;
     }

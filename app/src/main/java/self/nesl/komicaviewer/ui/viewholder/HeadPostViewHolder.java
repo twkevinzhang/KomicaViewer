@@ -21,6 +21,7 @@ public class HeadPostViewHolder extends ViewHolderBinder {
         Post post = (Post) layout;
         PostRender render = new PostRender(itemView.getContext(), post);
         render.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(activity));
+        render.setOnImageClickListener(CommentListAdapter.onImageClickListener(itemView.getContext()));
         PostViewBinder binder = new PostViewBinder(itemView, post, render);
         binder.bind();
     }

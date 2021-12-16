@@ -19,6 +19,7 @@ import com.kedia.ogparser.OpenGraphParser;
 import com.kedia.ogparser.OpenGraphResult;
 
 import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.ui.render.ImageRender;
 
 public class LinkPreviewBinder {
     private View root;
@@ -42,9 +43,7 @@ public class LinkPreviewBinder {
         new OpenGraphParser(new OpenGraphCallback() {
             @Override
             public void onPostResponse(@NonNull OpenGraphResult result) {
-                Glide.with(imgPreview.getContext())
-                        .load(result.getImage())
-                        .into(imgPreview);
+                new ImageRender(imgPreview, result.getImage()).render();
                 txtTitle.setText(result.getTitle());
                 txtDesc.setText(result.getDescription());
                 txtDomain.setText(result.getSiteName());

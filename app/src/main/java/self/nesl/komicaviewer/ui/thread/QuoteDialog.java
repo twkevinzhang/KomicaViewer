@@ -11,8 +11,6 @@ import java.util.List;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.ui.render.CommentRender;
-import self.nesl.komicaviewer.ui.render.PostRender;
 import self.nesl.komicaviewer.ui.viewholder.CommentViewHolder;
 
 public class QuoteDialog extends DialogFragment {
@@ -57,6 +55,7 @@ public class QuoteDialog extends DialogFragment {
                 CommentListAdapter.onReplyToClickListener(getChildFragmentManager()),
                 CommentListAdapter.onLinkClickListener(getActivity()),
                 CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()),
+                CommentListAdapter.onImageClickListener(v.getContext()),
                 list
         );
         binder.bind(post);
