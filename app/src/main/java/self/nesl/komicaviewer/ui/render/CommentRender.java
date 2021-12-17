@@ -2,6 +2,7 @@ package self.nesl.komicaviewer.ui.render;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.filterReplies;
 import static self.nesl.komicaviewer.util.ProjectUtils.filterRepliesList;
+import static self.nesl.komicaviewer.util.ProjectUtils.find;
 
 import android.content.Context;
 import android.view.View;
@@ -51,9 +52,8 @@ public class CommentRender extends PostRender{
      * @param replyTo parent
      */
     private void addReplyFor(String replyTo){
-        List<Post> result = filterRepliesList(replyTo, list);
-        if(!result.isEmpty()){
-            Post replyFor = result.get(0);
+        Post replyFor = find(replyTo, list);
+        if(replyFor != null){
             String preview = MessageFormat.format("{0} ({1})", replyFor.getId(), replyFor.getDescription(10));
             SpanBuilder builder= SpanBuilder.create(preview, ()-> onReplyToClickListener.onReplyToClick(replyFor, list));
             root.addView(new RenderTool(root.getContext()).renderSpan(builder));
