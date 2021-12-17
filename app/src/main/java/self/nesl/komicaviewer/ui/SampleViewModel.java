@@ -14,11 +14,17 @@ public abstract class SampleViewModel<DETAIL extends Title, CHILDREN> extends Vi
 
     abstract public void setArgs(Bundle bundle);
 
+    abstract public int getCurrentPage();
+
     abstract public LiveData<List<CHILDREN>> children();
 
     abstract public LiveData<DETAIL> detail();
 
-    abstract public void loadChildren(Bundle bundle);
+    abstract public LiveData<Boolean> loading();
+
+    abstract public void clearChildren();
+
+    abstract public void loadChildren();
 
     abstract public void loadDetail(Bundle bundle);
 

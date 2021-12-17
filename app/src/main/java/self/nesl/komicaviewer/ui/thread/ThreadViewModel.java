@@ -16,12 +16,15 @@ import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class ThreadViewModel extends SampleViewModel<Post, Post> {
     public static final String COLUMN_POST = "post";
+    static int unloadedPage = 0;
 
     private PostRepository postRepository;
     Post thread;
     private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Post> _detail = new MutableLiveData<>();
+    private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
     Boolean isTree = false;
+    private int currentPage = unloadedPage;
 
     public ThreadViewModel() {
         this.postRepository = new PostRepository();
@@ -31,6 +34,11 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
         thread = (Post) bundle.getSerializable(COLUMN_POST);
         Request<List<Post>> req = new PostListRequestFactory(thread).createRequest(null);
         postRepository.setRequest(req);
+    }
+
+    @Override
+    public int getCurrentPage() {
+        return currentPage;
     }
 
     @Override
@@ -44,12 +52,30 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
     }
 
     @Override
-    public void loadChildren(Bundle bundle) {
-        postRepository.getAll(_list::postValue);
+    public void clearChildren() {
+        currentPage = unloadedPage;
+        _list.postValue(Collections.emptyList());
+    }
+
+    @Override
+    public void loadChildren() {
+        if(currentPage == unloadedPage){
+            currentPage = 1;
+            _loading.postValue(true);
+            postRepository.getAll((list)-> {
+                _list.postValue(list);
+                _loading.postValue(false);
+            });
+        }
     }
 
     @Override
     public void loadDetail(Bundle bundle) {
         _detail.postValue(thread);
+    }
+
+    @Override
+    public LiveData<Boolean> loading() {
+        return _loading;
     }
 }

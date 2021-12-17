@@ -57,9 +57,4 @@ public class BoardListFragment extends SampleListFragment<Category, Board> {
             adapter = new BoardListAdapter();
         return adapter;
     }
-
-    @Override
-    protected int getMaxPage() {
-        return 0;
-    }
 }

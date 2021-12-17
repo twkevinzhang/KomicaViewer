@@ -75,7 +75,4 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
         }
         return commentAdapter;
     }
-
-    @Override
-    protected int getMaxPage(){ return 0; }
 }

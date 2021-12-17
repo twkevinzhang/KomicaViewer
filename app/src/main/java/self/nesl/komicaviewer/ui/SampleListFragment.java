@@ -3,6 +3,7 @@ package self.nesl.komicaviewer.ui;
 import static self.nesl.komicaviewer.ui.SampleViewModel.PAGE;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends 
     protected SwipeRefreshLayout refresh;
     protected RecyclerView rvLst;
     protected TextView txtMsg;
-    protected int page = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends 
         initObserver();
         initAdapter();
         loadDetail();
-        loadPage(0);
+        loadPage();
     }
 
     protected void initRefresh() {
@@ -61,7 +61,7 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends 
 
     protected void refresh(){
         clearPage();
-        loadPage(0);
+        loadPage();
     }
 
     protected void initObserver() {
@@ -73,7 +73,12 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends 
                             "arr.length:{1}",
                     getAdapter().getItemCount(), list.size())
             );
-            refresh.setRefreshing(false);
+        });
+
+        getViewModel().loading().observe(getViewLifecycleOwner(), isLoading -> {
+            if(isLoading)
+                txtMsg.setText("載入中..." + getViewModel().getCurrentPage());
+            refresh.setRefreshing(isLoading);
         });
 
         getViewModel().detail().observe(getViewLifecycleOwner(), detail -> {
@@ -86,19 +91,9 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends 
             @Override
             public void onScrollStateChanged(RecyclerView rv, int newState) {
                 super.onScrollStateChanged(rv, newState);
-
                 if (!rv.canScrollVertically(1)) {
                     // 如果不能向下滑動，到底了
-                    if (refresh.isRefreshing()) {
-                        txtMsg.setText("急三小");
-                        return;
-                    }
-                    if (page < getMaxPage()) {
-                        page += 1;
-                        loadPage(page);
-                    } else {
-                        txtMsg.setText("極限了~maxPage:" + getMaxPage() + ",now: " + page);
-                    }
+                    loadPage();
                 } else if (!rv.canScrollVertically(-1)) {
                     txtMsg.setText("到頂了(不能向上滑動)");
                 }
@@ -115,30 +110,16 @@ public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends 
         getViewModel().loadDetail(null);
     }
 
-    protected void loadPage(int page) {
-        this.page = page;
-        if (page > 0) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(PAGE, page);
-            getViewModel().loadChildren(bundle);
-        } else {
-            getViewModel().loadChildren(null);
-        }
-        refresh.setRefreshing(true);
-        txtMsg.setText("載入中..." + page);
+    protected void loadPage() {
+        getViewModel().loadChildren();
     }
 
     protected void clearPage() {
-        page = -1;
+        getViewModel().clearChildren();
         getAdapter().clear();
-        refresh.setRefreshing(false);
     }
 
     protected abstract SampleViewModel<DETAIL, CHILDREN> getViewModel();
 
     protected abstract SampleAdapter<CHILDREN> getAdapter();
-
-    protected int getMaxPage() {
-        return 99;
-    }
 }
