@@ -12,16 +12,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 
 import java.util.Date;
-import java.util.UUID;
 
 import okhttp3.HttpUrl;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.Parser;
 
 public class SoraPostParser implements Parser<Post> {
-    private UrlTool url;
-    private Element root;
-    private Post post;
+    protected SoraUrlTool tool;
+    protected Element root;
+    protected Post post;
 
     /**
      * 可以解析以下 komica.org 的 Post
@@ -32,13 +31,13 @@ public class SoraPostParser implements Parser<Post> {
      *    <li>[女性角色,歡樂惡搞,GIF,Vtuber],
      *    <li>[蘿蔔,鋼普拉,影視,特攝,軍武,中性角色,遊戲速報,飲食,小說,遊戲王,奇幻/科幻,電腦/消費電子,塗鴉王國,新聞,布袋戲,紙牌,網路遊戲]
      * </ol>
-     * @param url https://sora.komica.org/00/pixmicat.php?res=K2345678
+     * @param tool https://sora.komica.org/00/pixmicat.php?res=K2345678
      * @param source html
      */
     public SoraPostParser(String url, Element source) {
-        this.url = new UrlTool(url);
+        this.tool = new DefaultSoraUrlTool(url);
         this.root = source;
-        this.post = new Post(url, this.url.getSoraId());
+        this.post = new Post(url, this.tool.getSoraId());
     }
 
     @Override
@@ -55,7 +54,7 @@ public class SoraPostParser implements Parser<Post> {
         String poster = null;
         Date createAt;
 
-        DefaultHeadParser parser= new DefaultHeadParser(root);
+        DefaultHeadParser parser= new DefaultHeadParser(root, this.tool.getSoraId());
         title= parser.parseTitle();
 //        poster= parser.parsePoster();
         createAt= parser.parseCreateAt();
@@ -81,6 +80,7 @@ public class SoraPostParser implements Parser<Post> {
         Element thumbImg = root.selectFirst("img");
         if(thumbImg != null){
             String originalUrl = thumbImg.parent().attr("href");
+            Log.e("neslx", new UrlFixer(originalUrl).getUrl());
             return new UrlFixer(originalUrl).getUrl();
         }
         return null;
@@ -108,7 +108,7 @@ public class SoraPostParser implements Parser<Post> {
         return ind.trim();
     }
 
-    private void addTextToPost(String text){
+    protected void addTextToPost(String text){
         String pre = "";
         if(post.getText() != null)
             pre = post.getText();
@@ -126,39 +126,54 @@ public class SoraPostParser implements Parser<Post> {
         return Jsoup.clean(prettyPrintedBodyFragment, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
 
+    public interface SoraUrlTool {
+        String getSoraId();
+        String getUrl();
+    }
 
-    public static class UrlTool{
-        public static String suffix = "/pixmicat.php?res=";
+
+    public static class DefaultSoraUrlTool implements SoraUrlTool {
         private HttpUrl url;
 
         /**
          *
          * @param url https://sora.komica.org/00/pixmicat.php?res=K2345678
          */
-        public UrlTool(String url){
+        public DefaultSoraUrlTool(String url){
             this.url = HttpUrl.parse(url);
         }
 
+        @Override
         public String getSoraId() {
             String postId = url.queryParameter("res");
             String fragment = url.fragment();
             if(fragment!= null){
+                // fragment = "#12345678"
                 return fragment.substring(1);
             }else {
                 return postId;
             }
         }
 
-        public String getBoardUrl() {
-            String urlString =url.toString();
-            return urlString.split(suffix)[0];
+        @Override
+        public String getUrl() {
+            return url.toString();
+        }
+
+        /**
+         *
+         * @return https://sora.komica.org
+         */
+        public String getHostWithProtocol() {
+            String protocol = url.isHttps() ? "https" : "http";
+            return protocol + "://" + url.host();
         }
     }
 
-    public static class UrlFixer{
+    private class UrlFixer{
         private String url;
 
-        public UrlFixer(String url){
+        private UrlFixer(String url){
             this.url=url;
             fix();
         }
@@ -166,15 +181,18 @@ public class SoraPostParser implements Parser<Post> {
         private void fix(){
             if(url.startsWith("//")){
                 url = "http:" + url;
+            }else if(url.startsWith("./") || url.startsWith("/")){
+                DefaultSoraUrlTool tool1 = (DefaultSoraUrlTool) tool;
+                url = tool1.getHostWithProtocol() + url;
             }
         }
 
-        public String getUrl(){
+        private String getUrl(){
             return url;
         }
     }
 
-    interface HeadParser{
+    public interface HeadParser{
         String parseTitle();
         Date parseCreateAt();
         String parsePoster();
@@ -182,8 +200,12 @@ public class SoraPostParser implements Parser<Post> {
 
     static class DefaultHeadParser implements HeadParser{
         private Element head;
-        DefaultHeadParser(Element post){
+        DefaultHeadParser(Element post, String postId){
             this.head=post.selectFirst("div.post-head");
+            if(head == null){
+                // is 2cat.komica.org
+                this.head = post.selectFirst(String.format("label[for=\"%s\"]", postId));
+            }
         }
 
         public String parseTitle(){
@@ -193,40 +215,19 @@ public class SoraPostParser implements Parser<Post> {
         }
 
         public Date parseCreateAt(){
-            String[] post_detail = head.selectFirst("span.now").text().split(" ID:");
-            return parseTime(parseChiToEngWeek(post_detail[0].trim()));
-        }
-
-        public String parsePoster(){
-            String[] post_detail = head.selectFirst("span.now").text().split(" ID:");
-            return post_detail[1];
-        }
-    }
-
-    static class _2catHeadParser implements HeadParser {
-        private Element head;
-
-        _2catHeadParser(Element post, String postId) {
-            this.head = post.selectFirst(String.format("label[for='%s']", postId));
-        }
-
-        public String parseTitle() {
-            Element titleEle = head.selectFirst("span.title");
-            if (titleEle != null)
-                return titleEle.text().trim();
-            return null;
-        }
-
-        public Date parseCreateAt() {
-            String s = head.text().trim();
-            String[] post_detail = s.substring(1, s.length() - 1).split(" ID:");
+            Element timeE = head.selectFirst("span.now");
+            if(timeE == null){
+                // is 2cat.komica.org
+                timeE = head;
+            }
+            String[] post_detail = timeE.text().split(" ID:");
             return parseTime(parseJpnToEngWeek(post_detail[0].trim()));
         }
 
-        public String parsePoster() {
-            String s = head.text().trim();
-            String[] post_detail = s.substring(1, s.length() - 1).split(" ID:");
-            return post_detail[1];
+        public String parsePoster(){
+//            String[] post_detail = head.selectFirst("span.now").text().split(" ID:");
+//            return post_detail[1];
+            return null;
         }
     }
 

@@ -2,23 +2,19 @@ package self.nesl.komicaviewer.parser.komica.sora;
 
 import static self.nesl.komicaviewer.util.ProjectUtils.installThreadTag;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.Parser;
 
 public class SoraBoardParser implements Parser<List<Post>> {
-    private String url;
-    private Element root;
-    private List<Post> posts;
+    protected String url;
+    protected Element root;
+    protected List<Post> posts;
 
     public SoraBoardParser(String url, Element source){
         this.url=url;
@@ -36,8 +32,8 @@ public class SoraBoardParser implements Parser<List<Post>> {
             Element threadpost = thread.selectFirst("div.threadpost");
 
             String postId = threadpost.attr("id").substring(1);
-            String postUrl = url + SoraPostParser.UrlTool.suffix + postId;
-            Post post = getPostParser(postUrl, threadpost).parse();
+            String postUrl = url + "/pixmicat.php?res=" + postId;
+            Post post = parsePost(postUrl, threadpost);
             setReplyCount(thread, post);
             posts.add(post);
         }
@@ -56,8 +52,8 @@ public class SoraBoardParser implements Parser<List<Post>> {
         post.setReplyCount(replyCount);
     }
 
-    protected Parser<Post> getPostParser(String url, Element source) {
-        return new SoraPostParser(url, source);
+    protected Post parsePost(String url, Element source) {
+        return new SoraPostParser(url, source).parse();
     }
 
     protected Elements getThreads() {

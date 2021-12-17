@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.category.Category;

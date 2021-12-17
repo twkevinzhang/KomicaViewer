@@ -31,7 +31,7 @@ public class SoraThreadParser implements Parser<List<Post>> {
             posts.add(post);
         }
         injectCount(posts);
-        String threadId = new SoraPostParser.UrlTool(url).getSoraId();
+        String threadId = new SoraPostParser.DefaultSoraUrlTool(url).getSoraId();
         removeReplyTo(posts, threadId);
         return posts;
     }

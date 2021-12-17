@@ -32,9 +32,7 @@ public class KomicaBoardsParser implements Parser<List<Board>> {
             return ul.select("li").stream().map(li -> {
                 String li_title = li.text();
                 String li_link = li.select("a").attr("href");
-                if (li_link.contains("/index.")) {
-                    li_link = li_link.substring(0, li_link.indexOf("/index."));
-                }
+                li_link= trim(li_link);
                 Board board = new Board(li_link);
                 board.setTitle(li_title);
                 board.setUrl(li_link);
@@ -47,17 +45,32 @@ public class KomicaBoardsParser implements Parser<List<Board>> {
     private List<Board> parseTop50() {
         return doc.selectFirst(".divTableRow").select("a").stream().map(e -> {
             String url = e.attr("href");
-            if (url.contains("/index.")) {
-                url = url.substring(0, url.indexOf("/index."));
-            }
-            if (url.endsWith("/")) {
-                url = url.substring(0, url.length() - 1);
-            }
+            url= trim(url);
             String title = e.text();
             Board b = new Board(url);
             b.setTitle(title);
             b.setUrl(url);
             return b;
         }).collect(Collectors.toList());
+    }
+
+    private static String trim(String url){
+        if (url.contains("/index.")) {
+            url = url.substring(0, url.indexOf("/index."));
+        }
+
+        if(url.contains("2cat.org")){
+            url =  url.replaceAll("/~","/");
+            if(url.endsWith("/")){
+                return url.substring(0, url.length()-1);
+            }else{
+                return url;
+            }
+        }
+
+        if (url.endsWith("/")) {
+            url = url.substring(0, url.length() - 1);
+        }
+        return url;
     }
 }
