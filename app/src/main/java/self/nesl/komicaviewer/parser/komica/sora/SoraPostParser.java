@@ -69,7 +69,11 @@ public class SoraPostParser implements Parser<Post> {
         String url = parsePicture();
         if(url != null){
             post.setPictureUrl(url);
-            addTextToPost(url);
+            if(post.getText() != null && !post.getText().isEmpty()){
+                addTextToPost(" "+ url);
+            }else{
+                addTextToPost(url);
+            }
         }
     }
 

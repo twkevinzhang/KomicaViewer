@@ -4,6 +4,7 @@ import static self.nesl.komicaviewer.ui.thread.QuoteDialog.COLUMN_POST;
 import static self.nesl.komicaviewer.ui.thread.QuoteDialog.COLUMN_POST_LIST;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -105,8 +107,12 @@ public class CommentListAdapter extends SampleAdapter<Post>{
 
     public static CommentRender.OnLinkClickListener onLinkClickListener(Activity activity){
         return  (link) -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-            activity.startActivity(browserIntent);
+            try {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                activity.startActivity(browserIntent);
+            }catch (ActivityNotFoundException e){
+                Toast.makeText(activity.getApplicationContext(), "連結錯誤", Toast.LENGTH_SHORT).show();
+            }
         };
     }
 
