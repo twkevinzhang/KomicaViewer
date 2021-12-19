@@ -30,14 +30,14 @@ public class ThreadFactory implements Factory<KThread> {
         Parser<KThread> parser = null;
         for (String host : ThreadListFactory.SORA_SET) {
             if (url.contains(host)){
-                Log.e("ThreadFactory", "SoraThreadParser "+url +" " + host);
+                Log.e("ThreadFactory", "matched SoraThreadParser, "+url +" " + host);
                 parser= new SoraThreadParser(req.getUrl(), Jsoup.parse(response));
             }
         }
 
         for (String host : ThreadListFactory._2CAT_SET) {
             if (url.contains(host)){
-                Log.e("ThreadFactory", "_2catThreadParser "+url +" " + host);
+                Log.e("ThreadFactory", "matched _2catThreadParser, "+url +" " + host);
                 parser =  new _2catThreadParser(req.getUrl(), Jsoup.parse(response));
             }
         }
