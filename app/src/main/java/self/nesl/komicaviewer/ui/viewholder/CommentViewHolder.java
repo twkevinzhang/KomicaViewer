@@ -4,7 +4,7 @@ import android.view.View;
 
 import java.util.List;
 
-import self.nesl.komicaviewer.models.Layout;
+import self.nesl.komicaviewer.ui.Layout;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.render.CommentRender;
 import self.nesl.komicaviewer.ui.render.PostRender;

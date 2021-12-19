@@ -6,7 +6,7 @@ import android.widget.CompoundButton;
 import androidx.appcompat.widget.SwitchCompat;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.models.Layout;
+import self.nesl.komicaviewer.ui.Layout;
 
 public class SwitcherViewHolder extends ViewHolderBinder {
     private SwitchCompat swtCommentsCollapse;

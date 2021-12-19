@@ -1,23 +1,14 @@
 package self.nesl.komicaviewer.ui.viewholder;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.models.Layout;
+import self.nesl.komicaviewer.ui.Layout;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.render.ImageRender;
-import self.nesl.komicaviewer.ui.render.PostRender;
-import self.nesl.komicaviewer.ui.render.Render;
 import self.nesl.komicaviewer.ui.viewbinder.PostViewBinder;
 
 public class ThreadViewHolder extends ViewHolderBinder {

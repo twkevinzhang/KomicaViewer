@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.feature.Id;
 import self.nesl.komicaviewer.feature.Title;
+import self.nesl.komicaviewer.ui.Layout;
 
 public class Board implements Title, Id, Serializable, Layout {
     private String id;

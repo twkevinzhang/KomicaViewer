@@ -1,18 +1,14 @@
 package self.nesl.komicaviewer.ui;
 
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import self.nesl.komicaviewer.models.Board;
-import self.nesl.komicaviewer.models.Layout;
 import self.nesl.komicaviewer.ui.viewholder.ViewHolderBinder;
 
 public abstract class SampleAdapter<DATA extends Layout> extends RecyclerView.Adapter<ViewHolderBinder> {

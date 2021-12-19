@@ -3,10 +3,8 @@ package self.nesl.komicaviewer.ui.viewholder;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import self.nesl.komicaviewer.models.Board;
-import self.nesl.komicaviewer.models.Layout;
+import self.nesl.komicaviewer.ui.Layout;
 
 public class BoardViewHolder extends ViewHolderBinder {
     public TextView txt1;

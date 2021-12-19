@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import self.nesl.komicaviewer.R;
-import self.nesl.komicaviewer.models.Layout;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.SampleAdapter;
 import self.nesl.komicaviewer.ui.viewholder.ThreadViewHolder;

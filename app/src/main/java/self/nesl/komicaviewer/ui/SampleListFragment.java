@@ -1,9 +1,6 @@
 package self.nesl.komicaviewer.ui;
 
-import static self.nesl.komicaviewer.ui.SampleViewModel.PAGE;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +17,6 @@ import java.text.MessageFormat;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.feature.Title;
-import self.nesl.komicaviewer.models.Layout;
 
 public abstract class SampleListFragment<DETAIL extends Title, CHILDREN extends Layout> extends Fragment {
     protected View root;
