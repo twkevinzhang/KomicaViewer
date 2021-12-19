@@ -7,25 +7,20 @@ import android.util.Log;
 import java.util.List;
 
 import self.nesl.komicaviewer.models.Board;
+import self.nesl.komicaviewer.models.category.Category;
+import self.nesl.komicaviewer.request.BoardListRequestFactory;
 import self.nesl.komicaviewer.request.OnResponse;
 import self.nesl.komicaviewer.request.Request;
 
-public class BoardRepository implements Repository<Board> {
+public class BoardListRepository implements Repository<List<Board>> {
     private Request<List<Board>> request;
 
-    public void setRequest(Request<List<Board>> request) {
-        this.request = request;
+    public BoardListRepository(Category category){
+        this.request= new BoardListRequestFactory(category).createRequest(null);;
     }
 
     @Override
-    public void getAll(OnResponse<List<Board>> onResponse) {
+    public void get(OnResponse<List<Board>> onResponse) {
         request.fetch(onResponse);
-    }
-
-    @Override
-    public void get(String li_link, OnResponse<Board> onResponse) {
-        getAll(boards->{
-            onResponse.onResponse(find(li_link, boards));
-        });
     }
 }

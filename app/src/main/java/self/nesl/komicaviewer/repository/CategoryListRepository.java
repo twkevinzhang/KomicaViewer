@@ -13,20 +13,13 @@ import self.nesl.komicaviewer.models.category.KomicaCategory;
 import self.nesl.komicaviewer.models.category.KomicaTop50Category;
 import self.nesl.komicaviewer.request.OnResponse;
 
-public class CategoryRepository implements Repository<Category> {
+public class CategoryListRepository implements Repository<List<Category>> {
 
     @Override
-    public void getAll(OnResponse<List<Category>> onResponse) {
+    public void get(OnResponse<List<Category>> onResponse) {
         onResponse.onResponse(Arrays.asList(
                 new KomicaCategory(),
                 new KomicaTop50Category()
         ));
-    }
-
-    @Override
-    public void get(String id, OnResponse<Category> onResponse) {
-        getAll(hosts-> {
-            onResponse.onResponse(find(id, hosts));
-        });
     }
 }

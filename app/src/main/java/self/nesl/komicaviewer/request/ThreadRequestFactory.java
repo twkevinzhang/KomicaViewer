@@ -5,28 +5,24 @@ import android.util.Log;
 
 import java.util.List;
 
-import self.nesl.komicaviewer.models.category.Category;
-import self.nesl.komicaviewer.models.category.KomicaCategory;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.request.komica._2cat._2catThreadListRequest;
 import self.nesl.komicaviewer.request.komica._2cat._2catThreadRequest;
-import self.nesl.komicaviewer.request.komica.sora.SoraPostListRequest;
-import self.nesl.komicaviewer.request.komica.sora.SoraThreadListRequest;
+import self.nesl.komicaviewer.request.komica.sora.SoraThreadRequest;
 
-public class PostListRequestFactory {
+public class ThreadRequestFactory {
     private Post thread;
 
-    public PostListRequestFactory(Post thread) {
+    public ThreadRequestFactory(Post thread) {
         this.thread = thread;
     }
 
-    public Request<List<Post>> createRequest(Bundle bundle) {
-        Request<List<Post>> request = null;
+    public Request<KThread> createRequest(Bundle bundle) {
+        Request<KThread> request = null;
 
         for (String host : ThreadListRequestFactory.SORA_SET) {
             if (thread.getUrl().contains(host)){
                 Log.e("match", "SoraPostListRequest "+thread.getUrl() +" " + host);
-                request =  SoraPostListRequest.create(thread, bundle);
+                request =  SoraThreadRequest.create(thread, bundle);
             }
         }
 

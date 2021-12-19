@@ -7,11 +7,10 @@ import java.util.List;
 
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.komica._2cat._2catThreadParser;
-import self.nesl.komicaviewer.parser.komica.sora.SoraThreadParser;
+import self.nesl.komicaviewer.request.KThread;
 import self.nesl.komicaviewer.request.Request;
-import self.nesl.komicaviewer.request.komica.sora.SoraPostListRequest;
 
-public class _2catThreadRequest extends Request<List<Post>> {
+public class _2catThreadRequest extends Request<KThread> {
 
     public static _2catThreadRequest create(Post thread, Bundle bundle) {
         String url = thread.getUrl();
@@ -23,7 +22,7 @@ public class _2catThreadRequest extends Request<List<Post>> {
     }
 
     @Override
-    public List<Post> parse(String response) {
+    public KThread parse(String response) {
         return new _2catThreadParser(getUrl(), Jsoup.parse(response)).parse();
     }
 }
