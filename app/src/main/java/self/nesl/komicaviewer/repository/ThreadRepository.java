@@ -1,22 +1,22 @@
 package self.nesl.komicaviewer.repository;
 
-import java.util.List;
-
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.factory.Factory;
 import self.nesl.komicaviewer.request.KThread;
 import self.nesl.komicaviewer.request.OnResponse;
-import self.nesl.komicaviewer.request.Request;
-import self.nesl.komicaviewer.request.ThreadRequestFactory;
+import self.nesl.komicaviewer.factory.ThreadFactory;
 
 public class ThreadRepository implements Repository<KThread> {
-    private Request<KThread> request;
+    private Factory<KThread> factory;
 
     public ThreadRepository(Post threadInfo){
-        this.request= new ThreadRequestFactory(threadInfo).createRequest(null);;
+        this.factory= new ThreadFactory(threadInfo);
     }
 
     @Override
     public void get(OnResponse<KThread> onResponse) {
-        request.fetch(onResponse);
+        factory.createRequest(null).fetch(response -> {
+            onResponse.onResponse(factory.parse(response));
+        });
     }
 }

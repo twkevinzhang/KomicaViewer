@@ -12,8 +12,6 @@ import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.category.Category;
 import self.nesl.komicaviewer.repository.BoardListRepository;
 import self.nesl.komicaviewer.repository.Repository;
-import self.nesl.komicaviewer.request.BoardListRequestFactory;
-import self.nesl.komicaviewer.request.Request;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class BoardListViewModel extends SampleViewModel<Category, Board> {

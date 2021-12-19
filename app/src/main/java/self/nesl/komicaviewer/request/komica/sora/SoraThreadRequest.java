@@ -11,7 +11,7 @@ import self.nesl.komicaviewer.parser.komica.sora.SoraThreadParser;
 import self.nesl.komicaviewer.request.KThread;
 import self.nesl.komicaviewer.request.Request;
 
-public class SoraThreadRequest extends Request<KThread> {
+public class SoraThreadRequest extends Request {
     public SoraThreadRequest(String url) {
         super(url);
     }
@@ -19,10 +19,5 @@ public class SoraThreadRequest extends Request<KThread> {
     public static SoraThreadRequest create(Post thread, Bundle bundle) {
         String url = thread.getUrl();
         return new SoraThreadRequest(url);
-    }
-
-    @Override
-    public KThread parse(String response) {
-        return new SoraThreadParser(getUrl(), Jsoup.parse(response)).parse();
     }
 }

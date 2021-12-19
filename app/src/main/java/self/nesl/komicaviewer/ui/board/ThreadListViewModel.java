@@ -12,8 +12,6 @@ import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.repository.ThreadListRepository;
-import self.nesl.komicaviewer.request.Request;
-import self.nesl.komicaviewer.request.ThreadListRequestFactory;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class ThreadListViewModel extends SampleViewModel<Board, Post> {

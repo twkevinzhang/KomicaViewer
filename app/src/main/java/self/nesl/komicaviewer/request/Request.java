@@ -8,7 +8,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 
 import java.io.Serializable;
 
-public abstract class Request<T> implements Serializable {
+public abstract class Request implements Serializable {
     private String url;
 
     public Request(String url) {
@@ -19,11 +19,11 @@ public abstract class Request<T> implements Serializable {
         return url;
     }
 
-    public void fetch(OnResponse<T> onResponse) {
+    public void fetch(OnResponse<String> onResponse) {
         StringRequestListener listener = new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                onResponse.onResponse(parse(response));
+                onResponse.onResponse(response);
             }
 
             @Override
@@ -34,6 +34,4 @@ public abstract class Request<T> implements Serializable {
         Log.e("AndroidNetworking url", url);
         AndroidNetworking.get(url).build().getAsString(listener);
     }
-
-    public abstract T parse(String response);
 }

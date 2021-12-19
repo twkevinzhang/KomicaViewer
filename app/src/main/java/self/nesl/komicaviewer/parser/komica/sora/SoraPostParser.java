@@ -31,7 +31,7 @@ public class SoraPostParser implements Parser<Post> {
      *    <li>[女性角色,歡樂惡搞,GIF,Vtuber],
      *    <li>[蘿蔔,鋼普拉,影視,特攝,軍武,中性角色,遊戲速報,飲食,小說,遊戲王,奇幻/科幻,電腦/消費電子,塗鴉王國,新聞,布袋戲,紙牌,網路遊戲]
      * </ol>
-     * @param tool https://sora.komica.org/00/pixmicat.php?res=K2345678
+     * @param url https://sora.komica.org/00/pixmicat.php?res=K2345678
      * @param source html
      */
     public SoraPostParser(String url, Element source) {

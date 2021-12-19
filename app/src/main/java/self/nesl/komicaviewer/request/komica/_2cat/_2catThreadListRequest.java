@@ -22,7 +22,7 @@ import self.nesl.komicaviewer.request.Request;
 import static self.nesl.komicaviewer.ui.SampleViewModel.PAGE;
 import static self.nesl.komicaviewer.util.Utils.print;
 
-public class _2catThreadListRequest extends Request<List<Post>> {
+public class _2catThreadListRequest extends Request {
     public _2catThreadListRequest(String url) {
         super(url);
     }
@@ -38,17 +38,11 @@ public class _2catThreadListRequest extends Request<List<Post>> {
         return new _2catThreadListRequest(url);
     }
 
-    @Override
-    public List<Post> parse(String response) {
-        String boardUrl = new UrlTool(getUrl()).removePageFragment();
-        return new _2catBoardParser(boardUrl, Jsoup.parse(response)).parse();
-    }
-
-    static class UrlTool{
+    public static class UrlTool{
         private static String suffix = "/?page=";
         private String url;
 
-        UrlTool(String url){
+        public UrlTool(String url){
             this.url=url;
         }
 

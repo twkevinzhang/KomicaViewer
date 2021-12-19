@@ -16,7 +16,7 @@ import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.komica.sora.SoraBoardParser;
 import self.nesl.komicaviewer.request.Request;
 
-public class SoraThreadListRequest extends Request<List<Post>> {
+public class SoraThreadListRequest extends Request {
     public SoraThreadListRequest(String url) {
         super(url);
     }
@@ -32,17 +32,11 @@ public class SoraThreadListRequest extends Request<List<Post>> {
         return new SoraThreadListRequest(url);
     }
 
-    @Override
-    public List<Post> parse(String response) {
-        String boardUrl = new UrlTool(getUrl()).removePageFragment();
-        return new SoraBoardParser(boardUrl, Jsoup.parse(response)).parse();
-    }
-
-    static class UrlTool{
+    public static class UrlTool{
         private static String suffix = "/pixmicat.php?page_num=";
         private String url;
 
-        UrlTool(String url){
+        public UrlTool(String url){
             this.url=url;
         }
 
