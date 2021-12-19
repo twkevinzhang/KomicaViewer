@@ -3,7 +3,6 @@ package self.nesl.komicaviewer;
 import static self.nesl.komicaviewer.ui.home.BoardListViewModel.COLUMN_HOST;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,12 +20,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.category.Category;
-import self.nesl.komicaviewer.models.category.KomicaCategory;
-import self.nesl.komicaviewer.repository.CategoryRepository;
-import self.nesl.komicaviewer.request.BoardListRequestFactory;
-import self.nesl.komicaviewer.request.Request;
+import self.nesl.komicaviewer.repository.CategoryListRepository;
+import self.nesl.komicaviewer.repository.Repository;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -62,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         // add host item in there
         Menu boardMenu = navigationView.getMenu();
         boardMenu.addSubMenu("TEST");
-        CategoryRepository repo = new CategoryRepository();
-        repo.getAll(categories -> {
+        Repository<List<Category>> repo = new CategoryListRepository();
+        repo.get(categories -> {
             for (Category category : categories) {
                 addMenu(boardMenu, category.getIcon(), category);
             }

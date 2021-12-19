@@ -10,7 +10,8 @@ import java.util.List;
 
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.repository.PostRepository;
+import self.nesl.komicaviewer.repository.Repository;
+import self.nesl.komicaviewer.repository.ThreadListRepository;
 import self.nesl.komicaviewer.request.Request;
 import self.nesl.komicaviewer.request.ThreadListRequestFactory;
 import self.nesl.komicaviewer.ui.SampleViewModel;
@@ -18,17 +19,12 @@ import self.nesl.komicaviewer.ui.SampleViewModel;
 public class ThreadListViewModel extends SampleViewModel<Board, Post> {
     public static final String COLUMN_THREAD_LIST = "board";
 
-    private PostRepository postRepository;
+    private Repository<List<Post>> threadListRepository;
     private Board parent;
-    private MutableLiveData<List<Post>> _list = new MutableLiveData<>();
+    private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Board> _detail = new MutableLiveData<>();
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
     private int currentPage = 0;
-
-    public ThreadListViewModel() {
-        this.postRepository = new PostRepository();
-        _list.postValue(Collections.emptyList());
-    }
 
     public void setArgs(Bundle bundle) {
         parent = (Board) bundle.getSerializable(COLUMN_THREAD_LIST);
@@ -62,7 +58,7 @@ public class ThreadListViewModel extends SampleViewModel<Board, Post> {
         bundle.putInt(PAGE, currentPage);
         setRequest(bundle);
         _loading.postValue(true);
-        postRepository.getAll((list)-> {
+        threadListRepository.get((list)-> {
             _list.postValue(list);
             _loading.postValue(false);
         });
@@ -79,7 +75,6 @@ public class ThreadListViewModel extends SampleViewModel<Board, Post> {
     }
 
     private void setRequest(Bundle bundle){
-        Request<List<Post>> req = new ThreadListRequestFactory(parent).createRequest(bundle);
-        postRepository.setRequest(req);
+        this.threadListRepository = new ThreadListRepository(parent, bundle);
     }
 }

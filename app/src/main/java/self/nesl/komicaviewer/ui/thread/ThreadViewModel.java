@@ -9,8 +9,10 @@ import java.util.Collections;
 import java.util.List;
 
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.repository.PostRepository;
-import self.nesl.komicaviewer.request.PostListRequestFactory;
+import self.nesl.komicaviewer.repository.Repository;
+import self.nesl.komicaviewer.repository.ThreadRepository;
+import self.nesl.komicaviewer.request.KThread;
+import self.nesl.komicaviewer.request.ThreadRequestFactory;
 import self.nesl.komicaviewer.request.Request;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
@@ -18,22 +20,17 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
     public static final String COLUMN_POST = "post";
     static int unloadedPage = 0;
 
-    private PostRepository postRepository;
-    Post thread;
+    private Repository<KThread> threadRepository;
+    Post threadInfo;
     private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Post> _detail = new MutableLiveData<>();
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
     Boolean isTree = false;
     private int currentPage = unloadedPage;
 
-    public ThreadViewModel() {
-        this.postRepository = new PostRepository();
-    }
-
     public void setArgs(Bundle bundle) {
-        thread = (Post) bundle.getSerializable(COLUMN_POST);
-        Request<List<Post>> req = new PostListRequestFactory(thread).createRequest(null);
-        postRepository.setRequest(req);
+        threadInfo = (Post) bundle.getSerializable(COLUMN_POST);
+        threadRepository= new ThreadRepository(threadInfo);
     }
 
     @Override
@@ -62,8 +59,8 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
         if(currentPage == unloadedPage){
             currentPage = 1;
             _loading.postValue(true);
-            postRepository.getAll((list)-> {
-                _list.postValue(list);
+            threadRepository.get(thread-> {
+                _list.postValue(thread.getComments());
                 _loading.postValue(false);
             });
         }
@@ -71,7 +68,9 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
 
     @Override
     public void loadDetail(Bundle bundle) {
-        _detail.postValue(thread);
+        threadRepository.get(thread-> {
+            _detail.postValue(thread.getHeadPost());
+        });
     }
 
     @Override
