@@ -15,25 +15,25 @@ import self.nesl.komicaviewer.request.komica._2cat._2catThreadRequest;
 import self.nesl.komicaviewer.request.komica.sora.SoraThreadRequest;
 
 public class ThreadFactory implements Factory<KThread> {
-    private Post thread;
+    private String url;
     private Request req;
 
-    public ThreadFactory(Post thread) {
-        this.thread = thread;
+    public ThreadFactory(String url) {
+        this.url = url;
     }
 
     public Request createRequest(Bundle bundle) {
         for (String host : ThreadListFactory.SORA_SET) {
-            if (thread.getUrl().contains(host)){
-                Log.e("match", "SoraPostListRequest "+thread.getUrl() +" " + host);
-                req =  SoraThreadRequest.create(thread, bundle);
+            if (url.contains(host)){
+                Log.e("match", "SoraPostListRequest "+url +" " + host);
+                req =  SoraThreadRequest.create(url);
             }
         }
 
         for (String host : ThreadListFactory._2CAT_SET) {
-            if (thread.getUrl().contains(host)){
-                Log.e("match", "_2catThreadRequest "+thread.getUrl() +" " + host);
-                req =  _2catThreadRequest.create(thread, bundle);
+            if (url.contains(host)){
+                Log.e("match", "_2catThreadRequest "+url +" " + host);
+                req =  _2catThreadRequest.create(url);
             }
         }
         return req;
@@ -43,15 +43,15 @@ public class ThreadFactory implements Factory<KThread> {
     public KThread parse(String response) {
         Parser<KThread> parser = null;
         for (String host : ThreadListFactory.SORA_SET) {
-            if (thread.getUrl().contains(host)){
-                Log.e("match", "SoraThreadParser "+thread.getUrl() +" " + host);
+            if (url.contains(host)){
+                Log.e("match", "SoraThreadParser "+url +" " + host);
                 parser= new SoraThreadParser(req.getUrl(), Jsoup.parse(response));
             }
         }
 
         for (String host : ThreadListFactory._2CAT_SET) {
-            if (thread.getUrl().contains(host)){
-                Log.e("match", "_2catThreadParser "+thread.getUrl() +" " + host);
+            if (url.contains(host)){
+                Log.e("match", "_2catThreadParser "+url +" " + host);
                 parser =  new _2catThreadParser(req.getUrl(), Jsoup.parse(response));
             }
         }

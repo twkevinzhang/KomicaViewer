@@ -20,4 +20,8 @@ public class SoraThreadRequest extends Request {
         String url = thread.getUrl();
         return new SoraThreadRequest(url);
     }
+
+    public static SoraThreadRequest create(String url) {
+        return new SoraThreadRequest(url);
+    }
 }

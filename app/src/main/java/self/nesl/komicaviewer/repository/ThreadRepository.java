@@ -9,8 +9,8 @@ import self.nesl.komicaviewer.factory.ThreadFactory;
 public class ThreadRepository implements Repository<KThread> {
     private Factory<KThread> factory;
 
-    public ThreadRepository(Post threadInfo){
-        this.factory= new ThreadFactory(threadInfo);
+    public ThreadRepository(String url){
+        this.factory= new ThreadFactory(url);
     }
 
     @Override

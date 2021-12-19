@@ -16,6 +16,7 @@ import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class ThreadViewModel extends SampleViewModel<Post, Post> {
     public static final String COLUMN_POST = "post";
+    public static final String COLUMN_POST_URL = "post_URL";
     static int unloadedPage = 0;
 
     private Repository<KThread> threadRepository;
@@ -28,7 +29,12 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
 
     public void setArgs(Bundle bundle) {
         threadInfo = (Post) bundle.getSerializable(COLUMN_POST);
-        threadRepository= new ThreadRepository(threadInfo);
+        if(threadInfo == null){
+            String threadUrl = (String) bundle.getString(COLUMN_POST_URL);
+            threadRepository =  new ThreadRepository(threadUrl);
+        }else{
+            threadRepository =  new ThreadRepository(threadInfo.getUrl());
+        }
     }
 
     @Override

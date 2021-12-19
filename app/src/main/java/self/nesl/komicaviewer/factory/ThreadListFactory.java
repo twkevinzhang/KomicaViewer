@@ -33,22 +33,22 @@ public class ThreadListFactory implements Factory<List<Post>> {
         "2cat.org"  // 碧藍幻想
     );
 
-    private Board board;
+    private String url;
     private Request request;
 
-    public ThreadListFactory(Board board) {
-        this.board = board;
+    public ThreadListFactory(String url) {
+        this.url = url;
     }
 
     public Request createRequest(Bundle bundle) {
         for (String host : SORA_SET) {
-            if (board.getUrl().contains(host))
-                request =  SoraThreadListRequest.create(board, bundle);
+            if (url.contains(host))
+                request =  SoraThreadListRequest.create(url, bundle);
         }
 
         for (String host : _2CAT_SET) {
-            if (board.getUrl().contains(host))
-                request =  _2catThreadListRequest.create(board, bundle);
+            if (url.contains(host))
+                request =  _2catThreadListRequest.create(url, bundle);
         }
 
         return request;
@@ -58,14 +58,14 @@ public class ThreadListFactory implements Factory<List<Post>> {
     public List<Post> parse(String response) {
         Parser<List<Post>> parser = null;
         for (String host : SORA_SET) {
-            if (board.getUrl().contains(host)){
+            if (url.contains(host)){
                 String boardUrl = new SoraThreadListRequest.UrlTool(request.getUrl()).removePageFragment();
                 parser= new SoraBoardParser(boardUrl, Jsoup.parse(response));
             }
         }
 
         for (String host : _2CAT_SET) {
-            if (board.getUrl().contains(host)){
+            if (url.contains(host)){
                 String boardUrl = new _2catThreadListRequest.UrlTool(request.getUrl()).removePageFragment();
                 parser= new _2catBoardParser(boardUrl, Jsoup.parse(response));
             }

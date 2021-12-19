@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import java.util.List;
 
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.request.KThread;
 import self.nesl.komicaviewer.util.TestUtils;
 
 public class SoraThreadParserTest extends TestCase {
@@ -22,7 +23,7 @@ public class SoraThreadParserTest extends TestCase {
     }
 
     public void testParse() {
-        List<Post> posts= parser.parse();
+        KThread posts= parser.parse();
         TestUtils.print(new Gson().toJson(posts));
     }
 }

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_board"
             app:destination="@id/nav_board" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_post"
+            app:destination="@id/nav_post" />
     </fragment>
 
     <fragment

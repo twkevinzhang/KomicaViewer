@@ -27,8 +27,7 @@ public class _2catThreadListRequest extends Request {
         super(url);
     }
 
-    public static _2catThreadListRequest create(Board board, Bundle bundle) {
-        String url = board.getUrl();
+    public static _2catThreadListRequest create(String url, Bundle bundle) {
         if(bundle != null){
             int page = bundle.getInt(PAGE);
             if (page != 0) {

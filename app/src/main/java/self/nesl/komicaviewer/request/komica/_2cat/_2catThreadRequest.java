@@ -12,9 +12,8 @@ import self.nesl.komicaviewer.request.Request;
 
 public class _2catThreadRequest extends Request {
 
-    public static _2catThreadRequest create(Post thread, Bundle bundle) {
-        String url = thread.getUrl();
-        return new _2catThreadRequest(url);
+    public static _2catThreadRequest create(String threadUrl) {
+        return new _2catThreadRequest(threadUrl);
     }
 
     public _2catThreadRequest(String url) {

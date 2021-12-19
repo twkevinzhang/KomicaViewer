@@ -1,10 +1,14 @@
 package self.nesl.komicaviewer;
 
 import static self.nesl.komicaviewer.ui.home.BoardListViewModel.COLUMN_HOST;
+import static self.nesl.komicaviewer.ui.thread.ThreadViewModel.COLUMN_POST;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,9 +27,11 @@ import java.util.List;
 import self.nesl.komicaviewer.models.category.Category;
 import self.nesl.komicaviewer.repository.CategoryListRepository;
 import self.nesl.komicaviewer.repository.Repository;
+import self.nesl.komicaviewer.ui.thread.ThreadViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +57,29 @@ public class MainActivity extends AppCompatActivity {
         )
                 .setDrawerLayout((DrawerLayout) findViewById(R.id.drawer_layout))
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         // add host item in there
         Menu boardMenu = navigationView.getMenu();
-        boardMenu.addSubMenu("TEST");
+        SubMenu hostSetMenu= boardMenu.addSubMenu("Hosts");
         Repository<List<Category>> repo = new CategoryListRepository();
         repo.get(categories -> {
             for (Category category : categories) {
-                addMenu(boardMenu, category.getIcon(), category);
+                addMenu(hostSetMenu, category.getIcon(), category);
             }
             NavigationUI.setupWithNavController(navigationView, navController);
         });
+
+        // intent
+        Uri urlFromOthers = getIntent().getData();
+        if(urlFromOthers != null){
+            // from other app
+            Bundle bundle = new Bundle();
+            bundle.putString(ThreadViewModel.COLUMN_POST_URL, urlFromOthers.toString());
+            navController.navigate(R.id.action_nav_home_to_nav_post, bundle);
+        }
     }
 
     @Override
@@ -76,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
@@ -84,16 +98,11 @@ public class MainActivity extends AppCompatActivity {
     public void addMenu(Menu menu, int icon, Category category) {
         MenuItem item = menu.add(category.getTitle());
         item.setIcon(icon);
-        NavController controller = Navigation.findNavController(get(), R.id.nav_host_fragment);
         item.setOnMenuItemClickListener(item1 -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(COLUMN_HOST, category);
-            controller.navigate(R.id.nav_home, bundle);
+            navController.navigate(R.id.nav_home, bundle);
             return false;
         });
-    }
-
-    private MainActivity get() {
-        return this;
     }
 }

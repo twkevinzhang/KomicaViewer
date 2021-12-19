@@ -14,9 +14,9 @@ public class ThreadListRepository implements Repository<List<Post>> {
     private Factory<List<Post>> factory;
     private Bundle bundle;
 
-    public ThreadListRepository(Board Board, Bundle bundle){
+    public ThreadListRepository(Board board, Bundle bundle){
         this.bundle=bundle;
-        this.factory= new ThreadListFactory(Board);
+        this.factory= new ThreadListFactory(board.getUrl());
     }
 
     @Override

@@ -21,8 +21,7 @@ public class SoraThreadListRequest extends Request {
         super(url);
     }
 
-    public static SoraThreadListRequest create(Board board, Bundle bundle) {
-        String url = board.getUrl();
+    public static SoraThreadListRequest create(String url, Bundle bundle) {
         if(bundle != null){
             int page = bundle.getInt(PAGE);
             if (page != 0) {
