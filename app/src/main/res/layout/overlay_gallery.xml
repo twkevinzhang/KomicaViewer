@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/posterOverlayDeleteButton"
+        android:id="@+id/posterOverlayDownloadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
@@ -15,7 +15,7 @@
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_delete"
+        app:srcCompat="@drawable/ic_outline_cloud_download_24"
         tools:ignore="ContentDescription"/>
 
     <ImageView
@@ -26,20 +26,20 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="6dp"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
-        app:layout_constraintEnd_toStartOf="@+id/posterOverlayDeleteButton"
-        app:layout_constraintTop_toTopOf="@+id/posterOverlayDeleteButton"
+        app:layout_constraintEnd_toStartOf="@+id/posterOverlayDownloadButton"
+        app:layout_constraintTop_toTopOf="@+id/posterOverlayDownloadButton"
         app:srcCompat="@drawable/ic_share"
         tools:ignore="ContentDescription"/>
 
     <TextView
         android:id="@+id/posterOverlayDescriptionText"
-        android:textColor="@color/white"
-        android:ellipsize="end"
-        android:maxLines="5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/backgroundDarkTransparent"
         android:padding="16dp"
+        android:textColor="@color/white"
+        android:maxLines="5"
+        android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

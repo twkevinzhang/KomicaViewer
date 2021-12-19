@@ -15,7 +15,7 @@ public class Poster {
         return post;
     }
 
-    public String getUrl() {
+    public String getMediaUrl() {
         return url;
     }
 }

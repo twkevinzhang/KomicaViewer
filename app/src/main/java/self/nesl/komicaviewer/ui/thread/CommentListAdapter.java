@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.Layout;
 import self.nesl.komicaviewer.ui.SampleAdapter;
-import self.nesl.komicaviewer.ui.gallery.GalleryOverlayView;
+import self.nesl.komicaviewer.ui.gallery.GalleryViewHolder;
 import self.nesl.komicaviewer.ui.gallery.Poster;
 import self.nesl.komicaviewer.ui.render.CommentRender;
 import self.nesl.komicaviewer.ui.render.ImageRender;
@@ -36,6 +37,7 @@ import self.nesl.komicaviewer.ui.render.PostRender;
 import self.nesl.komicaviewer.ui.viewholder.CommentViewHolder;
 import self.nesl.komicaviewer.ui.viewholder.SwitcherViewHolder;
 import self.nesl.komicaviewer.ui.viewholder.ViewHolderBinder;
+import self.nesl.komicaviewer.ui.views.PosterOverlayView;
 
 public class CommentListAdapter extends SampleAdapter<Post>{
     private CommentRender.OnReplyToClickListener OnReplyToClickListener;
@@ -123,14 +125,27 @@ public class CommentListAdapter extends SampleAdapter<Post>{
 
     public static PostRender.OnImageClickListener onImageClickListener(Context context){
         return (v, imageInfoList, startPosition) -> {
-            GalleryOverlayView overlayView = new GalleryOverlayView(context);
-            overlayView.update(imageInfoList.get(startPosition));
-            StfalconImageViewer.Builder<Poster> builder= new StfalconImageViewer.Builder<>(context, imageInfoList, (imageView, imageInfo) -> {
-                new ImageRender(imageView, imageInfo.getUrl()).render();
-            });
-            builder.withOverlayView(overlayView);
-            builder.show();
+            PosterOverlayView posterOverlayView =  new PosterOverlayView(context);
+            preLoadImage(posterOverlayView, imageInfoList, startPosition);
+            new StfalconImageViewer.Builder<>(context, imageInfoList,
+                    CommentListAdapter::loadImage,
+                    GalleryViewHolder::buildViewHolder)
+                    .withStartPosition(startPosition)
+                    .withTransitionFrom((ImageView) v)
+                    .withHiddenStatusBar(true)
+                    .withImageChangeListener(position -> {
+                        preLoadImage(posterOverlayView, imageInfoList, startPosition);
+                    })
+                    .withOverlayView(posterOverlayView)
+                    .show();
         };
     }
 
+    private static void loadImage(ImageView imageView, Poster imageInfo){
+        new ImageRender(imageView, imageInfo.getMediaUrl()).render();
+    }
+
+    private static void preLoadImage(PosterOverlayView posterOverlayView, List<Poster> imageInfoList, int position){
+        posterOverlayView.update(imageInfoList.get(position));
+    }
 }

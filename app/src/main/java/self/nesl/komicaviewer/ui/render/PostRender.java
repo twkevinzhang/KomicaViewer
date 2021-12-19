@@ -25,8 +25,7 @@ import self.nesl.komicaviewer.ui.viewbinder.LinkPreviewBinder;
 
 public class PostRender implements Render {
     static String LINK_REGEX = "(http(s?):/)(/[^/]+)+";
-    static Pattern IMAGE_LINK_PATTERN = Pattern.compile(LINK_REGEX + "\\.(?:jpg|gif|png)");
-    static Pattern WEBM_LINK_PATTERN = Pattern.compile(LINK_REGEX + "\\.(webm)");
+    static Pattern IMAGE_LINK_PATTERN = Pattern.compile(LINK_REGEX + "\\.(?:jpg|gif|png|webm)");
 
     Post post;
     LinearLayout root;
@@ -69,8 +68,6 @@ public class PostRender implements Render {
             if(IMAGE_LINK_PATTERN.matcher(url).find()){
                 imageUrls.add(url);
                 root.addView(tool.renderImage(imageUrls.size() -1));
-            }else if(WEBM_LINK_PATTERN.matcher(url).find()){
-                // TODO
             }else{
                 root.addView(tool.renderPreview(root, url));
             }
