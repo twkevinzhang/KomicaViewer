@@ -80,7 +80,6 @@ public class SoraPostParser implements Parser<Post> {
         Element thumbImg = root.selectFirst("img");
         if(thumbImg != null){
             String originalUrl = thumbImg.parent().attr("href");
-            Log.e("neslx", new UrlFixer(originalUrl).getUrl());
             return new UrlFixer(originalUrl).getUrl();
         }
         return null;
