@@ -1,32 +1,31 @@
 # KomciaViewer
 Browse between multiple forums.
 
-## 常用功能
+## Road Map
  - [x] 預覽reply的引用內容(ex. >>12345678 (我的家庭真可愛...) )
- - [x] 點擊開啟樹狀留言圖Dialog
- - [ ] 閱讀歷史
+ - [x] 點擊開啟樹狀留言圖 Dialog
+ - [x] Open Url in Browser
+ - [x] 像Pitt的點擊開圖
+ - [ ] 將「播放影片」跟「點擊開圖」結合
  - [ ] 偵測連結開啟App
- - [ ] Po文
- - [ ] 點擊留言
+ - [ ] 閱讀歷史
  - [ ] 備份
  - [ ] 收藏貼文
- - [x] Open Url in Browser
- - [ ] 肉餅臉產生器
  - [ ] 依據ID生出頭像
- - [x] 像Pitt的點擊開圖
+ - [ ] Po文
+ - [ ] 點擊留言
+ - [ ] 肉餅臉產生器
+ - [ ] 為使用者推薦K島上常用圖片(搜尋、上傳)
+ - [ ] 追蹤文章
+ - [ ] 個人化推薦文章(自行設定關鍵字)
 
 ## 目前困難
  - GIF裏站等站的原圖被js加密過
  
-### 未來
- - 為使用者推薦K島上常用圖片(搜尋、上傳)
- - 追蹤文章
- - 個人化推薦文章(自行設定關鍵字)
- 
 ## 目前版面
 ### Komica Top50:
-   - [ ] komica.org
-      - [x] sora: [綜合,男性角色,短片2,寫真],[改造,求圖]
+   - [x] komica.org
+      - sora: [綜合,男性角色,短片2,寫真],[改造,求圖]
       - 2cat: 
          - [新番捏他,新番實況,漫畫,動畫,萌,車]
          - [2CAT,短片,賽車遊戲,返信娘,PSV/手機壁,Pixmicat!,詢問,生存遊戲,大自然,(Web),貓管理部,戰略遊戲]
@@ -48,10 +47,10 @@ Browse between multiple forums.
       - [3D STG,動作遊戲]
       - [閒談@香港,星座命理,美容,2D STG,冒險遊戲,RPG,APH,Pokemon,GAINAX,角色配對,催淚,素食]
    - [ ] p.komica.acg.club.tw [兄貴],[正太]
-   - [ ] 2cat.org 
+   - [x] 2cat.org 
       - [碧藍幻想,手機遊戲,Azur Lane,網頁遊戲]
       - [動物綜合,二次壁,職業,財經,法律,繪師,猜謎,天文,超常現象,服飾,女性向遊戲,VR/體感遊戲,桌上遊戲]
-   - [ ] mymoe.moe (關站，Code白寫了QQ) 
+   - [ ] ~~mymoe.moe~~ (關站，Code白寫了QQ) 
       - [PAD,綜合2,三次實況]
       - [歷史,笑話,New Age,政治,耳機,髮型,家政,讀書筆記,RPG Maker,CosmicBreak,Elsword,DNF,DOTA2,GW2,LOL,PSO2,SDGO,白貓Project,流亡黯道 PoE,新瑪奇英雄傳,爐石戰記,LoveLive!,禁書,STEAM]
    - [ ] strange-komica.com [魔物獵人]
@@ -89,15 +88,14 @@ Browse between multiple forums.
    
 ### Komica2:
    - [ ] komica2.net (二次裡Ａ,遊戲裡,三次元裡,二次裡Ｂ,3D裡,Alicesoft,足襪,YURI,惡搞裡,Figure 裡,成人音聲,改造裡,交易合購裡,玩偶裡,塗鴉裡,壁紙裡,獸裡,寫作裡,YAOI,雜談,小說裡,宣傳裡,精華裡,管理室,寫作資料庫) 
-   - [x] 2cat.org (
-       - [GIF裡]
-       - [動畫裡]
-       - [高解析裡] (進不去)
-       - [成人玩具]
-       - [知識裡]
-       - [偽娘裡]
-       - [東方裡] (進不去)
-      )
+   - 2cat.org
+       - [ ] [GIF裡]
+       - [ ] [動畫裡]
+       - [ ] [高解析裡] (進不去)
+       - [ ] [成人玩具]
+       - [ ] [知識裡]
+       - [ ] [偽娘裡]
+       - [ ] [東方裡] (進不去)
    - [ ] p.komica.acg.club.tw (觸手裡)
    - [ ] cyber.boguspix.com (機娘裡)
    - [ ] majeur.zawarudo.org (詢問裡)
