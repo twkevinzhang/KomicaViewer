@@ -6,8 +6,8 @@ Browse between multiple forums.
  - [x] 點擊開啟樹狀留言圖 Dialog
  - [x] Open Url in Browser
  - [x] 像Pitt的點擊開圖
- - [ ] 將「播放影片」跟「點擊開圖」結合
- - [ ] 偵測連結開啟App
+ - [x] 將「播放影片」跟「點擊開圖」結合
+ - [x] 偵測連結開啟App
  - [ ] 閱讀歷史
  - [ ] 備份
  - [ ] 收藏貼文
