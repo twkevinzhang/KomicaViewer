@@ -51,8 +51,8 @@ public class LinkPreviewBinder {
 
             @Override
             public void onError(@NonNull String s) {
-
+                root.setVisibility(View.GONE);
             }
-        }, true, context).parse(url);
+        }, false, context).parse(url);
     }
 }
