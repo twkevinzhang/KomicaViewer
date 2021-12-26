@@ -25,6 +25,8 @@ android {
 }
 
 dependencies {
+    def room_version = "2.4.0"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -49,6 +51,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.github.svank:StfalconImageViewer:custom-viewholders-SNAPSHOT'
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }
 repositories {
     mavenCentral()

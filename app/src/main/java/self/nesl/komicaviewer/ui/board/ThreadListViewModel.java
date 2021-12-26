@@ -1,7 +1,9 @@
 package self.nesl.komicaviewer.ui.board;
 
+import android.app.Application;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -21,6 +23,10 @@ public class ThreadListViewModel extends SampleViewModel<Board, Post> {
     private MutableLiveData<Board> _detail = new MutableLiveData<>();
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
     private int currentPage = 0;
+
+    public ThreadListViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public void setBoard(Board board) {
         this.parent=board;

@@ -1,7 +1,9 @@
 package self.nesl.komicaviewer.ui.home;
 
+import android.app.Application;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -22,6 +24,10 @@ public class BoardListViewModel extends SampleViewModel<Category, Board> {
     private Category category;
     private Repository<List<Board>> boardListRepository;
     private int currentPage = unloadedPage;
+
+    public BoardListViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     public void setCategory(Category category) {
         this.category=category;

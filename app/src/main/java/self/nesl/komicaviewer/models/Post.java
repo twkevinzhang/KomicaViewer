@@ -4,11 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.format.DateUtils;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import org.jsoup.nodes.Element;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -18,20 +23,23 @@ import self.nesl.komicaviewer.feature.Id;
 import self.nesl.komicaviewer.feature.Title;
 import self.nesl.komicaviewer.ui.Layout;
 
+@Entity
 public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Layout {
+    @PrimaryKey
+    @NonNull
+    private String url;
     private String id = null;
     private String replyTo = null;
     private String quote = null;
-    private String url = null;
     private String title = null;
     private Date createAt = null;
     private String poster = null;
-    private List<String> tags = new ArrayList<>();
+    private List<String> tags = Collections.emptyList();
     private int visitsCount = 0;
     private int replyCount = 0;
-    private Element origin = null;
     private String pictureUrl = null;
-    private boolean isReaded = false;
+    private boolean isReadied = false;
+    private boolean isPinned = false;
     private String text = null;
 
     public Post(String url, String id) {
@@ -50,7 +58,8 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         visitsCount = in.readInt();
         replyCount = in.readInt();
         pictureUrl = in.readString();
-        isReaded = in.readByte() != 0;
+        isReadied = in.readByte() != 0;
+        isPinned = in.readByte() != 0;
         text = in.readString();
     }
 
@@ -133,8 +142,8 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         return tags;
     }
 
-    public void addTags(String tag) {
-        this.tags.add(tag);
+    public void setTags(List<String> tags) {
+        this.tags= tags;
     }
 
     public int getVisitsCount() {
@@ -153,14 +162,6 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         this.replyCount = replyCount;
     }
 
-    public Element getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(Element origin) {
-        this.origin = origin;
-    }
-
     public String getPictureUrl() {
         return pictureUrl;
     }
@@ -169,12 +170,20 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         this.pictureUrl = pictureUrl;
     }
 
-    public boolean isReaded() {
-        return isReaded;
+    public boolean isReadied() {
+        return isReadied;
     }
 
-    public void setReaded(boolean readed) {
-        isReaded = readed;
+    public void setReadied(boolean readied) {
+        isReadied = readied;
+    }
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
     }
 
     public String getText() {
@@ -250,7 +259,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         dest.writeInt(visitsCount);
         dest.writeInt(replyCount);
         dest.writeString(pictureUrl);
-        dest.writeByte((byte) (isReaded ? 1 : 0));
+        dest.writeByte((byte) (isReadied ? 1 : 0));
         dest.writeString(text);
     }
 
