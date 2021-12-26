@@ -1,8 +1,5 @@
 package self.nesl.komicaviewer.ui.thread;
 
-import static self.nesl.komicaviewer.ui.thread.QuoteDialog.COLUMN_POST;
-import static self.nesl.komicaviewer.ui.thread.QuoteDialog.COLUMN_POST_LIST;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -97,8 +94,8 @@ public class CommentListAdapter extends SampleAdapter<Post>{
     public static CommentRender.OnReplyToClickListener onReplyToClickListener(FragmentManager fragmentManager){
         return  (replyTo, all) -> {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(COLUMN_POST,replyTo);
-            bundle.putParcelableArrayList(COLUMN_POST_LIST, new ArrayList<>(all));
+            bundle.putSerializable(QuoteDialog.COLUMN_POST,replyTo);
+            bundle.putParcelableArrayList(QuoteDialog.COLUMN_POST_LIST, new ArrayList<>(all));
             QuoteDialog.newInstance(bundle).show(fragmentManager, "ReplyDialog2");
         };
     }

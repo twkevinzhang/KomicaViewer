@@ -1,9 +1,5 @@
 package self.nesl.komicaviewer;
 
-import static self.nesl.komicaviewer.ui.home.BoardListViewModel.COLUMN_HOST;
-import static self.nesl.komicaviewer.ui.thread.ThreadViewModel.COLUMN_POST;
-
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,7 +23,8 @@ import java.util.List;
 import self.nesl.komicaviewer.models.category.Category;
 import self.nesl.komicaviewer.repository.CategoryListRepository;
 import self.nesl.komicaviewer.repository.Repository;
-import self.nesl.komicaviewer.ui.thread.ThreadViewModel;
+import self.nesl.komicaviewer.ui.home.BoardListFragment;
+import self.nesl.komicaviewer.ui.thread.ThreadFragment;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -77,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         if(urlFromOthers != null){
             // from other app
             Bundle bundle = new Bundle();
-            bundle.putString(ThreadViewModel.COLUMN_POST_URL, urlFromOthers.toString());
+            bundle.putString(ThreadFragment.COLUMN_POST_URL, urlFromOthers.toString());
             navController.navigate(R.id.action_nav_home_to_nav_post, bundle);
         }
     }
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         item.setIcon(icon);
         item.setOnMenuItemClickListener(item1 -> {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(COLUMN_HOST, category);
+            bundle.putSerializable(BoardListFragment.COLUMN_CATEGORY, category);
             navController.navigate(R.id.nav_home, bundle);
             return false;
         });

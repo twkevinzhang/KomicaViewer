@@ -1,8 +1,5 @@
 package self.nesl.komicaviewer.ui.home;
 
-import static self.nesl.komicaviewer.ui.board.ThreadListViewModel.COLUMN_THREAD_LIST;
-import static self.nesl.komicaviewer.ui.home.BoardListViewModel.COLUMN_HOST;
-
 import android.os.Bundle;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -19,10 +16,27 @@ import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.ui.SampleAdapter;
 import self.nesl.komicaviewer.ui.SampleListFragment;
 import self.nesl.komicaviewer.ui.SampleViewModel;
+import self.nesl.komicaviewer.ui.board.ThreadListFragment;
 
 public class BoardListFragment extends SampleListFragment<Category, Board> {
+    public static final String COLUMN_CATEGORY = "CATEGORY";
     private BoardListViewModel boardListViewModel;
     private BoardListAdapter adapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        boardListViewModel = ViewModelProviders.of(this).get(BoardListViewModel.class);
+        if (getArguments() != null){
+            Category category = (Category) getArguments().getSerializable(COLUMN_CATEGORY);
+            boardListViewModel.setCategory(category);
+        }else{
+            Repository<List<Category>> repo = new CategoryListRepository();
+            repo.get(categories -> {
+                boardListViewModel.setCategory(categories.get(0));
+            });
+        }
+    }
 
     @Override
     protected void initAdapter() {
@@ -30,26 +44,13 @@ public class BoardListFragment extends SampleListFragment<Category, Board> {
         NavController navController = Navigation.findNavController(root);
         adapter.setOnClickListener((view, board) -> {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(COLUMN_THREAD_LIST, board);
+            bundle.putSerializable(ThreadListFragment.COLUMN_BOARD, board);
             navController.navigate(R.id.action_nav_home_to_nav_board, bundle);
         });
     }
 
     @Override
     protected SampleViewModel<Category, Board> getViewModel() {
-        if(boardListViewModel == null){
-            boardListViewModel = ViewModelProviders.of(this).get(BoardListViewModel.class);
-            if (getArguments() != null){
-                boardListViewModel.setArgs(getArguments());
-            }else{
-                Repository<List<Category>> repo = new CategoryListRepository();
-                repo.get(categories -> {
-                    Bundle args = new Bundle();
-                    args.putSerializable(COLUMN_HOST, categories.get(0));
-                    boardListViewModel.setArgs(args);
-                });
-            }
-        }
         return boardListViewModel;
     }
 

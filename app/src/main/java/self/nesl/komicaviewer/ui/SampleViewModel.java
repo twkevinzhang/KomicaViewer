@@ -8,24 +8,10 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import self.nesl.komicaviewer.feature.Title;
+import self.nesl.komicaviewer.repository.Repository;
 
-public abstract class SampleViewModel<DETAIL extends Title, CHILDREN> extends ViewModel {
-    public static final String PAGE = "page";
-
-    abstract public void setArgs(Bundle bundle);
-
-    abstract public int getCurrentPage();
-
-    abstract public LiveData<List<CHILDREN>> children();
-
+public abstract class SampleViewModel<DETAIL extends Title, CHILDREN> extends ViewModel implements PagingViewModel<CHILDREN> {
     abstract public LiveData<DETAIL> detail();
 
-    abstract public LiveData<Boolean> loading();
-
-    abstract public void clearChildren();
-
-    abstract public void loadChildren();
-
     abstract public void loadDetail(Bundle bundle);
-
 }

@@ -15,8 +15,6 @@ import self.nesl.komicaviewer.repository.ThreadListRepository;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class ThreadListViewModel extends SampleViewModel<Board, Post> {
-    public static final String COLUMN_THREAD_LIST = "board";
-
     private Repository<List<Post>> threadListRepository;
     private Board parent;
     private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
@@ -24,8 +22,8 @@ public class ThreadListViewModel extends SampleViewModel<Board, Post> {
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
     private int currentPage = 0;
 
-    public void setArgs(Bundle bundle) {
-        parent = (Board) bundle.getSerializable(COLUMN_THREAD_LIST);
+    public void setBoard(Board board) {
+        this.parent=board;
     }
 
     @Override
@@ -44,13 +42,14 @@ public class ThreadListViewModel extends SampleViewModel<Board, Post> {
     }
 
     @Override
-    public void clearChildren() {
+    public void refreshChildren() {
         currentPage =0;
         _list.postValue(Collections.emptyList());
+        nextChildren();
     }
 
     @Override
-    public void loadChildren() {
+    public void nextChildren() {
         currentPage += 1;
         Bundle bundle = new Bundle();
         bundle.putInt(PAGE, currentPage);

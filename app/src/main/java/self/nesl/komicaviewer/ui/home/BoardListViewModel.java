@@ -15,7 +15,6 @@ import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class BoardListViewModel extends SampleViewModel<Category, Board> {
-    public static String COLUMN_HOST = "board list request { url }";
     static int unloadedPage = 0;
     private MutableLiveData<List<Board>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Category> _detail = new MutableLiveData<>();
@@ -24,8 +23,8 @@ public class BoardListViewModel extends SampleViewModel<Category, Board> {
     private Repository<List<Board>> boardListRepository;
     private int currentPage = unloadedPage;
 
-    public void setArgs(Bundle bundle) {
-        category = (Category) bundle.getSerializable(COLUMN_HOST);
+    public void setCategory(Category category) {
+        this.category=category;
         boardListRepository= new BoardListRepository(category);
     }
 
@@ -45,13 +44,14 @@ public class BoardListViewModel extends SampleViewModel<Category, Board> {
     }
 
     @Override
-    public void clearChildren() {
+    public void refreshChildren() {
         currentPage = unloadedPage;
         _list.postValue(Collections.emptyList());
+        nextChildren();
     }
 
     @Override
-    public void loadChildren() {
+    public void nextChildren() {
         if(currentPage == unloadedPage){
             currentPage = 1;
             _loading.postValue(true);

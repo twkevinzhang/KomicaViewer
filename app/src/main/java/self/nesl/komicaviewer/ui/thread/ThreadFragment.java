@@ -1,6 +1,8 @@
 package self.nesl.komicaviewer.ui.thread;
 import static self.nesl.komicaviewer.util.ProjectUtils.filterRepliesList;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ConcatAdapter;
@@ -14,9 +16,20 @@ import self.nesl.komicaviewer.ui.SampleListFragment;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class ThreadFragment extends SampleListFragment<Post, Post> {
+    public static final String COLUMN_POST_URL = "post_URL";
     private ThreadViewModel threadViewModel;
     private HeadPostAdapter headAdapter;
     private CommentListAdapter commentAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        threadViewModel = ViewModelProviders.of(this).get(ThreadViewModel.class);
+        if (getArguments() != null){
+            String url= getArguments().getString(COLUMN_POST_URL);
+            threadViewModel.setThreadUrl(url);
+        }
+    }
 
     @Override
     protected void initAdapter(){
@@ -54,8 +67,6 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
 
     @Override
     protected SampleViewModel<Post, Post> getViewModel() {
-        if(threadViewModel == null)
-            threadViewModel = ViewModelProviders.of(this).get(ThreadViewModel.class);
         return threadViewModel;
     }
 
