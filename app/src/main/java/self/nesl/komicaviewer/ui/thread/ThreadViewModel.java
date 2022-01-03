@@ -25,6 +25,7 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
     private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Post> _detail = new MutableLiveData<>();
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
+    private MutableLiveData<String> _error = new MutableLiveData<>();
     Boolean isTree = false;
     private int currentPage = unloadedPage;
 
@@ -65,7 +66,11 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
             currentPage = 1;
             _loading.postValue(true);
             threadRepository.get(thread-> {
-                _list.postValue(thread.getComments());
+                if(thread != null){
+                    _list.postValue(thread.getComments());
+                }else{
+                    _error.postValue("thread is null.");
+                }
                 _loading.postValue(false);
             });
         }
@@ -74,12 +79,17 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
     @Override
     public void loadDetail(Bundle bundle) {
         threadRepository.get(thread-> {
-            _detail.postValue(thread.getHeadPost());
+            if(thread != null)
+                _detail.postValue(thread.getHeadPost());
         });
     }
 
     @Override
     public LiveData<Boolean> loading() {
         return _loading;
+    }
+
+    public LiveData<String> error(){
+        return _error;
     }
 }

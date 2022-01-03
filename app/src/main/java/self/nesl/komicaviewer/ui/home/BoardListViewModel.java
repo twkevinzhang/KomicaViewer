@@ -21,6 +21,7 @@ public class BoardListViewModel extends SampleViewModel<Category, Board> {
     private MutableLiveData<List<Board>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Category> _detail = new MutableLiveData<>();
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
+    private MutableLiveData<String> _error = new MutableLiveData<>();
     private Category category;
     private Repository<List<Board>> boardListRepository;
     private int currentPage = unloadedPage;
@@ -66,6 +67,11 @@ public class BoardListViewModel extends SampleViewModel<Category, Board> {
                 _loading.postValue(false);
             });
         }
+    }
+
+    @Override
+    public LiveData<String> error() {
+        return _error;
     }
 
     @Override

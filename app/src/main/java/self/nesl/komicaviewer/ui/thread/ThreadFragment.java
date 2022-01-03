@@ -66,6 +66,12 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
             ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle(detail.getTitle());
             headAdapter.add(detail);
         });
+
+        getViewModel().error().observe(getViewLifecycleOwner(), error -> {
+            if(error != null)
+                txtMsg.setText(error);
+            refresh.setRefreshing(false);
+        });
     }
 
     @Override

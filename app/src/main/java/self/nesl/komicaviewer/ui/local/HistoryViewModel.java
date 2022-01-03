@@ -24,6 +24,7 @@ public class HistoryViewModel extends AndroidViewModel implements PagingViewMode
     private RepositoryAsLive<List<Post>> mRepository;
     private MutableLiveData<Integer> currentPage = new MutableLiveData<>(0);
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
+    private MutableLiveData<String> _error = new MutableLiveData<>();
     private LiveData<List<Post>> _list = Transformations.switchMap(currentPage, page -> {
         _loading.postValue(false);
         return mRepository.get();
@@ -58,5 +59,10 @@ public class HistoryViewModel extends AndroidViewModel implements PagingViewMode
     @Override
     public void nextChildren() {
         currentPage.postValue(currentPage.getValue() +1);
+    }
+
+    @Override
+    public LiveData<String> error(){
+        return _error;
     }
 }

@@ -22,6 +22,7 @@ public class ThreadListViewModel extends SampleViewModel<Board, Post> {
     private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
     private MutableLiveData<Board> _detail = new MutableLiveData<>();
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
+    private MutableLiveData<String> _error = new MutableLiveData<>();
     private int currentPage = 0;
 
     public ThreadListViewModel(@NonNull Application application) {
@@ -65,6 +66,11 @@ public class ThreadListViewModel extends SampleViewModel<Board, Post> {
             _list.postValue(list);
             _loading.postValue(false);
         });
+    }
+
+    @Override
+    public LiveData<String> error() {
+        return _error;
     }
 
     @Override

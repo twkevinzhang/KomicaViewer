@@ -27,7 +27,7 @@ public interface PostDao {
     @Query("SELECT * FROM post WHERE id = :id")
     LiveData<Post> loadById(int id);
 
-    @Query("SELECT * from post")
+    @Query("SELECT * from post order by readAt desc")
     LiveData<List<Post>> loadAll();
 
     @Query("SELECT * from post where isPinned = 1")

@@ -52,19 +52,29 @@ public abstract class PagingListFragment<CHILDREN extends Layout> extends Fragme
 
     protected void initObserver() {
         getViewModel().children().observe(getViewLifecycleOwner(), list -> {
-            getAdapter().addAll(list);
-            txtMsg.setText(MessageFormat.format(
-                    "onChanged," +
-                            "adapter.getItemCount:{0}," +
-                            "arr.length:{1}",
-                    getAdapter().getItemCount(), list.size())
-            );
+            if(list != null){
+                getAdapter().addAll(list);
+                txtMsg.setText(MessageFormat.format(
+                        "onChanged," +
+                                "adapter.getItemCount:{0}," +
+                                "arr.length:{1}",
+                        getAdapter().getItemCount(), list.size())
+                );
+            }else{
+                txtMsg.setText("Loading Error!");
+            }
         });
 
         getViewModel().loading().observe(getViewLifecycleOwner(), isLoading -> {
             if(isLoading)
                 txtMsg.setText("載入中..." + getViewModel().getCurrentPage());
             refresh.setRefreshing(isLoading);
+        });
+
+        getViewModel().error().observe(getViewLifecycleOwner(), error -> {
+            if(error != null)
+                txtMsg.setText(error);
+            refresh.setRefreshing(false);
         });
     }
 

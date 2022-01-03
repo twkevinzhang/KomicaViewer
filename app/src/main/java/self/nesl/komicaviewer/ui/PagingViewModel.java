@@ -22,4 +22,6 @@ public interface PagingViewModel<T> {
 
     abstract public void nextChildren();
 
+    abstract public LiveData<String> error();
+
 }
