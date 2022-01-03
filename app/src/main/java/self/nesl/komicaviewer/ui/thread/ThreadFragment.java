@@ -14,6 +14,7 @@ import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.SampleAdapter;
 import self.nesl.komicaviewer.ui.SampleListFragment;
 import self.nesl.komicaviewer.ui.SampleViewModel;
+import self.nesl.komicaviewer.ui.gallery.Poster;
 
 public class ThreadFragment extends SampleListFragment<Post, Post> {
     public static final String COLUMN_POST_URL = "post_URL";
@@ -46,8 +47,10 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
             if(isTree){
                 List<Post> replies = filterRepliesList(null, list);
                 getAdapter().addAll(replies);
+                commentAdapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext(), Poster.toPosterList(replies)));
             }else{
                 getAdapter().addAll(list);
+                commentAdapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext(), Poster.toPosterList(list)));
             }
 
             txtMsg.setText(MessageFormat.format(
@@ -82,7 +85,6 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
             commentAdapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
             commentAdapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
             commentAdapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
-            commentAdapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext()));
         }
         return commentAdapter;
     }

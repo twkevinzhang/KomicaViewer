@@ -14,6 +14,7 @@ import java.util.List;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.gallery.Poster;
 
 public class RepliesDialog extends DialogFragment {
     public static final String COLUMN_POST="post";
@@ -55,12 +56,7 @@ public class RepliesDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.layout_list, container);
         rcLst = v.findViewById(R.id.rcLst);
-
         initAdapter();
-        adapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
-        adapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
-        adapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
-        adapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(v.getContext()));
         return v;
     }
 
@@ -70,6 +66,10 @@ public class RepliesDialog extends DialogFragment {
         List<Post> replies= filterRepliesList(threadId, all);
         adapter.setAllComments(all);
         adapter.addAll(replies);
+        adapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext(), Poster.toPosterList(replies)));
+        adapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
+        adapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
+        adapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
         rcLst.setAdapter(adapter);
     }
 }

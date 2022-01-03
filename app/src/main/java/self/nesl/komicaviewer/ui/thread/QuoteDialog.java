@@ -7,10 +7,12 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
+import java.util.Collections;
 import java.util.List;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.ui.gallery.Poster;
 import self.nesl.komicaviewer.ui.viewholder.CommentViewHolder;
 
 public class QuoteDialog extends DialogFragment {
@@ -55,7 +57,7 @@ public class QuoteDialog extends DialogFragment {
                 CommentListAdapter.onReplyToClickListener(getChildFragmentManager()),
                 CommentListAdapter.onLinkClickListener(getActivity()),
                 CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()),
-                CommentListAdapter.onImageClickListener(v.getContext()),
+                CommentListAdapter.onImageClickListener(v.getContext(), Collections.emptyList()),
                 list
         );
         binder.bind(post);

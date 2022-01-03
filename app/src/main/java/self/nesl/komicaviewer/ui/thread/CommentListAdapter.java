@@ -19,8 +19,11 @@ import androidx.fragment.app.FragmentManager;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
@@ -120,18 +123,30 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         };
     }
 
-    public static PostRender.OnImageClickListener onImageClickListener(Context context){
-        return (v, imageInfoList, startPosition) -> {
+    public static PostRender.OnImageClickListener onImageClickListener(Context context, List<Poster> list){
+        return (v, commentPosterList, startPosition) -> {
+            List<Poster> list2 = list;
+            if(list2 == null){
+                list2 = Collections.emptyList();
+            }
+            Poster shower = commentPosterList.get(startPosition);
+            int index= list2.indexOf(shower);
+            if(index < 0){
+                list2 = commentPosterList;
+                index = startPosition;
+            }
+
+            List<Poster> list3 = list2;
             PosterOverlayView posterOverlayView =  new PosterOverlayView(context);
-            preLoadImage(posterOverlayView, imageInfoList, startPosition);
-            new StfalconImageViewer.Builder<>(context, imageInfoList,
+            update(posterOverlayView, list3, index);
+            new StfalconImageViewer.Builder<>(context, list3,
                     CommentListAdapter::loadImage,
                     GalleryViewHolder::buildViewHolder)
-                    .withStartPosition(startPosition)
+                    .withStartPosition(index)
                     .withTransitionFrom((ImageView) v)
                     .withHiddenStatusBar(true)
                     .withImageChangeListener(position -> {
-                        preLoadImage(posterOverlayView, imageInfoList, startPosition);
+                        update(posterOverlayView, list3, position);
                     })
                     .withOverlayView(posterOverlayView)
                     .show();
@@ -142,7 +157,7 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         new ImageRender(imageView, imageInfo.getMediaUrl()).render();
     }
 
-    private static void preLoadImage(PosterOverlayView posterOverlayView, List<Poster> imageInfoList, int position){
+    private static void update(PosterOverlayView posterOverlayView, List<Poster> imageInfoList, int position){
         posterOverlayView.update(imageInfoList.get(position));
     }
 }
