@@ -5,7 +5,9 @@ import static self.nesl.komicaviewer.util.Utils.parseJpnToEngWeek;
 import org.jsoup.nodes.Element;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.HttpUrl;
 import self.nesl.komicaviewer.models.Post;
@@ -28,8 +30,8 @@ public class _2catPostParser implements Parser<Post> {
     @Override
     public Post parse() {
         setDetail();
-        post.getContent().add(new Paragraph(parseText(), ParagraphType.String));
-        setPicture();
+        post.setContent(parseText());
+        if(parsePicture()!=null) post.getContent().add(parsePicture());
         return post;
     }
 
@@ -48,27 +50,26 @@ public class _2catPostParser implements Parser<Post> {
         post.setCreateAt(createAt);
     }
 
-    public void setPicture(){
+    public Paragraph parsePicture(){
         try {
             _2catUrlTool tool  =(_2catUrlTool) this.tool;
             String fileName= root.selectFirst("a.imglink[href=#]").attr("title");
             String newLink=MessageFormat.format("http://img.2nyan.org/{0}/src/{1}", tool.getBoardId(), fileName);
-            post.setPictureUrl(newLink);
-            if(!post.getContent().isEmpty())
-                newLink = " "+ newLink;
-            post.getContent().add(new Paragraph(newLink, ParagraphType.String));
+            return new Paragraph(newLink, ParagraphType.String);
         } catch (NullPointerException ignored) {}
+        return null;
     }
 
-
-    protected String parseText() {
+    protected List<Paragraph> parseText() {
         String text= root.selectFirst("div.quote").ownText();
         StringBuilder builder = new StringBuilder(text);
         builder.append("\n\n================");
         for (Element bar: root.select(".push_area .push_par")) {
             builder.append("\n").append(bar.wholeText());
         }
-        return builder.toString();
+        ArrayList<Paragraph> arr= new ArrayList<>();
+        arr.add(new Paragraph(builder.toString(), ParagraphType.String));
+        return arr;
     }
 
     static class _2catHeadParser implements SoraPostParser.HeadParser {

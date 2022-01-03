@@ -5,6 +5,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import java.util.List;
+
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.ui.Layout;
 import self.nesl.komicaviewer.models.Post;
@@ -27,8 +29,10 @@ public class ThreadViewHolder extends ViewHolderBinder {
         TextView txtReplyCount = itemView.findViewById(R.id.txtReplyCount);
         txtReplyCount.setText("回應:" + data.getReplyCount());
 
-        ImageView imgView = itemView.findViewById(R.id.img);
-        String url = data.getPictureUrl();
-        new ImageRender(imgView, url, true).render();
+        List<String> urls=  data.getImageUrls();
+        if(!urls.isEmpty()){
+            ImageView imgView = itemView.findViewById(R.id.img);
+            new ImageRender(imgView, urls.get(0), true).render();
+        }
     }
 }

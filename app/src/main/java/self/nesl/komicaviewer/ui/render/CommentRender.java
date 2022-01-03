@@ -26,16 +26,20 @@ public class CommentRender extends PostRender{
         if(!post.getContent().isEmpty()) {
             for (Paragraph paragraph :post.getContent()) {
                 switch (paragraph.getType()){
-                    case Quote:
-                        addQuote(paragraph.getContent());
+                    case IMAGE:
+                        super.addImage(paragraph.getContent());
+                        break;
+                    case String:
+                        super.addText(paragraph.getContent());
+                        break;
+                    case LINK:
+                        super.addLink(paragraph.getContent());
                         break;
                     case ReplyTo:
                         addReplyFor(paragraph.getContent());
                         break;
-                    case String:
-                        addLinkedArticle(paragraph.getContent());
-                        break;
-                    default:
+                    case Quote:
+                        addQuote(paragraph.getContent());
                         break;
                 }
             }

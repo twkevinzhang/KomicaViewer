@@ -47,7 +47,7 @@ public class SoraPostParser implements Parser<Post> {
     public Post parse() {
         setDetail();
         post.setContent(parseContent());
-        setPicture();
+        if(parsePicture() != null) post.getContent().add(parsePicture());
         return post;
     }
 
@@ -66,21 +66,14 @@ public class SoraPostParser implements Parser<Post> {
         post.setCreateAt(createAt);
     }
 
-    protected void setPicture(){
-        String url = parsePicture();
-        if(url != null){
-            post.setPictureUrl(url);
-            if(!post.getContent().isEmpty())
-                url = " "+ url;
-            post.getContent().add(new Paragraph(url, ParagraphType.String));
-        }
-    }
-
-    protected String parsePicture() {
+    protected Paragraph parsePicture() {
         Element thumbImg = root.selectFirst("img");
         if(thumbImg != null){
             String originalUrl = thumbImg.parent().attr("href");
-            return new UrlFixer(originalUrl).getUrl();
+            return new Paragraph(
+                    new UrlFixer(originalUrl).getUrl(),
+                    ParagraphType.IMAGE
+            );
         }
         return null;
     }
@@ -103,6 +96,9 @@ public class SoraPostParser implements Parser<Post> {
                         String quote = child2.ownText().replaceAll(">","");
                         list.add(new Paragraph(quote, ParagraphType.Quote));
                     }
+                }
+                if(child2.is("a[href^=\"http://\"], a[href^=\"https://\"]")){
+                    list.add(new Paragraph(child2.ownText(), ParagraphType.LINK));
                 }
             }
         }

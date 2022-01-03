@@ -4,4 +4,6 @@ public enum ParagraphType {
     Quote,
     ReplyTo,
     String,
+    IMAGE,
+    LINK,
 }

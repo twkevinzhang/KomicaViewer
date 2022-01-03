@@ -35,7 +35,6 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
     private List<String> tags = Collections.emptyList();
     private int visitsCount = 0;
     private int replyCount = 0;
-    private String pictureUrl = null;
     private boolean isReadied = false;
     private boolean isPinned = false;
     private List<Paragraph> content = Collections.emptyList();
@@ -53,7 +52,6 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         tags = in.createStringArrayList();
         visitsCount = in.readInt();
         replyCount = in.readInt();
-        pictureUrl = in.readString();
         isReadied = in.readByte() != 0;
         isPinned = in.readByte() != 0;
         in.readList(content, Paragraph.class.getClassLoader());
@@ -156,12 +154,11 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         this.replyCount = replyCount;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public List<String> getImageUrls() {
+        return getContent().stream()
+                .filter(p-> p.getType() == ParagraphType.IMAGE)
+                .map(Paragraph::getContent)
+                .collect(Collectors.toList());
     }
 
     public boolean isReadied() {
@@ -257,7 +254,6 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         dest.writeStringList(tags);
         dest.writeInt(visitsCount);
         dest.writeInt(replyCount);
-        dest.writeString(pictureUrl);
         dest.writeByte((byte) (isReadied ? 1 : 0));
         dest.writeList(content);
     }

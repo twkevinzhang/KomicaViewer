@@ -49,8 +49,14 @@ public class PostRender implements Render {
         if(!post.getContent().isEmpty()) {
             for (Paragraph paragraph :post.getContent()) {
                 switch (paragraph.getType()){
+                    case IMAGE:
+                        addImage(paragraph.getContent());
+                        break;
                     case String:
-                        addLinkedArticle(paragraph.getContent());
+                        addText(paragraph.getContent());
+                        break;
+                    case LINK:
+                        addLink(paragraph.getContent());
                         break;
                     default:
                         break;
@@ -61,32 +67,15 @@ public class PostRender implements Render {
         return root;
     }
 
-    /**
-     * 將文章中的連結在原處加上預覽圖
-     * @param text 包含連結的文章
-     */
-    void addLinkedArticle(String text){
+    void addLink(String url){
         RenderTool tool= new RenderTool(root.getContext());
-        Matcher m = Patterns.WEB_URL.matcher(text);
+        root.addView(tool.renderPreview(root, url));
+    }
 
-        int index=0;
-        while (m.find()){
-            String url = m.group();
-            String preParagraph = text.substring(index, m.start());
-            addText(preParagraph);
-            root.addView(tool.renderLink(url));
-
-            if(IMAGE_LINK_PATTERN.matcher(url).find()){
-                imageUrls.add(url);
-                root.addView(tool.renderImage(imageUrls.size() -1));
-            }else{
-                root.addView(tool.renderPreview(root, url));
-            }
-
-            index = m.end();
-        }
-        String lastParagraph = text.substring(index);
-        addText(lastParagraph);
+    void addImage(String url){
+        RenderTool tool= new RenderTool(root.getContext());
+        imageUrls.add(url);
+        root.addView(tool.renderImage(imageUrls.size() -1));
     }
 
     void addText(String text){
