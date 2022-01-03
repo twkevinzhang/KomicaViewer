@@ -3,18 +3,21 @@ package self.nesl.komicaviewer.parser.komica.sora;
 import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
 import static self.nesl.komicaviewer.util.Utils.parseChiToEngWeek;
 import static self.nesl.komicaviewer.util.Utils.parseJpnToEngWeek;
+import static self.nesl.komicaviewer.util.Utils.print;
 
-import android.util.Log;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import okhttp3.HttpUrl;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.paragraph.Paragraph;
+import self.nesl.komicaviewer.paragraph.ParagraphType;
 import self.nesl.komicaviewer.parser.Parser;
 
 public class SoraPostParser implements Parser<Post> {
@@ -43,8 +46,7 @@ public class SoraPostParser implements Parser<Post> {
     @Override
     public Post parse() {
         setDetail();
-        post.setReplyTo(parseReplyTo());
-        setText();
+        post.setContent(parseContent());
         setPicture();
         return post;
     }
@@ -68,11 +70,9 @@ public class SoraPostParser implements Parser<Post> {
         String url = parsePicture();
         if(url != null){
             post.setPictureUrl(url);
-            if(post.getText() != null && !post.getText().isEmpty()){
-                addTextToPost(" "+ url);
-            }else{
-                addTextToPost(url);
-            }
+            if(!post.getContent().isEmpty())
+                url = " "+ url;
+            post.getContent().add(new Paragraph(url, ParagraphType.String));
         }
     }
 
@@ -85,44 +85,28 @@ public class SoraPostParser implements Parser<Post> {
         return null;
     }
 
-    protected String parseReplyTo(){
-        Element element = root.selectFirst("span.resquote");
-        if(element != null)
-            return element.text()
-                    .replaceAll(">","")
-                    .replaceAll("No\\.","");
-        return null;
-    }
-
-    protected void setText(){
-        addTextToPost(parseText());
-        post.setQuote(parseQuote());
-    }
-
-    protected String parseText() {
-        String alpha= "&gt;"; // is ">"
-        String ind = cleanPreserveLineBreaks(root.selectFirst(".quote").html())
-                .replaceAll(alpha + alpha + "(No\\.)*[0-9]{6,} *(\\(.*\\))*", "")
-                .replaceAll(alpha+ "+.+\n", "");
-        return ind.trim();
-    }
-
-    protected void addTextToPost(String text){
-        String pre = "";
-        if(post.getText() != null)
-            pre = post.getText();
-        post.setText(pre + text);
-    }
-
-    protected String parseQuote() {
-        return null;
-    }
-
-    private static String cleanPreserveLineBreaks(String bodyHtml) {
-        // get pretty printed html with preserved br and p tags
-        String prettyPrintedBodyFragment = Jsoup.clean(bodyHtml, "", Whitelist.none().addTags("br", "p"), new Document.OutputSettings().prettyPrint(true));
-        // get plain text with preserved line breaks by disabled prettyPrint
-        return Jsoup.clean(prettyPrintedBodyFragment, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
+    protected List<Paragraph> parseContent() {
+        List<Paragraph> list = new ArrayList<>();
+        Element parent = root.selectFirst(".quote");
+        for (Node child : parent.childNodes()) {
+            if(child instanceof TextNode){
+                list.add(new Paragraph(((TextNode) child).text(), ParagraphType.String));
+            }
+            if(child instanceof Element){
+                Element child2= (Element) child;
+                if(child2.is("span.resquote")){
+                    Element qlink = child2.selectFirst("a.qlink");
+                    if(qlink!= null){
+                        String replyTo = qlink.text().replaceAll(">","");
+                        list.add(new Paragraph(replyTo, ParagraphType.ReplyTo));
+                    }else{
+                        String quote = child2.ownText().replaceAll(">","");
+                        list.add(new Paragraph(quote, ParagraphType.Quote));
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     public interface SoraUrlTool {

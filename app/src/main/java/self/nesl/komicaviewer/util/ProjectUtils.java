@@ -54,8 +54,8 @@ public class ProjectUtils {
 
     public static Stream<Post> filterReplies(String threadId, List<Post> list){
         return list.stream().filter(r->
-                (threadId == null && r.getReplyTo() == null) ||
-                (threadId != null && threadId.equals(r.getReplyTo()))
+                (threadId == null && r.getReplyTo().isEmpty()) ||
+                (threadId != null && r.getReplyTo().contains(threadId))
         );
     }
 

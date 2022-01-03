@@ -5,7 +5,11 @@ import static self.nesl.komicaviewer.util.TestUtils.print;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.jsoup.Jsoup;
+
+import java.util.stream.Collectors;
+
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.paragraph.Paragraph;
 import self.nesl.komicaviewer.util.TestUtils;
 
 public class SoraPostParserTest extends TestCase {
@@ -24,6 +28,6 @@ public class SoraPostParserTest extends TestCase {
     }
 
     public void testParseText() {
-        print(parser.parseText());
+        print( parser.parseContent().stream().map(Paragraph::getContent).collect(Collectors.joining(", ")) );
     }
 }

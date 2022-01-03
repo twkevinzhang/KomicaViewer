@@ -26,7 +26,7 @@ class PosterOverlayView @JvmOverloads constructor(
     }
 
     fun update(poster: Poster) {
-        posterOverlayDescriptionText.text = poster.post.text
+        posterOverlayDescriptionText.text = poster.post.getDesc()
 //        posterOverlayShareButton.setOnClickListener { context.sendShareIntent(poster.url) }
     }
 }

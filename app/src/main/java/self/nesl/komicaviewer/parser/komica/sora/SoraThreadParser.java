@@ -8,6 +8,7 @@ import android.util.Pair;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import self.nesl.komicaviewer.models.Post;
@@ -43,7 +44,6 @@ public class SoraThreadParser implements Parser<KThread> {
         }
         injectCount(posts);
         String threadId = new SoraPostParser.DefaultSoraUrlTool(url).getSoraId();
-        removeReplyTo(posts, threadId);
         return posts;
     }
 
@@ -51,13 +51,6 @@ public class SoraThreadParser implements Parser<KThread> {
         for (Post post: posts) {
             long count = filterReplies(post.getId(), posts).count();
             post.setReplyCount((int) count);
-        }
-    }
-
-    private static void removeReplyTo(List<Post> posts, String threadId){
-        for (Post post: posts) {
-            if(threadId.equals(post.getReplyTo()))
-                post.setReplyTo(null);
         }
     }
 

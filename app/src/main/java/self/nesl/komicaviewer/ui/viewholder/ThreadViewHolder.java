@@ -22,7 +22,7 @@ public class ThreadViewHolder extends ViewHolderBinder {
         binder.txtPostId.setText("No." + data.getId());
         binder.txtPoster.setText(data.getPoster());
         binder.txtTime.setText(data.getTimeStr());
-        binder.txtPostInd.setText(data.getDescription(23));
+        binder.txtPostInd.setText(data.getDesc(23));
 
         TextView txtReplyCount = itemView.findViewById(R.id.txtReplyCount);
         txtReplyCount.setText("回應:" + data.getReplyCount());

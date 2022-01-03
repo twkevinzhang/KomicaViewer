@@ -1,21 +1,16 @@
 package self.nesl.komicaviewer.ui.render;
 
-import static self.nesl.komicaviewer.util.ProjectUtils.filterReplies;
-import static self.nesl.komicaviewer.util.ProjectUtils.filterRepliesList;
 import static self.nesl.komicaviewer.util.ProjectUtils.find;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.paragraph.Paragraph;
 
 public class CommentRender extends PostRender{
     private OnReplyToClickListener onReplyToClickListener;
@@ -28,10 +23,24 @@ public class CommentRender extends PostRender{
     }
 
     public View render(){
-        if(post.getReplyTo() != null) addReplyFor(post.getReplyTo());
-        if(post.getQuote() != null) addQuote(post.getQuote());
-        if(post.getText() != null) super.addLinkedArticle(post.getText());
-        addTree();
+        if(!post.getContent().isEmpty()) {
+            for (Paragraph paragraph :post.getContent()) {
+                switch (paragraph.getType()){
+                    case Quote:
+                        addQuote(paragraph.getContent());
+                        break;
+                    case ReplyTo:
+                        addReplyFor(paragraph.getContent());
+                        break;
+                    case String:
+                        addLinkedArticle(paragraph.getContent());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        addReplyTreeLink();
         return root;
     }
 
@@ -54,13 +63,13 @@ public class CommentRender extends PostRender{
     private void addReplyFor(String replyTo){
         Post replyFor = find(replyTo, list);
         if(replyFor != null){
-            String preview = MessageFormat.format("{0} ({1})", replyFor.getId(), replyFor.getDescription(10));
+            String preview = MessageFormat.format("{0} ({1})", replyFor.getId(), replyFor.getDesc(10));
             SpanBuilder builder= SpanBuilder.create(preview, ()-> onReplyToClickListener.onReplyToClick(replyFor, list));
             root.addView(new RenderTool(root.getContext()).renderSpan(builder));
         }
     }
 
-    private void addTree(){
+    private void addReplyTreeLink(){
         if(post.getReplyCount() != 0){
             String preview = MessageFormat.format("查看全部回應 ({0})", post.getReplyCount());
             SpanBuilder builder= SpanBuilder.create(preview, ()-> OnAllReplyClickListener.onAllReplyClick(post, list));

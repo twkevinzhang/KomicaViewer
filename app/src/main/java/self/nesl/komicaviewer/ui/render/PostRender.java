@@ -20,12 +20,13 @@ import java.util.stream.Collectors;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.paragraph.Paragraph;
 import self.nesl.komicaviewer.ui.gallery.Poster;
 import self.nesl.komicaviewer.ui.viewbinder.LinkPreviewBinder;
 
 public class PostRender implements Render {
-    static String LINK_REGEX = "(http(s?):/)(/[^/]+)+";
-    static Pattern IMAGE_LINK_PATTERN = Pattern.compile(LINK_REGEX + "\\.(?:jpg|gif|png|webm)");
+    private static String LINK_REGEX = "(http(s?):/)(/[^/]+)+";
+    private static Pattern IMAGE_LINK_PATTERN = Pattern.compile(LINK_REGEX + "\\.(?:jpg|gif|png|webm)");
 
     Post post;
     LinearLayout root;
@@ -45,7 +46,17 @@ public class PostRender implements Render {
     }
 
     public View render(){
-        if(post.getText() != null) addLinkedArticle(post.getText());
+        if(!post.getContent().isEmpty()) {
+            for (Paragraph paragraph :post.getContent()) {
+                switch (paragraph.getType()){
+                    case String:
+                        addLinkedArticle(paragraph.getContent());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         if(post.getUrl() != null) addFrom(post.getUrl());
         return root;
     }
@@ -62,7 +73,7 @@ public class PostRender implements Render {
         while (m.find()){
             String url = m.group();
             String preParagraph = text.substring(index, m.start());
-            root.addView(tool.renderText(preParagraph));
+            addText(preParagraph);
             root.addView(tool.renderLink(url));
 
             if(IMAGE_LINK_PATTERN.matcher(url).find()){
@@ -75,7 +86,12 @@ public class PostRender implements Render {
             index = m.end();
         }
         String lastParagraph = text.substring(index);
-        root.addView(tool.renderText(lastParagraph));
+        addText(lastParagraph);
+    }
+
+    void addText(String text){
+        RenderTool tool= new RenderTool(root.getContext());
+        root.addView(tool.renderText(text));
     }
 
     private void addFrom(String url){

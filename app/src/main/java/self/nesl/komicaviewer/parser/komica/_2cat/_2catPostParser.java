@@ -9,6 +9,8 @@ import java.util.Date;
 
 import okhttp3.HttpUrl;
 import self.nesl.komicaviewer.models.Post;
+import self.nesl.komicaviewer.paragraph.Paragraph;
+import self.nesl.komicaviewer.paragraph.ParagraphType;
 import self.nesl.komicaviewer.parser.Parser;
 import self.nesl.komicaviewer.parser.komica.sora.SoraPostParser;
 
@@ -26,7 +28,7 @@ public class _2catPostParser implements Parser<Post> {
     @Override
     public Post parse() {
         setDetail();
-        addTextToPost(parseText());
+        post.getContent().add(new Paragraph(parseText(), ParagraphType.String));
         setPicture();
         return post;
     }
@@ -52,20 +54,12 @@ public class _2catPostParser implements Parser<Post> {
             String fileName= root.selectFirst("a.imglink[href=#]").attr("title");
             String newLink=MessageFormat.format("http://img.2nyan.org/{0}/src/{1}", tool.getBoardId(), fileName);
             post.setPictureUrl(newLink);
-            if(post.getText() != null && !post.getText().isEmpty()){
-                addTextToPost(" "+ newLink);
-            }else{
-                addTextToPost(newLink);
-            }
+            if(!post.getContent().isEmpty())
+                newLink = " "+ newLink;
+            post.getContent().add(new Paragraph(newLink, ParagraphType.String));
         } catch (NullPointerException ignored) {}
     }
 
-    protected void addTextToPost(String text){
-        String pre = "";
-        if(post.getText() != null)
-            pre = post.getText();
-        post.setText(pre + text);
-    }
 
     protected String parseText() {
         String text= root.selectFirst("div.quote").ownText();

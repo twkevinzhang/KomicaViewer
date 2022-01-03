@@ -8,19 +8,19 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import org.jsoup.nodes.Element;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.feature.Id;
 import self.nesl.komicaviewer.feature.Title;
+import self.nesl.komicaviewer.paragraph.Paragraph;
+import self.nesl.komicaviewer.paragraph.ParagraphType;
 import self.nesl.komicaviewer.ui.Layout;
 
 @Entity
@@ -29,8 +29,6 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
     @NonNull
     private String url;
     private String id = null;
-    private String replyTo = null;
-    private String quote = null;
     private String title = null;
     private Date createAt = null;
     private String poster = null;
@@ -40,7 +38,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
     private String pictureUrl = null;
     private boolean isReadied = false;
     private boolean isPinned = false;
-    private String text = null;
+    private List<Paragraph> content = Collections.emptyList();
 
     public Post(String url, String id) {
         this.url = url;
@@ -49,8 +47,6 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
 
     protected Post(Parcel in) {
         id = in.readString();
-        replyTo = in.readString();
-        quote = in.readString();
         url = in.readString();
         title = in.readString();
         poster = in.readString();
@@ -60,7 +56,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         pictureUrl = in.readString();
         isReadied = in.readByte() != 0;
         isPinned = in.readByte() != 0;
-        text = in.readString();
+        in.readList(content, Paragraph.class.getClassLoader());
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
@@ -84,20 +80,18 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         this.id = id;
     }
 
-    public String getReplyTo() {
-        return replyTo;
+    public List<String> getReplyTo() {
+        return getContent().stream()
+                .filter(p-> p.getType() == ParagraphType.ReplyTo)
+                .map(Paragraph::getContent)
+                .collect(Collectors.toList());
     }
 
-    public void setReplyTo(String replyTo) {
-        this.replyTo = replyTo;
-    }
-
-    public String getQuote() {
-        return quote;
-    }
-
-    public void setQuote(String quote) {
-        this.quote = quote;
+    public List<String> getQuote() {
+        return getContent().stream()
+                .filter(p-> p.getType() == ParagraphType.Quote)
+                .map(Paragraph::getContent)
+                .collect(Collectors.toList());
     }
 
     public String getUrl() {
@@ -186,27 +180,34 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         isPinned = pinned;
     }
 
-    public String getText() {
-        return text;
+    public List<Paragraph> getContent() {
+        return content;
     }
 
-    public String getDescription(int words) {
-        String ind = this.text;
-        if (ind == null) ind = "";
+    public String getDesc(int words) {
+        String ind = getDesc();
         if (words != 0 && ind.length() > words) {
             ind = ind.substring(0, words + 1) + "...";
         }
         return ind;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public String getDesc(){
+        return content.stream()
+                .filter(p-> p.getType() == ParagraphType.String)
+                .map(Paragraph::getContent)
+                .collect(Collectors.joining(" "));
     }
 
+    public void setContent(List<Paragraph> content) {
+        this.content = content;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         String s = String.format("\"id\":%s ", getId());
-        String s2 = getDescription(5);
+        String s2 = getDesc(5);
         if (s2 != null) {
             s += "\"ind\":\"" + s2 + "\",";
         }
@@ -250,8 +251,6 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(replyTo);
-        dest.writeString(quote);
         dest.writeString(url);
         dest.writeString(title);
         dest.writeString(poster);
@@ -260,7 +259,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         dest.writeInt(replyCount);
         dest.writeString(pictureUrl);
         dest.writeByte((byte) (isReadied ? 1 : 0));
-        dest.writeString(text);
+        dest.writeList(content);
     }
 
     @Override
