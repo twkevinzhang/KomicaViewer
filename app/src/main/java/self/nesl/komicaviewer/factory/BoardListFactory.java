@@ -8,6 +8,7 @@ import java.util.List;
 
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.category.Category;
+import self.nesl.komicaviewer.models.category.Komica2Category;
 import self.nesl.komicaviewer.models.category.KomicaCategory;
 import self.nesl.komicaviewer.models.category.KomicaTop50Category;
 import self.nesl.komicaviewer.parser.Parser;
@@ -28,6 +29,8 @@ public class BoardListFactory implements Factory<List<Board>> {
             request = new DefaultRequest("http://www.komica.org/bbsmenu.html");
         }else if(category instanceof KomicaTop50Category){
             request = new DefaultRequest("http://www.komica.org/mainmenu2019.html");
+        }else if(category instanceof Komica2Category){
+            request = new DefaultRequest("https://komica2.net/mainmenu2018.html");
         }
        return request;
     }
@@ -37,6 +40,8 @@ public class BoardListFactory implements Factory<List<Board>> {
         if (category instanceof KomicaCategory) {
             parser = new KomicaBoardsParser(Jsoup.parse(response), false);
         }else if(category instanceof KomicaTop50Category){
+            parser = new KomicaBoardsParser(Jsoup.parse(response), true);
+        }else if(category instanceof Komica2Category){
             parser = new KomicaBoardsParser(Jsoup.parse(response), true);
         }
         return parser.parse();

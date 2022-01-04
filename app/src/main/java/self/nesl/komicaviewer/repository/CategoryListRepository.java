@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import self.nesl.komicaviewer.models.category.Category;
+import self.nesl.komicaviewer.models.category.Komica2Category;
 import self.nesl.komicaviewer.models.category.KomicaCategory;
 import self.nesl.komicaviewer.models.category.KomicaTop50Category;
 
@@ -18,7 +19,8 @@ public class CategoryListRepository implements Repository<List<Category>> {
     public LiveData<List<Category>> get() {
         return new MutableLiveData<>(Arrays.asList(
                 new KomicaCategory(),
-                new KomicaTop50Category()
+                new KomicaTop50Category(),
+                new Komica2Category()
         ));
     }
 
