@@ -1,23 +1,28 @@
 package self.nesl.komicaviewer.repository;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.List;
 
+import self.nesl.komicaviewer.factory.Factory;
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.category.Category;
 import self.nesl.komicaviewer.factory.BoardListFactory;
-import self.nesl.komicaviewer.request.OnResponse;
 
 public class BoardListRepository implements Repository<List<Board>> {
-    private BoardListFactory factory;
+    private Factory<List<Board>> factory;
 
     public BoardListRepository(Category category){
         this.factory= new BoardListFactory(category);
     }
 
     @Override
-    public void get(OnResponse<List<Board>> onResponse) {
+    public LiveData<List<Board>> get() {
+        MutableLiveData<List<Board>> liveData = new MutableLiveData<>();
         factory.createRequest(null).fetch(response -> {
-            onResponse.onResponse(factory.parse(response));
+            liveData.postValue(factory.parse(response));
         });
+        return liveData;
     }
 }

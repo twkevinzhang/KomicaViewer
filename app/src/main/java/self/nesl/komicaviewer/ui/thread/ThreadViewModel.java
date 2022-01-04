@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,28 +20,43 @@ import self.nesl.komicaviewer.request.KThread;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class ThreadViewModel extends SampleViewModel<Post, Post> {
-    static int unloadedPage = 0;
-
-    private Repository<KThread> threadRepository;
-    private MutableLiveData<List<Post>> _list = new MutableLiveData<>(Collections.emptyList());
-    private MutableLiveData<Post> _detail = new MutableLiveData<>();
+    Boolean isTree = false;
+    PostDao dao;
+    String threadUrl;
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
     private MutableLiveData<String> _error = new MutableLiveData<>();
-    Boolean isTree = false;
-    private int currentPage = unloadedPage;
+    private MutableLiveData<Repository<KThread>> repo = new MutableLiveData<>();
+    private LiveData<KThread> _result = Transformations.switchMap(repo, repo -> {
+        _error.postValue(null);
+        _loading.postValue(true);
+       return repo.get();
+    });
+    private LiveData<Post> _detail = Transformations.map(_result, kThread -> {
+        return kThread.getHeadPost();
+    });
+    private LiveData<List<Post>> _list = Transformations.map(_result, kThread -> {
+        _loading.postValue(false);
+        if(kThread == null){
+            _error.postValue("kThread == null");
+            return Collections.emptyList();
+        }
+        return kThread.getComments();
+    });
+
 
     public ThreadViewModel(@NonNull Application application) {
         super(application);
     }
 
     public void setThreadUrl(String threadUrl) {
-        PostDao dao= AppDatabase.getInstance(getApplication()).postDao();
-        threadRepository =  new ThreadRepository(threadUrl, dao);
+        dao= AppDatabase.getInstance(getApplication()).postDao();
+        this.threadUrl= threadUrl;
+        repo.postValue(new ThreadRepository(threadUrl, dao));
     }
 
     @Override
     public int getCurrentPage() {
-        return currentPage;
+        return 0;
     }
 
     @Override
@@ -55,33 +71,15 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
 
     @Override
     public void refreshChildren() {
-        currentPage = unloadedPage;
-        _list.postValue(Collections.emptyList());
-        nextChildren();
+        repo.postValue(new ThreadRepository(threadUrl, dao));
     }
 
     @Override
     public void nextChildren() {
-        if(currentPage == unloadedPage){
-            currentPage = 1;
-            _loading.postValue(true);
-            threadRepository.get(thread-> {
-                if(thread != null){
-                    _list.postValue(thread.getComments());
-                }else{
-                    _error.postValue("thread is null.");
-                }
-                _loading.postValue(false);
-            });
-        }
     }
 
     @Override
     public void loadDetail(Bundle bundle) {
-        threadRepository.get(thread-> {
-            if(thread != null)
-                _detail.postValue(thread.getHeadPost());
-        });
     }
 
     @Override

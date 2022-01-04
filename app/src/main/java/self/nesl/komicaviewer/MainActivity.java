@@ -9,6 +9,7 @@ import android.view.SubMenu;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,29 +23,49 @@ import java.util.List;
 
 import self.nesl.komicaviewer.models.category.Category;
 import self.nesl.komicaviewer.repository.CategoryListRepository;
-import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.ui.home.BoardListFragment;
 import self.nesl.komicaviewer.ui.thread.ThreadFragment;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
+    private NavigationView navigationView;
+
+    private CategoryListRepository repo = new CategoryListRepository();
+    private LiveData<List<Category>> categories = repo.get();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // toolbar
+        initToolbar();
+        initFab();
+        initDrawer();
+        initNavigationView();
+        initObserver();
+
+        Uri urlFromOthers = getIntent().getData();
+        if(urlFromOthers != null){
+            // from other app
+            Bundle bundle = new Bundle();
+            bundle.putString(ThreadFragment.COLUMN_POST_URL, urlFromOthers.toString());
+            navController.navigate(R.id.action_nav_home_to_nav_post, bundle);
+        }
+    }
+
+    private void initToolbar(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
 
-        // fab
+    private void initFab(){
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
+    }
 
-        // drawer
+    private void initDrawer(){
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_slideshow,
                 R.id.nav_history,
@@ -56,27 +77,32 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+    }
 
-        // add host item in there
-        Menu boardMenu = navigationView.getMenu();
-        SubMenu hostSetMenu= boardMenu.addSubMenu("Hosts");
-        Repository<List<Category>> repo = new CategoryListRepository();
-        repo.get(categories -> {
-            for (Category category : categories) {
-                addMenu(hostSetMenu, category.getIcon(), category);
-            }
-            NavigationUI.setupWithNavController(navigationView, navController);
-        });
+    private void initNavigationView(){
+        navigationView = findViewById(R.id.nav_view);
+        NavigationUI.setupWithNavController(navigationView, navController);
+    }
 
-        // intent
-        Uri urlFromOthers = getIntent().getData();
-        if(urlFromOthers != null){
-            // from other app
+    private MenuItem addMenu(Menu menu, Category category) {
+        MenuItem item = menu.add(category.getTitle());
+        item.setIcon(category.getIcon());
+        item.setOnMenuItemClickListener(item1 -> {
             Bundle bundle = new Bundle();
-            bundle.putString(ThreadFragment.COLUMN_POST_URL, urlFromOthers.toString());
-            navController.navigate(R.id.action_nav_home_to_nav_post, bundle);
-        }
+            bundle.putSerializable(BoardListFragment.COLUMN_CATEGORY, category);
+            navController.navigate(R.id.nav_home, bundle);
+            return false;
+        });
+        return item;
+    }
+
+    private void initObserver(){
+        categories.observe(this, categories -> {
+            Menu boardMenu = navigationView.getMenu();
+            SubMenu hostSetMenu= boardMenu.addSubMenu("Hosts");
+            for (Category category : categories)
+                addMenu(hostSetMenu, category);
+        });
     }
 
     @Override
@@ -90,16 +116,5 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    public void addMenu(Menu menu, int icon, Category category) {
-        MenuItem item = menu.add(category.getTitle());
-        item.setIcon(icon);
-        item.setOnMenuItemClickListener(item1 -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(BoardListFragment.COLUMN_CATEGORY, category);
-            navController.navigate(R.id.nav_home, bundle);
-            return false;
-        });
     }
 }

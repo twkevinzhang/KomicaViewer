@@ -8,23 +8,33 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import java.util.Collections;
 import java.util.List;
 
 import self.nesl.komicaviewer.db.dao.PostDao;
 import self.nesl.komicaviewer.db.AppDatabase;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.repository.HistoryRepository;
-import self.nesl.komicaviewer.repository.RepositoryAsLive;
+import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.ui.PagingViewModel;
 
 public class CollectionViewModel extends AndroidViewModel implements PagingViewModel<Post> {
-    private RepositoryAsLive<List<Post>> mRepository;
+    private Repository<List<Post>> mRepository;
     private MutableLiveData<Integer> currentPage = new MutableLiveData<>(0);
     private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
     private MutableLiveData<String> _error = new MutableLiveData<>();
-    private LiveData<List<Post>> _list = Transformations.switchMap(currentPage, page -> {
-        _loading.postValue(false);
+    private LiveData<List<Post>> _result = Transformations.switchMap(currentPage, page -> {
+        _error.postValue(null);
+        _loading.postValue(true);
         return mRepository.get();
+    });
+    private LiveData<List<Post>> _list = Transformations.map(_result, result -> {
+        _loading.postValue(false);
+        if(result == null){
+            _error.postValue("result == null");
+            return Collections.emptyList();
+        }
+        return result;
     });
 
     public CollectionViewModel(@NonNull Application application) {

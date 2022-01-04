@@ -6,13 +6,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import java.util.List;
-
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.category.Category;
-import self.nesl.komicaviewer.repository.CategoryListRepository;
-import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.ui.SampleAdapter;
 import self.nesl.komicaviewer.ui.SampleListFragment;
 import self.nesl.komicaviewer.ui.SampleViewModel;
@@ -31,10 +27,7 @@ public class BoardListFragment extends SampleListFragment<Category, Board> {
             Category category = (Category) getArguments().getSerializable(COLUMN_CATEGORY);
             boardListViewModel.setCategory(category);
         }else{
-            Repository<List<Category>> repo = new CategoryListRepository();
-            repo.get(categories -> {
-                boardListViewModel.setCategory(categories.get(0));
-            });
+            boardListViewModel.setCategory(null);
         }
     }
 

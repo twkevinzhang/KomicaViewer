@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,31 +14,50 @@ import java.util.List;
 import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.category.Category;
 import self.nesl.komicaviewer.repository.BoardListRepository;
+import self.nesl.komicaviewer.repository.CategoryListRepository;
 import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class BoardListViewModel extends SampleViewModel<Category, Board> {
-    static int unloadedPage = 0;
-    private MutableLiveData<List<Board>> _list = new MutableLiveData<>(Collections.emptyList());
-    private MutableLiveData<Category> _detail = new MutableLiveData<>();
-    private MutableLiveData<Boolean> _loading = new MutableLiveData<>();
+    private MutableLiveData<Category> category = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> _loading = new MutableLiveData<>(false);
     private MutableLiveData<String> _error = new MutableLiveData<>();
-    private Category category;
-    private Repository<List<Board>> boardListRepository;
-    private int currentPage = unloadedPage;
+    private LiveData<Category> _detail = Transformations.switchMap(category, category->{
+        if(category == null) {
+            return new CategoryListRepository().get(0);
+        }else{
+            return new MutableLiveData<>(category);
+        }
+    });
+    private LiveData<Repository<List<Board>>> repo = Transformations.map(_detail, category->{
+        return new BoardListRepository(category);
+    });
+    private LiveData<List<Board>> _result = Transformations.switchMap(repo, repo -> {
+        _error.postValue(null);
+        _loading.postValue(true);
+        return repo.get();
+    });
+    private LiveData<List<Board>> _list = Transformations.map(_result, result -> {
+        _loading.postValue(false);
+        if(result == null){
+            _error.postValue("result == null");
+            return Collections.emptyList();
+        }
+        return result;
+    });
 
     public BoardListViewModel(@NonNull Application application) {
         super(application);
     }
 
     public void setCategory(Category category) {
-        this.category=category;
-        boardListRepository= new BoardListRepository(category);
+        this.category.postValue(category);
     }
 
     @Override
     public int getCurrentPage() {
-        return currentPage;
+        return 0;
     }
 
     @Override
@@ -52,21 +72,11 @@ public class BoardListViewModel extends SampleViewModel<Category, Board> {
 
     @Override
     public void refreshChildren() {
-        currentPage = unloadedPage;
-        _list.postValue(Collections.emptyList());
-        nextChildren();
+        setCategory(this.category.getValue());
     }
 
     @Override
     public void nextChildren() {
-        if(currentPage == unloadedPage){
-            currentPage = 1;
-            _loading.postValue(true);
-            boardListRepository.get((list)-> {
-                _list.postValue(list);
-                _loading.postValue(false);
-            });
-        }
     }
 
     @Override
@@ -76,7 +86,6 @@ public class BoardListViewModel extends SampleViewModel<Category, Board> {
 
     @Override
     public void loadDetail(Bundle bundle) {
-        _detail.postValue(category);
     }
 
     @Override

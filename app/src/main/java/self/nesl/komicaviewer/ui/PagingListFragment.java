@@ -38,7 +38,9 @@ public abstract class PagingListFragment<CHILDREN extends Layout> extends Fragme
         initRefresh();
         initObserver();
         initAdapter();
-        loadPage();
+        if(getViewModel().children().getValue() == null || getViewModel().children().getValue().isEmpty()){
+            loadPage();
+        }
     }
 
     protected void initRefresh() {

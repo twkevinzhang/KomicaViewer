@@ -6,12 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
-
-import java.util.List;
 
 import self.nesl.komicaviewer.feature.Title;
-import self.nesl.komicaviewer.repository.Repository;
 
 public abstract class SampleViewModel<DETAIL extends Title, CHILDREN> extends AndroidViewModel implements PagingViewModel<CHILDREN> {
     public SampleViewModel(@NonNull Application application) {
