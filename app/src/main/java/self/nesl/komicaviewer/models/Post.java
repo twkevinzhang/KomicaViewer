@@ -37,6 +37,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
     private int replyCount = 0;
     private boolean isReadied = false;
     private boolean isPinned = false;
+    private String collectTo = null;
     private List<Paragraph> content = Collections.emptyList();
 
     public Post(String url, String id) {
@@ -54,6 +55,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         replyCount = in.readInt();
         isReadied = in.readByte() != 0;
         isPinned = in.readByte() != 0;
+        collectTo = in.readString();
         in.readList(content, Paragraph.class.getClassLoader());
     }
 

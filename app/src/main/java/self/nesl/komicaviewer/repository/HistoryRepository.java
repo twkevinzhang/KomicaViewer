@@ -19,7 +19,7 @@ public class HistoryRepository implements RepositoryAsLive<List<Post>>{
         return dao.loadAll();
     }
 
-    public LiveData<List<Post>> getLiked() {
-        return dao.loadAllLiked();
+    public LiveData<List<Post>> getCollected(String collectName) {
+        return dao.loadCollected(collectName);
     }
 }
