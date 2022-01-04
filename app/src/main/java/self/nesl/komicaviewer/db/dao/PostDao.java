@@ -29,7 +29,4 @@ public interface PostDao {
 
     @Query("SELECT * from post order by readAt desc")
     LiveData<List<Post>> loadAll();
-
-    @Query("SELECT * from post where collectTo = :collectName")
-    LiveData<List<Post>> loadCollected(String collectName);
 }

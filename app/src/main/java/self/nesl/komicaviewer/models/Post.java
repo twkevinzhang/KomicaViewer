@@ -28,16 +28,14 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
     @PrimaryKey
     @NonNull
     private String url;
-    private String id = null;
+    private String id;
     private String title = null;
     private Date createAt = null;
     private String poster = null;
     private List<String> tags = Collections.emptyList();
-    private int visitsCount = 0;
-    private int replyCount = 0;
-    private boolean isReadied = false;
-    private boolean isPinned = false;
-    private String collectTo = null;
+    private int visits = 0;
+    private int replies = 0;
+    private long readAt = 0L;
     private List<Paragraph> content = Collections.emptyList();
 
     public Post(String url, String id) {
@@ -51,11 +49,9 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         title = in.readString();
         poster = in.readString();
         tags = in.createStringArrayList();
-        visitsCount = in.readInt();
-        replyCount = in.readInt();
-        isReadied = in.readByte() != 0;
-        isPinned = in.readByte() != 0;
-        collectTo = in.readString();
+        visits = in.readInt();
+        replies = in.readInt();
+        readAt = in.readLong();
         in.readList(content, Paragraph.class.getClassLoader());
     }
 
@@ -140,20 +136,20 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         this.tags= tags;
     }
 
-    public int getVisitsCount() {
-        return visitsCount;
+    public int getVisits() {
+        return visits;
     }
 
-    public void setVisitsCount(int visitsCount) {
-        this.visitsCount = visitsCount;
+    public void setVisits(int visits) {
+        this.visits = visits;
     }
 
-    public int getReplyCount() {
-        return replyCount;
+    public int getReplies() {
+        return replies;
     }
 
-    public void setReplyCount(int replyCount) {
-        this.replyCount = replyCount;
+    public void setReplies(int replies) {
+        this.replies = replies;
     }
 
     public List<String> getImageUrls() {
@@ -163,20 +159,12 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
                 .collect(Collectors.toList());
     }
 
-    public boolean isReadied() {
-        return isReadied;
+    public long getReadAt() {
+        return readAt;
     }
 
-    public void setReadied(boolean readied) {
-        isReadied = readied;
-    }
-
-    public boolean isPinned() {
-        return isPinned;
-    }
-
-    public void setPinned(boolean pinned) {
-        isPinned = pinned;
+    public void setReadAt(long readAt){
+        this.readAt = readAt;
     }
 
     public List<Paragraph> getContent() {
@@ -254,9 +242,9 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         dest.writeString(title);
         dest.writeString(poster);
         dest.writeStringList(tags);
-        dest.writeInt(visitsCount);
-        dest.writeInt(replyCount);
-        dest.writeByte((byte) (isReadied ? 1 : 0));
+        dest.writeInt(visits);
+        dest.writeInt(replies);
+        dest.writeLong(readAt);
         dest.writeList(content);
     }
 

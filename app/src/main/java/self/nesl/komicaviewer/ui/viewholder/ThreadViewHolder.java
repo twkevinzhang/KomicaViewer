@@ -27,7 +27,7 @@ public class ThreadViewHolder extends ViewHolderBinder {
         binder.txtPostInd.setText(data.getDesc(23));
 
         TextView txtReplyCount = itemView.findViewById(R.id.txtReplyCount);
-        txtReplyCount.setText("回應:" + data.getReplyCount());
+        txtReplyCount.setText("回應:" + data.getReplies());
 
         List<String> urls=  data.getImageUrls();
         if(!urls.isEmpty()){

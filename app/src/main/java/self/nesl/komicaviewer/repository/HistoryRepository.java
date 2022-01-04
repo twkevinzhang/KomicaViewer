@@ -18,8 +18,4 @@ public class HistoryRepository implements RepositoryAsLive<List<Post>>{
     public LiveData<List<Post>> get() {
         return dao.loadAll();
     }
-
-    public LiveData<List<Post>> getCollected(String collectName) {
-        return dao.loadCollected(collectName);
-    }
 }

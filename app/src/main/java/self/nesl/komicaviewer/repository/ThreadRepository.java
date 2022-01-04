@@ -1,9 +1,5 @@
 package self.nesl.komicaviewer.repository;
 
-import android.os.AsyncTask;
-
-import androidx.annotation.MainThread;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -27,9 +23,15 @@ public class ThreadRepository implements Repository<KThread> {
     @Override
     public void get(OnResponse<KThread> onResponse) {
         factory.createRequest(null).fetch(response -> {
-            KThread thread = factory.parse(response);
-            mExecutor.execute(() -> dao.insertItems(thread.getHeadPost()));
-            onResponse.onResponse(thread);
+            try {
+                KThread thread = factory.parse(response);
+                Post head = thread.getHeadPost();
+                head.setReadAt(System.currentTimeMillis());
+                mExecutor.execute(() -> dao.insertItems(head));
+                onResponse.onResponse(thread);
+            }catch (NullPointerException exception){
+                onResponse.onResponse(null);
+            }
         });
     }
 }

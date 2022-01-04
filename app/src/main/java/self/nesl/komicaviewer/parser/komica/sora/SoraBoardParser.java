@@ -49,7 +49,7 @@ public class SoraBoardParser implements Parser<List<Post>> {
         } catch (Exception ignored) {
         }
         replyCount += thread.getElementsByClass("reply").size();
-        post.setReplyCount(replyCount);
+        post.setReplies(replyCount);
     }
 
     protected Post parsePost(String url, Element source) {

@@ -74,8 +74,8 @@ public class CommentRender extends PostRender{
     }
 
     private void addReplyTreeLink(){
-        if(post.getReplyCount() != 0){
-            String preview = MessageFormat.format("查看全部回應 ({0})", post.getReplyCount());
+        if(post.getReplies() != 0){
+            String preview = MessageFormat.format("查看全部回應 ({0})", post.getReplies());
             SpanBuilder builder= SpanBuilder.create(preview, ()-> OnAllReplyClickListener.onAllReplyClick(post, list));
             root.addView(new RenderTool(root.getContext()).renderSpan(builder));
         }
