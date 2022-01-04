@@ -7,10 +7,10 @@ import java.util.List;
 import self.nesl.komicaviewer.db.dao.PostDao;
 import self.nesl.komicaviewer.models.Post;
 
-public class HistoryRepository implements Repository<List<Post>> {
+public class CollectionRepository implements Repository<List<Post>> {
     private final PostDao dao;
 
-    public HistoryRepository(final PostDao dao) {
+    public CollectionRepository(final PostDao dao) {
         this.dao = dao;
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 import self.nesl.komicaviewer.db.dao.PostDao;
 import self.nesl.komicaviewer.db.AppDatabase;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.repository.HistoryRepository;
+import self.nesl.komicaviewer.repository.CollectionRepository;
 import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.ui.PagingViewModel;
 
@@ -40,7 +40,7 @@ public class CollectionViewModel extends AndroidViewModel implements PagingViewM
     public CollectionViewModel(@NonNull Application application) {
         super(application);
         PostDao dao = AppDatabase.getInstance(application).postDao();
-        mRepository = new HistoryRepository(dao);
+        mRepository = new CollectionRepository(dao);
     }
 
     @Override
