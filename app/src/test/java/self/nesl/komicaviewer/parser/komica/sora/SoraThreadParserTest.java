@@ -6,10 +6,7 @@ import junit.framework.TestCase;
 
 import org.jsoup.Jsoup;
 
-import java.util.List;
-
-import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.request.KThread;
+import self.nesl.komicaviewer.models.KThread;
 import self.nesl.komicaviewer.util.TestUtils;
 
 public class SoraThreadParserTest extends TestCase {

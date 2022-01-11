@@ -1,4 +1,4 @@
-package self.nesl.komicaviewer.request;
+package self.nesl.komicaviewer.models;
 
 import java.util.List;
 

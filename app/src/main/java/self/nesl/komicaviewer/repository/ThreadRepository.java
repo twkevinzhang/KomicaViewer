@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import self.nesl.komicaviewer.db.dao.PostDao;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.factory.Factory;
-import self.nesl.komicaviewer.request.KThread;
+import self.nesl.komicaviewer.models.KThread;
 import self.nesl.komicaviewer.factory.ThreadFactory;
 import self.nesl.komicaviewer.request.Request;
 

@@ -9,7 +9,7 @@ import self.nesl.komicaviewer.parser.Parser;
 import self.nesl.komicaviewer.parser.komica._2cat._2catThreadParser;
 import self.nesl.komicaviewer.parser.komica.sora.SoraThreadParser;
 import self.nesl.komicaviewer.request.DefaultRequest;
-import self.nesl.komicaviewer.request.KThread;
+import self.nesl.komicaviewer.models.KThread;
 import self.nesl.komicaviewer.request.Request;
 
 public class ThreadFactory implements Factory<KThread> {

@@ -9,7 +9,7 @@ import java.util.List;
 
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.Parser;
-import self.nesl.komicaviewer.request.KThread;
+import self.nesl.komicaviewer.models.KThread;
 
 public class _2catThreadParser implements Parser<KThread> {
     private String url;

@@ -16,7 +16,7 @@ import self.nesl.komicaviewer.db.dao.PostDao;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.repository.ThreadRepository;
-import self.nesl.komicaviewer.request.KThread;
+import self.nesl.komicaviewer.models.KThread;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
 public class ThreadViewModel extends SampleViewModel<Post, Post> {
