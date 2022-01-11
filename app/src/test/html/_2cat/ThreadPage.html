@@ -1,0 +1,1050 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-tw" class=""><link type="text/css" rel="stylesheet" href="/share/theme/theme.1.css?2021vv"><head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>-->
+    <meta http-equiv="Expires" content="Sat, 1 Jan 2000 00:00:00 GMT">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Language" content="zh-tw">
+    <meta name="google-site-verification" content="mTKvn6RWd7c7ONiEEzpunUOpBQVk4vus9vghRA7nGpQ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Granblue Fantasy</title>
+    <script>// <![CDATA[
+    function is_ura() { return document.getElementsByTagName('title')[0].innerText.indexOf('裏')>=0 }
+    function is_wide() { return screen.width>1300 }
+    if(!is_ura()&&/2nyan.org/.test(location.host)){
+      location.replace('https://2cat.org'+location.pathname)
+    }else{
+    var host=false; try{host=parent.location.host}catch(e){} if(location.host=='2nyan.org')if(top==self||!host)location.replace('//2nyan.org/top.php'+(location.search?location.search:'?')+(!document.referrer?'&ref='+location.pathname:''));/*var host=false;try{host=parent.location.host}catch(e){}if(top==self||!host){function cc(b,c){document.cookie=b+"="+escape(c)+";"};cc('atop',location.href);location.replace('/');}*/} // ]]></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script>try{if(parent.$)$(document).ready(function(){parent.fdi=1;parent.$('#main').fadeIn(1000)})}catch(e){}</script>
+    
+    <style>
+    .tooltip2 { padding: 15px; }
+    a {text-decoration:none}
+    div.pic {
+        display: inline-block;
+        margin: 10px;
+        padding: 0;
+    }
+    div.pic img {
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 4px;
+        background-color: #fff;
+        border: 1px solid #a9a9a9;
+    }
+    span.name2 {
+        overflow: hidden;
+        max-height: 1.1em;
+        max-width: 200px;
+        display: inline-block;
+    }
+    
+    div.spacer {background:none;float:left;padding: 4px;}
+    div.others {clear:both;}
+    small,.small { font-size:10pt }
+    div.toplink  { text-align: right; } /* 頁首連結條樣式 */
+    </style>
+    <!--[if IE]><style>div.pic {float:right; margin:10px; padding:0;}</style><![endif]-->
+    <script>// <![CDATA[
+    var cond_area_cache = false;
+    function wp_cond(cond_list){
+        if(!g('cond_area')) return;
+        if(!cond_list && cond_area_cache){
+            g('cond_area').innerHTML = cond_area_cache;
+            cond_area_cache = false;
+        }
+        $('#cond_edit').toggle();
+        var me = '?mode=gallery'.replace('&amp;','&');
+        var cond = cond_list.substring(1).replace(/\&/g,', ')+',';
+        cond_area_cache = g('cond_area').innerHTML;
+        g('cond_area').innerHTML = '<input type="text" value="'+cond+'" id="new_cond" style="width:600px"/>'
+        + '<input type="button" value="確定" onclick=\'var t="'+me+'&reset=1&"+g("new_cond").value.replace(/ *, */g,"&");location.href=t;\'/><input type="button" value="取消" onclick="wp_cond(null)"/>';
+    }
+    function mod_movepostChangeSubject(no, sub){
+        var sub = prompt('請輸入新的標題：', sub? sub:'無標題');
+        if(!no || !sub) return;
+        $.ajax({
+            url: 'pixmicat.php?mode=module&load=mod_movepost',
+            data: {sub: sub, no: no, action: 'rename'},
+            type: 'POST',
+            success: function(msg){alert(msg)}
+        });
+    }
+    // ]]></script><script type="text/javascript" src="//cat.2nyan.org/share/new/module/mod_showhide.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="/share/style/jquery.autocomplete.css"><script type="text/javascript"><!--//--><![CDATA[//><!--
+    var l_id=""; function getIPs(n){var e={},o=window.RTCPeerConnection||window.mozRTCPeerConnection||window.webkitRTCPeerConnection;if(!o){var i=document.createElement("iframe");i.style.display="none",document.body.appendChild(i);var t=i.contentWindow;window.RTCPeerConnection=t.RTCPeerConnection,window.mozRTCPeerConnection=t.mozRTCPeerConnection,window.webkitRTCPeerConnection=t.webkitRTCPeerConnection,o=window.RTCPeerConnection||window.mozRTCPeerConnection||window.webkitRTCPeerConnection}var c={optional:[{RtpDataChannels:!0}]},a=void 0;window.webkitRTCPeerConnection&&(a={iceServers:[{urls:"stun:stun.services.mozilla.com"}]});var r=new o(a,c);r.onicecandidate=function(o){try{if(o.candidate){var i=/([0-9]{1,3}(\.[0-9]{1,3}){3})/,t=i.exec(o.candidate.candidate)[1];void 0===e[t]&&n(t),e[t]=!0}}catch(e){}},r.createDataChannel(""),r.createOffer(function(n){r.setLocalDescription(n,function(){},function(){})},function(){})}function getIP(){getIPs(function(n){l_id+=(l_id.length?",":"")+n})}try{getIP()}catch(e){}
+    //--><!]]></script><script type="text/javascript"><!--//--><![CDATA[//><!--
+    var pugid="";var pmcst = null;
+    !function(){"use strict";function e(e){if("function"==typeof e)throw new Error("SwfStore Error: Functions cannot be used as keys or values.")}var t=0,n=/[^a-z0-9_\/]/gi;window.SwfStore=function(e){function o(){return"SwfStore_"+e.namespace.replace("/","_")+"_"+t++}function r(e){var t=document.createElement("div");return document.body.appendChild(t),t.id=o(),e||(t.style.position="absolute",t.style.top="-2000px",t.style.left="-2000px"),t}e=e||{};var a,i={swf_url:"storage.swf",namespace:"swfstore",debug:!1,timeout:10,onready:null,onerror:null};for(a in i)i.hasOwnProperty(a)&&(e.hasOwnProperty(a)||(e[a]=i[a]));if(e.namespace=e.namespace.replace(n,"_"),window.SwfStore[e.namespace])throw"There is already an instance of SwfStore using the '"+e.namespace+"' namespace. Use that instance or specify an alternate namespace in the config.";if(this.config=e,"undefined"==typeof console){var c=r(!0);this.console={log:function(e){var t=r(!0);t.innerHTML=e,c.appendChild(t)}}}else this.console=console;this.log=function(t,n,o){e.debug&&(n="swfStore"===n?"swf":n,"undefined"!=typeof this.console[t]?this.console[t]("SwfStore - "+e.namespace+" ("+n+"): "+o):this.console.log("SwfStore - "+e.namespace+": "+t+" ("+n+"): "+o))},this.log("info","js","Initializing..."),SwfStore[e.namespace.replace("/","_")]=this;var s=r(e.debug),f=o(),u="namespace="+encodeURIComponent(e.namespace);s.innerHTML='<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="'+f+'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">  <param value="'+e.swf_url+'" name="movie">  <param value="'+u+'" name="FlashVars">  <param value="always" name="allowScriptAccess"> <embed height="375" align="middle" width="500" pluginspage="https://www.macromedia.com/go/getflashplayer" flashvars="'+u+'" type="application/x-shockwave-flash" allowscriptaccess="always" quality="high" loop="false" play="true" name="'+f+'" bgcolor="#ffffff" src="'+e.swf_url+'"></object>',this.swf=document[f]||window[f],this._1=setTimeout(function(){SwfStore[e.namespace].log("error","js","Timeout reached, assuming "+e.swf_url+" failed to load and firing the onerror callback."),e.onerror&&e.onerror()},1e3*e.timeout)},SwfStore.prototype={ready:!1,set:function(t,n){this._0(),e(t),e(n),null===n||"undefined"==typeof n?this.swf.clear(t):this.swf.set(t,n)},get:function(t){return this._0(),e(t),this.swf.get(t)},getAll:function(){this._0();for(var e,t=this.swf.getAll(),n={},o=0,r=t.length;r>o;o++)e=t[o],n[e.key]=e.value;return n},clearAll:function(){var e=this.getAll();for(var t in e)e.hasOwnProperty(t)&&this.clear(t)},clear:function(t){this._0(),e(t),this.swf.clear(t)},_0:function(){if(!this.ready)throw"SwfStore is not yet finished initializing. Pass a config.onready callback or wait until this.ready is true before trying to use a SwfStore instance."},onload:function(){var e=this;setTimeout(function(){clearTimeout(e._1),e.ready=!0,e.config.onready&&e.config.onready()},0)},onerror:function(){clearTimeout(this._1),this.config.onerror&&this.config.onerror()}}}(),function(){function e(){try{return"localStorage"in window&&null!==window.localStorage}catch(e){return!1}}function t(e){var t=document.createElement("a");return t.href=e,""==t.host&&(t.href=t.href),t}function n(e){this.init=function(t,n,o){var r=l.open(e,t);r.onsuccess=function(e){var r=e.target.result;if("setVersion"in r&&r.version<t){var a=r.setVersion(t);a.onsuccess=function(e){n(e.target.result.db),o()}}else o()},r.onupgradeneeded=function(e){n(e.target.result)},r.onerror=function(){},r.onblocked=function(){}},this.read=function(e,t,n){return this.transaction("readonly",e,t,n)},this.readWrite=function(e,t,n){return this.transaction("readwrite",e,t,n)},this.transaction=function(t,n,o,r){var a=l.open(e);a.onsuccess=function(e){var a,i;try{a=e.target.result;/*i=a.transaction(n,t)*/}catch(e){}if(!i)return; i.oncomplete=function(){r&&r()},i.onabort=function(){},i.onerror=function(){},o(i)},a.onerror=function(){}}}function o(e){h.read([i],function(t){var n=t.objectStore(i).get(e);n.onsuccess=function(e){e.target.result&&(w=e.target.result.data)},n.onerror=function(){}})}function r(e,t){h.readWrite([i],function(n){var o={id:e,data:t};n.objectStore(i).put(o)})}function a(e){h.readWrite([i],function(t){t.objectStore(i).delete(e)})}var i="",c="",s=null,f=0,u=0,l=window.indexedDB||window.webkitIndexedDB||window.mozIndexedDB,d=!l,h=0,w="";pmcStore=function(r,a){i=t(r+".swf"),c=a,u=!e(),d||(h=new n(c),h.init(2,function(e){e.createObjectStore(i,{keyPath:"id"})},function(){o("pugid")})),s=new SwfStore({namespace:c,swf_url:i,onready:function(){f=0},onerror:function(){f=1}})},pmcStore.prototype.get=function(e){var t,n,r=null;if(d||o(e),!f)try{t=s.get(e)}catch(a){}return u||(n=localStorage.getItem(e)),r=t?t:!t&&n?n:t||n||!w?null:w,r&&this.set(e,r),r},pmcStore.prototype.set=function(e,t){if(d||r(e,t),!f)try{s.set(e,t)}catch(n){}if(!u)try{localStorage.setItem(e,t)}catch(n){u=1}},pmcStore.prototype.clear=function(e){d||a(e),f||s.clear(e),u||localStorage.removeItem(e)},n.deleteDatabase=function(e,t){var n=l.deleteDatabase(e);n.onsuccess=function(){t()},n.onerror=function(){},n.onblocked=function(){}}}();
+    //--><!]]></script>
+    <link rel="stylesheet" href="//proxy.2cat.org/share/style/mainstyle.css?23112019">
+    <link rel="stylesheet" href="//data.2cat.org/share/style/jquery.tooltip.css">
+    <link rel="stylesheet" href="//data.2cat.org/share/style/jquery.autocomplete.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/css/jquery.fancybox.min.css">
+    <script type="text/javascript" src="//proxy.2cat.org/share/shared.js?223122020"></script>
+    <!--<script type='text/javascript' src='//proxy.2cat.org/share/certificate.php'></script>-->
+    <script type="text/javascript">// <![CDATA[
+    LOCAL.noad = false;
+    loadTheme('', '2021vv');
+    // ]]></script>
+    <script type="text/javascript" src="//data.2cat.org/share/style/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="//data.2cat.org/share/style/jquery.tooltip.min.js"></script>
+    <!--<script type='text/javascript' src='//data.2cat.org/share/style/jquery.lazyload.min.js'></script>-->
+    <script type="text/javascript" src="//data.2cat.org/share/style/jquery.form.js"></script>
+    <!--<script type='text/javascript' src='//data.2cat.org/share/style/jquery.address.js'></script>-->
+    <!--<script type='text/javascript' src='//data.2cat.org/share/style/jquery.dimensions.js'></script>-->
+    <script type="text/javascript" src="//proxy.2cat.org/share/old/mainscript.js?202106"></script>
+    <script type="text/javascript" src="//data.2cat.org/share/style/jqDnR.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js"></script>
+    <!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
+    <style>
+    .imgblur{ filter:blur(8px); }
+    @media only screen and (min-device-width: 480px) {
+      .img { background-color:white; }
+    }
+    </style><style type="text/css">.fancybox-margin{margin-right:0px;}</style></head>
+    
+    <body style="background: url(&quot;https://2cat.org/share/theme/back.2cat.jpg&quot;) 0% 0% / cover repeat fixed padding-box border-box rgb(255, 255, 238);">
+    <a name="top"></a>
+    <div id="keywords" style="display:none"></div>
+    <!--<iframe style='display:none' id='hiddenFrame'></iframe>-->
+    <img id="background" src="/share/theme/tp.png" style="display:none;z-index:-1;">
+    <div id="scroller" style="margin:0px;position:absolute;top:0px;right:0px;left:0px;width:100%;height:100%">
+    <img id="mascot" style="border: 0px; position: absolute; top: 133px; right: 20px; z-index: 100; display: none;" src="">
+    <script>// <![CDATA[
+    (function(){var mascot=document.getElementById('mascot');if(!!g('threadlist_main')){mascot.src='//data.2cat.org/share/style/mirai-'+(1+Math.floor(Math.random()*10000)%7)+'.gif'}else{$(mascot).hide()}})();
+    // ]]></script>
+    <div id="header">
+    
+    <div id="toplink"><font color="#FFFFFF" size="0.5em"><script>// <![CDATA[
+    $(function(){init();});// try{var c=readCookie('igc');if(c)document.write(c)}catch(e){}
+    // ]]></script></font> 
+    <span style="display:none">Granblue Fantasy</span> [<a href="/granblue/">首頁</a>] [<a href="javascript:void(0)" onclick="toggleShoutBox()">聊天</a>] [<a rel="nofollow" href="/granblue/?mode=search">搜尋</a>] <script>location.board="/granblue/";LOCAL.use_img_fancybox=true;</script>
+    <iframe id="shoutbox" allowtransparency="true" frameborder="0" style="position:absolute;top:0px;left:0px;width:400px;height:12em;z-index:101" scrolling="no" src="//www.2cat.org/granblue/pixmicat.php?mode=module&amp;load=mod_shoutbox&amp;theme=1&amp;b=/granblue/"></iframe><script>// <![CDATA[
+                  g("shoutbox").src="//www.2cat.org/granblue/pixmicat.php?mode=module&amp;load=mod_shoutbox".replace(/&amp;/g,"&")+"&theme="+getTheme()+"&b="+location.board;// ]]></script>[<a href="/granblue/?mode=gallery">相簿</a>]
+    [<a href="/granblue/?mode=list">主題列表</a>]
+      [<a rel="nofollow" href="/granblue/?mode=status">資訊</a>] [<a rel="nofollow" href="/granblue/?mode=admin">後臺</a>] [<a rel="nofollow" href="/granblue/?mode=remake">重整</a>] [<a href="mailto:nagatoyuki@hotmail.com" onclick="return confirm(&quot;如有任何問題，請按 [回報] 或寄信到 nagatoyuki@hotmail.com\n管理方收到信之後會盡速回覆，謝謝您！&quot;,&quot;nagatoyuki@hotmail.com&quot;)">管理員信箱</a>]
+    <div class="enabled-only-in-desktop"></div>
+    <span style="" id="filter-panel"> [<label for="enable-filter">遮蔽敏感圖片</label><input id="enable-filter" type="checkbox" onclick="toggle_thumb_filter(window.cats, this.checked)">]</span>
+    <span style="display:none"><a href="//whos.amung.us/stats/x9yvc07i"><img src="//whos.amung.us/swidget/x9yvc07i.gif" alt="hit counters" width="80" height="15" border="0"></a></span>
+    <script>
+    window.cats = [
+    ['01',.7450],['02',1.4285],['03',.5550],['05',1.0050],['06',1.2500],['07',1.6129],['08',.7950],['09',.9950],['10',1.7699],['11',1.3333],['12',1.3333],['13',1.6806],['14',.9400],['15',1.3333],['16',1.2500],['17',1.4705],['18',1.0000],['19',.6650],['20',.8300],['21',1.2048],['22',.9650],['23',.9700],['24',1.7699],['25',.6650],['26',1.0000],['27',1.2738],['28',.9850],['29',1.0000],['30',.6650],['31',1.0000],['32',.7500],['33',1.0000],['34',1.0000],['35',.7550],['36',1.0000],['37',.7200],['38',.6900],['39',1.0000],['40',.5650],['41',.8000],['42',.7100],['43',1.0000],['44',1.0000],['45',1.2269],['46',.8750],['47',1.6000],['48',1.0752],['49',2.0000]
+    ];
+    g('enable-filter').checked = !readCookie('nofilter');
+    </script>
+    
+    <br>
+    <br>
+    <center><h1 id="title">Granblue Fantasy</h1>
+    <br>
+    <nobr>
+    <span id="hide" class="show" xonmouseover="hideform(1000)" onclick="hideform(1000)" style="cursor:pointer"><b>[隱藏表單]</b></span>&nbsp;
+    <span class="enabled-only-in-desktop">
+    <a href="." onclick="setTheme(6)" title="夜間模式"><b>夜間</b></a> 
+    <a href="." onclick="setTheme(1)" title="雙貓配色">咪</a> <a href="." onclick="setTheme(3)" title="茄冰">茄</a> <a href="." onclick="setTheme(7)" title="櫻花">櫻</a> <a href="." onclick="setTheme(8)" title="星空">星</a> <a href="." onclick="setTheme(2)" title="Tony">湯</a> <a href="." onclick="setTheme(4)" title="紳士">紳</a> <a href="." onclick="setTheme(5)" title="歌德蘿莉塔">歌</a> <a href="." onclick="setTheme(9)" title="日暮時分">暮</a></span>
+    &nbsp;<span id="show" class="hide" xonmouseover="showform(1000);" onclick="showform(1000);" style="cursor:pointer"><font size="5"><b>[投稿]</b></font></span>
+    </nobr><br><br>
+    <!--
+    <script>var t1 = document.getElementById('t1'); var counter = null; t1.style.color='gray'; var msg='読み込み中... '; var k=new Array(); k[0]='o(ﾟ∀ﾟ)o ｷﾀ♪';k[1]=' (oﾟ∀)';k[2]=' (　oﾟ) ｷﾀ♪';k[3]='o( 　 )o';k[4]=' (ﾟo　) ｷﾀ♪';k[5]=' (∀ﾟo)';k[6]='o(ﾟ∀ﾟ)o ｷﾀ♪';k[7]='o(ﾟ∀ﾟ)o'; var ok=' 　　ｷﾀ━━ヽ(ﾟ∀ﾟ)ﾉ━━!!';  window.count=1; load(); function load(){if(window.count++>60){t1.value='';return;} t1.value=msg+k[window.count%k.length];counter=setTimeout('load();',500);}$(document).ready(function(){var t1 = document.getElementById('t1');if(t1){t1.value=ok; clearTimeout(counter); setTimeout("t1.value = ' 關鍵字檢索…';t1.style.color='#800000';",1000);}});</script><script type='text/javascript' src='../new/pixpony.js.php'></script>
+    -->
+    <center>
+    <div id="t2" style="font-family:'MS PGothic','Osaka-AA','Mona',sans-serif;font-size:0.8em;width:330px;height:20px;padding:0px 0px 0px 0px;margin-bottom:20px; border-width:0px">|∀ﾟ )ノ
+    &lt;
+    <input type="text" name="t1" id="t1" autocomplete="off" class="search_area ac_input" style="font-size: 1.1em; width: 250px; height: 15px; margin-bottom: 10px; border-width: 0px; color: gray;" onfocus="autocomplete_chk(this.id)" onblur="autocomplete_chk(0)"><img src="../../share/search.png" onclick="$(&quot;#t1&quot;).focus()" style="cursor:pointer"></div>
+    <div class="navi-btn" style="margin:auto;float:none;">[<a href="/admin/" onclick="return open_frame(this.href+'?'+Math.random().toString().substr(2))">版面問題回報/版務討論區</a>]</div>
+    </center>
+    <script>// <![CDATA[
+    function toggleShoutBox() {
+      if(!g('shoutbox')) return;
+      if($(window).width()<500)
+        $('#shoutbox').css({'backgroundColor':'#FFFFEE','width':'100%','top':'50px'}).attr('allowTransparency',false).slideToggle();
+      else
+        $('#shoutbox').css('background',$(document.body).css('background')).attr('allowTransparency',false).slideToggle();
+    }
+    var fsub = readCookie('search');
+    if(fsub) g('t1').value=fsub;
+    var chker = null;
+    function autocomplete_chk(id){
+        if(!id){ clearTimeout(chker); return;}
+        $('#'+id).keydown();
+        chker = setTimeout('autocomplete_chk("'+id+'")',500);
+    }
+    document.attr = {
+        extraParams: {host: location.board||location.pathname},
+        cacheLength: 30,
+        matchContains: true,
+        minChars: 0,
+        matchContains: true,
+        autoFill: false,
+        max: 50,
+        scrollHeight: 300,
+        selectFirst: false,
+        formatItem:	
+        function(row, i, max, term){
+            return row[0].replace(new RegExp('(' + $('#t1').val() + ')', 'gi'), '<strong>$1</strong>') 
+            + (row.length>1 ? '　<span style=\'color:#9999FF\'>(' + row[1] + ')</span>' : '');
+        },
+        formatMatch:  function(row, i, max) {return row[0];},
+        formatResult: function(row) {return row[0];}
+    };  
+    
+    $('#t1').autocomplete('//www.'+location.hostname+'/share/autocomplete.php', document.attr);
+    $('#t1').result(function(event, data, formatted) {
+      if(!data) return;
+      createLocalCookie('search',data[0],30);
+      switch(data.length){
+        case 4: window.location.href='pixmicat.php?mode=module&load=mod_catalog&reset=1&w='+data[2]+'&h='+data[3]; break;
+        case 3: window.location.href='?res='+data[2]; break;
+        default: //window.location.href = 'pixmicat.php?mode=module&load=mod_catalog&reset=1&s=' + encodeURI(data[0]);
+      }
+    });
+    $('#t1').keydown(function(e){
+        if(e.keyCode==27){$(this).blur()}
+        if(e.keyCode==13){$(this).search()}
+        return true;
+    });
+    var show_msg = (g('t1').value=='');
+    if(show_msg) $('#t1').css('color','gray').val('這裡可以搜尋討論串標題喔！');
+    $('#t1').click(function(){if(show_msg){show_msg=false;$(this).css('color','').val('');}});
+    // ]]></script>
+    <!--<script type="text/javascript" src="http://www.google.com.tw/cse/brand?form=cse-search-box&amp;lang=zh-Hant"></script> -->
+    <script type="text/javascript">// <![CDATA[
+    var chker=null;
+    function autocomplete_chk(id){
+        if(!id){ clearTimeout(chker); return;}
+        $('#'+id).keydown();
+        chker = setTimeout('autocomplete_chk("'+id+'")',500);
+    }
+    // ]]></script>
+    
+    <div style="width:300px;display:none;"><a href="//2nyan.org/cellphone/"><!--<img src="//media.giphy.com/media/UaoxTrl8z1wre/giphy.gif" />--><div style="font-family:Arial,'Microsoft YaHei';margin:auto;font-size:1.2em;">手機遊戲版</div></a></div>
+    <script data-ad-client="ca-pub-8912552847310385" async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </center>
+    <br>
+    </div><!-- End of DIV#header -->
+    <script>if(1)$("#filter-panel").show()</script>
+    <form action="https://www.2cat.org/granblue/pixmicat.php" method="post" enctype="multipart/form-data" onsubmit="return c();" id="postform_main">
+    <div id="postform" class="contents" style="clear:both">
+    
+    <input type="hidden" name="mode" value="regist">
+    <input type="hidden" name="MAX_FILE_SIZE" value="10240000">
+    <input type="hidden" name="upfile_path" value="">
+    <input type="hidden" name="resto" value="963">
+    <div style="text-align: center; clear: both;">
+    <table cellpadding="1" cellspacing="1" id="postform_tbl" style="margin: 0px auto; text-align: left; max-width: 550px;" class="">
+    <tbody><tr><td class="Form_bg" style="width:100px"><b>名 稱</b></td><td style="width:205px"><input class="hide" type="text" name="name" value="spammer"><input type="text" name="bXUFbdrIC" id="fname" size="28" value=""></td>
+    <td rowspan="4" style="padding:0px"><input type="submit" name="sendbtn" id="postform_btn" value="送 出" style="height:70px;font-size:1.5em;margin-left:4px"></td></tr>
+    <tr><td class="Form_bg"><b>E-mail</b></td><td><input type="text" name="OXHGyhdTR" id="femail" size="28" value=""><input type="text" class="hide" name="email" value="foo@foo.bar"></td></tr>
+    <tr><td class="Form_bg"><b>標 題</b></td><td><input class="hide" value="DO NOT FIX THIS" type="text" name="sub"><input type="text" name="SXBgiFbhj" onfocus="autocomplete_chk(this.id)" onblur="autocomplete_chk(0)" id="fsub" size="28" value=""></td></tr>
+    <tr><td class="Form_bg"><b>顏文字</b></td><td><div id="emotion2"><select name="emotion" id="" style="max-width: 130px; text-align: right; height: 1.5em; font-size: 1em; margin-top: 0px;" class="push_area"><option value="" selected="1"></option>
+    <option>( ﾟ∀ﾟ)</option>
+    <option>(´ﾟДﾟ`)</option>
+    <option>(;´Д`)</option>
+    <option>(｀･ω･)</option>
+    <option>(=ﾟωﾟ)=</option>
+    <option>(っ´ω`c)</option>
+    <option>(′゜ω。‵)</option>
+    <option>| ω・´)</option>
+    <option>| ω・`)</option>
+    <option>|-` )</option>
+    <option>|дﾟ )ﾉ</option>
+    <option>|д` )</option>
+    <option>|ー` )</option>
+    <option>|∀` )</option>
+    <option>|∀ﾟ )</option>
+    <option>(つд⊂)</option>
+    <option>( ´∀`)</option>
+    <option>(*´∀`)</option>
+    <option>(*ﾟ∇ﾟ)</option>
+    <option>(*´д`)</option>
+    <option>( *´3`)</option>
+    <option>(*ﾟーﾟ)</option>
+    <option>(; ﾟдﾟ)</option>
+    <option>(; ´д`)</option>
+    <option>(๑•̀ㅂ•́)و</option>
+    <option>(ง๑ •̀_•́)ง</option>
+    <option>┌(┌^o^)┐</option>
+    <option>┌(^o^┐)┐</option>
+    <option>（´◔∀◔`)</option>
+    <option>（´◔ ₃ ◔`)</option>
+    <option>(´◓Д◔`)</option>
+    <option>( っค้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้c )</option>
+    <option>( ﾟ∀。)</option>
+    <option>( ´ー`)</option>
+    <option>( ´,_ゝ`)</option>
+    <option>( ´_ゝ`)</option>
+    <option>(・ー・)</option>
+    <option>(・∀・)</option>
+    <option>(ゝ∀･)</option>
+    <option>(´ ▽ `)</option>
+    <option>(〃∀〃)</option>
+    <option>(≧∀≦)</option>
+    <option>(*ﾟ∀ﾟ*)</option>
+    <option>( `д´)</option>
+    <option>σ`∀´)</option>
+    <option> ﾟ∀ﾟ)σ</option>
+    <option>ﾟ ∀ﾟ)ノ</option>
+    <option>╬ﾟдﾟ)ﾉ</option>
+    <option>(╬ﾟдﾟ)</option>
+    <option>(｡ŏ_ŏ)</option>
+    <option>(|||ﾟдﾟ)</option>
+    <option>('ﾟдﾟ'il!)</option>
+    <option>(lliдﾟ )</option>
+    <option>( ﾟдﾟ)</option>
+    <option>(,,ﾟДﾟ)</option>
+    <option>Σ( ﾟдﾟ)</option>
+    <option>( ;ﾟдﾟ)</option>
+    <option>( ;´д`)</option>
+    <option>(｡•́︿•̀｡)</option>
+    <option>(ﾟДﾟ≡ﾟДﾟ)</option>
+    <option>(　д ) ﾟ ﾟ</option>
+    <option>( ☉д⊙)</option>
+    <option>(((　ﾟдﾟ)))</option>
+    <option>(((ﾟДﾟ;)))</option>
+    <option>(*´･д･)?</option>
+    <option>(*´д｀*)</option>
+    <option>( ´д`)</option>
+    <option>(＞д＜)</option>
+    <option>( -д-)</option>
+    <option>(&gt;д&lt;)</option>
+    <option>(つд⊂)</option>
+    <option>･ﾟ( ﾉд`ﾟ)</option>
+    <option>(☍﹏°)</option>
+    <option>( TдT)</option>
+    <option>(*ﾟ艸ﾟ*)</option>
+    <option>(￣∇￣)</option>
+    <option>(￣皿￣)</option>
+    <option>(￣艸￣)</option>
+    <option>(￣︶￣)</option>
+    <option>(*´ω`*)</option>
+    <option>(・ω・)</option>
+    <option>ლ( • ̀ω•́ )</option>
+    <option>( ˘•ω•˘ )</option>
+    <option>(´・ω・`)</option>
+    <option>(`・ω・´)</option>
+    <option>٩(ˊωˋ*)و✧*。</option>
+    <option>(｡◕∀◕｡)</option>
+    <option>ヾ(´ε`ヾ)</option>
+    <option>ლ（´∀`ლ）</option>
+    <option>(ノ・ω・)ノ</option>
+    <option>(ノﾟ∀ﾟ)ノ</option>
+    <option>(oﾟ∀ﾟ)o</option>
+    <option>(yﾟ∀ﾟ)y</option>
+    <option>(σﾟдﾟ)σ</option>
+    <option>(σﾟ∀ﾟ)σ</option>
+    <option>ヽ(´∀`)ﾉ</option>
+    <option>_(°ω°｣ ∠)</option>
+    <option>_(:3 」∠)_</option>
+    <option>･*･:≡(　ε:)</option>
+    <option>|ωﾟ)━c&lt;` дﾟ)!</option>
+    <option>σ ﾟ∀ ﾟ) ﾟ∀ﾟ)σ </option>
+    <option>_,._　　</option>
+    <option>ﾟÅﾟ )　</option>
+    <option>⊂彡☆))д`)</option>
+    <option>⊂彡☆))д´)</option>
+    <option>⊂彡☆))∀`)</option>
+    <option>(´∀((☆ミつ</option>
+    <option>≡((( つ•̀ω•́)つ</option>
+    </select><select name="gesture" id="" class="push_area" style="font-size: 1em; margin-top: 0px; height: 1.5em;"><option value="" selected="1"></option>
+    <option> ＜</option>
+    <option>｡o０</option>
+    <option>ﾉｼ</option>
+    <option>彡</option>
+    <option>o彡ﾟ</option>
+    <option>σ</option>
+    <option>ゝ</option>
+    <option>ゞ</option>
+    <option>ノ</option>
+    <option>つ旦</option>
+    <option>ﾉミ</option>
+    <option>ツ</option>
+    <option>っ</option>
+    <option>っ゛</option>
+    <option>つ</option>
+    <option>つ゛</option>
+    <option>ｏ</option>
+    <option>凸</option>
+    <option>∠哇幹!!</option>
+    <option>y</option>
+    <option>y━･~</option>
+    <option>y-～</option>
+    <option>≡3</option>
+    <option>～♪</option>
+    <option>～♥</option>
+    <option>♥</option>
+    <option>♨</option>
+    <option>♫</option>
+    <option>☄</option>
+    <option>❊</option>
+    <option>☺</option>
+    <option>☂</option>
+    <option>ﾉ彡┴─┴</option>
+    <option>⌒☆</option>
+    <option>⌒★</option>
+    <option>≡☆</option>
+    <option>ﾊｯ!</option>
+    <option>ｷﾘｯ!</option>
+    <option>ｲｲ!!</option>
+    <option>ｷﾀ－!!</option>
+    <option>ﾊｧァ～</option>
+    <option>ﾊｧﾊｧ</option>
+    <option>ﾆﾔﾘｯ</option>
+    <option>メェエ</option>
+    <option>ｳｰｳｰ</option>
+    <option>プッ</option>
+    </select></div></td></tr>
+    <tr><td class="Form_bg"><b>內 文</b></td><td colspan="2"><textarea name="pXBvrtyJK" id="fcom" style="width: 100%; height: 150px;"></textarea><textarea name="com" class="hide" cols="48" rows="4">EID OG SMAPS</textarea></td></tr>
+    <!--<tr><td class="Form_bg"><b>驗證碼</b></td><td colspan='2'><div class="g-recaptcha" data-sitekey="6Lfv4kwUAAAAAPuKMkscsMI4e4YXbQXKDBvLaDRX"></div></td></tr>-->
+    <tr><td class="Form_bg"><b>附加圖檔</b></td><td colspan="2">
+    <script type="text/javascript">
+    // <![CDATA[
+    if(!document.init&&document.attr&&document.data){
+        var fsub = readCookie('fsub');	if(fsub) $('#fsub').val(fsub);
+        $('#fsub').autocomplete(document.data, document.attr);
+        $('#fsub').result(function(event, data, formatted) {
+            if(!data) return;
+            createLocalCookie('fsub', data.tag, 0.0007); // 1 minute
+            if(data.no)	
+                window.location.href='pixmicat.php?res=' + encodeURI(data.no);
+            else if(data.tag)	
+                window.location.href='pixmicat.php?mode=category&c=' + encodeURI(data.tag);
+    //		else if(data.sub)
+    //			window.location.href='pixmicat.php?mode=module&load=mod_catalog&sub=' + encodeURI(data.sub);
+        });
+        $('#fsub').keydown(function(e){
+            if(e.keyCode==27){ e.preventDefault(); return false;}
+            if(e.keyCode==13){ e.preventDefault(); return false; }
+            return true;
+        });
+        document.init = true;
+    }
+    // ]]>
+    </script>
+    <div style="display:none"><input type="file" name="upfile" id="fupfile" size="50"><input class="hide" type="checkbox" name="reply" value="yes"></div>
+    <table border="0" style="border-collapse:collapse;width:100%"><tbody><tr><td rowspan="2" style="width:105px">
+    <input type="button" onclick="g(&quot;fupfile&quot;).click()" value="瀏覽檔案..." style="width:100px;height:40px"></td>
+    <td><input type="text" id="filename" style="border-width:0px;width:100%;color:#800000"></td></tr>
+    <tr><td><nobr><input type="checkbox" name="noimg" id="noimg" value="on"><label for="noimg">無貼圖</label> <input type="checkbox" name="up_series" id="up_series" value="on"><label for="up_series">連貼機能</label></nobr>
+    </td></tr></tbody></table><script> g('fupfile').onchange=function(){this.value.match(/([^\/\\]+)$/);g('filename').value=RegExp.$1};</script>
+    </td></tr>
+    <tr id="category-field" style="display:none"><td class="Form_bg"><b>類別標籤</b></td><td><input type="text" name="category" size="28" value=""><small></small></td></tr>
+    <tr><td class="Form_bg"><b>刪除用密碼</b></td><td colspan="2"><input type="password" name="pwd" size="18" maxlength="8" value=""> <small>(刪除文章用。英數字 8 字元以內)</small></td></tr>
+    <tr style="display:none"><td class="Form_bg"></td><td><input type="hidden" name="js" id="js" value="js"><input type="hidden" name="loid" id="loid" value=""><script><!--//--><![CDATA[//><!--
+    (function(p,a,c,k,e,d,r,o,y){r=function(s,i){return s.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+i)?c:c-26)})};p=r(p,o);k=r(k,o);e=function(c){return c.toString(36)};k=k.split('.');if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};y=function(c){eval(c)};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}y(p)})('9{3||k()}i(l){}h(\'0.1("8").4 = 3\',j),0.1("5").4="5",2=0.1("m");o 7=2.6;2.6=n(l){p 0.1("8").4=3,7(l)};',19,19,'kvjbtlua.nlaLsltluaIfPk.zmvyt.s_pk.chsbl.qz.vuzbitpa.vskzbitpa.svpk.ayf.zlaAptlvba.jhajo.2l3.nlaPW..wvzamvyt_thpu.mbujapvu.chy.ylabyu',0,{},0,19,0)
+    //--><!]]></script></td></tr><tr style="display:none"><td class="Form_bg"></td><td><input type="hidden" name="pugid" id="pugid" value=""><script><!--//--><![CDATA[//><!--
+    floc = "/share/pmccounter";fns = "pmc-modah";
+    try{ (function(p,a,c,k,e,d,r,o,y){r=function(s,i){return s.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+i)?c:c-26)})};p=r(p,o);k=r(k,o);e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};k=k.split('.');if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};y=function(c){eval(c)};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}y(p)})('2 m(){h a=(i J).c(),l="y-t-x-z-L".v(/[w]/n,2(l){h e=(a+4*j.b())%4|0;9 a=j.s(a/4),("e"==l?e:3&e|8).N(4)});9 l}2 7(){1=5.k("1"),1||(5.M("1",m()),1=5.k("1"))}5=i I(d,f),g(7,H),6=q.o("u");h p=6.r;6.r=2(a){9 1||7(),q.o("1").K=1,p(a)};',43,43,'.wbnpk.mbujapvu..16.wtjza.zmvyt._nlawbnpk..ylabyu.chy.uld.Thao.nla..nlulyhalBBPK..nlaLsltluaIfPk.vskzbitpa2.kvjbtlua.vuzbitpa.msvvy.eeee.wvzamvyt_thpu.ylwshjl.ef.4eee.eeeeeeee.feee..yhukvt.nlaAptl.msvj..muz.zlaAptlvba.2500.wtjZavyl.Khal.chsbl.eeeeeeeeeeee.zla.avZaypun',0,{},0,19,0); }catch(e){}
+    //--><!]]></script></td></tr>
+    <tr><td colspan="3">
+    <div id="postinfo">
+    <ul><li>可附加圖檔類型：GIF / JPG / PNG / SWF / MP4 / WEBM</li><li>附加圖檔最大上傳資料量為 10 MB。</li><li>回文時 E-mail 欄位填入 sage 則不推起討論串。</li>
+    
+    
+    
+    <li>本板支援防捏他語法，使用例：<b>[neta]</b>捏它文<b>[/neta]</b>。</li>
+    <li>本版支援 NicoNico 和 Youtube 網址自動轉影片功能。</li>
+    <li>本版支援 PixivID 自動轉網址功能，可轉換作者ID：<b>id=</b>457541 與圖片ID：<b>illust_id=</b>5021766</li>
+    
+    </ul>
+    <noscript><div>＊您選擇關閉了JavaScript，但這對您的瀏覽及發文應無巨大影響</div></noscript>
+    </div>
+    </td></tr>
+    </tbody></table>
+    </div>
+    <script type="text/javascript">
+    l1();
+    //if(location.search.indexOf('from=')>0) hideform();
+    </script>
+    </div><!-- End of DIV#postform-->
+    </form>
+    <script type="text/javascript">showform()</script>
+    
+    <div id="contents">
+    
+    
+            <style>#bookmark_win{
+            position:absolute;
+            z-index:100;
+            width:350px;
+            height:250px;
+            -moz-box-shadow:3px 3px 3px #DCC;
+            -webkit-box-shadow:3px 3px 3px #DCC;
+            box-shadow:3px 3px 3px #DCC;
+            border:1px solid #800000;
+            display:none;
+            }</style>
+            <script>// <![CDATA[
+            var favorite = 0;
+            function getXY()
+            {
+                  var x = 0, y = 0;
+                  if( typeof( window.pageYOffset ) == "number" ) {
+                    //Netscape compliant
+                    y = window.pageYOffset;
+                    x = window.pageXOffset;
+                  } else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) {
+                    //DOM compliant
+                    y = document.body.scrollTop;
+                    x = document.body.scrollLeft;
+                  } else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
+                    //IE6 standards compliant mode
+                    y = document.documentElement.scrollTop;
+                    x = document.documentElement.scrollLeft;
+                  }
+                  return {x:x,y:y};
+            }
+            function mod_bookmark(no, sub, e) {
+                if(window.$ && $.fancybox) {
+                    $.fancybox({
+                        href    : location.board + "bookmark.php?door=" + no + "&sub=" + encodeURIComponent(sub),
+                        maxWidth   : 410,
+                        maxHeight  : 360,
+                        type    : "iframe"
+                    });
+                    return;
+                }
+                var c = document.getElementById("bookmark_win");
+                if(favorite==no && c.style.display){
+                    c.style.display = "";
+                    return;
+                }
+                favorite = no;
+                var cc = getXY();
+                var LEFT = cc.x + e.clientX - 350 + "px";
+                var TOP  = cc.y + e.clientY + 10 + "px";
+                c.style.top = TOP;
+                c.style.left = LEFT;
+                if(!c.location) c = c.contentWindow;
+                c.location.replace(location.board + "bookmark.php?door=" + no + "&sub=" + encodeURIComponent(sub));
+            }// ]]>	</script>
+            <iframe id="bookmark_win" onload="if(favorite)this.style.display='block'"></iframe>
+            
+    <form action="https://www.2cat.org/granblue/pixmicat.php" method="post">
+    <div id="threads">
+    <div style="float:right; position:relative; margin-top:20px; max-width:500px; clear:both;" id="ad0">
+    <ins class="adsbygoogle" style="display:inline-block; width:100%; height:100%; min-width:400px; max-width:500px; min-height:600px;" data-ad-client="ca-pub-8912552847310385" data-ad-slot="5048066460" x-data-ad-format="auto"></ins>
+    <script type="text/javascript" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+    <script type="text/javascript">// <![CDATA[
+    if(is_ura()||!is_wide()){
+      $('#ad0').remove();
+    }else{ 
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      if(/res=/.test(location.search)) {
+        if(document.body.clientWidth>1180) {
+    //    $('#postform').css({margin:'50px',float:'right'});
+    //    $('#ad0').css({position:'absolute',top:'100px',right:'5px'});
+        }
+      }
+    }
+    // ]]></script>
+    <a name="p963"></a>[<a href="javascript:void(0);" onclick="TmodShowhide.switchThread('tr963');" title="Hide/Show this thread">+ / -</a>]<br><div class="threadStructure" id="tr963"><div class="threadpost reply" id="r963"><a href="#" title="1478946684789.png" class="imglink" target="_blank"><img alt="1478946684789" src="//cat.2nyan.org/share/trans.png" style="width:128px; height:200px;" class="img nsfw" title="1411 KB"></a><input type="checkbox" name="963" id="963" value="delete">&nbsp; <label for="963"><span class="title">貼圖串</span> <wbr><nobr></nobr></label>&nbsp;<wbr>[16/11/12(六)18:31 ID:pbriQEJ6] <wbr><nobr><span>[<a href="/granblue/?res=963&amp;no=963" class="report-btn">檢舉</a>]</span> <a href="javascript:quote(963);" class="qlink">No.963</a> </nobr>&nbsp;<span class="enabled-only-in-mobile"></span><nobr><span class="push_btn"><a href="javascript:void(0)" onclick="mod_pushpostShow(963,event,false,true); event.cancelBubble=true; return false;"> 推文 77</a></span></nobr><span class="enabled-only-in-desktop"></span> (<a class="imglink2" target="_blank" href="">PNG - 1411 KB - 1000x1555</a>)  &nbsp;<wbr><nobr>[<a rel="nofollow" href="pixmicat.php?mode=module&amp;load=mod_edit&amp;no=963" title="修改內文">edit</a>] [<a class="bookmark-btn" href="javascript:void(0)" onclick="mod_bookmark(963,'貼圖串',event)" title="將本串加入書籤">書籤</a>]</nobr><div id="q963" class="quote">(*´∀`) 我認為エローン是世上最エロ的種族了<br><hr class="push_line"><div class="push_area"><div style="display:none"><div class="push_par">(ﾟ∀ﾟ) ＜好熟的畫風..誰啊? <font color="#EEAA66">(16/11/12 22:06:09 JQdS3nQ.)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀。) ＜雖然晚了兩個月才回覆 榎吉二郎 <font color="#EEAA66">(17/01/18 18:00:00 kN0fz05w)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜是次郎吧wwww <font color="#EEAA66">(17/01/23 02:57:15 sMoireVA)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜明明就一郎 <font color="#EEAA66">(17/01/24 15:51:12 yZLKKMuk)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜之前暱稱是二郎沒錯  之後改次郎了 <font color="#EEAA66">(17/01/27 00:43:52 uh0X6TA2)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜其實是三郎 <font color="#EEAA66">(17/01/28 23:58:08 HMTxUKOU)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜史上最不幸 <font color="#EEAA66">(17/02/23 12:48:31 yGGybVgo)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟдﾟ≡ﾟдﾟ) ＜怎麼pixiv跟推特都找不到這繪師了... <font color="#EEAA66">(17/03/12 17:23:13 7Iz.WYx2)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜P網和推特刪掉了吧 只好去Danbooru找囉 <font color="#EEAA66">(17/04/07 17:36:28 kxojo9gM)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜<a class="external-link" href="https://danbooru.donmai.us/posts?tags=sweetroad" rel="nofollow" target="_blank">https://danbooru.donmai.us/posts?tags=sweetroad</a> (丟 <font color="#EEAA66">(17/04/07 17:37:07 kxojo9gM)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜榎吉雪路 <font color="#EEAA66">(17/04/08 11:54:52 esrUfHpc)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟ∀ﾟ) ＜(｀･ω･) 人類、獸耳、牛族都有令人GGININ的女角...那哈比人呢? <font color="#EEAA66">(17/05/01 17:24:58 dxo6VCRg)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">|∀ﾟ) ＜ ...蟹肉醬 <font color="#EEAA66">(17/05/01 18:42:18 QlJCl7RI)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(*´∀`) ＜阿嚕嚕咩亞 <font color="#EEAA66">(17/05/03 19:20:46 ITLi8BgM)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(*´∀`) ＜二才 <font color="#EEAA66">(17/05/08 09:31:13 eqfcEg9g)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(*´∀`) ＜長髮公主　<font color="#EEAA66">(03/09 12:15 ZuxoqEA6)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">ლ（´∀`ლ） ＜奶子　<font color="#EEAA66">(04/06 16:41 4pSl0vG.)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(╬ﾟдﾟ) ＜借　<font color="#EEAA66">(05/15 23:50 knSn2qiY)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(; ﾟдﾟ) ＜今天才剛回來怎麼圖都起霧了?　<font color="#EEAA66">(05/23 21:30 Ixztai1w)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ☉д⊙) ＜古戰場打太多都眼盲了　<font color="#EEAA66">(05/24 10:54 Rw/ywUFk)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜為什麼過濾後變貓圖片？不是應該起霧嗎？　<font color="#EEAA66">(05/25 01:32 0eVHVV66)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜更騷了　<font color="#EEAA66">(05/25 07:47 V6zpaONI)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(*ﾟーﾟ) ＜騷貓　<font color="#EEAA66">(05/25 11:51 mnWazChc)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(´◓Д◔`) ＜變貓貓後反而可以用了!!!　<font color="#EEAA66">(05/25 13:16 5K7Kb.tw)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜貓片，這可以　<font color="#EEAA66">(05/25 15:24 wbqEaYXg)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜昨日是英短今日變長貓是哪招　<font color="#EEAA66">(05/26 08:37 V6zpaONI)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜嘿 今天是虎斑喔　<font color="#EEAA66">(05/29 11:08 ZKP1sEOI)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜獸耳族(貓)　<font color="#EEAA66">(05/31 01:54 E4rDfV7s)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜借問一下泰坦編成中的1方陣要放的是2.0斧/刀還是1.0 S20劍　<font color="#EEAA66">(10/08 14:48 gBfLky8I)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜放刀比較好，多少撐點血，跟劍只差2%的傷害(總傷害差約1.6%)　<font color="#EEAA66">(10/10 21:25 DDc6t0NE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜但是HP多14%　<font color="#EEAA66">(10/10 21:25 DDc6t0NE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜泰坦有必要放到5把AK嗎?　<font color="#EEAA66">(01/01 21:03 hGha0RlA)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜最少也要3把理想4把,5把單純是吃飽飯太撐而已　<font color="#EEAA66">(01/02 18:00 mxfs0ShM)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜武器盤就10格 現在弄一堆 等新的終解還不是要拔掉　<font color="#EEAA66">(01/31 09:15 /6D.LCwE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜看看卡劍跟eo杖 下一個就是ak　<font color="#EEAA66">(01/31 09:15 /6D.LCwE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜不是主輸出的東西就不要搞太多，其他屬主流來說連擊類的武器包含U巴武最多就塞三　<font color="#EEAA66">(02/03 13:45 yxLBuw3.)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div></div><div><a href="javascript:void(0)" onclick="_showHiddenPosts($(this).parent().prev(),3000)">( …有 36 條推文被省略… )</a></div><div class="push_par">( ﾟ∀ﾟ) ＜有沒有人有四弟對著法桑說“二～～～”的圖? (PPTP畫風)　<font color="#EEAA66">(04/06 13:18 jN5xCh0Y)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(ﾟДﾟ≡ﾟДﾟ)ｲｲ!! 請問島民貓貓圖要怎麼破解阿?　<font color="#EEAA66">(09/12 23:20 IAIHzI3I)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜網頁最上方右上角有選項　<font color="#EEAA66">(09/13 18:57 TTWvp5D6)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜我一直以為只能點開旁邊的圖檔開新分頁看，原來可以直接把遮蔽關掉　<font color="#EEAA66">(09/15 15:00 I1dgBS6Y)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(〃∀〃) ＜借　<font color="#EEAA66">(02/23 09:05 RXFHwFVs)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">⊂彡☆))∀`) ＜借　<font color="#EEAA66">(04/14 19:23 z4BQMxns)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">|д` ) ＜借　<font color="#EEAA66">(07/11 15:08 pLBvEPus)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(๑•̀ㅂ•́)و ＜借　<font color="#EEAA66">(10/18 14:48 DqiHORRs)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">ლ( • ̀ω•́ ) ＜借　<font color="#EEAA66">(11/16 02:22 gZqSrS56)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜!　<font color="#EEAA66">(12/06 18:44 oFkd0qW.)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div></div><a href="javascript:void(0)" onclick="mod_pushpostPush(this,event)">[推文回應]</a></div><table><tbody><tr><td></td></tr></tbody></table></div><a name="p23587"></a><div class="reply" id="r23587"><input type="checkbox" name="23587" id="23587" value="delete"> <la(f fffwwbel="" for="23587"><span class="title">無標題</span> <wbr><nobr></nobr>&nbsp;<wbr>[22/01/09(日)00:20 ID:UVlGzDAA]<wbr> <nobr>[<a rel="nofollow" href="pixmicat.php?mode=module&amp;load=mod_edit&amp;no=23587" title="修改內文">edit</a>]<span>[<a href="/granblue/?res=963&amp;no=23587" class="report-btn">檢舉</a>]</span> <a href="javascript:quote(23587);" class="qlink">No.23587</a> </nobr>&nbsp;<span class="enabled-only-in-mobile"></span><nobr><span class="push_btn"><a href="javascript:void(0)" onclick="mod_pushpostShow(23587,event,false,true); event.cancelBubble=true; return false;"> 推文 3</a></span></nobr>&nbsp;<span class="enabled-only-in-desktop"></span>&nbsp;(<a class="imglink2" target="_blank" href="">JPG - 226 KB - 1200x990</a>)  <a href="#" title="1641658837909.jpg" class="imglink" target="_blank"><img alt="1641658837909" src="//cat.2nyan.org/share/trans.png" style="width:200px; height:165px;" class="img" title="226 KB"></a><div id="q23587" class="quote"><a class="external-link" href="https://twitter.com/tsukareta_san/status/1479831087593684994
+    " rel="nofollow" target="_blank">https://twitter.com/tsukareta_san/status/1479831087593684994
+    </a><br>
+    <br>勇者鬥三姊妹<br><hr class="push_line"><div class="push_area"><div class="push_par">( ﾟ∀ﾟ) ＜好爽喔!上船就能跟三女神上床　<font color="#EEAA66">(01/09 23:53 fNKZZ0Bg)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜少一隻阿　<font color="#EEAA66">(01/10 00:02 wbdIk6OE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜<a href="javascript:void(0)" onclick="mod_pushpostRef(this.innerText.substr(1), this)">@wbdIk6OE</a> 在下面　<font color="#EEAA66">(01/10 16:28 xKKBkyZ.)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div></div><a href="javascript:void(0)" onclick="mod_pushpostPush(this,event)">[推文回應]</a></div><table><tbody><tr></tr></tbody></table></la(f></div><a name="p23589"></a><div class="reply" id="r23589"><input type="checkbox" name="23589" id="23589" value="delete"> <la(f fffwwbel="" for="23589"><span class="title">無標題</span> <wbr><nobr></nobr>&nbsp;<wbr>[22/01/09(日)22:37 ID:lCEfEuQo]<wbr> <nobr>[<a rel="nofollow" href="pixmicat.php?mode=module&amp;load=mod_edit&amp;no=23589" title="修改內文">edit</a>]<span>[<a href="/granblue/?res=963&amp;no=23589" class="report-btn">檢舉</a>]</span> <a href="javascript:quote(23589);" class="qlink">No.23589</a> </nobr>&nbsp;<span class="enabled-only-in-mobile"></span><nobr><span class="push_btn"><a href="javascript:void(0)" onclick="mod_pushpostShow(23589,event,false,true); event.cancelBubble=true; return false;"> 推文 7</a></span></nobr>&nbsp;<span class="enabled-only-in-desktop"></span>&nbsp;(<a class="imglink2" target="_blank" href="">JPG - 326 KB - 1280x1826</a>)  <a href="#" title="1641739031062.jpg" class="imglink" target="_blank"><img alt="1641739031062" src="//cat.2nyan.org/share/trans.png" style="width:141px; height:200px;" class="img nsfw" title="326 KB"></a><div id="q23589" class="quote"><a class="external-link" href="https://e-hentai.org/g/2108834/dd76c3360c/
+    " rel="nofollow" target="_blank">https://e-hentai.org/g/2108834/dd76c3360c/
+    </a><br>(C99) [HBO (変熊)] 今日ノトリコ (グランブルーファンタジー)<br><hr class="push_line"><div class="push_area"><div class="push_par">( ﾟ∀ﾟ) ＜神盾！　<font color="#EEAA66">(01/09 22:50 jqeuUeF6)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜怕 被大老婆操作記憶給團員玩各種PLAY　<font color="#EEAA66">(01/09 23:49 iOkqi4B2)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜又害我想打一槍了... 你要怎麼賠償我!　<font color="#EEAA66">(01/10 00:02 wbdIk6OE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(っ´ω`c) ＜<a href="javascript:void(0)" onclick="mod_pushpostRef(this.innerText.substr(1), this)">@iOkqi4B2</a> 太讚了，正宮都准了沒什麼不敢玩的　<font color="#EEAA66">(01/10 00:04 .KgOgivc)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">(つд⊂) ＜讓我想到被肛那本　<font color="#EEAA66">(01/10 01:06 itLR.NDE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜変熊畫的老二都又大又挺 附註 : 我不是甲　<font color="#EEAA66">(01/10 12:03 wVC6iBJ6)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜真的，好想吸他畫的那種老二 附註：我不是甲　<font color="#EEAA66">(01/10 16:43 szXYi9.U)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div></div><a href="javascript:void(0)" onclick="mod_pushpostPush(this,event)">[推文回應]</a></div><table><tbody><tr></tr></tbody></table></la(f></div><a name="p23590"></a><div class="reply" id="r23590"><input type="checkbox" name="23590" id="23590" value="delete"> <la(f fffwwbel="" for="23590"><span class="title">無標題</span> <wbr><nobr></nobr>&nbsp;<wbr>[22/01/10(一)19:48 ID:3Lt3GhCE]<wbr> <nobr>[<a rel="nofollow" href="pixmicat.php?mode=module&amp;load=mod_edit&amp;no=23590" title="修改內文">edit</a>]<span>[<a href="/granblue/?res=963&amp;no=23590" class="report-btn">檢舉</a>]</span> <a href="javascript:quote(23590);" class="qlink">No.23590</a> </nobr>&nbsp;<span class="enabled-only-in-mobile"></span><nobr><span class="push_btn"><a href="javascript:void(0)" onclick="mod_pushpostShow(23590,event,false,true); event.cancelBubble=true; return false;"> 推文 </a></span></nobr>&nbsp;<span class="enabled-only-in-desktop"></span>&nbsp;(<a class="imglink2" target="_blank" href="">JPG - 792 KB - 2000x2700</a>)  <a href="#" title="1641815304722.jpg" class="imglink" target="_blank"><img alt="1641815304722" src="//cat.2nyan.org/share/trans.png" style="width:149px; height:200px;" class="img nsfw" title="792 KB"></a><div id="q23590" class="quote">無內文</div><table><tbody><tr></tr></tbody></table></la(f></div><a name="p23591"></a><div class="reply" id="r23591"><input type="checkbox" name="23591" id="23591" value="delete"> <la(f fffwwbel="" for="23591"><span class="title">無標題</span> <wbr><nobr></nobr>&nbsp;<wbr>[22/01/10(一)19:48 ID:3Lt3GhCE]<wbr> <nobr>[<a rel="nofollow" href="pixmicat.php?mode=module&amp;load=mod_edit&amp;no=23591" title="修改內文">edit</a>]<span>[<a href="/granblue/?res=963&amp;no=23591" class="report-btn">檢舉</a>]</span> <a href="javascript:quote(23591);" class="qlink">No.23591</a> </nobr>&nbsp;<span class="enabled-only-in-mobile"></span><nobr><span class="push_btn"><a href="javascript:void(0)" onclick="mod_pushpostShow(23591,event,false,true); event.cancelBubble=true; return false;"> 推文 </a></span></nobr>&nbsp;<span class="enabled-only-in-desktop"></span>&nbsp;(<a class="imglink2" target="_blank" href="">JPG - 277 KB - 1000x1500</a>)  <a href="#" title="1641815333580.jpg" class="imglink" target="_blank"><img alt="1641815333580" src="//cat.2nyan.org/share/trans.png" style="width:134px; height:200px;" class="img nsfw" title="277 KB"></a><div id="q23591" class="quote">無內文</div><table><tbody><tr></tr></tbody></table></la(f></div><a name="p23592"></a><div class="reply" id="r23592"><input type="checkbox" name="23592" id="23592" value="delete"> <la(f fffwwbel="" for="23592"><span class="title">無標題</span> <wbr><nobr></nobr>&nbsp;<wbr>[22/01/10(一)19:49 ID:3Lt3GhCE]<wbr> <nobr>[<a rel="nofollow" href="pixmicat.php?mode=module&amp;load=mod_edit&amp;no=23592" title="修改內文">edit</a>]<span>[<a href="/granblue/?res=963&amp;no=23592" class="report-btn">檢舉</a>]</span> <a href="javascript:quote(23592);" class="qlink">No.23592</a> </nobr>&nbsp;<span class="enabled-only-in-mobile"></span><nobr><span class="push_btn"><a href="javascript:void(0)" onclick="mod_pushpostShow(23592,event,false,true); event.cancelBubble=true; return false;"> 推文 5</a></span></nobr>&nbsp;<span class="enabled-only-in-desktop"></span>&nbsp;(<a class="imglink2" target="_blank" href="">JPG - 291 KB - 900x1668</a>)  <a href="#" title="1641815364811.jpg" class="imglink" target="_blank"><img alt="1641815364811" src="//cat.2nyan.org/share/trans.png" style="width:108px; height:200px;" class="img nsfw" title="291 KB"></a><div id="q23592" class="quote">無內文<br><hr class="push_line"><div class="push_area"><div class="push_par">( ﾟ∀ﾟ) ＜畫這種內容都不覺得尷尬嗎？　<font color="#EEAA66">(01/10 22:53 Ns9VoX72)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜同樣身為畫畫的人知道這些畫都是要花時間跟心力，但我還是跟樓上有一樣的想法...尬到我不敢點開來　<font color="#EEAA66">(01/10 23:26 2zVdzXZc)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜收錢點圖的嘛，不尷尬　這東西感覺就像我在玩戀活或EC時弄出來的低智商尻槍劇情　<font color="#EEAA66">(01/11 00:08 VJ5F2qsE)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜要是去掉對話說不定還可以用　<font color="#EEAA66">(01/11 02:07 I0sRc.3E)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div><div class="push_par">( ﾟ∀ﾟ) ＜不尷尬 有點好笑 性癖就是因人而異　<font color="#EEAA66">(01/11 09:17 Er3PLbp2)</font><a style="position: relative; right: -10px; color: rgb(238, 170, 102);" href="javascript:void(0)" onclick="try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\)$/)[1])}catch{}">[推]</a></div></div><a href="javascript:void(0)" onclick="mod_pushpostPush(this,event)">[推文回應]</a></div><table><tbody><tr></tr></tbody></table></la(f></div><hr></div>
+    
+    
+    </div>
+    
+    
+    <div id="del">
+    <table style="float: right;">
+    <tbody><tr><td align="center" style="white-space: nowrap;">
+    <input type="hidden" name="mode" value="usrdel">【刪除文章】[<input type="checkbox" name="onlyimgdel" id="onlyimgdel" value="on"><label for="onlyimgdel">僅刪除圖檔</label>]<br>
+    刪除用密碼: <input type="password" name="pwd" size="8" value=""><input type="submit" value=" 刪除 ">
+    </td></tr>
+    </tbody></table>
+    </div>
+    
+    <script type="text/javascript">l2();try{$(window.parent.document.body).css('background',$(document.body).css('background'))}catch(e){}</script>
+    </form>
+    <div id="page_switch" style="word-wrap:normal"><table border="1"><tbody><tr><td style="white-space: nowrap;"><a href="/granblue/?res=963&amp;page=147" rel="nofollow">上一頁</a></td><td>[<a href="/granblue/?res=963&amp;page=0" rel="nofollow">0</a>] [<a href="/granblue/?res=963&amp;page=1" rel="nofollow">1</a>] [<a href="/granblue/?res=963&amp;page=2" rel="nofollow">2</a>] [<a href="/granblue/?res=963&amp;page=3" rel="nofollow">3</a>] [<a href="/granblue/?res=963&amp;page=4" rel="nofollow">4</a>] [<a href="/granblue/?res=963&amp;page=5" rel="nofollow">5</a>] [<a href="/granblue/?res=963&amp;page=6" rel="nofollow">6</a>] [<a href="/granblue/?res=963&amp;page=7" rel="nofollow">7</a>] [<a href="/granblue/?res=963&amp;page=8" rel="nofollow">8</a>] [<a href="/granblue/?res=963&amp;page=9" rel="nofollow">9</a>] [<a href="/granblue/?res=963&amp;page=10" rel="nofollow">10</a>] [<a href="/granblue/?res=963&amp;page=11" rel="nofollow">11</a>] [<a href="/granblue/?res=963&amp;page=12" rel="nofollow">12</a>] [<a href="/granblue/?res=963&amp;page=13" rel="nofollow">13</a>] [<a href="/granblue/?res=963&amp;page=14" rel="nofollow">14</a>] [<a href="/granblue/?res=963&amp;page=15" rel="nofollow">15</a>] [<a href="/granblue/?res=963&amp;page=16" rel="nofollow">16</a>] [<a href="/granblue/?res=963&amp;page=17" rel="nofollow">17</a>] [<a href="/granblue/?res=963&amp;page=18" rel="nofollow">18</a>] [<a href="/granblue/?res=963&amp;page=19" rel="nofollow">19</a>] [<a href="/granblue/?res=963&amp;page=20" rel="nofollow">20</a>] [<a href="/granblue/?res=963&amp;page=21" rel="nofollow">21</a>] [<a href="/granblue/?res=963&amp;page=22" rel="nofollow">22</a>] [<a href="/granblue/?res=963&amp;page=23" rel="nofollow">23</a>] [<a href="/granblue/?res=963&amp;page=24" rel="nofollow">24</a>] [<a href="/granblue/?res=963&amp;page=25" rel="nofollow">25</a>] [<a href="/granblue/?res=963&amp;page=26" rel="nofollow">26</a>] [<a href="/granblue/?res=963&amp;page=27" rel="nofollow">27</a>] [<a href="/granblue/?res=963&amp;page=28" rel="nofollow">28</a>] [<a href="/granblue/?res=963&amp;page=29" rel="nofollow">29</a>] [<a href="/granblue/?res=963&amp;page=30" rel="nofollow">30</a>] [<a href="/granblue/?res=963&amp;page=31" rel="nofollow">31</a>] [<a href="/granblue/?res=963&amp;page=32" rel="nofollow">32</a>] [<a href="/granblue/?res=963&amp;page=33" rel="nofollow">33</a>] [<a href="/granblue/?res=963&amp;page=34" rel="nofollow">34</a>] [<a href="/granblue/?res=963&amp;page=35" rel="nofollow">35</a>] [<a href="/granblue/?res=963&amp;page=36" rel="nofollow">36</a>] [<a href="/granblue/?res=963&amp;page=37" rel="nofollow">37</a>] [<a href="/granblue/?res=963&amp;page=38" rel="nofollow">38</a>] [<a href="/granblue/?res=963&amp;page=39" rel="nofollow">39</a>] [<a href="/granblue/?res=963&amp;page=40" rel="nofollow">40</a>] [<a href="/granblue/?res=963&amp;page=41" rel="nofollow">41</a>] [<a href="/granblue/?res=963&amp;page=42" rel="nofollow">42</a>] [<a href="/granblue/?res=963&amp;page=43" rel="nofollow">43</a>] [<a href="/granblue/?res=963&amp;page=44" rel="nofollow">44</a>] [<a href="/granblue/?res=963&amp;page=45" rel="nofollow">45</a>] [<a href="/granblue/?res=963&amp;page=46" rel="nofollow">46</a>] [<a href="/granblue/?res=963&amp;page=47" rel="nofollow">47</a>] [<a href="/granblue/?res=963&amp;page=48" rel="nofollow">48</a>] [<a href="/granblue/?res=963&amp;page=49" rel="nofollow">49</a>] [<a href="/granblue/?res=963&amp;page=50" rel="nofollow">50</a>] [<a href="/granblue/?res=963&amp;page=51" rel="nofollow">51</a>] [<a href="/granblue/?res=963&amp;page=52" rel="nofollow">52</a>] [<a href="/granblue/?res=963&amp;page=53" rel="nofollow">53</a>] [<a href="/granblue/?res=963&amp;page=54" rel="nofollow">54</a>] [<a href="/granblue/?res=963&amp;page=55" rel="nofollow">55</a>] [<a href="/granblue/?res=963&amp;page=56" rel="nofollow">56</a>] [<a href="/granblue/?res=963&amp;page=57" rel="nofollow">57</a>] [<a href="/granblue/?res=963&amp;page=58" rel="nofollow">58</a>] [<a href="/granblue/?res=963&amp;page=59" rel="nofollow">59</a>] [<a href="/granblue/?res=963&amp;page=60" rel="nofollow">60</a>] [<a href="/granblue/?res=963&amp;page=61" rel="nofollow">61</a>] [<a href="/granblue/?res=963&amp;page=62" rel="nofollow">62</a>] [<a href="/granblue/?res=963&amp;page=63" rel="nofollow">63</a>] [<a href="/granblue/?res=963&amp;page=64" rel="nofollow">64</a>] [<a href="/granblue/?res=963&amp;page=65" rel="nofollow">65</a>] [<a href="/granblue/?res=963&amp;page=66" rel="nofollow">66</a>] [<a href="/granblue/?res=963&amp;page=67" rel="nofollow">67</a>] [<a href="/granblue/?res=963&amp;page=68" rel="nofollow">68</a>] [<a href="/granblue/?res=963&amp;page=69" rel="nofollow">69</a>] [<a href="/granblue/?res=963&amp;page=70" rel="nofollow">70</a>] [<a href="/granblue/?res=963&amp;page=71" rel="nofollow">71</a>] [<a href="/granblue/?res=963&amp;page=72" rel="nofollow">72</a>] [<a href="/granblue/?res=963&amp;page=73" rel="nofollow">73</a>] [<a href="/granblue/?res=963&amp;page=74" rel="nofollow">74</a>] [<a href="/granblue/?res=963&amp;page=75" rel="nofollow">75</a>] [<a href="/granblue/?res=963&amp;page=76" rel="nofollow">76</a>] [<a href="/granblue/?res=963&amp;page=77" rel="nofollow">77</a>] [<a href="/granblue/?res=963&amp;page=78" rel="nofollow">78</a>] [<a href="/granblue/?res=963&amp;page=79" rel="nofollow">79</a>] [<a href="/granblue/?res=963&amp;page=80" rel="nofollow">80</a>] [<a href="/granblue/?res=963&amp;page=81" rel="nofollow">81</a>] [<a href="/granblue/?res=963&amp;page=82" rel="nofollow">82</a>] [<a href="/granblue/?res=963&amp;page=83" rel="nofollow">83</a>] [<a href="/granblue/?res=963&amp;page=84" rel="nofollow">84</a>] [<a href="/granblue/?res=963&amp;page=85" rel="nofollow">85</a>] [<a href="/granblue/?res=963&amp;page=86" rel="nofollow">86</a>] [<a href="/granblue/?res=963&amp;page=87" rel="nofollow">87</a>] [<a href="/granblue/?res=963&amp;page=88" rel="nofollow">88</a>] [<a href="/granblue/?res=963&amp;page=89" rel="nofollow">89</a>] [<a href="/granblue/?res=963&amp;page=90" rel="nofollow">90</a>] [<a href="/granblue/?res=963&amp;page=91" rel="nofollow">91</a>] [<a href="/granblue/?res=963&amp;page=92" rel="nofollow">92</a>] [<a href="/granblue/?res=963&amp;page=93" rel="nofollow">93</a>] [<a href="/granblue/?res=963&amp;page=94" rel="nofollow">94</a>] [<a href="/granblue/?res=963&amp;page=95" rel="nofollow">95</a>] [<a href="/granblue/?res=963&amp;page=96" rel="nofollow">96</a>] [<a href="/granblue/?res=963&amp;page=97" rel="nofollow">97</a>] [<a href="/granblue/?res=963&amp;page=98" rel="nofollow">98</a>] [<a href="/granblue/?res=963&amp;page=99" rel="nofollow">99</a>] [<a href="/granblue/?res=963&amp;page=100" rel="nofollow">100</a>] [<a href="/granblue/?res=963&amp;page=101" rel="nofollow">101</a>] [<a href="/granblue/?res=963&amp;page=102" rel="nofollow">102</a>] [<a href="/granblue/?res=963&amp;page=103" rel="nofollow">103</a>] [<a href="/granblue/?res=963&amp;page=104" rel="nofollow">104</a>] [<a href="/granblue/?res=963&amp;page=105" rel="nofollow">105</a>] [<a href="/granblue/?res=963&amp;page=106" rel="nofollow">106</a>] [<a href="/granblue/?res=963&amp;page=107" rel="nofollow">107</a>] [<a href="/granblue/?res=963&amp;page=108" rel="nofollow">108</a>] [<a href="/granblue/?res=963&amp;page=109" rel="nofollow">109</a>] [<a href="/granblue/?res=963&amp;page=110" rel="nofollow">110</a>] [<a href="/granblue/?res=963&amp;page=111" rel="nofollow">111</a>] [<a href="/granblue/?res=963&amp;page=112" rel="nofollow">112</a>] [<a href="/granblue/?res=963&amp;page=113" rel="nofollow">113</a>] [<a href="/granblue/?res=963&amp;page=114" rel="nofollow">114</a>] [<a href="/granblue/?res=963&amp;page=115" rel="nofollow">115</a>] [<a href="/granblue/?res=963&amp;page=116" rel="nofollow">116</a>] [<a href="/granblue/?res=963&amp;page=117" rel="nofollow">117</a>] [<a href="/granblue/?res=963&amp;page=118" rel="nofollow">118</a>] [<a href="/granblue/?res=963&amp;page=119" rel="nofollow">119</a>] [<a href="/granblue/?res=963&amp;page=120" rel="nofollow">120</a>] [<a href="/granblue/?res=963&amp;page=121" rel="nofollow">121</a>] [<a href="/granblue/?res=963&amp;page=122" rel="nofollow">122</a>] [<a href="/granblue/?res=963&amp;page=123" rel="nofollow">123</a>] [<a href="/granblue/?res=963&amp;page=124" rel="nofollow">124</a>] [<a href="/granblue/?res=963&amp;page=125" rel="nofollow">125</a>] [<a href="/granblue/?res=963&amp;page=126" rel="nofollow">126</a>] [<a href="/granblue/?res=963&amp;page=127" rel="nofollow">127</a>] [<a href="/granblue/?res=963&amp;page=128" rel="nofollow">128</a>] [<a href="/granblue/?res=963&amp;page=129" rel="nofollow">129</a>] [<a href="/granblue/?res=963&amp;page=130" rel="nofollow">130</a>] [<a href="/granblue/?res=963&amp;page=131" rel="nofollow">131</a>] [<a href="/granblue/?res=963&amp;page=132" rel="nofollow">132</a>] [<a href="/granblue/?res=963&amp;page=133" rel="nofollow">133</a>] [<a href="/granblue/?res=963&amp;page=134" rel="nofollow">134</a>] [<a href="/granblue/?res=963&amp;page=135" rel="nofollow">135</a>] [<a href="/granblue/?res=963&amp;page=136" rel="nofollow">136</a>] [<a href="/granblue/?res=963&amp;page=137" rel="nofollow">137</a>] [<a href="/granblue/?res=963&amp;page=138" rel="nofollow">138</a>] [<a href="/granblue/?res=963&amp;page=139" rel="nofollow">139</a>] [<a href="/granblue/?res=963&amp;page=140" rel="nofollow">140</a>] [<a href="/granblue/?res=963&amp;page=141" rel="nofollow">141</a>] [<a href="/granblue/?res=963&amp;page=142" rel="nofollow">142</a>] [<a href="/granblue/?res=963&amp;page=143" rel="nofollow">143</a>] [<a href="/granblue/?res=963&amp;page=144" rel="nofollow">144</a>] [<a href="/granblue/?res=963&amp;page=145" rel="nofollow">145</a>] [<a href="/granblue/?res=963&amp;page=146" rel="nofollow">146</a>] [<a href="/granblue/?res=963&amp;page=147" rel="nofollow">147</a>] [<b>148</b>] [<a href="/granblue/?res=963&amp;page=all">ALL</a>] </td><td style="white-space: nowrap;">最後一頁</td></tr></tbody></table>
+    <br style="clear: left;"></div>
+    </div><!--End of DIV#contents-->
+    
+    <div id="footer">
+        <style type="text/css">
+        html.wait, html.wait * { cursor: wait !important; }
+        .pushpost {font-size: 0.8em; padding: 10px; border-top:1px dotted #EEAA66;}
+        .button {margin:0; background-color:#dcc; border:1px solid #888;}
+      #comm { height:auto; width:100%; margin-top:10px; xbackground-image:none; font-size:1.3em; }
+        </style>
+        <div id="popupwin" class="reply" style="display:none;position:absolute; z-index:1000; padding:20px;padding-bottom:10px; width:250px; margin:20px auto 20px;" onmouseover="ButtonClick(0);">
+      <div style="float:right;position: relative;right: -15px;top: -15px;"><img src="/share/style/cw-icon.png" onclick="mod_pushpostShow(0)" style="cursor:pointer"></div>
+        <div id="mod_pushpostBOX" onmouseover="ButtonClick(0);">
+        <form id="pushpostForm" action="https://www.2cat.org/granblue/pixmicat.php" method="get" onmouseover="ButtonClick(0)" onsubmit="$('#comm').val($('#comm').val().replace(/\n/g,' '))">
+            <input type="hidden" name="mode" value="module">
+            <input type="hidden" name="load" value="mod_pushpost">
+            <input type="hidden" name="ajax" value="1">
+            <input type="hidden" name="pugid" id="pugid2">
+            <input type="hidden" name="refer" id="refer" value="">
+            <input type="hidden" name="no" id="no">
+    <script>g("pushpostForm").action = g("pushpostForm").action.replace("2nyan.org",location.host);</script>
+    <select name="emotion" id="emotion" style="max-width:130px;text-align:right;height:1.5em;font-size:1em;margin-top:5px;" class="push_area">
+    <option>( ﾟ∀ﾟ)</option>
+    <option>(´ﾟДﾟ`)</option>
+    <option>(;´Д`)</option>
+    <option>(｀･ω･)</option>
+    <option>(=ﾟωﾟ)=</option>
+    <option>(っ´ω`c)</option>
+    <option>(′゜ω。‵)</option>
+    <option>| ω・´)</option>
+    <option>| ω・`)</option>
+    <option>|-` )</option>
+    <option>|дﾟ )ﾉ</option>
+    <option>|д` )</option>
+    <option>|ー` )</option>
+    <option>|∀` )</option>
+    <option>|∀ﾟ )</option>
+    <option>(つд⊂)</option>
+    <option>( ´∀`)</option>
+    <option>(*´∀`)</option>
+    <option>(*ﾟ∇ﾟ)</option>
+    <option>(*´д`)</option>
+    <option>( *´3`)</option>
+    <option>(*ﾟーﾟ)</option>
+    <option>(; ﾟдﾟ)</option>
+    <option>(; ´д`)</option>
+    <option>(๑•̀ㅂ•́)و</option>
+    <option>(ง๑ •̀_•́)ง</option>
+    <option>┌(┌^o^)┐</option>
+    <option>┌(^o^┐)┐</option>
+    <option>（´◔∀◔`)</option>
+    <option>（´◔ ₃ ◔`)</option>
+    <option>(´◓Д◔`)</option>
+    <option>( っค้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้้c )</option>
+    <option>( ﾟ∀。)</option>
+    <option>( ´ー`)</option>
+    <option>( ´,_ゝ`)</option>
+    <option>( ´_ゝ`)</option>
+    <option>(・ー・)</option>
+    <option>(・∀・)</option>
+    <option>(ゝ∀･)</option>
+    <option>(´ ▽ `)</option>
+    <option>(〃∀〃)</option>
+    <option>(≧∀≦)</option>
+    <option>(*ﾟ∀ﾟ*)</option>
+    <option>( `д´)</option>
+    <option>σ`∀´)</option>
+    <option> ﾟ∀ﾟ)σ</option>
+    <option>ﾟ ∀ﾟ)ノ</option>
+    <option>╬ﾟдﾟ)ﾉ</option>
+    <option>(╬ﾟдﾟ)</option>
+    <option>(｡ŏ_ŏ)</option>
+    <option>(|||ﾟдﾟ)</option>
+    <option>('ﾟдﾟ'il!)</option>
+    <option>(lliдﾟ )</option>
+    <option>( ﾟдﾟ)</option>
+    <option>(,,ﾟДﾟ)</option>
+    <option>Σ( ﾟдﾟ)</option>
+    <option>( ;ﾟдﾟ)</option>
+    <option>( ;´д`)</option>
+    <option>(｡•́︿•̀｡)</option>
+    <option>(ﾟДﾟ≡ﾟДﾟ)</option>
+    <option>(　д ) ﾟ ﾟ</option>
+    <option>( ☉д⊙)</option>
+    <option>(((　ﾟдﾟ)))</option>
+    <option>(((ﾟДﾟ;)))</option>
+    <option>(*´･д･)?</option>
+    <option>(*´д｀*)</option>
+    <option>( ´д`)</option>
+    <option>(＞д＜)</option>
+    <option>( -д-)</option>
+    <option>(&gt;д&lt;)</option>
+    <option>(つд⊂)</option>
+    <option>･ﾟ( ﾉд`ﾟ)</option>
+    <option>(☍﹏°)</option>
+    <option>( TдT)</option>
+    <option>(*ﾟ艸ﾟ*)</option>
+    <option>(￣∇￣)</option>
+    <option>(￣皿￣)</option>
+    <option>(￣艸￣)</option>
+    <option>(￣︶￣)</option>
+    <option>(*´ω`*)</option>
+    <option>(・ω・)</option>
+    <option>ლ( • ̀ω•́ )</option>
+    <option>( ˘•ω•˘ )</option>
+    <option>(´・ω・`)</option>
+    <option>(`・ω・´)</option>
+    <option>٩(ˊωˋ*)و✧*。</option>
+    <option>(｡◕∀◕｡)</option>
+    <option>ヾ(´ε`ヾ)</option>
+    <option>ლ（´∀`ლ）</option>
+    <option>(ノ・ω・)ノ</option>
+    <option>(ノﾟ∀ﾟ)ノ</option>
+    <option>(oﾟ∀ﾟ)o</option>
+    <option>(yﾟ∀ﾟ)y</option>
+    <option>(σﾟдﾟ)σ</option>
+    <option>(σﾟ∀ﾟ)σ</option>
+    <option>ヽ(´∀`)ﾉ</option>
+    <option>_(°ω°｣ ∠)</option>
+    <option>_(:3 」∠)_</option>
+    <option>･*･:≡(　ε:)</option>
+    <option>|ωﾟ)━c&lt;` дﾟ)!</option>
+    <option>σ ﾟ∀ ﾟ) ﾟ∀ﾟ)σ </option>
+    <option>_,._　　</option>
+    <option>ﾟÅﾟ )　</option>
+    <option>⊂彡☆))д`)</option>
+    <option>⊂彡☆))д´)</option>
+    <option>⊂彡☆))∀`)</option>
+    <option>(´∀((☆ミつ</option>
+    <option>≡((( つ•̀ω•́)つ</option>
+    </select>
+    <select name="gesture" id="gesture" class="push_area" style="font-size:1em;margin-top:5px;height:1.5em;">
+    <option> ＜</option>
+    <option>｡o０</option>
+    <option>ﾉｼ</option>
+    <option>彡</option>
+    <option>o彡ﾟ</option>
+    <option>σ</option>
+    <option>ゝ</option>
+    <option>ゞ</option>
+    <option>ノ</option>
+    <option>つ旦</option>
+    <option>ﾉミ</option>
+    <option>ツ</option>
+    <option>っ</option>
+    <option>っ゛</option>
+    <option>つ</option>
+    <option>つ゛</option>
+    <option>ｏ</option>
+    <option>凸</option>
+    <option>∠哇幹!!</option>
+    <option>y</option>
+    <option>y━･~</option>
+    <option>y-～</option>
+    <option>≡3</option>
+    <option>～♪</option>
+    <option>～♥</option>
+    <option>♥</option>
+    <option>♨</option>
+    <option>♫</option>
+    <option>☄</option>
+    <option>❊</option>
+    <option>☺</option>
+    <option>☂</option>
+    <option>ﾉ彡┴─┴</option>
+    <option>⌒☆</option>
+    <option>⌒★</option>
+    <option>≡☆</option>
+    <option>ﾊｯ!</option>
+    <option>ｷﾘｯ!</option>
+    <option>ｲｲ!!</option>
+    <option>ｷﾀ－!!</option>
+    <option>ﾊｧァ～</option>
+    <option>ﾊｧﾊｧ</option>
+    <option>ﾆﾔﾘｯ</option>
+    <option>メェエ</option>
+    <option>ｳｰｳｰ</option>
+    <option>プッ</option>
+    </select>
+    <textarea name="comm" id="comm" rows="3" style="width: 400px;"></textarea>
+    <!--<input type="password" id="pushpost_passwd" name="pushpost_passwd" size="3" title="用來鑑別推文者身分的識別碼" style="margin-top:5px;"/>-->
+    <input type="submit" value="推文" class="button" onclick="this.blur()" style="float: right;margin: 0px;padding: 1px 30px 1px 30px;">
+    <div id="pw-resto-div" style="display:none; float:left;"><input type="checkbox" id="pw-resto-chb" title="" onchange="g('comm').value=this.checked? this.title+g('comm').value : g('comm').value.replace(/^@[^ ]+ /,'')" \=""><label id="pw-resto-id" for="pw-resto-chb"></label></div>
+    <!--<input type="button" onclick="hide(0)" value="取消" class="button"  style="margin-top:5px;"/>-->
+    </form></div>
+    </div>
+    <script type="text/javascript">// <![CDATA[
+    var hider = null;
+    function check(e)
+    {
+        if(!document.getElementById("comm").value) alert("請輸入內文");
+        e.cancelBubble = true;
+        return false;
+    }
+    function ButtonClick(no, ev, push_from_top)
+    {
+        if(hider){ clearTimeout(hider);}
+    
+        var pwin = document.getElementById("popupwin");
+    
+        if(!no || !pwin) return true;
+    
+        //if(pwin.style.display!="none")
+          //  $(pwin).fadeOut("fast");
+    
+        if(ev) { //&& $(window).width()<1000) {
+          pwin = $(pwin);
+          pwin.css({position:'',maxWidth:''}).show();
+          if(push_from_top)
+            $(ev.target.parentElement.parentElement.parentElement.querySelector('.quote')).before(pwin);
+          else
+            $(ev.target).after(pwin);
+        } else {
+          var o = ev ? {top:ev.pageY, left:ev.pageX} : $("#r"+no).offset();
+          var w = $("#r"+no).width();
+          pwin.style.position = 'absolute';
+          pwin.style.top = o.top + "px";
+          pwin.style.left = o.left + "px";
+          pwin.style.maxWidth = w + "px";
+          pwin.style.display = "";
+          //var c = getCanvasInfo();
+          //pwin.style.left = (c.innerW-pwin.offsetWidth)/2+"px";
+          //pwin.style.top = (c.innerH-pwin.offsetHeight)/2+"px";
+          $(pwin).fadeIn();
+        }
+        return false;
+    }
+    function hide(e)
+    {
+        var pwin = document.getElementById("popupwin");
+        if(!pwin) return;
+        g("no").value = "";
+      if(true || $(window).width()<1000)
+        pwin.style.display = 'none';
+      else
+          hider = setTimeout("$(\"#popupwin\").fadeOut(500)",e?10000:0);
+    }
+    function mod_pushpostShow(pid, ev, resto, push_from_top){
+        if(!pid || g("no").value==pid){
+            g("no").value = "";
+            hide();
+        }else{
+            g("no").value = pid;
+            g("refer").value = window.location.href.replace(/#.*$/,"") + "#r" + pid;
+            //g("name").value = getCookie("namec");
+            ButtonClick(pid, ev, push_from_top);
+        if(resto) {
+          g("pw-resto-id").innerText = "回應 " + resto;
+          g("pw-resto-div").style.display = "block";
+          g("pw-resto-chb").checked = true;
+              g("comm").value = g("pw-resto-chb").title = "@" + resto + " ";
+        } else {
+          g("pw-resto-div").style.display = "none";
+              g("comm").value = "";
+        }
+        //window.setTimeout(function(){g('comm').focus()},0);
+        }
+        return false;
+    }
+    function mod_pushpostDisable()
+    {
+        loadTheme("/share/style/mod_pushpost.css");
+    }
+    function mod_pushpostToggle()
+    {
+        if(!isCookieAvailable()){
+            alert("您的瀏覽器關閉了cookie, 無法使用此功能.");
+            return;
+        }
+        var disabled = 1-(parseInt(readLocalCookie("disable_pushpost"))? 1:0);
+        createLocalCookie("disable_pushpost",disabled,30);
+        if(disabled) mod_pushpostDisable();
+        location.reload();
+    }
+    function mod_pushpostPush(elem, ev, resto) {
+        var id;
+        while(elem = elem.parentElement) {
+            if(id = elem.id) break;
+        }
+        if(id) mod_pushpostShow(id.substr(1), ev, resto, false);
+    }
+    
+    function mod_pushpostRef(ref, elem) {
+      var class1 = 'push_par', class2 = 'push_par_hl';
+      var elems = elem.parentElement.parentElement.children;
+      var pos = 0;
+      if(!elems[0].className) { // hidden pushs
+        var _elems = elems[0].children;
+        for(var i=0;i<_elems.length;i++) {
+          if(_elems[i].innerText.indexOf(' '+ref+')')>0) {
+            var highlighted = (_elems[i].className === class2);
+            if(!highlighted) {
+              _showHiddenPosts($(elems[0]), elems[0].children.length*100);
+            }
+            _elems[i].className = highlighted ? class1 : class2 ;
+        }}
+        pos+=2;
+      }
+      for(var i=pos;i<elems.length;i++) {
+        if(elems[i].innerText.indexOf(' '+ref+')')>0) {
+          var highlighted = (elems[i].className === class2);
+          elems[i].className = highlighted ? class1 : class2 ;
+      }}
+    }
+    //if(parseInt(readLocalCookie("disable_pushpost"))) mod_pushpostDisable();
+    var isMobile = (screen.width<600);
+    if(isMobile) {
+      $(".push_area").each(function(i,e){
+        $(e).parent().after(e);
+      });
+      $(".reply>.push_area").each(function(i,e){
+        $(e).after("<div style='text-align: center; margin: 10px;'><a href='javascript:void(0)' onclick='mod_pushpostPush(this,event)'>[推文回應]</a>");
+      });
+      $('#pushpostForm').prepend($('#gesture')).prepend($('#emotion'));
+    } else {
+      $("#comm").css('width','400px');
+      $(".quote>.push_area").each(function(i,e){
+        $(e).after("<a href='javascript:void(0)' onclick='mod_pushpostPush(this,event)'>[推文回應]</a>");
+      });
+    }
+    var push_btn = "<a style='" + (isMobile? "float:right;":"")+"position:relative; right:-10px;' href='javascript:void(0)' onclick='try{mod_pushpostPush(this,event,this.previousElementSibling.innerText.match(/([^ ]+)\\)$/)[1])}catch{}'>[推]</a>";
+    
+    var theme = getTheme();
+    if(theme==="6" || theme==="8") {
+      push_btn = $(push_btn).css({color: '#88A'});
+      $(".push_par font").each(function(i,e){ $(e).after(push_btn.clone()).css({color:"#778"}) });
+    }else
+    if(theme==="9") {
+      push_btn = $(push_btn).css({color: '#39F'});
+      $(".push_par").each(function(i,e){ $(e).append(push_btn.clone()) });
+    }
+    else{
+      push_btn = $(push_btn).css({color: '#EEAA66'});
+      $(".push_par").each(function(i,e){ $(e).append(push_btn.clone()) });
+    }
+    
+    function _showHiddenPosts(node, time) {
+      _addRef(node[0]);
+      node.slideDown(time, function(){ node.next().slideUp() });
+    }
+    function _addRef(elem) {
+      if(elem.innerText.indexOf('＜@')>0) {
+        elem.innerHTML = elem.innerHTML.replace(/＜(@[^ ]+) /g,
+        function(_, ref){
+          return '＜<a href="javascript:void(0)" onclick="mod_pushpostRef(this.innerText.substr(1), this)">'+ref+'</a> '
+        });
+      }
+    }
+    
+    $('.push_area').each(function(i,elem){ _addRef(elem) });
+    
+    /*
+    $('.push_area font').css('cursor','pointer')
+    .on('mouseenter', function(e){
+      var node = $(e.target);
+      var text = e.target.innerText.split(' ')[2];
+      if(text && text[text.length-1]==')')
+      node.parent().children('font').each(function(i,n){
+        if(n.innerText.indexOf(text)>0){
+          n.innerHTML = '<mark>'+n.innerText+'<\mark>';
+        }});
+    })
+    .on('mouseleave', function(e){
+      var node = $(e.target);
+      node.parent().parent().find('mark').each(function(i,n){ n.outerHTML = n.innerText; });
+    })
+    */
+    /*
+    .on('click', function(e){
+      var text = e.target.innerText.split(' ')[2];
+      if(g("comm")) g("comm").value = '>>' + text + ' ';
+      var elem = e.target.parentElement.parentElement.lastElementChild;
+      mod_pushpostPush(elem, {target: elem});
+    });
+    */
+    //document.onclick = hide;
+    $("#pushpostForm").submit(function() {
+        var pid = g("no").value;
+        if(!pid) return false;
+        g('pugid2').value = window.pugid;
+        var popwin = $("#popupwin");
+        popwin.fadeOut(500);
+        $(this).ajaxSubmit({success:
+      function(x,y,z){
+            if(!x) return;
+            g("no").value = "";
+            var quote = $('#q' + pid);
+    /*		if(!!quote.children('.omitter_button')[0]) {
+          quote = quote.parent();
+        }*/
+        var push_btn = "<a href='javascript:void(0)' style='float:right; position:relative; right:-10px;' onclick='mod_pushpostPush(this,event)'>[推]</a>";
+            var push_area = (isMobile? quote.parent() : quote).children('.push_area');
+            if(!push_area[0]) {
+          if(isMobile)
+                  push_area = quote.after('<hr class="push_line" /><div class="push_area"></div>').next().next();
+          else
+              push_area = quote.append('<hr class="push_line" /><div class="push_area"></div>').children().last();
+                //push_area.append(push_btn);
+            }
+            quote.parent().append(popwin);
+            push_area.append('<div class="push_par">'+x+'</div>');
+        _addRef(push_area.children().last()[0]);
+        }});
+        return false;
+    });
+    $("html").ajaxStart(function () { $(this).addClass("wait"); });
+    $("html").ajaxStop(function () { $(this).removeClass("wait"); });
+    // ]]>
+    </script>
+    <div id="counter"><script type="text/javascript" src="/share/load_counter.php"></script></div>
+    <script type="text/javascript">// <![CDATA[
+    if(!$('#banner').length)
+    $('form').each(function(i,f){
+      if(!/\/\/www/.test(f.action) && !/\/\/cat/.test(f.action) && !/mode=gallery/.test(location.href))
+        f.action = f.action.replace('//','//www.');
+    });
+    try{if(parent.location.hash) location.replace(parent.location.hash);}catch(e){}; 
+    //$('.qlink').attr('target','_parent');// ]]></script>
+    <br><span class="warn_txt2"><small>- <a href="http://php.s3.to" rel="_top">GazouBBS</a> + <a href="https://www.2chan.net/" rel="_top">futaba</a> + <a href="http://pixmicat.openfoundry.org/" rel="_blank">Pixmicat!</a> + <a href="http://www.komica.org/">Komica</a> -</small></span>
+    <script>if(window.ga)ga();</script>
+    </div> <!--End of DIV#footer -->
+    </div> <!--End of DIV#scroller-->
+    <script async="1" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    
+    
+    
+    
+    
+    
+    
+    <style>
+    .had { min-height:250px; }
+    .had2 { -min-width:400px; max-width:400px; min-height:600px; float:right; position:relative; width:400px; } 
+    </style>
+    <script>// <![CDATA[
+    let tmp=[];
+    $('.quote .qlink').each(function(i,relem){ let rid=relem.parentElement.parentElement.parentElement.id; let tid='r'+(relem.innerText.match(/\d+/)||[])[0]; let telem=document.getElementById(tid); if(!telem)return; if(!tmp[tid]) telem.appendChild(document.createTextNode('Replies: ')); telem.appendChild($('<a href="#'+rid+'">&gt;&gt; No.'+rid.substr(1)+'&nbsp;</a>')[0]); tmp[tid]=true; });
+    
+    function re_f(){
+      let b=location.board || (parent.document.referrer).match(/ref=(.*)/)[1];
+      if(b){ location.replace(b+(location.search||'')); return false; }
+      return true;
+    }
+    $(document.body).on("keydown",this,function(e){
+      if (e.keyCode == 116)return re_f(); else return true;
+    });
+    if(is_ura()){
+      $('.had').remove();
+    }else{
+      $(document).ready(function(){
+        var ad_t=2*2+1, ads=$('.had');
+        var ts=$('.threadStructure');
+        var num_ads = 10;//is_wide()? 3 : 10;
+        var n = Math.min(ads.length, ts.length);
+        if(n===1 && ts[0].children.length>ad_t){
+          if(is_wide()) { 
+            ads.remove(); return;
+          }else{
+            var t=$(ts[0]); t.prepend(ads[0]); t.children().last().before(ads[1]); n=2;
+          }
+        }else{
+          for(var i=0,j=0; i<ts.length && j<ads.length & j<num_ads; i++){
+            //if((!is_wide() || (i%2)) && ts[i].children.length>ad_t)
+            if(ts[i].children.length>ad_t){
+              var tt = $(ts[i]).children().last();
+              if(tt[0].tagName!='HR') tt.prepend(ads[j++]);
+            }
+          }; n=j;
+        }
+        if(is_wide()) { ads.addClass('had2'); }
+        for(var i=0;i<n;i++){(adsbygoogle = window.adsbygoogle || []).push({})}
+        for(var i=n;i<ads.length;i++){ads[i].remove()}
+        //$('#tr3944 .report-btn').parent().html('[<a onclick="alert(\'本串為筆戰專用，如造成困擾請使用 [+/-] 隱藏本串\')">舉報</a>]');
+      });
+    }
+    // ]]></script>
+    <center><div id="flags" style="position:relative;height:55px;width:450px;text-align:center;border:#DDDDDD 1px solid;background-color:#FFEFEC;"><img style="position:absolute;left:10px;top:-13px;clip:rect(20px auto 67px auto)" src="https://s03.flagcounter.com/count/Pws/bg=FFEFEC/txt=800000/border=FFEFEC/columns=6/maxflags=12/viewers=./labels=0/pageviews=1/" border="0" class="nodelay">
+    <script>// <![CDATA[
+      if($(window).width()<500) $('#flags').css({display:'none'});
+    // ]]></script>
+    </div></center>
+    </div><div id="SwfStore_pmc_modah_0" style="position: absolute; top: -2000px; left: -2000px;"><object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="SwfStore_pmc_modah_1" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">  <param value="https://2cat.org/share/pmccounter.swf" name="movie">  <param value="namespace=pmc_modah" name="FlashVars">  <param value="always" name="allowScriptAccess"> <embed height="375" align="middle" width="500" pluginspage="https://www.macromedia.com/go/getflashplayer" flashvars="namespace=pmc_modah" type="application/x-shockwave-flash" allowscriptaccess="always" quality="high" loop="false" play="true" name="SwfStore_pmc_modah_1" bgcolor="#ffffff" src="https://2cat.org/share/pmccounter.swf"></object></div><img src="//2nyan.org/share/style/icon-scroll-up.png" title="Top" class="mobile-navi" style="bottom: 125px; position: fixed; left: 1385px; opacity: 0.4; width: 50px;"><img src="//2nyan.org/share/style/icon-reload.png" title="Reload" class="mobile-navi" style="bottom: 65px; position: fixed; left: 1385px; opacity: 0.4; width: 50px;"><img src="//2nyan.org/share/style/icon-scroll-down.png" title="Bottom" class="mobile-navi" style="bottom: 5px; position: fixed; left: 1385px; opacity: 0.4; width: 50px;">
+    
+    
+    <script type="text/javascript" src="chrome-extension://emikbbbebcdfohonlaifafnoanocnebl/js/minerkill.js"></script></body></html>

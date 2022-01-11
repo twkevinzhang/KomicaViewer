@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import android.content.Context;
 
+import self.nesl.komicaviewer.db.converter.CommentConverter;
 import self.nesl.komicaviewer.db.converter.ParagraphConverter;
 import self.nesl.komicaviewer.db.dao.PostDao;
 import self.nesl.komicaviewer.db.converter.DateConverter;
@@ -13,7 +14,12 @@ import self.nesl.komicaviewer.db.converter.ListConverter;
 import self.nesl.komicaviewer.models.Post;
 
 @Database(entities = {Post.class}, version = 1)
-@TypeConverters({DateConverter.class, ListConverter.class, ParagraphConverter.class})
+@TypeConverters({
+        DateConverter.class,
+        ListConverter.class,
+        ParagraphConverter.class,
+        CommentConverter.class,
+})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase sInstance;
 

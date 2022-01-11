@@ -37,6 +37,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
     private int replies = 0;
     private long readAt = 0L;
     private List<Paragraph> content = Collections.emptyList();
+    private List<Comment> comments = Collections.emptyList();
 
     public Post(String url, String id) {
         this.url = url;
@@ -53,6 +54,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         replies = in.readInt();
         readAt = in.readLong();
         in.readList(content, Paragraph.class.getClassLoader());
+        in.readList(comments, Comment.class.getClassLoader());
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
@@ -190,13 +192,21 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         this.content = content;
     }
 
+    public List<Comment> getComments() {
+        return this.comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @NonNull
     @Override
     public String toString() {
         String s = String.format("\"id\":%s ", getId());
         String s2 = getDesc(5);
         if (s2 != null) {
-            s += "\"ind\":\"" + s2 + "\",";
+            s += "\"desc\":\"" + s2 + "\",";
         }
         s = s.replace("[,", "[");
         return ",{" + s + "}";
@@ -246,6 +256,7 @@ public class Post implements Serializable, Parcelable, Cloneable, Title, Id, Lay
         dest.writeInt(replies);
         dest.writeLong(readAt);
         dest.writeList(content);
+        dest.writeList(comments);
     }
 
     @Override

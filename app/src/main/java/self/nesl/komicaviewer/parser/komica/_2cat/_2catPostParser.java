@@ -3,6 +3,8 @@ import static self.nesl.komicaviewer.util.ProjectUtils.parseTime;
 import static self.nesl.komicaviewer.util.Utils.parseJpnToEngWeek;
 
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import okhttp3.HttpUrl;
+import self.nesl.komicaviewer.models.Comment;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.paragraph.Paragraph;
 import self.nesl.komicaviewer.paragraph.ParagraphType;
@@ -30,7 +33,8 @@ public class _2catPostParser implements Parser<Post> {
     @Override
     public Post parse() {
         setDetail();
-        post.setContent(parseText());
+        post.setContent(parseContent());
+        post.setComments(parseComment());
         if(parsePicture()!=null) post.getContent().add(parsePicture());
         return post;
     }
@@ -50,26 +54,39 @@ public class _2catPostParser implements Parser<Post> {
         post.setCreateAt(createAt);
     }
 
-    public Paragraph parsePicture(){
-        try {
-            _2catUrlTool tool  =(_2catUrlTool) this.tool;
+    protected Paragraph parsePicture() {
+        _2catUrlTool tool  =(_2catUrlTool) this.tool;
+        Element imageLinkEle = root.selectFirst("a.imglink[href=#]");
+        if(imageLinkEle != null){
             String fileName= root.selectFirst("a.imglink[href=#]").attr("title");
             String newLink=MessageFormat.format("http://img.2nyan.org/{0}/src/{1}", tool.getBoardId(), fileName);
             return new Paragraph(newLink, ParagraphType.String);
-        } catch (NullPointerException ignored) {}
+        }
         return null;
     }
 
-    protected List<Paragraph> parseText() {
-        String text= root.selectFirst("div.quote").ownText();
-        StringBuilder builder = new StringBuilder(text);
-        builder.append("\n\n================");
-        for (Element bar: root.select(".push_area .push_par")) {
-            builder.append("\n").append(bar.wholeText());
+    protected List<Paragraph> parseContent() {
+        List<Paragraph> list = new ArrayList<>();
+        Element parent = root.selectFirst(".quote");
+        for (Node child : parent.childNodes()) {
+            if(child instanceof TextNode){
+                list.add(new Paragraph(((TextNode) child).text(), ParagraphType.String));
+            }
         }
-        ArrayList<Paragraph> arr= new ArrayList<>();
-        arr.add(new Paragraph(builder.toString(), ParagraphType.String));
-        return arr;
+        return list;
+    }
+
+    protected List<Comment> parseComment() {
+        List<Comment> list = new ArrayList<>();
+        for (Element bar: root.select(".push_area .push_par")) {
+            Comment comment = new Comment();
+            List<Paragraph> list2 = new ArrayList<>();
+            Paragraph paragraph = new Paragraph(bar.wholeText(), ParagraphType.String);
+            list2.add(paragraph);
+            comment.setContent(list2);
+            list.add(comment);
+        }
+        return list;
     }
 
     static class _2catHeadParser implements SoraPostParser.HeadParser {
