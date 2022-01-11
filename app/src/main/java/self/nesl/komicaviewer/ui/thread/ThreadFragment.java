@@ -20,7 +20,7 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
     public static final String COLUMN_POST_URL = "post_URL";
     private ThreadViewModel threadViewModel;
     private HeadPostAdapter headAdapter;
-    private CommentListAdapter commentAdapter;
+    private ReplyListAdapter repliesAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,15 +42,15 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
     @Override
     protected void initObserver() {
         getViewModel().children().observe(getViewLifecycleOwner(), list -> {
-            commentAdapter.setAllComments(list);
+            repliesAdapter.setAllReplies(list);
             boolean isTree= threadViewModel.isTree;
             if(isTree){
                 List<Post> replies = filterRepliesList(null, list);
                 getAdapter().addAll(replies);
-                commentAdapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext(), Poster.toPosterList(replies)));
+                repliesAdapter.setOnImageClickListener(ReplyListAdapter.onImageClickListener(getContext(), Poster.toPosterList(replies)));
             }else{
                 getAdapter().addAll(list);
-                commentAdapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext(), Poster.toPosterList(list)));
+                repliesAdapter.setOnImageClickListener(ReplyListAdapter.onImageClickListener(getContext(), Poster.toPosterList(list)));
             }
 
             txtMsg.setText(MessageFormat.format(
@@ -81,17 +81,17 @@ public class ThreadFragment extends SampleListFragment<Post, Post> {
 
     @Override
     protected SampleAdapter<Post> getAdapter() {
-        if(commentAdapter == null){
-            commentAdapter = new CommentListAdapter();
-            commentAdapter.addSwitcher();
-            commentAdapter.setOnSwitchListener((buttonView, isChecked) -> {
+        if(repliesAdapter == null){
+            repliesAdapter = new ReplyListAdapter();
+            repliesAdapter.addSwitcher();
+            repliesAdapter.setOnSwitchListener((buttonView, isChecked) -> {
                 threadViewModel.isTree = isChecked;
                 super.refresh();
             });
-            commentAdapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
-            commentAdapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
-            commentAdapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
+            repliesAdapter.setOnLinkClickListener(ReplyListAdapter.onLinkClickListener(getActivity()));
+            repliesAdapter.setOnAllReplyClickListener(ReplyListAdapter.onAllReplyClickListener(getChildFragmentManager()));
+            repliesAdapter.setOnReplyToClickListener(ReplyListAdapter.onReplyToClickListener(getChildFragmentManager()));
         }
-        return commentAdapter;
+        return repliesAdapter;
     }
 }

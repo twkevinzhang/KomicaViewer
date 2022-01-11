@@ -6,22 +6,22 @@ import java.util.List;
 
 import self.nesl.komicaviewer.ui.Layout;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.ui.render.CommentRender;
+import self.nesl.komicaviewer.ui.render.ReplyRender;
 import self.nesl.komicaviewer.ui.render.PostRender;
 import self.nesl.komicaviewer.ui.viewbinder.PostViewBinder;
 
-public class CommentViewHolder extends ViewHolderBinder {
-    private CommentRender.OnReplyToClickListener OnReplyToClickListener;
+public class ReplyViewHolder extends ViewHolderBinder {
+    private ReplyRender.OnReplyToClickListener OnReplyToClickListener;
     private PostRender.OnLinkClickListener OnLinkClickListener;
-    private CommentRender.OnAllReplyClickListener OnAllReplyClickListener;
+    private ReplyRender.OnAllReplyClickListener OnAllReplyClickListener;
     private PostRender.OnImageClickListener OnImageClickListener;
     private List<Post> list;
     
-    public CommentViewHolder(
+    public ReplyViewHolder(
             View v,
-            CommentRender.OnReplyToClickListener OnReplyToClickListener,
+            ReplyRender.OnReplyToClickListener OnReplyToClickListener,
             PostRender.OnLinkClickListener OnLinkClickListener,
-            CommentRender.OnAllReplyClickListener OnAllReplyClickListener,
+            ReplyRender.OnAllReplyClickListener OnAllReplyClickListener,
             PostRender.OnImageClickListener OnImageClickListener,
             List<Post> list
     ) {
@@ -34,15 +34,15 @@ public class CommentViewHolder extends ViewHolderBinder {
     }
 
     public void bind(Layout layout){
-        Post comment = (Post) layout;
+        Post reply = (Post) layout;
 
-        CommentRender render = new CommentRender(itemView.getContext(), comment, list);
+        ReplyRender render = new ReplyRender(itemView.getContext(), reply, list);
         render.setOnReplyToClickListener(OnReplyToClickListener);
         render.setOnLinkClickListener(OnLinkClickListener);
         render.setOnAllReplyClickListener(OnAllReplyClickListener);
         render.setOnImageClickListener(OnImageClickListener);
 
-        PostViewBinder binder = new PostViewBinder(itemView, comment, render);
+        PostViewBinder binder = new PostViewBinder(itemView, reply, render);
         binder.bind();
     }
 }

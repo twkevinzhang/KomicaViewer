@@ -19,11 +19,9 @@ import androidx.fragment.app.FragmentManager;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
@@ -31,24 +29,24 @@ import self.nesl.komicaviewer.ui.Layout;
 import self.nesl.komicaviewer.ui.SampleAdapter;
 import self.nesl.komicaviewer.ui.gallery.GalleryViewHolder;
 import self.nesl.komicaviewer.ui.gallery.Poster;
-import self.nesl.komicaviewer.ui.render.CommentRender;
+import self.nesl.komicaviewer.ui.render.ReplyRender;
 import self.nesl.komicaviewer.ui.render.ImageRender;
 import self.nesl.komicaviewer.ui.render.PostRender;
-import self.nesl.komicaviewer.ui.viewholder.CommentViewHolder;
+import self.nesl.komicaviewer.ui.viewholder.ReplyViewHolder;
 import self.nesl.komicaviewer.ui.viewholder.SwitcherViewHolder;
 import self.nesl.komicaviewer.ui.viewholder.ViewHolderBinder;
 import self.nesl.komicaviewer.ui.views.PosterOverlayView;
 
-public class CommentListAdapter extends SampleAdapter<Post>{
-    private CommentRender.OnReplyToClickListener OnReplyToClickListener;
+public class ReplyListAdapter extends SampleAdapter<Post>{
+    private ReplyRender.OnReplyToClickListener OnReplyToClickListener;
     private PostRender.OnLinkClickListener OnLinkClickListener;
     private CompoundButton.OnCheckedChangeListener onSwitchListener;
-    private CommentRender.OnAllReplyClickListener OnAllReplyClickListener;
+    private ReplyRender.OnAllReplyClickListener OnAllReplyClickListener;
     private PostRender.OnImageClickListener OnImageClickListener;
-    private List<Post> allComments;
+    private List<Post> allReplies;
 
     public void addSwitcher(){
-        addHeader(() -> R.layout.header_comment_list);
+        addHeader(() -> R.layout.header_reply_list);
     }
 
     @NonNull
@@ -57,11 +55,11 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         switch (layout){
             case R.layout.item_post:
-                return new CommentViewHolder(view, OnReplyToClickListener, OnLinkClickListener, OnAllReplyClickListener, OnImageClickListener, allComments);
-            case R.layout.header_comment_list:
+                return new ReplyViewHolder(view, OnReplyToClickListener, OnLinkClickListener, OnAllReplyClickListener, OnImageClickListener, allReplies);
+            case R.layout.header_reply_list:
                 return new SwitcherViewHolder(view, onSwitchListener);
             default:
-                throw new IllegalStateException("Comment Layout Exception: " + layout);
+                throw new IllegalStateException("Reply Layout Exception: " + layout);
         }
     }
 
@@ -70,11 +68,11 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         return list1.stream().map(layout1 -> (Post) layout1).collect(Collectors.toList());
     }
 
-    public void setAllComments(List<Post> list){
-        this.allComments = list;
+    public void setAllReplies(List<Post> list){
+        this.allReplies = list;
     }
 
-    public void setOnReplyToClickListener(CommentRender.OnReplyToClickListener OnReplyToClickListener){
+    public void setOnReplyToClickListener(ReplyRender.OnReplyToClickListener OnReplyToClickListener){
         this.OnReplyToClickListener=OnReplyToClickListener;
     }
 
@@ -86,7 +84,7 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         this.onSwitchListener=onSwitchListener;
     }
 
-    public void setOnAllReplyClickListener(CommentRender.OnAllReplyClickListener OnAllReplyClickListener){
+    public void setOnAllReplyClickListener(ReplyRender.OnAllReplyClickListener OnAllReplyClickListener){
         this.OnAllReplyClickListener=OnAllReplyClickListener;
     }
 
@@ -94,7 +92,7 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         this.OnImageClickListener=OnImageClickListener;
     }
 
-    public static CommentRender.OnReplyToClickListener onReplyToClickListener(FragmentManager fragmentManager){
+    public static ReplyRender.OnReplyToClickListener onReplyToClickListener(FragmentManager fragmentManager){
         return  (replyTo, all) -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(QuoteDialog.COLUMN_POST,replyTo);
@@ -103,7 +101,7 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         };
     }
 
-    public static CommentRender.OnLinkClickListener onLinkClickListener(Activity activity){
+    public static ReplyRender.OnLinkClickListener onLinkClickListener(Activity activity){
         return  (link) -> {
             try {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
@@ -114,7 +112,7 @@ public class CommentListAdapter extends SampleAdapter<Post>{
         };
     }
 
-    public static CommentRender.OnAllReplyClickListener onAllReplyClickListener(FragmentManager fragmentManager){
+    public static ReplyRender.OnAllReplyClickListener onAllReplyClickListener(FragmentManager fragmentManager){
         return  (thread, all) -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(RepliesDialog.COLUMN_POST,thread);
@@ -124,15 +122,15 @@ public class CommentListAdapter extends SampleAdapter<Post>{
     }
 
     public static PostRender.OnImageClickListener onImageClickListener(Context context, List<Poster> list){
-        return (v, commentPosterList, startPosition) -> {
+        return (v, replyPosterList, startPosition) -> {
             List<Poster> list2 = list;
             if(list2 == null){
                 list2 = Collections.emptyList();
             }
-            Poster shower = commentPosterList.get(startPosition);
+            Poster shower = replyPosterList.get(startPosition);
             int index= list2.indexOf(shower);
             if(index < 0){
-                list2 = commentPosterList;
+                list2 = replyPosterList;
                 index = startPosition;
             }
 
@@ -140,7 +138,7 @@ public class CommentListAdapter extends SampleAdapter<Post>{
             PosterOverlayView posterOverlayView =  new PosterOverlayView(context);
             update(posterOverlayView, list3, index);
             new StfalconImageViewer.Builder<>(context, list3,
-                    CommentListAdapter::loadImage,
+                    ReplyListAdapter::loadImage,
                     GalleryViewHolder::buildViewHolder)
                     .withStartPosition(index)
                     .withTransitionFrom((ImageView) v)

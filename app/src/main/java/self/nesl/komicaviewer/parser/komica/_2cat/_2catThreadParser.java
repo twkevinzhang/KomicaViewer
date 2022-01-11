@@ -4,16 +4,11 @@ import org.jsoup.nodes.Element;
 
 import static self.nesl.komicaviewer.util.Utils.print;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.HttpUrl;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.Parser;
-import self.nesl.komicaviewer.parser.komica.sora.SoraPostParser;
-import self.nesl.komicaviewer.parser.komica.sora.SoraThreadParser;
 import self.nesl.komicaviewer.request.KThread;
 
 public class _2catThreadParser implements Parser<KThread> {
@@ -27,14 +22,14 @@ public class _2catThreadParser implements Parser<KThread> {
 
     @Override
     public KThread parse() {
-        return new KThread(parseHead(), parseComments());
+        return new KThread(parseHead(), parseReplies());
     }
 
     private Post parseHead(){
         return new _2catPostParser(url, root.selectFirst("div.threadpost")).parse();
     }
 
-    private List<Post> parseComments(){
+    private List<Post> parseReplies(){
         List<Post> list= new ArrayList<>();
         for (Element reply_ele : root.select("div[class=\"reply\"][id^='r']")) {
             String replyId = reply_ele.id(); // r123456

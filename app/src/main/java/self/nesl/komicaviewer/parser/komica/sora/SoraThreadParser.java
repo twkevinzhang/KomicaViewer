@@ -24,14 +24,14 @@ public class SoraThreadParser implements Parser<KThread> {
     }
 
     public KThread parse() {
-        return new KThread(parseHead(), parseComments());
+        return new KThread(parseHead(), parseReplies());
     }
 
     private Post parseHead(){
         return getPostParser(url, root.selectFirst("div.threadpost")).parse();
     }
 
-    private List<Post> parseComments(){
+    private List<Post> parseReplies(){
         Element thread = installThreadTag(root.selectFirst("#threads")).selectFirst("div.thread");
         for (Element reply_ele : thread.select("div.reply")) {
             String postId = reply_ele.attr("id").substring(1); // #r12345678

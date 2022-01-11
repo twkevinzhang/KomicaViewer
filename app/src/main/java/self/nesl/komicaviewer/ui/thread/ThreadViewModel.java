@@ -40,7 +40,7 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
             _error.postValue("kThread == null");
             return Collections.emptyList();
         }
-        return kThread.getComments();
+        return kThread.getReplies();
     });
 
 

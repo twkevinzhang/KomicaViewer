@@ -9,7 +9,7 @@ import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.ui.Layout;
 
 public class SwitcherViewHolder extends ViewHolderBinder {
-    private SwitchCompat swtCommentsCollapse;
+    private SwitchCompat swtRepliesCollapse;
     private CompoundButton.OnCheckedChangeListener onSwitchListener;
 
     public SwitcherViewHolder(
@@ -17,12 +17,12 @@ public class SwitcherViewHolder extends ViewHolderBinder {
             CompoundButton.OnCheckedChangeListener onSwitchListener
     ) {
         super(v);
-        swtCommentsCollapse = v.findViewById(R.id.swtCommentsCollapse);
+        swtRepliesCollapse = v.findViewById(R.id.swtCommentsCollapse);
         this.onSwitchListener=onSwitchListener;
     }
 
 
     public void bind(Layout layout){
-        swtCommentsCollapse.setOnCheckedChangeListener(onSwitchListener);
+        swtRepliesCollapse.setOnCheckedChangeListener(onSwitchListener);
     }
 }

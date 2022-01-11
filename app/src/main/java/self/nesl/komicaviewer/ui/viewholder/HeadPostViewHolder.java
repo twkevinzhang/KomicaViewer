@@ -8,7 +8,7 @@ import java.util.Collections;
 import self.nesl.komicaviewer.ui.Layout;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.ui.render.PostRender;
-import self.nesl.komicaviewer.ui.thread.CommentListAdapter;
+import self.nesl.komicaviewer.ui.thread.ReplyListAdapter;
 import self.nesl.komicaviewer.ui.viewbinder.PostViewBinder;
 
 public class HeadPostViewHolder extends ViewHolderBinder {
@@ -22,8 +22,8 @@ public class HeadPostViewHolder extends ViewHolderBinder {
     public void bind(Layout layout){
         Post post = (Post) layout;
         PostRender render = new PostRender(itemView.getContext(), post);
-        render.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(activity));
-        render.setOnImageClickListener(CommentListAdapter.onImageClickListener(itemView.getContext(), Collections.emptyList()));
+        render.setOnLinkClickListener(ReplyListAdapter.onLinkClickListener(activity));
+        render.setOnImageClickListener(ReplyListAdapter.onImageClickListener(itemView.getContext(), Collections.emptyList()));
         PostViewBinder binder = new PostViewBinder(itemView, post, render);
         binder.bind();
     }

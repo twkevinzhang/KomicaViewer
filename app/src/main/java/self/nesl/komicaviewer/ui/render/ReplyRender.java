@@ -12,12 +12,12 @@ import java.util.List;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.paragraph.Paragraph;
 
-public class CommentRender extends PostRender{
+public class ReplyRender extends PostRender{
     private OnReplyToClickListener onReplyToClickListener;
     private OnAllReplyClickListener OnAllReplyClickListener;
     private List<Post> list;
 
-    public CommentRender(Context context, Post post, List<Post> list){
+    public ReplyRender(Context context, Post post, List<Post> list){
         super(context, post);
         this.list=list;
     }

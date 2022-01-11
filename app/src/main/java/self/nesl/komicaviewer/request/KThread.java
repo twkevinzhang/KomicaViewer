@@ -6,17 +6,17 @@ import self.nesl.komicaviewer.models.Post;
 
 public class KThread {
     private Post headPost;
-    private List<Post> comments;
-    public KThread(Post headPost, List<Post> comments){
+    private List<Post> replies;
+    public KThread(Post headPost, List<Post> replies){
         this.headPost=headPost;
-        this.comments=comments;
+        this.replies = replies;
     }
 
     public Post getHeadPost() {
         return headPost;
     }
 
-    public List<Post> getComments() {
-        return comments;
+    public List<Post> getReplies() {
+        return replies;
     }
 }

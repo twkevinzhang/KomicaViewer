@@ -22,7 +22,7 @@ public class RepliesDialog extends DialogFragment {
     private List<Post> all;
     private Post post;
     private RecyclerView rcLst;
-    private CommentListAdapter adapter;
+    private ReplyListAdapter adapter;
 
     public static RepliesDialog newInstance(Bundle bundle) {
         RepliesDialog dialog = new RepliesDialog();
@@ -61,15 +61,15 @@ public class RepliesDialog extends DialogFragment {
     }
 
     private void initAdapter(){
-        adapter= new CommentListAdapter();
+        adapter= new ReplyListAdapter();
         String threadId = post.getId();
         List<Post> replies= filterRepliesList(threadId, all);
-        adapter.setAllComments(all);
+        adapter.setAllReplies(all);
         adapter.addAll(replies);
-        adapter.setOnImageClickListener(CommentListAdapter.onImageClickListener(getContext(), Poster.toPosterList(replies)));
-        adapter.setOnReplyToClickListener(CommentListAdapter.onReplyToClickListener(getChildFragmentManager()));
-        adapter.setOnAllReplyClickListener(CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()));
-        adapter.setOnLinkClickListener(CommentListAdapter.onLinkClickListener(getActivity()));
+        adapter.setOnImageClickListener(ReplyListAdapter.onImageClickListener(getContext(), Poster.toPosterList(replies)));
+        adapter.setOnReplyToClickListener(ReplyListAdapter.onReplyToClickListener(getChildFragmentManager()));
+        adapter.setOnAllReplyClickListener(ReplyListAdapter.onAllReplyClickListener(getChildFragmentManager()));
+        adapter.setOnLinkClickListener(ReplyListAdapter.onLinkClickListener(getActivity()));
         rcLst.setAdapter(adapter);
     }
 }

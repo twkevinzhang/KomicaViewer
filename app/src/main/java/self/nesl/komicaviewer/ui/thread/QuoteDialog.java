@@ -12,8 +12,7 @@ import java.util.List;
 
 import self.nesl.komicaviewer.R;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.ui.gallery.Poster;
-import self.nesl.komicaviewer.ui.viewholder.CommentViewHolder;
+import self.nesl.komicaviewer.ui.viewholder.ReplyViewHolder;
 
 public class QuoteDialog extends DialogFragment {
     public static final String COLUMN_POST="post";
@@ -51,13 +50,13 @@ public class QuoteDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.item_comment, container);
-        CommentViewHolder binder= new CommentViewHolder(
+        View v = inflater.inflate(R.layout.item_reply, container);
+        ReplyViewHolder binder= new ReplyViewHolder(
                 v,
-                CommentListAdapter.onReplyToClickListener(getChildFragmentManager()),
-                CommentListAdapter.onLinkClickListener(getActivity()),
-                CommentListAdapter.onAllReplyClickListener(getChildFragmentManager()),
-                CommentListAdapter.onImageClickListener(v.getContext(), Collections.emptyList()),
+                ReplyListAdapter.onReplyToClickListener(getChildFragmentManager()),
+                ReplyListAdapter.onLinkClickListener(getActivity()),
+                ReplyListAdapter.onAllReplyClickListener(getChildFragmentManager()),
+                ReplyListAdapter.onImageClickListener(v.getContext(), Collections.emptyList()),
                 list
         );
         binder.bind(post);
