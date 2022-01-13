@@ -10,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import self.nesl.komicaviewer.ui.viewholder.ViewHolderBinder;
+import self.nesl.komicaviewer.util.Utils;
 
 public abstract class SampleAdapter<DATA extends Layout> extends RecyclerView.Adapter<ViewHolderBinder> {
     private List<Layout> headers = new ArrayList<>();
@@ -34,9 +35,7 @@ public abstract class SampleAdapter<DATA extends Layout> extends RecyclerView.Ad
     }
 
     public List<Layout> getAll(){
-        List<Layout> list1 = new ArrayList<>(headers);
-        list1.addAll(list);
-        return list1;
+        return Utils.concat(headers, (List<Layout>) list);
     }
 
     @Override

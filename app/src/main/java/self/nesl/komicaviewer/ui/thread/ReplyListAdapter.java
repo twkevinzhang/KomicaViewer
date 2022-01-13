@@ -63,11 +63,6 @@ public class ReplyListAdapter extends SampleAdapter<Post>{
         }
     }
 
-    public static List<Post> toPostList(List<Layout> list){
-        List<Layout> list1= list.stream().filter(layout1-> layout1 instanceof Post).collect(Collectors.toList());
-        return list1.stream().map(layout1 -> (Post) layout1).collect(Collectors.toList());
-    }
-
     public void setAllReplies(List<Post> list){
         this.allReplies = list;
     }
