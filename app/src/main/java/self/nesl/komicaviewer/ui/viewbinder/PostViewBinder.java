@@ -1,17 +1,16 @@
 package self.nesl.komicaviewer.ui.viewbinder;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import self.nesl.komicaviewer.R;
+import self.nesl.komicaviewer.models.Comment;
 import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.ui.render.ImageRender;
+import self.nesl.komicaviewer.ui.render.CommentContentRender;
 import self.nesl.komicaviewer.ui.render.Render;
 
 public class PostViewBinder {
@@ -19,7 +18,8 @@ public class PostViewBinder {
     public TextView txtPostInd;
     public TextView txtPoster;
     public TextView txtTime;
-    public FrameLayout contener;
+    public FrameLayout container;
+    public LinearLayout comments;
     Post post;
     Context context;
     Render render;
@@ -32,18 +32,27 @@ public class PostViewBinder {
         txtPostId = v.findViewById(R.id.txtId);
         txtPoster = v.findViewById(R.id.txtPoster);
         txtPostInd = v.findViewById(R.id.txtPostInd);
-        contener = v.findViewById(R.id.contener);
+        container = v.findViewById(R.id.container);
+        comments = v.findViewById(R.id.comments);
+
     }
 
     public void bind(){
         setDetail();
-        contener.removeAllViews();
-        contener.addView(render.render());
+        container.removeAllViews();
+        container.addView(render.render());
     }
 
     private void setDetail() {
         txtPostId.setText("No." + post.getId());
         txtPoster.setText(post.getPoster());
         txtTime.setText(post.getTimeStr());
+        for (Comment comment : post.getComments()) {
+            View commentView =  LayoutInflater.from(context).inflate(R.layout.item_comment, null);
+            FrameLayout container = commentView.findViewById(R.id.container);
+            Render renderer= new CommentContentRender(context, comment);
+            container.addView(renderer.render());
+            comments.addView(commentView);
+        }
     }
 }

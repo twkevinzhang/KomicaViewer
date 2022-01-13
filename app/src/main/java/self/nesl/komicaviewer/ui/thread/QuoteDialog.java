@@ -50,7 +50,7 @@ public class QuoteDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.item_reply, container);
+        View v = inflater.inflate(R.layout.item_post, container);
         ReplyViewHolder binder= new ReplyViewHolder(
                 v,
                 ReplyListAdapter.onReplyToClickListener(getChildFragmentManager()),

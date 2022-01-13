@@ -37,18 +37,16 @@
 
     </LinearLayout>
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-    </WebView>
-
     <FrameLayout
-        android:id="@+id/contener"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/comments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
 
 </LinearLayout>
