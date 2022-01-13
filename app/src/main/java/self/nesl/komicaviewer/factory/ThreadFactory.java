@@ -11,6 +11,7 @@ import self.nesl.komicaviewer.parser.komica.sora.SoraThreadParser;
 import self.nesl.komicaviewer.request.DefaultRequest;
 import self.nesl.komicaviewer.models.KThread;
 import self.nesl.komicaviewer.request.Request;
+import self.nesl.komicaviewer.request.komica._2cat._2catRequest;
 
 public class ThreadFactory implements Factory<KThread> {
     private String url;
@@ -21,7 +22,13 @@ public class ThreadFactory implements Factory<KThread> {
     }
 
     public Request createRequest(Bundle bundle) {
-        req =  new DefaultRequest(url);
+        for (String host : ThreadListFactory._2CAT_SET) {
+            if (url.contains(host))
+                req =  _2catRequest.create(url, bundle);
+        }
+
+        if(req == null)
+            req =  new DefaultRequest(url);
         return req;
     }
 

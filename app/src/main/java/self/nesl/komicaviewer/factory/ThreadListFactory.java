@@ -7,14 +7,12 @@ import org.jsoup.Jsoup;
 import java.util.Arrays;
 import java.util.List;
 
-import self.nesl.komicaviewer.factory.Factory;
-import self.nesl.komicaviewer.models.Board;
 import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.parser.Parser;
 import self.nesl.komicaviewer.parser.komica._2cat._2catBoardParser;
 import self.nesl.komicaviewer.parser.komica.sora.SoraBoardParser;
 import self.nesl.komicaviewer.request.Request;
-import self.nesl.komicaviewer.request.komica._2cat._2catThreadListRequest;
+import self.nesl.komicaviewer.request.komica._2cat._2catRequest;
 import self.nesl.komicaviewer.request.komica.sora.SoraThreadListRequest;
 
 public class ThreadListFactory implements Factory<List<Post>> {
@@ -48,7 +46,7 @@ public class ThreadListFactory implements Factory<List<Post>> {
 
         for (String host : _2CAT_SET) {
             if (url.contains(host))
-                request =  _2catThreadListRequest.create(url, bundle);
+                request =  _2catRequest.create(url, bundle);
         }
 
         return request;
@@ -59,14 +57,14 @@ public class ThreadListFactory implements Factory<List<Post>> {
         Parser<List<Post>> parser = null;
         for (String host : SORA_SET) {
             if (url.contains(host)){
-                String boardUrl = new SoraThreadListRequest.UrlTool(request.getUrl()).removePageFragment();
+                String boardUrl = new SoraThreadListRequest.UrlTool(request.getUrl()).removePageQuery();
                 parser= new SoraBoardParser(boardUrl, Jsoup.parse(response));
             }
         }
 
         for (String host : _2CAT_SET) {
             if (url.contains(host)){
-                String boardUrl = new _2catThreadListRequest.UrlTool(request.getUrl()).removePageFragment();
+                String boardUrl = new _2catRequest.UrlTool(request.getUrl()).removePageQuery();
                 parser= new _2catBoardParser(boardUrl, Jsoup.parse(response));
             }
         }

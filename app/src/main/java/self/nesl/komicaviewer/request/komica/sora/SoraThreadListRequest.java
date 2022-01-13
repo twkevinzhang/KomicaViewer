@@ -3,17 +3,9 @@ package self.nesl.komicaviewer.request.komica.sora;
 import static self.nesl.komicaviewer.ui.SampleViewModel.PAGE;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import org.jsoup.Jsoup;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
-import self.nesl.komicaviewer.models.Board;
-import self.nesl.komicaviewer.models.Post;
-import self.nesl.komicaviewer.parser.komica.sora.SoraBoardParser;
 import self.nesl.komicaviewer.request.Request;
 
 public class SoraThreadListRequest extends Request {
@@ -25,7 +17,7 @@ public class SoraThreadListRequest extends Request {
         if(bundle != null){
             int page = bundle.getInt(PAGE);
             if (page != 0) {
-                url = new UrlTool(url).addPageFragment(page);
+                url = new UrlTool(url).addPageQuery(page);
             }
         }
         return new SoraThreadListRequest(url);
@@ -39,20 +31,20 @@ public class SoraThreadListRequest extends Request {
             this.url=url;
         }
 
-        public String addPageFragment(int page){
-            if(hasPageFragment()){
-                url= removePageFragment();
+        public String addPageQuery(int page){
+            if(hasPageQuery()){
+                url= removePageQuery();
             }
             url += suffix + page;
             return url;
         }
 
-        public boolean hasPageFragment(){
+        private boolean hasPageQuery(){
             return url.contains(suffix);
         }
 
-        public String removePageFragment(){
-            if(!hasPageFragment()){
+        public String removePageQuery(){
+            if(!hasPageQuery()){
                 return url;
             }
             return url.split(Pattern.quote(suffix))[0];
