@@ -21,8 +21,8 @@ public class _2catPostParserTest extends TestCase {
 
     protected void setUp(){
         parser = new _2catPostParser(
-                "https://2cat.org/granblue/?res=963",
-                Jsoup.parse(TestUtils.loadFile("./src/test/html/_2cat/ThreadPage.html"))
+                "https://2cat.org/granblue/?res=963#r23587",
+                Jsoup.parse(TestUtils.loadFile("./src/test/html/_2cat/ReplyPost.html"))
         );
     }
 
