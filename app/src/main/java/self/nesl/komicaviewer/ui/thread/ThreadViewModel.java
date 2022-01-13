@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -17,9 +18,10 @@ import self.nesl.komicaviewer.models.Post;
 import self.nesl.komicaviewer.repository.Repository;
 import self.nesl.komicaviewer.repository.ThreadRepository;
 import self.nesl.komicaviewer.models.KThread;
+import self.nesl.komicaviewer.ui.IViewModel;
 import self.nesl.komicaviewer.ui.SampleViewModel;
 
-public class ThreadViewModel extends SampleViewModel<Post, Post> {
+public class ThreadViewModel extends AndroidViewModel implements IViewModel {
     Boolean isTree = false;
     PostDao dao;
     String threadUrl;
@@ -31,16 +33,13 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
         _loading.postValue(true);
        return repo.get();
     });
-    private LiveData<Post> _detail = Transformations.map(_result, kThread -> {
-        return kThread.getHeadPost();
-    });
-    private LiveData<List<Post>> _list = Transformations.map(_result, kThread -> {
+    private LiveData<KThread> _kThread = Transformations.map(_result, kThread -> {
         _loading.postValue(false);
         if(kThread == null){
             _error.postValue("kThread == null");
-            return Collections.emptyList();
+            return null;
         }
-        return kThread.getReplies();
+        return kThread;
     });
 
 
@@ -51,35 +50,11 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
     public void setThreadUrl(String threadUrl) {
         dao= AppDatabase.getInstance(getApplication()).postDao();
         this.threadUrl= threadUrl;
-        repo.postValue(new ThreadRepository(threadUrl, dao));
+        refresh();
     }
 
-    @Override
-    public int getCurrentPage() {
-        return 0;
-    }
-
-    @Override
-    public LiveData<List<Post>> children() {
-        return _list;
-    }
-
-    @Override
-    public LiveData<Post> detail() {
-        return _detail;
-    }
-
-    @Override
-    public void refreshChildren() {
-        repo.postValue(new ThreadRepository(threadUrl, dao));
-    }
-
-    @Override
-    public void nextChildren() {
-    }
-
-    @Override
-    public void loadDetail(Bundle bundle) {
+    public LiveData<KThread> thread() {
+        return _kThread;
     }
 
     @Override
@@ -89,5 +64,9 @@ public class ThreadViewModel extends SampleViewModel<Post, Post> {
 
     public LiveData<String> error(){
         return _error;
+    }
+
+    public void refresh() {
+        repo.postValue(new ThreadRepository(threadUrl, dao));
     }
 }

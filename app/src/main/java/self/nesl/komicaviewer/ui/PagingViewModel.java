@@ -9,7 +9,7 @@ import java.util.List;
 
 import self.nesl.komicaviewer.feature.Title;
 
-public interface PagingViewModel<T> {
+public interface PagingViewModel<T> extends IViewModel{
     public static final String PAGE = "page";
 
     abstract public int getCurrentPage();

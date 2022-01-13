@@ -13,8 +13,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import self.nesl.komicaviewer.ui.Layout;
 
 public class Utils {
     static String[] engWeek = new String[]{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
@@ -28,6 +37,14 @@ public class Utils {
 
     public static void print(String... s) {
         print(null, s);
+    }
+
+    public static <T> List<T> concat(List<T> ...lists){
+        ArrayList<T> all = new ArrayList<>();
+        for (List<T> list:lists) {
+            all.addAll(list);
+        }
+        return all;
     }
 
     public static Map<String, String[]> getStyleMap(String styleStr) {
