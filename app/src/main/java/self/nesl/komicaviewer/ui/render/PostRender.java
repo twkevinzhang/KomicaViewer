@@ -25,19 +25,16 @@ import self.nesl.komicaviewer.ui.gallery.Poster;
 import self.nesl.komicaviewer.ui.viewbinder.LinkPreviewBinder;
 
 public class PostRender implements Render {
-    private static String LINK_REGEX = "(http(s?):/)(/[^/]+)+";
-    private static Pattern IMAGE_LINK_PATTERN = Pattern.compile(LINK_REGEX + "\\.(?:jpg|gif|png|webm)");
-
     Post post;
     LinearLayout root;
-    List<String> imageUrls;
     OnLinkClickListener onLinkClickListener;
     OnImageClickListener onImageClickListener;
+    RenderTool tool;
 
     public PostRender(Context context, Post post){
         this.root =new LinearLayout(context);
         this.post=post;
-        this.imageUrls = new ArrayList<>();
+        this.tool = new RenderTool(root.getContext());
         root.setOrientation(LinearLayout.VERTICAL);
         root.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -67,35 +64,31 @@ public class PostRender implements Render {
         return root;
     }
 
-    void addLink(String url){
-        RenderTool tool= new RenderTool(root.getContext());
-        root.addView(tool.renderPreview(root, url));
-    }
-
     void addImage(String url){
-        RenderTool tool= new RenderTool(root.getContext());
-        imageUrls.add(url);
-        root.addView(tool.renderImage(imageUrls.size() -1));
+        root.addView(tool.renderImage(url));
     }
 
     void addText(String text){
-        RenderTool tool= new RenderTool(root.getContext());
         root.addView(tool.renderText(text));
     }
 
+    void addLink(String link){
+        root.addView(tool.renderPreview(root, link));
+    }
+
     private void addFrom(String url){
-        RenderTool tool = new RenderTool(root.getContext());
         root.addView(tool.renderText("原文連結："));
         root.addView(tool.renderLink(url));
     }
 
     class RenderTool {
         private Context context;
+        private List<String> imageUrls = new ArrayList<>();
         RenderTool(Context context){
             this.context=context;
         }
 
-        private View renderPreview(ViewGroup parent, String link){
+        View renderPreview(ViewGroup parent, String link){
             View preview = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.link_preview, parent, false);
             new LinkPreviewBinder(preview, link).bind();
@@ -105,14 +98,14 @@ public class PostRender implements Render {
             return preview;
         }
 
-        private View renderLink(String link){
+        View renderLink(String link){
             SpanBuilder builder = SpanBuilder.create(link, ()->{
                 onLinkClickListener.onLinkClick(link);
             });
             return renderSpan(builder);
         }
 
-        private View renderText(String text){
+        View renderText(String text){
             TextView textView = new TextView(context);
             textView.setText(text);
             return textView;
@@ -125,10 +118,11 @@ public class PostRender implements Render {
             return textView;
         }
 
-        View renderImage(int index){
-            String url = imageUrls.get(index);
+        View renderImage(String url){
+            imageUrls.add(url);
             ImageView imageView = new ImageView(context);
             List<Poster> infoList = imageUrls.stream().map(u-> new Poster(u, post)).collect(Collectors.toList());
+            int index= imageUrls.size() -1;
             imageView.setOnClickListener(v -> onImageClickListener.onImageClick(v, infoList, index));
             new ImageRender(imageView, url).render();
             return imageView;
