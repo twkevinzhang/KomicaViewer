@@ -38,9 +38,6 @@ public abstract class PagingListFragment<CHILDREN extends Layout> extends Fragme
         initRefresh();
         initObserver();
         initAdapter();
-        if(getViewModel().children().getValue() == null || getViewModel().children().getValue().isEmpty()){
-            loadPage();
-        }
     }
 
     protected void initRefresh() {
@@ -87,7 +84,7 @@ public abstract class PagingListFragment<CHILDREN extends Layout> extends Fragme
                 super.onScrollStateChanged(rv, newState);
                 if (!rv.canScrollVertically(1)) {
                     // 如果不能向下滑動，到底了
-                    loadPage();
+                    getViewModel().nextChildren();
                 } else if (!rv.canScrollVertically(-1)) {
                     txtMsg.setText("到頂了(不能向上滑動)");
                 }
@@ -98,10 +95,6 @@ public abstract class PagingListFragment<CHILDREN extends Layout> extends Fragme
             }
         });
         rvLst.setAdapter(getAdapter());
-    }
-
-    protected void loadPage() {
-        getViewModel().nextChildren();
     }
 
     protected abstract PagingViewModel<CHILDREN> getViewModel();
