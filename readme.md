@@ -1,3 +1,6 @@
+# Deprecated
+這個專案已經遷移到 [NewsHub](https://github.com/neslxzhen/newshub)
+
 # KomciaViewer
 Browse between multiple forums.
 
